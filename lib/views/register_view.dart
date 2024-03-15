@@ -1,76 +1,23 @@
-import 'package:catas_univalle/views/verification_view.dart';
 import 'package:flutter/material.dart';
-import 'package:catas_univalle/models/judge.dart';
+import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
+import 'package:catas_univalle/views/verification_view.dart';
+import 'package:catas_univalle/widgets/register/have_an_account.dart';
 import 'package:catas_univalle/view_models/register_viewmodel.dart';
-import 'package:intl/intl.dart';
 
-class RegisterScreen extends StatefulWidget {
-  const RegisterScreen({super.key});
+class RegisterView extends StatefulWidget {
+  const RegisterView({Key? key}) : super(key: key);
 
   @override
-  State<StatefulWidget> createState() {
-    return _RegisterScreenState();
-  }
+  State<RegisterView> createState() => _RegisterViewState();
 }
 
-class _RegisterScreenState extends State<RegisterScreen> {
-  final _formKey = GlobalKey<FormState>();
-  final _viewModel = RegisterViewModel();
-
-  String fullName = '';
-  String email = '';
-  String password = '';
-  String birthDate = '';
-  String gender = 'm';
-  String dislikes = '';
-  List<String> symptoms = [];
-  bool smokes = false;
-  int cigarettesPerDay = 0;
-  String coffee = 'No';
-  int coffeeCupsPerDay = 0;
-  String llajua = 'No';
-  int llajuaPerDay = 0;
-  List<String> seasonings = [];
-  int sugarInDrinks = 0;
-  List<String> allergies = [];
-  String comment = '';
-
-  final TextEditingController _birthDateController = TextEditingController();
-
-  void updateListField(List<String> field, String value, bool checked) {
-    setState(() {
-      if (checked) {
-        field.add(value);
-      } else {
-        field.remove(value);
-      }
-    });
-  }
-
-  Future<void> _selectDate(BuildContext context) async {
-    final DateTime? picked = await showDatePicker(
-      context: context,
-      initialDate: DateTime.now(),
-      firstDate: DateTime(1900),
-      lastDate: DateTime.now(),
-    );
-    if (picked != null && picked != DateTime.now()) {
-      final String formattedDate = DateFormat('dd-MM-yyyy').format(picked);
-      setState(() {
-        _birthDateController.text = formattedDate;
-        birthDate = formattedDate;
-      });
-    }
-  }
-
-  @override
-  void dispose() {
-    _birthDateController.dispose();
-    super.dispose();
-  }
-
+class _RegisterViewState extends State<RegisterView> {
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
+    final viewModel = Provider.of<RegisterViewModel>(context);
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Registro'),
@@ -82,129 +29,327 @@ class _RegisterScreenState extends State<RegisterScreen> {
         child: Form(
           key: _formKey,
           child: Padding(
-            padding: const EdgeInsets.all(16.0),
+            padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 20),
             child: Column(
               children: <Widget>[
                 TextFormField(
                   decoration:
                       const InputDecoration(labelText: 'Nombre Completo'),
-                  onSaved: (value) => fullName = value ?? '',
+                  onSaved: (value) => viewModel.fullName = value ?? '',
                   validator: (value) =>
                       value!.isEmpty ? 'Este campo es obligatorio.' : null,
                 ),
                 TextFormField(
                   decoration: const InputDecoration(labelText: 'Email'),
-                  onSaved: (value) => email = value ?? '',
+                  onSaved: (value) => viewModel.email = value ?? '',
                   validator: (value) =>
                       value!.isEmpty ? 'Este campo es obligatorio.' : null,
                 ),
                 TextFormField(
                   decoration: const InputDecoration(labelText: 'Contraseña'),
                   obscureText: true,
-                  onSaved: (value) => password = value ?? '',
+                  onSaved: (value) => viewModel.password = value ?? '',
                   validator: (value) =>
                       value!.isEmpty ? 'Este campo es obligatorio.' : null,
                 ),
                 TextFormField(
-                  controller: _birthDateController,
-                  decoration: const InputDecoration(
-                    labelText: 'Fecha de Nacimiento',
-                  ),
+                  controller: viewModel.birthDateController,
+                  decoration:
+                      const InputDecoration(labelText: 'Fecha de Nacimiento'),
                   readOnly: true,
-                  onTap: () {
-                    _selectDate(context);
-                  },
+                  onTap: () => viewModel.selectBirthDate(context),
                   validator: (value) =>
                       value!.isEmpty ? 'Este campo es obligatorio.' : null,
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    const Text(
-                      'Sexo:',
-                      style: TextStyle(fontSize: 16),
-                    ),
-                    Flexible(
-                      child: RadioListTile<String>(
-                        title: const Text('M'),
-                        value: 'm',
-                        groupValue: gender,
-                        onChanged: (value) {
-                          setState(() => gender = value!);
-                        },
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 10.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: <Widget>[
+                      const Text(
+                        'Sexo: ',
+                        style: TextStyle(fontSize: 16),
                       ),
-                    ),
-                    Flexible(
-                      child: RadioListTile<String>(
-                        title: const Text('F'),
-                        value: 'f',
-                        groupValue: gender,
-                        onChanged: (value) {
-                          setState(() => gender = value!);
-                        },
+                      Expanded(
+                        child: ListTile(
+                          title: const Text('M'),
+                          leading: Radio<String>(
+                            value: 'M',
+                            groupValue: viewModel.gender,
+                            onChanged: (value) =>
+                                setState(() => viewModel.gender = value!),
+                          ),
+                        ),
                       ),
-                    ),
-                  ],
+                      Expanded(
+                        child: ListTile(
+                          title: const Text('F'),
+                          leading: Radio<String>(
+                            value: 'F',
+                            groupValue: viewModel.gender,
+                            onChanged: (value) =>
+                                setState(() => viewModel.gender = value!),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const Text(
+                  '¿Le disgusta algún alimento?',
+                  style: TextStyle(fontSize: 16),
                 ),
                 TextFormField(
                   decoration: const InputDecoration(
                       labelText: 'Alimentos que le disgustan'),
-                  onSaved: (value) => dislikes = value ?? '',
+                  onSaved: (value) => viewModel.dislikes = value ?? '',
+                ),
+                const SizedBox(height: 24),
+                const Text(
+                  'Síntomas y/o tratamientos',
+                  style: TextStyle(fontSize: 16),
+                ),
+                TextField(
+                  controller: viewModel.symptomsController,
+                  readOnly: true,
+                  decoration: const InputDecoration(
+                    labelText: 'Síntomas seleccionados',
+                  ),
+                ),
+                const SizedBox(height: 6),
+                ElevatedButton(
+                  onPressed: () => viewModel.showSymptomsDialog(context),
+                  child: const Text('Seleccionar'),
+                ),
+                const SizedBox(height: 24),
+                const Text(
+                  'Alergias y/o intolerancias',
+                  style: TextStyle(fontSize: 16),
+                ),
+                TextField(
+                  controller: viewModel.allergiesController,
+                  readOnly: true,
+                  decoration: const InputDecoration(
+                    labelText: 'Alergias seleccionadas',
+                  ),
+                ),
+                const SizedBox(
+                  height: 6,
+                ),
+                ElevatedButton(
+                  onPressed: () => viewModel.showAllergiesDialog(context),
+                  child: const Text('Seleccionar'),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 6.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: <Widget>[
+                      const Text(
+                        '¿Usted fuma?: ',
+                        style: TextStyle(fontSize: 16),
+                      ),
+                      Expanded(
+                        child: ListTile(
+                          title: const Text('Sí'),
+                          leading: Radio<bool>(
+                            value: true,
+                            groupValue: viewModel.smokes,
+                            onChanged: (value) =>
+                                setState(() => viewModel.smokes = value!),
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        child: ListTile(
+                          title: const Text('No'),
+                          leading: Radio<bool>(
+                            value: false,
+                            groupValue: viewModel.smokes,
+                            onChanged: (value) =>
+                                setState(() => viewModel.smokes = value!),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const Text(
+                  '¿Cuántos cigarrillos fuma al día?',
+                  style: TextStyle(fontSize: 16),
+                ),
+                TextFormField(
+                  controller: TextEditingController(
+                      text: viewModel.cigarettesPerDay.toString()),
+                  decoration:
+                      const InputDecoration(labelText: 'Cigarrillos por día'),
+                  keyboardType: TextInputType.number,
+                  inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                  onSaved: (value) {
+                    viewModel.cigarettesPerDay =
+                        int.tryParse(value ?? '0') ?? 0;
+                  },
+                  validator: (value) {
+                    if (value != null &&
+                        value.isNotEmpty &&
+                        int.tryParse(value) == null) {
+                      return 'Ingresa un número válido.';
+                    }
+                    return null;
+                  },
+                ),
+                const SizedBox(height: 16),
+                const Text(
+                  '¿Usted toma café?',
+                  style: TextStyle(fontSize: 16),
+                ),
+                DropdownButtonFormField<String>(
+                  value: viewModel.coffee,
+                  decoration: const InputDecoration(
+                    labelText: 'Frecuencia de consumo',
+                  ),
+                  onChanged: (String? newValue) {
+                    viewModel.coffee = newValue!;
+                  },
+                  items: viewModel.consumptionOptions
+                      .map<DropdownMenuItem<String>>((String value) {
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child: Text(value),
+                    );
+                  }).toList(),
+                ),
+                const SizedBox(height: 16),
+                const Text(
+                  '¿Cuántas tazas de café toma al día?',
+                  style: TextStyle(fontSize: 16),
+                ),
+                TextFormField(
+                  controller: TextEditingController(
+                      text: viewModel.coffeeCupsPerDay.toString()),
+                  decoration: const InputDecoration(
+                      labelText: 'Tazas de café al día'),
+                  keyboardType: TextInputType.number,
+                  inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                  onSaved: (value) {
+                    viewModel.coffeeCupsPerDay =
+                        int.tryParse(value ?? '0') ?? 0;
+                  },
+                  validator: (value) {
+                    if (value != null &&
+                        value.isNotEmpty &&
+                        int.tryParse(value) == null) {
+                      return 'Ingresa un número válido.';
+                    }
+                    return null;
+                  },
+                ),
+                const SizedBox(height: 16),
+                const Text(
+                  '¿Usted come picante o llajua?',
+                  style: TextStyle(fontSize: 16),
+                ),
+                DropdownButtonFormField<String>(
+                  value: viewModel.llajua,
+                  decoration: const InputDecoration(
+                    labelText: 'Frecuencia de consumo',
+                  ),
+                  onChanged: (String? newValue) {
+                    viewModel.llajua = newValue!;
+                  },
+                  items: viewModel.consumptionOptions
+                      .map<DropdownMenuItem<String>>((String value) {
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child: Text(value),
+                    );
+                  }).toList(),
+                ),
+                const SizedBox(height: 16),
+                const Text(
+                  '¿Con cuántas cucharillas de azúcar toma su café o refresco (taza de 200 ml)?',
+                  style: TextStyle(fontSize: 16, overflow: TextOverflow.ellipsis),
+                  maxLines: 3,
+                ),
+                TextFormField(
+                  controller: TextEditingController(
+                      text: viewModel.sugarInDrinks.toString()),
+                  decoration: const InputDecoration(
+                      labelText: 'Cantidad de cucharillas de azúcar'),
+                  keyboardType: TextInputType.number,
+                  inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                  onSaved: (value) {
+                    viewModel.sugarInDrinks =
+                        int.tryParse(value ?? '0') ?? 0;
+                  },
+                  validator: (value) {
+                    if (value != null &&
+                        value.isNotEmpty &&
+                        int.tryParse(value) == null) {
+                      return 'Ingresa un número válido.';
+                    }
+                    return null;
+                  },
+                ),
+                const SizedBox(height: 24),
+                const Text(
+                  '¿Con qué condimenta su comida?',
+                  style: TextStyle(fontSize: 16),
+                ),
+                TextField(
+                  controller: viewModel.seasoningsController,
+                  readOnly: true,
+                  decoration: const InputDecoration(
+                    labelText: 'Condimentos seleccionados',
+                  ),
+                ),
+                const SizedBox(
+                  height: 6,
+                ),
+                ElevatedButton(
+                  onPressed: () => viewModel.showSeasoningsDialog(context),
+                  child: const Text('Seleccionar'),
+                ),
+                const SizedBox(height: 16),
+                const Text(
+                  '¿Algún comentario que quiera añadir?',
+                  style: TextStyle(fontSize: 16),
                 ),
                 TextFormField(
                   decoration: const InputDecoration(
                       labelText: 'Comentarios adicionales'),
-                  onSaved: (value) => comment = value ?? '',
-                  maxLines: null,
+                  onSaved: (value) => viewModel.comment = value ?? '',
+                  maxLines: 3,
                 ),
                 Padding(
                   padding: const EdgeInsets.all(12.0),
                   child: ElevatedButton(
-                    onPressed: _register,
-                    child: const Text('Enviar Formulario'),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Theme.of(context).primaryColor,
+                      foregroundColor: Colors.white,
+                    ),
+                    onPressed: () async {
+                      if (await viewModel.register(viewModel.password)) {
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const VerificationView()),
+                        );
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                                content: Text('Error en el registro.')));
+                      }
+                    },
+                    child: const Text('Registrarse'),
                   ),
                 ),
+                const HaveAnAccount(),
               ],
             ),
           ),
         ),
       ),
     );
-  }
-
-  void _register() {
-    if (_formKey.currentState!.validate()) {
-      _formKey.currentState!.save();
-      Judge newJudge = Judge(
-        fullName: fullName,
-        email: email,
-        birthDate: birthDate,
-        gender: gender,
-        dislikes: dislikes,
-        symptoms: symptoms,
-        smokes: smokes,
-        cigarettesPerDay: cigarettesPerDay,
-        coffee: coffee,
-        coffeeCupsPerDay: coffeeCupsPerDay,
-        llajua: llajua,
-        llajuaPerDay: llajuaPerDay,
-        seasonings: seasonings,
-        sugarInDrinks: sugarInDrinks,
-        allergies: allergies,
-        comment: comment,
-        applicationState: 'PENDING',
-      );
-      _viewModel.register(newJudge, password).then((success) {
-        if (success) {
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(builder: (context) => const VerificationView()),
-          );
-        } else {
-          ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(content: Text('Error en el registro.')));
-        }
-      });
-    }
   }
 }

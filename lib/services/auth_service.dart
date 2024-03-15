@@ -36,7 +36,6 @@ class AuthService {
           'coffee': judge.coffee,
           'coffeeCupsPerDay': judge.coffeeCupsPerDay,
           'llajua': judge.llajua,
-          'llajuaPerDay': judge.llajuaPerDay,
           'seasonings': judge.seasonings,
           'sugarInDrinks': judge.sugarInDrinks,
           'allergies': judge.allergies,

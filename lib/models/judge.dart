@@ -10,7 +10,6 @@ class Judge {
   String coffee;
   int coffeeCupsPerDay;
   String llajua;
-  int llajuaPerDay;
   List<String> seasonings;
   int sugarInDrinks;
   List<String> allergies;
@@ -29,7 +28,6 @@ class Judge {
       required this.coffee,
       required this.coffeeCupsPerDay,
       required this.llajua,
-      required this.llajuaPerDay,
       required this.seasonings,
       required this.sugarInDrinks,
       required this.allergies,
