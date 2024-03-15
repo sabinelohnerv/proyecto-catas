@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "12944337518",
+    "project_id": "catas-univalle",
+    "storage_bucket": "catas-univalle.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:12944337518:android:ee4365bd20bca5b13fd47f",
+        "android_client_info": {
+          "package_name": "com.example.catas_univalle"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDqR3vocAauhRX2gPFjU4rFGnjo8Bht57k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
