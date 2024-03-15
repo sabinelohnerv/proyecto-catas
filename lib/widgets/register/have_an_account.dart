@@ -1,5 +1,4 @@
 import 'package:catas_univalle/views/login_view.dart';
-import 'package:catas_univalle/widgets/login/animations.dart';
 import 'package:flutter/material.dart';
 
 class HaveAnAccount extends StatelessWidget {

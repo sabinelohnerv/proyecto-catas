@@ -5,7 +5,6 @@ import '../models/judge.dart';
 
 class RegisterViewModel with ChangeNotifier {
   final _authService = AuthService();
-  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   String fullName = '';
   String email = '';
@@ -22,18 +21,18 @@ class RegisterViewModel with ChangeNotifier {
   List<String> allergies = [];
   String comment = '';
 
-  String _coffee = 'Nunca'; 
+  String _coffee = 'Nunca';
   String get coffee => _coffee;
   set coffee(String newValue) {
     _coffee = newValue;
-    notifyListeners(); 
+    notifyListeners();
   }
 
-  String _llajua = 'Nunca'; 
+  String _llajua = 'Nunca';
   String get llajua => _llajua;
   set llajua(String newValue) {
     _llajua = newValue;
-    notifyListeners(); 
+    notifyListeners();
   }
 
   List<String> predefinedSymptoms = [
@@ -254,7 +253,7 @@ class RegisterViewModel with ChangeNotifier {
     notifyListeners();
   }
 
-  bool validateAndSaveForm() {
+  bool validateAndSaveForm(GlobalKey<FormState> formKey) {
     final form = formKey.currentState;
     if (form != null && form.validate()) {
       form.save();
@@ -263,8 +262,8 @@ class RegisterViewModel with ChangeNotifier {
     return false;
   }
 
-  Future<bool> register(String password) async {
-    if (!validateAndSaveForm()) {
+  Future<bool> register(String password, GlobalKey<FormState> formKey) async {
+    if (!validateAndSaveForm(formKey)) {
       return false;
     }
 
@@ -292,6 +291,7 @@ class RegisterViewModel with ChangeNotifier {
           await _authService.judgeRegister(newJudge, password);
       return registrationSuccess;
     } catch (e) {
+      print(e);
       return false;
     }
   }

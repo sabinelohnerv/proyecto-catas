@@ -13,7 +13,7 @@ class RegisterView extends StatefulWidget {
 }
 
 class _RegisterViewState extends State<RegisterView> {
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     final viewModel = Provider.of<RegisterViewModel>(context);
@@ -27,7 +27,7 @@ class _RegisterViewState extends State<RegisterView> {
       ),
       body: SingleChildScrollView(
         child: Form(
-          key: _formKey,
+          key: formKey,
           child: Padding(
             padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 20),
             child: Column(
@@ -329,7 +329,7 @@ class _RegisterViewState extends State<RegisterView> {
                       foregroundColor: Colors.white,
                     ),
                     onPressed: () async {
-                      if (await viewModel.register(viewModel.password)) {
+                      if (await viewModel.register(viewModel.password, formKey)) {
                         Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
