@@ -41,7 +41,8 @@ class RegisterViewModel with ChangeNotifier {
     'Diabetes',
     'Tratamiento dental',
     'Asma',
-    'Gastritis'
+    'Gastritis',
+    'Ninguno'
   ];
 
   List<String> predefinedAllergies = [
@@ -51,7 +52,8 @@ class RegisterViewModel with ChangeNotifier {
     'Gluten',
     'Conservantes',
     'Mariscos crustáceos',
-    'Soja'
+    'Soja',
+    'Ninguna'
   ];
 
   List<String> predefinedSeasonings = [
@@ -60,6 +62,7 @@ class RegisterViewModel with ChangeNotifier {
     'Ajinomoto',
     'Comino',
     'Especias',
+    'Ninguno'
   ];
 
   final List<String> consumptionOptions = [
@@ -78,6 +81,33 @@ class RegisterViewModel with ChangeNotifier {
   TextEditingController symptomsController = TextEditingController();
   TextEditingController allergiesController = TextEditingController();
   TextEditingController seasoningsController = TextEditingController();
+  TextEditingController cigarettesPerDayController = TextEditingController();
+  TextEditingController coffeeCupsPerDayController = TextEditingController();
+  TextEditingController sugarInDrinksController = TextEditingController();
+
+  RegisterViewModel() {
+    cigarettesPerDayController.text = cigarettesPerDay.toString();
+    coffeeCupsPerDayController.text = coffeeCupsPerDay.toString();
+    sugarInDrinksController.text = sugarInDrinks.toString();
+  }
+
+  void updateCigarettesPerDay(int value) {
+    cigarettesPerDay = value;
+    cigarettesPerDayController.text = value.toString();
+    notifyListeners();
+  }
+
+  void updateCoffeeCupsPerDay(int value) {
+    coffeeCupsPerDay = value;
+    coffeeCupsPerDayController.text = value.toString();
+    notifyListeners();
+  }
+
+  void updateSugarInDrinks(int value) {
+    sugarInDrinks = value;
+    sugarInDrinksController.text = value.toString();
+    notifyListeners();
+  }
 
   void selectBirthDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
@@ -262,33 +292,10 @@ class RegisterViewModel with ChangeNotifier {
     return false;
   }
 
-  Future<bool> register(String password, GlobalKey<FormState> formKey) async {
-    if (!validateAndSaveForm(formKey)) {
-      return false;
-    }
-
-    Judge newJudge = Judge(
-      fullName: fullName,
-      email: email,
-      birthDate: birthDate,
-      gender: gender,
-      dislikes: dislikes,
-      symptoms: symptoms,
-      smokes: smokes,
-      cigarettesPerDay: cigarettesPerDay,
-      coffee: coffee,
-      coffeeCupsPerDay: coffeeCupsPerDay,
-      llajua: llajua,
-      seasonings: seasonings,
-      sugarInDrinks: sugarInDrinks,
-      allergies: allergies,
-      comment: comment,
-      applicationState: 'PENDING',
-    );
-
+  Future<bool> register(Judge judge) async {
     try {
       bool registrationSuccess =
-          await _authService.judgeRegister(newJudge, password);
+          await _authService.judgeRegister(judge, password);
       return registrationSuccess;
     } catch (e) {
       print(e);

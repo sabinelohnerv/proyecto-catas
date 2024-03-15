@@ -1,3 +1,4 @@
+import 'package:catas_univalle/models/judge.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -14,6 +15,15 @@ class RegisterView extends StatefulWidget {
 
 class _RegisterViewState extends State<RegisterView> {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+
+  bool isValidEmail(String value) {
+    if (value.contains('@')) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final viewModel = Provider.of<RegisterViewModel>(context);
@@ -42,8 +52,17 @@ class _RegisterViewState extends State<RegisterView> {
                 TextFormField(
                   decoration: const InputDecoration(labelText: 'Email'),
                   onSaved: (value) => viewModel.email = value ?? '',
-                  validator: (value) =>
-                      value!.isEmpty ? 'Este campo es obligatorio.' : null,
+                  keyboardType: TextInputType.emailAddress,
+                  autocorrect: false,
+                  textCapitalization: TextCapitalization.none,
+                  validator: (value) {
+                    if ((value == null ||
+                        value.trim().isEmpty ||
+                        !isValidEmail(value))) {
+                      return 'Ingresa un email válido.';
+                    }
+                    return null;
+                  },
                 ),
                 TextFormField(
                   decoration: const InputDecoration(labelText: 'Contraseña'),
@@ -179,15 +198,14 @@ class _RegisterViewState extends State<RegisterView> {
                   style: TextStyle(fontSize: 16),
                 ),
                 TextFormField(
-                  controller: TextEditingController(
-                      text: viewModel.cigarettesPerDay.toString()),
+                  controller: viewModel.cigarettesPerDayController,
                   decoration:
                       const InputDecoration(labelText: 'Cigarrillos por día'),
                   keyboardType: TextInputType.number,
                   inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                   onSaved: (value) {
-                    viewModel.cigarettesPerDay =
-                        int.tryParse(value ?? '0') ?? 0;
+                    int cigarettes = int.tryParse(value!) ?? 0;
+                    viewModel.updateCigarettesPerDay(cigarettes);
                   },
                   validator: (value) {
                     if (value != null &&
@@ -225,15 +243,14 @@ class _RegisterViewState extends State<RegisterView> {
                   style: TextStyle(fontSize: 16),
                 ),
                 TextFormField(
-                  controller: TextEditingController(
-                      text: viewModel.coffeeCupsPerDay.toString()),
-                  decoration: const InputDecoration(
-                      labelText: 'Tazas de café al día'),
+                  controller: viewModel.coffeeCupsPerDayController,
+                  decoration:
+                      const InputDecoration(labelText: 'Tazas de café al día'),
                   keyboardType: TextInputType.number,
                   inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                   onSaved: (value) {
-                    viewModel.coffeeCupsPerDay =
-                        int.tryParse(value ?? '0') ?? 0;
+                    int coffeeCups = int.tryParse(value!) ?? 0;
+                    viewModel.updateCoffeeCupsPerDay(coffeeCups);
                   },
                   validator: (value) {
                     if (value != null &&
@@ -268,19 +285,19 @@ class _RegisterViewState extends State<RegisterView> {
                 const SizedBox(height: 16),
                 const Text(
                   '¿Con cuántas cucharillas de azúcar toma su café o refresco (taza de 200 ml)?',
-                  style: TextStyle(fontSize: 16, overflow: TextOverflow.ellipsis),
+                  style:
+                      TextStyle(fontSize: 16, overflow: TextOverflow.ellipsis),
                   maxLines: 3,
                 ),
                 TextFormField(
-                  controller: TextEditingController(
-                      text: viewModel.sugarInDrinks.toString()),
+                  controller: viewModel.sugarInDrinksController,
                   decoration: const InputDecoration(
                       labelText: 'Cantidad de cucharillas de azúcar'),
                   keyboardType: TextInputType.number,
                   inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                   onSaved: (value) {
-                    viewModel.sugarInDrinks =
-                        int.tryParse(value ?? '0') ?? 0;
+                    int sugar = int.tryParse(value!) ?? 0;
+                    viewModel.updateSugarInDrinks(sugar);
                   },
                   validator: (value) {
                     if (value != null &&
@@ -322,28 +339,51 @@ class _RegisterViewState extends State<RegisterView> {
                   maxLines: 3,
                 ),
                 Padding(
-                  padding: const EdgeInsets.all(12.0),
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Theme.of(context).primaryColor,
-                      foregroundColor: Colors.white,
-                    ),
-                    onPressed: () async {
-                      if (await viewModel.register(viewModel.password, formKey)) {
-                        Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const VerificationView()),
-                        );
-                      } else {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                                content: Text('Error en el registro.')));
-                      }
-                    },
-                    child: const Text('Registrarse'),
-                  ),
-                ),
+                    padding: const EdgeInsets.all(12.0),
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Theme.of(context).primaryColor,
+                        foregroundColor: Colors.white,
+                      ),
+                      onPressed: () async {
+                        if (formKey.currentState!.validate()) {
+                          formKey.currentState!.save();
+                          Judge newJudge = Judge(
+                            fullName: viewModel.fullName,
+                            email: viewModel.email,
+                            birthDate: viewModel.birthDate,
+                            gender: viewModel.gender,
+                            dislikes: viewModel.dislikes,
+                            symptoms: viewModel.selectedSymptoms,
+                            smokes: viewModel.smokes,
+                            cigarettesPerDay: viewModel.cigarettesPerDay,
+                            coffee: viewModel.coffee,
+                            coffeeCupsPerDay: viewModel.coffeeCupsPerDay,
+                            llajua: viewModel.llajua,
+                            seasonings: viewModel.selectedSeasonings,
+                            sugarInDrinks: viewModel.sugarInDrinks,
+                            allergies: viewModel.selectedAllergies,
+                            comment: viewModel.comment,
+                            applicationState: 'PENDING',
+                          );
+                          print(newJudge);
+                          if (await viewModel.register(newJudge)) {
+                            Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      const VerificationView()),
+                            );
+                          } else {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                  content: Text('Error en el registro.')),
+                            );
+                          }
+                        }
+                      },
+                      child: const Text('Registrarse'),
+                    )),
                 const HaveAnAccount(),
               ],
             ),
