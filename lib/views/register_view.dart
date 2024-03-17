@@ -349,6 +349,7 @@ class _RegisterViewState extends State<RegisterView> {
                         if (formKey.currentState!.validate()) {
                           formKey.currentState!.save();
                           Judge newJudge = Judge(
+                            id: '',
                             fullName: viewModel.fullName,
                             email: viewModel.email,
                             birthDate: viewModel.birthDate,

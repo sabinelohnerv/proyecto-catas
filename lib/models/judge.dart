@@ -1,4 +1,5 @@
 class Judge {
+  String id;
   String fullName;
   String email;
   String birthDate;
@@ -17,7 +18,8 @@ class Judge {
   String applicationState;
 
   Judge(
-      {required this.fullName,
+      {required this.id,
+      required this.fullName,
       required this.email,
       required this.gender,
       required this.birthDate,
