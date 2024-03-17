@@ -6,16 +6,14 @@ class JudgeViewModel extends ChangeNotifier {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   Future<void> approveJudge(Judge judge) async {
-    print("Actualizando el estado del juez con email: ${judge.email}"); 
     try {
-      await _firestore.collection('users').doc(judge.email).update({
+      await _firestore.collection('judges').doc(judge.email).update({
         'applicationState': 'approved',
       });
+      // Notificar a los listeners en caso de que necesites actualizar la UI después de este cambio
       notifyListeners();
     } catch (e) {
-      print(e);
+      print(e); // Manejar el error adecuadamente
     }
   }
 }
-
-

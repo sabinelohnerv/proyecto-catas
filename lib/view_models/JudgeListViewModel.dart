@@ -1,18 +1,28 @@
-import 'package:flutter/material.dart';
-import '../services/auth_service.dart';
-import '../models/judge.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:catas_univalle/models/judge.dart';
 
-class JudgeListViewModel {
+class JudgeService {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-  Future<List<Judge>> fetchJudges() async {
-    try {
-      QuerySnapshot snapshot = await _firestore.collection('users').get();
+  Future<List<Judge>> getJudges() async {
+    QuerySnapshot snapshot = await _firestore.collection('users').get();
+    List<Judge> judges = [];
 
-      List<Judge> judges = snapshot.docs.map((doc) {
-        Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
-        return Judge(
+    for (var doc in snapshot.docs) {
+      Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
+
+      bool hasAllRequiredFields = data['fullName'] != null && data['email'] != null &&
+          data['birthDate'] != null && data['gender'] != null &&
+          data['dislikes'] != null && data['symptoms'] != null && data['symptoms'].isNotEmpty &&
+          data['smokes'] != null && data['cigarettesPerDay'] != null &&
+          data['coffee'] != null && data['coffeeCupsPerDay'] != null &&
+          data['llajua'] != null && data['seasonings'] != null && data['seasonings'].isNotEmpty &&
+          data['sugarInDrinks'] != null && data['allergies'] != null && data['allergies'].isNotEmpty &&
+          data['comment'] != null && data['applicationState'] != null;
+
+      if (hasAllRequiredFields) {
+        judges.add(Judge(
+          id: doc.id,
           fullName: data['fullName'],
           email: data['email'],
           birthDate: data['birthDate'],
@@ -29,13 +39,9 @@ class JudgeListViewModel {
           allergies: List<String>.from(data['allergies']),
           comment: data['comment'],
           applicationState: data['applicationState'],
-        );
-      }).toList();
-
-      return judges;
-    } catch (e) {
-      print(e.toString());
-      return [];
+        ));
+      }
     }
+    return judges;
   }
 }

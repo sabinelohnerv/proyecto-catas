@@ -349,6 +349,7 @@ class _RegisterViewState extends State<RegisterView> {
                         if (formKey.currentState!.validate()) {
                           formKey.currentState!.save();
                           Judge newJudge = Judge(
+                            id: '',
                             fullName: viewModel.fullName,
                             email: viewModel.email,
                             birthDate: viewModel.birthDate,
@@ -366,7 +367,6 @@ class _RegisterViewState extends State<RegisterView> {
                             comment: viewModel.comment,
                             applicationState: 'PENDING',
                           );
-                          print(newJudge);
                           if (await viewModel.register(newJudge)) {
                             Navigator.pushReplacement(
                               context,
