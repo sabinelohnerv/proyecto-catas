@@ -1,11 +1,11 @@
 import 'package:catas_univalle/view_models/login_viewmodel.dart';
-import 'package:catas_univalle/views/home_view.dart';
+import 'package:catas_univalle/views/admin_home_view.dart';
+import 'package:catas_univalle/views/login_view.dart';
 import 'package:catas_univalle/views/register_view.dart';
+import 'package:catas_univalle/views/user_home_view.dart';
 import 'package:catas_univalle/widgets/login/animations.dart';
 import 'package:catas_univalle/widgets/login/decorative_shape_widget.dart';
 import 'package:flutter/material.dart';
-
-
 
 class LoginForm extends StatefulWidget {
   const LoginForm({super.key});
@@ -99,17 +99,37 @@ class _LoginFormState extends State<LoginForm> {
                       children: [
                         ElevatedButton(
                           onPressed: () async {
-                            final success = await _viewModel.login(
-                              _emailController.text,
-                              _passwordController.text,
-                            );
+                            final email = _emailController.text;
+                            final password = _passwordController.text;
+                            final success =
+                                await _viewModel.login(email, password);
+
                             if (success) {
-                              Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        const HomeView()),
-                              );
+                              final userRole = await _viewModel
+                                  .getUserRole(); 
+                              switch (userRole) {
+                                case 'admin':
+                                  Navigator.pushReplacement(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              const AdminHomeView())); 
+                                  break;
+                                case 'judge':
+                                  Navigator.pushReplacement(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              const UserHomeView()));
+                                  break;
+                                default:
+                                  Navigator.pushReplacement(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              const LoginView())); 
+                                  break;
+                              }
                             } else {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 const SnackBar(

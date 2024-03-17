@@ -366,7 +366,6 @@ class _RegisterViewState extends State<RegisterView> {
                             comment: viewModel.comment,
                             applicationState: 'PENDING',
                           );
-                          print(newJudge);
                           if (await viewModel.register(newJudge)) {
                             Navigator.pushReplacement(
                               context,
