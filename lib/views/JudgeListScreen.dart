@@ -1,12 +1,13 @@
-import 'package:catas_univalle/services/judge_service.dart';
 import 'package:flutter/material.dart';
-import '../models/judge.dart';
+import 'package:catas_univalle/services/judge_service.dart';
+import 'package:catas_univalle/models/judge.dart';
+import 'package:catas_univalle/widgets/Judge/judge_card.dart'; 
 
 class JudgeListScreen extends StatefulWidget {
   const JudgeListScreen({Key? key}) : super(key: key);
 
   @override
-  _JudgeListScreenState createState() => _JudgeListScreenState();
+  State<JudgeListScreen> createState() => _JudgeListScreenState();
 }
 
 class _JudgeListScreenState extends State<JudgeListScreen> {
@@ -16,28 +17,36 @@ class _JudgeListScreenState extends State<JudgeListScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Lista de Jueces'),
+        title: const Text('Jueces'),
       ),
       body: FutureBuilder<List<Judge>>(
-        future: _judgeService.getJudges(), 
+        
+        future: _judgeService.getJudges(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
           } else if (snapshot.hasError) {
-            return Text("Error: ${snapshot.error}");
-          } else {
-            // Construir la lista de jueces
-            return ListView.builder(
+            return Text("Error: ${snapshot.error.toString()}");
+          } else if (snapshot.hasData) {
+            return GridView.builder(
+              padding:
+                  const EdgeInsets.all(4), 
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                crossAxisSpacing: 4, 
+                mainAxisSpacing: 4, 
+                childAspectRatio:
+                    (1 / 1.2), 
+              ),
               itemCount: snapshot.data?.length ?? 0,
               itemBuilder: (context, index) {
-                final Judge judge = snapshot.data![index];
-                return ListTile(
-                  // Campos que se muestran
-                  title: Text(judge.fullName),
-                  subtitle: Text(judge.email),
-                );
+                Judge judge = snapshot.data![index];
+                return JudgeCard(
+                    judge: judge);
               },
             );
+          } else {
+            return const Center(child: Text('No se encontraron datos.'));
           }
         },
       ),
