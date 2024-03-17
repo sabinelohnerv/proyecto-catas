@@ -1,9 +1,10 @@
-import 'package:catas_univalle/view_models/register_viewmodel.dart';
-import 'package:catas_univalle/views/login_view.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 import 'package:provider/provider.dart';
+import 'package:catas_univalle/view_models/register_viewmodel.dart';
+import 'package:catas_univalle/view_models/judge_viewmodel.dart';
+import 'package:catas_univalle/views/login_view.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -21,7 +22,8 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
           ChangeNotifierProvider(create: (context) => RegisterViewModel()),
-        ],
+          ChangeNotifierProvider(create: (context) => JudgeViewModel()), // Agrega el JudgeViewModel aquí
+      ],
       child: MaterialApp(
         title: 'Catas Univalle',
         debugShowCheckedModeBanner: false,

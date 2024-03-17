@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../models/judge.dart';
+import '../view_models/judge_viewmodel.dart';
+import '../views/judge_detail_screen.dart';
+import '../widgets/Judge/judge_card.dart';
 import 'package:catas_univalle/services/judge_service.dart';
-import 'package:catas_univalle/models/judge.dart';
-import 'package:catas_univalle/widgets/Judge/judge_card.dart'; 
 
 class JudgeListScreen extends StatefulWidget {
   const JudgeListScreen({Key? key}) : super(key: key);
@@ -20,7 +23,6 @@ class _JudgeListScreenState extends State<JudgeListScreen> {
         title: const Text('Jueces'),
       ),
       body: FutureBuilder<List<Judge>>(
-        
         future: _judgeService.getJudges(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
@@ -29,20 +31,29 @@ class _JudgeListScreenState extends State<JudgeListScreen> {
             return Text("Error: ${snapshot.error.toString()}");
           } else if (snapshot.hasData) {
             return GridView.builder(
-              padding:
-                  const EdgeInsets.all(4), 
+              padding: const EdgeInsets.all(4),
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
-                crossAxisSpacing: 4, 
-                mainAxisSpacing: 4, 
-                childAspectRatio:
-                    (1 / 1.2), 
+                crossAxisSpacing: 4,
+                mainAxisSpacing: 4,
+                childAspectRatio: (1 / 1.2),
               ),
               itemCount: snapshot.data?.length ?? 0,
               itemBuilder: (context, index) {
                 Judge judge = snapshot.data![index];
-                return JudgeCard(
-                    judge: judge);
+                return GestureDetector(
+                  onTap: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => ChangeNotifierProvider(
+                          create: (_) => JudgeViewModel(),
+                          child: JudgeDetailScreen(judge: judge),
+                        ),
+                      ),
+                    );
+                  },
+                  child: JudgeCard(judge: judge),
+                );
               },
             );
           } else {

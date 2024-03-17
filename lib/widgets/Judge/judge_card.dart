@@ -2,7 +2,6 @@ import 'package:catas_univalle/models/judge.dart';
 import 'package:catas_univalle/views/judge_detail_screen.dart';
 import 'package:flutter/material.dart';
 
-
 class JudgeCard extends StatelessWidget {
   final Judge judge;
 
@@ -10,6 +9,9 @@ class JudgeCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Determina el estado de certificación del juez
+    String certificationStatus = judge.applicationState == "approved" ? "Certificado" : "No Certificado";
+
     return GestureDetector(
       onTap: () {
         Navigator.push(
@@ -20,13 +22,13 @@ class JudgeCard extends StatelessWidget {
         );
       },
       child: Card(
-        color: Colors.white, 
+        color: Colors.white,
         elevation: 5.0,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             CircleAvatar(
-              backgroundColor: Colors.white, 
+              backgroundColor: Colors.white,
               radius: 30.0,
               child: Icon(Icons.person, size: 50, color: Colors.black),
             ),
@@ -38,6 +40,15 @@ class JudgeCard extends StatelessWidget {
                 fontSize: 16.0,
                 fontWeight: FontWeight.bold,
                 color: Colors.black,
+              ),
+            ),
+            const SizedBox(height: 5),
+            Text(
+              certificationStatus,
+              style: TextStyle(
+                fontSize: 14.0,
+                fontWeight: FontWeight.bold,
+                color: judge.applicationState == "approved" ? const Color.fromARGB(255, 183, 255, 185) : const Color.fromARGB(255, 253, 149, 142),
               ),
             ),
           ],
