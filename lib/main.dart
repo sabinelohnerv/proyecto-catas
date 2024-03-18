@@ -22,7 +22,8 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
           ChangeNotifierProvider(create: (context) => RegisterViewModel()),
-          ChangeNotifierProvider(create: (context) => JudgeViewModel()), // Agrega el JudgeViewModel aquí
+          ChangeNotifierProvider(create: (context) => JudgeViewModel()),
+          ChangeNotifierProvider(create: (_) => JudgeViewModel()),
       ],
       child: MaterialApp(
         title: 'Catas Univalle',

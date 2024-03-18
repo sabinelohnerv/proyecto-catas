@@ -48,7 +48,7 @@ class JudgeCard extends StatelessWidget {
               style: TextStyle(
                 fontSize: 14.0,
                 fontWeight: FontWeight.bold,
-                color: judge.applicationState == "approved" ? const Color.fromARGB(255, 183, 255, 185) : const Color.fromARGB(255, 253, 149, 142),
+                color: judge.applicationState == "approved" ? Color.fromARGB(255, 0, 0, 0) : Color.fromARGB(255, 0, 0, 0),
               ),
             ),
           ],
