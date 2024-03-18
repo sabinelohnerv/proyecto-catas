@@ -15,7 +15,6 @@ class _JudgeListScreenState extends State<JudgeListScreen> {
   @override
   void initState() {
     super.initState();
-    // Al iniciar la pantalla, carga los datos
     Future.microtask(() => 
       Provider.of<JudgeViewModel>(context, listen: false).fetchJudges()
     );

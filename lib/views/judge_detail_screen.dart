@@ -23,7 +23,6 @@ class _JudgeDetailScreenState extends State<JudgeDetailScreen> {
   void _approveJudge() {
     final viewModel = Provider.of<JudgeViewModel>(context, listen: false);
     viewModel.approveJudge(widget.judge, () {
-      // Callback que actualiza el estado localmente
       setState(() {
         widget.judge.applicationState = "approved";
       });

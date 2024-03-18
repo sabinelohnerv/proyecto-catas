@@ -23,7 +23,7 @@ class UserHomeView extends StatelessWidget {
           children: [
             const Text('User Home'),
             ElevatedButton(
-              onPressed: () => viewModel.navigateToJudgeList(context), // Asegúrate de que este método esté implementado
+              onPressed: () => viewModel.navigateToJudgeList(context),
               child: const Text('Lista de Jueces'),
             ),
             ElevatedButton(
