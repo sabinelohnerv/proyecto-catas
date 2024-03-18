@@ -8,19 +8,27 @@ class AdminHomeView extends StatelessWidget {
   void _handleSignOut(BuildContext context) async {
     final ProfileViewModel viewModel = ProfileViewModel();
     bool signedOut = await viewModel.signOut();
-    Navigator.of(context).pushReplacement(
-      MaterialPageRoute(builder: (context) => const LoginView()),
-    );
+    if (signedOut) {
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (context) => const LoginView()),
+      );
+    }
   }
 
   @override
   Widget build(BuildContext context) {
+    final viewModel = ProfileViewModel(); 
+
     return Scaffold(
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             const Text('Admin Home'),
+            ElevatedButton(
+              onPressed: () => viewModel.navigateToJudgeList(context), // Asegúrate de que este método esté implementado
+              child: const Text('Lista de Jueces'),
+            ),
             ElevatedButton(
               onPressed: () => _handleSignOut(context),
               child: const Text('Cerrar Sesión'),

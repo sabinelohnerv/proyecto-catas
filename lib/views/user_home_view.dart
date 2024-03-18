@@ -15,12 +15,17 @@ class UserHomeView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final viewModel = ProfileViewModel();
     return Scaffold(
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             const Text('User Home'),
+            ElevatedButton(
+              onPressed: () => viewModel.navigateToJudgeList(context), // Asegúrate de que este método esté implementado
+              child: const Text('Lista de Jueces'),
+            ),
             ElevatedButton(
               onPressed: () => _handleSignOut(context),
               child: const Text('Cerrar Sesión'),
