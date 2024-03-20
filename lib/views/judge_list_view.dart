@@ -1,17 +1,17 @@
-import 'package:catas_univalle/widgets/Judge/judge_card.dart';
+import 'package:catas_univalle/widgets/judge/judge_card.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:catas_univalle/models/judge.dart';
 import 'package:catas_univalle/view_models/judge_viewmodel.dart';
 
-class JudgeListScreen extends StatefulWidget {
-  const JudgeListScreen({Key? key}) : super(key: key);
+class JudgeListView extends StatefulWidget {
+  const JudgeListView({Key? key}) : super(key: key);
 
   @override
-  _JudgeListScreenState createState() => _JudgeListScreenState();
+  _JudgeListViewState createState() => _JudgeListViewState();
 }
 
-class _JudgeListScreenState extends State<JudgeListScreen> {
+class _JudgeListViewState extends State<JudgeListView> {
   @override
   void initState() {
     super.initState();

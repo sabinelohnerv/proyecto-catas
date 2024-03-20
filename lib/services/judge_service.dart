@@ -32,6 +32,7 @@ class JudgeService {
           allergies: List<String>.from(data['allergies']),
           comment: data['comment'],
           applicationState: data['applicationState'],
+          profileImgUrl: data['profileImgUrl']
         );
         filteredJudges.add(judge);
       }

@@ -27,7 +27,7 @@ class JudgeCard extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            CircleAvatar(
+            const CircleAvatar(
               backgroundColor: Colors.white,
               radius: 30.0,
               child: Icon(Icons.person, size: 50, color: Colors.black),
@@ -36,7 +36,7 @@ class JudgeCard extends StatelessWidget {
             Text(
               judge.fullName,
               textAlign: TextAlign.center,
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 16.0,
                 fontWeight: FontWeight.bold,
                 color: Colors.black,
@@ -48,7 +48,7 @@ class JudgeCard extends StatelessWidget {
               style: TextStyle(
                 fontSize: 14.0,
                 fontWeight: FontWeight.bold,
-                color: judge.applicationState == "approved" ? Color.fromARGB(255, 0, 0, 0) : Color.fromARGB(255, 0, 0, 0),
+                color: judge.applicationState == "approved" ? const Color.fromARGB(255, 0, 0, 0) : const Color.fromARGB(255, 0, 0, 0),
               ),
             ),
           ],

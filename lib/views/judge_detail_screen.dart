@@ -15,8 +15,8 @@ class JudgeDetailScreen extends StatefulWidget {
 class _JudgeDetailScreenState extends State<JudgeDetailScreen> {
   Widget informationRow(String title, String data) {
     return ListTile(
-      title: Text(title, style: TextStyle(fontWeight: FontWeight.bold, color: Colors.blueGrey)),
-      subtitle: Text(data, style: TextStyle(fontSize: 16)),
+      title: Text(title, style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.blueGrey)),
+      subtitle: Text(data, style: const TextStyle(fontSize: 16)),
     );
   }
 
@@ -37,7 +37,7 @@ class _JudgeDetailScreenState extends State<JudgeDetailScreen> {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
-        iconTheme: IconThemeData(color: Colors.blueGrey),
+        iconTheme: const IconThemeData(color: Colors.blueGrey),
       ),
       body: Column(
         children: [
@@ -50,13 +50,13 @@ class _JudgeDetailScreenState extends State<JudgeDetailScreen> {
                   CircleAvatar(
                     radius: 40,
                     backgroundColor: Colors.blueGrey.shade200,
-                    child: Icon(Icons.person, size: 60, color: Colors.white70),
+                    child: const Icon(Icons.person, size: 60, color: Colors.white70),
                   ),
                   const SizedBox(height: 20),
-                  Text(widget.judge.fullName, style: TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold), textAlign: TextAlign.center),
+                  Text(widget.judge.fullName, style: const TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold), textAlign: TextAlign.center),
                   Text(
                     certificationStatus,
-                    style: TextStyle(fontSize: 15.0, fontWeight: FontWeight.bold, color: widget.judge.applicationState == "approved" ? Color.fromARGB(255, 0, 0, 0) : Color.fromARGB(255, 0, 0, 0)),
+                    style: TextStyle(fontSize: 15.0, fontWeight: FontWeight.bold, color: widget.judge.applicationState == "approved" ? const Color.fromARGB(255, 0, 0, 0) : const Color.fromARGB(255, 0, 0, 0)),
                   ),
                   const SizedBox(height: 20),
                   Divider(color: Colors.blueGrey.shade200),
@@ -78,8 +78,8 @@ class _JudgeDetailScreenState extends State<JudgeDetailScreen> {
               style: ElevatedButton.styleFrom(
                 foregroundColor: Colors.white,
                 backgroundColor: Colors.blueGrey.shade200,
-                padding: EdgeInsets.symmetric(horizontal: 50, vertical: 20),
-                textStyle: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 20),
+                textStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
               ),
             ),
           ),
