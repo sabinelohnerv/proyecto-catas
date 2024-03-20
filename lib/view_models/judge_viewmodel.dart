@@ -1,4 +1,4 @@
-import 'package:catas_univalle/view_models/JudgeListViewModel.dart';
+import 'package:catas_univalle/view_models/judge_list_viewmodel.dart';
 import 'package:flutter/foundation.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../models/judge.dart';

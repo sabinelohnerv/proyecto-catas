@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:catas_univalle/models/judge.dart';
 
 class AuthService {
@@ -36,42 +39,60 @@ class AuthService {
     return user.emailVerified;
   }
 
-  Future<bool> judgeRegister(Judge judge, String password) async {
+  Future<bool> judgeRegister(Judge judge, String password, File? image) async {
     try {
       UserCredential userCredential =
           await _firebaseAuth.createUserWithEmailAndPassword(
               email: judge.email, password: password);
 
-      if (userCredential.user != null) {
-        String userId = userCredential.user!.uid;
-        await userCredential.user!.sendEmailVerification();
-
-        await _firestore.collection('users').doc(userId).set({
-          'fullName': judge.fullName,
-          'email': judge.email,
-          'birthDate': judge.birthDate,
-          'gender': judge.gender,
-          'dislikes': judge.dislikes,
-          'symptoms': judge.symptoms,
-          'smokes': judge.smokes,
-          'cigarettesPerDay': judge.cigarettesPerDay,
-          'coffee': judge.coffee,
-          'coffeeCupsPerDay': judge.coffeeCupsPerDay,
-          'llajua': judge.llajua,
-          'seasonings': judge.seasonings,
-          'sugarInDrinks': judge.sugarInDrinks,
-          'allergies': judge.allergies,
-          'comment': judge.comment,
-          'applicationState': judge.applicationState,
-          'role': 'judge'
-        });
-
-        return true;
+      if (userCredential.user == null) {
+        return false;
       }
-      return false;
+
+      String userId = userCredential.user!.uid;
+      await userCredential.user!.sendEmailVerification();
+
+      String? imageUrl;
+      if (image != null) {
+        final storageRef = FirebaseStorage.instance
+            .ref()
+            .child('user_profile_images')
+            .child('$userId.jpg');
+        await storageRef.putFile(image);
+        imageUrl = await storageRef.getDownloadURL();
+      }
+
+      Map<String, dynamic> userData = {
+        'fullName': judge.fullName,
+        'email': judge.email,
+        'birthDate': judge.birthDate,
+        'gender': judge.gender,
+        'dislikes': judge.dislikes,
+        'symptoms': judge.symptoms,
+        'smokes': judge.smokes,
+        'cigarettesPerDay': judge.cigarettesPerDay,
+        'coffee': judge.coffee,
+        'coffeeCupsPerDay': judge.coffeeCupsPerDay,
+        'llajua': judge.llajua,
+        'seasonings': judge.seasonings,
+        'sugarInDrinks': judge.sugarInDrinks,
+        'allergies': judge.allergies,
+        'comment': judge.comment,
+        'applicationState': judge.applicationState,
+        'role': 'judge',
+        if (imageUrl != null) 'image_url': imageUrl,
+      };
+
+      // Save the user data to Firestore
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(userId)
+          .set(userData);
+
+      return true;
     } catch (e) {
+      print('Error registering judge: $e'); 
       return false;
     }
   }
-  
 }

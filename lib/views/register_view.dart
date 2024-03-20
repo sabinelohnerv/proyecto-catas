@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:catas_univalle/models/judge.dart';
+import 'package:catas_univalle/widgets/register/user_image_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -14,6 +17,7 @@ class RegisterView extends StatefulWidget {
 }
 
 class _RegisterViewState extends State<RegisterView> {
+  File? selectedImage;
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   bool isValidEmail(String value) {
@@ -42,6 +46,13 @@ class _RegisterViewState extends State<RegisterView> {
             padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 20),
             child: Column(
               children: <Widget>[
+                UserImagePicker(
+                  onPickImage: (pickedImage) {
+                    setState(() {
+                      selectedImage = pickedImage;
+                    });
+                  },
+                ),
                 TextFormField(
                   decoration:
                       const InputDecoration(labelText: 'Nombre Completo'),
@@ -347,6 +358,7 @@ class _RegisterViewState extends State<RegisterView> {
                       ),
                       onPressed: () async {
                         if (formKey.currentState!.validate()) {
+                          debugPrint("Picked Image Path: $selectedImage");
                           formKey.currentState!.save();
                           Judge newJudge = Judge(
                             id: '',
@@ -366,8 +378,10 @@ class _RegisterViewState extends State<RegisterView> {
                             allergies: viewModel.selectedAllergies,
                             comment: viewModel.comment,
                             applicationState: 'PENDING',
+                            profileImgUrl: '',
                           );
-                          if (await viewModel.register(newJudge)) {
+                          if (await viewModel.register(
+                              newJudge, selectedImage!)) {
                             Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(

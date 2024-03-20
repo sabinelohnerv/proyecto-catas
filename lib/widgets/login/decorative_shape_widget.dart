@@ -5,7 +5,7 @@ class DecorativeShapeWidget extends StatelessWidget {
   final double size;
   final Color color;
   final Color shadowColor;
-  DecorativeShapeWidget({
+  const DecorativeShapeWidget({
     Key? key,
     this.size = 200,
     required this.color,
@@ -29,7 +29,7 @@ class DecorativeShapeWidget extends StatelessWidget {
           irregularity: 0.35,
           complexity: 3,
         ),
-        child: Container(
+        child: SizedBox(
           width: size,
           height: size,
         ),

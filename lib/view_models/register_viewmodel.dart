@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:catas_univalle/services/auth_service.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -292,10 +294,10 @@ class RegisterViewModel with ChangeNotifier {
     return false;
   }
 
-  Future<bool> register(Judge judge) async {
+  Future<bool> register(Judge judge, File selectedImage) async {
     try {
       bool registrationSuccess =
-          await _authService.judgeRegister(judge, password);
+          await _authService.judgeRegister(judge, password, selectedImage);
       return registrationSuccess;
     } catch (e) {
       print(e);

@@ -1,4 +1,4 @@
-import 'package:catas_univalle/views/JudgeListScreen.dart';
+import 'package:catas_univalle/views/judge_list_view.dart';
 import 'package:flutter/material.dart';
 
 import '../services/auth_service.dart';
@@ -19,7 +19,7 @@ class ProfileViewModel {
   void navigateToJudgeList(BuildContext context) {
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => const JudgeListScreen()),
+      MaterialPageRoute(builder: (context) => const JudgeListView()),
     );
   }
 }
