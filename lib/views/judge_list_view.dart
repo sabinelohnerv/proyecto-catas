@@ -1,7 +1,6 @@
 import 'package:catas_univalle/widgets/judge/judge_card.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:catas_univalle/models/judge.dart';
 import 'package:catas_univalle/view_models/judge_viewmodel.dart';
 
 class JudgeListView extends StatefulWidget {
@@ -15,9 +14,8 @@ class _JudgeListViewState extends State<JudgeListView> {
   @override
   void initState() {
     super.initState();
-    Future.microtask(() => 
-      Provider.of<JudgeViewModel>(context, listen: false).fetchJudges()
-    );
+    Future.microtask(() =>
+        Provider.of<JudgeViewModel>(context, listen: false).fetchJudges());
   }
 
   @override

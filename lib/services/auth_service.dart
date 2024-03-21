@@ -7,7 +7,6 @@ import 'package:catas_univalle/models/judge.dart';
 
 class AuthService {
   final _firebaseAuth = FirebaseAuth.instance;
-  final _firestore = FirebaseFirestore.instance;
 
   Future<bool> signIn(String email, String password) async {
     try {
@@ -91,7 +90,7 @@ class AuthService {
 
       return true;
     } catch (e) {
-      print('Error registering judge: $e'); 
+      print('Error registering judge: $e');
       return false;
     }
   }
