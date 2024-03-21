@@ -1,3 +1,4 @@
+import 'package:catas_univalle/view_models/client_list_viewmodel.dart';
 import 'package:catas_univalle/widgets/initial_screen_decider.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -25,6 +26,7 @@ class MyApp extends StatelessWidget {
           ChangeNotifierProvider(create: (context) => RegisterViewModel()),
           ChangeNotifierProvider(create: (context) => JudgeViewModel()),
           ChangeNotifierProvider(create: (_) => JudgeViewModel()),
+          ChangeNotifierProvider(create: (context) => ClientListViewModel()),
       ],
       child: MaterialApp(
         title: 'Catas Univalle',
