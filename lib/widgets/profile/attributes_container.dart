@@ -13,7 +13,7 @@ class AttributeContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.only(bottom: 16), // Espaciado entre contenedores
+      margin: const EdgeInsets.only(bottom: 25),
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: Colors.white,
@@ -23,7 +23,7 @@ class AttributeContainer extends StatelessWidget {
             color: Colors.grey.withOpacity(0.5),
             spreadRadius: 1,
             blurRadius: 5,
-            offset: const Offset(0, 2), // Cambios de posición de la sombra
+            offset: const Offset(0, 2),
           ),
         ],
       ),

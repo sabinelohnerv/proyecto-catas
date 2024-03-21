@@ -1,10 +1,9 @@
-import 'dart:io';
-
 import 'package:catas_univalle/widgets/profile/attributes_container.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../view_models/profile_viewmodel.dart';
+import '../widgets/profile/profile_card.dart';
 import '../widgets/register/user_image_picker.dart';
 
 class ProfileView extends StatefulWidget {
@@ -27,7 +26,6 @@ class _ProfileViewState extends State<ProfileView> {
   @override
   Widget build(BuildContext context) {
     final userViewModel = Provider.of<ProfileViewModel>(context);
-    File? selectedImage;
 
     String listToMultilineString(List<String> list) {
       return list.join('\n');
@@ -51,50 +49,54 @@ class _ProfileViewState extends State<ProfileView> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Container(
-              height: 300,
-              width: double.infinity,
-              decoration: const BoxDecoration(
-                image: DecorationImage(
-                  image: AssetImage("assets/images/background.png"),
-                  fit: BoxFit.cover,
+            Material(
+              elevation: 5,
+              borderRadius:
+                  const BorderRadius.vertical(bottom: Radius.circular(30)),
+              child: Container(
+                height: 300,
+                width: double.infinity,
+                decoration: const BoxDecoration(
+                  image: DecorationImage(
+                    image: AssetImage("assets/images/background.png"),
+                    fit: BoxFit.cover,
+                  ),
+                  borderRadius:
+                      BorderRadius.vertical(bottom: Radius.circular(30)),
                 ),
-                borderRadius:
-                    BorderRadius.vertical(bottom: Radius.circular(30)),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const SizedBox(
-                      height: 30,
-                    ),
-                    UserImagePicker(
-                      initialImage: userViewModel.imageUrl,
-                      onPickImage: (pickedImage) {
-                        setState(() {
-                          selectedImage = pickedImage;
-                        });
-                      },
-                    ),
-                    Text(
-                      userViewModel.fullName.toUpperCase(),
-                      style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 24,
-                          fontWeight: FontWeight.w700),
-                      textAlign: TextAlign.center,
-                    ),
-                    const SizedBox(height: 8),
-                    Text(
-                      userViewModel.email,
-                      style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w400),
-                    ),
-                  ],
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const SizedBox(
+                        height: 30,
+                      ),
+                      UserImagePicker(
+                        initialImage: userViewModel.imageUrl,
+                        onPickImage: (pickedImage) async {
+                          await userViewModel.updateProfileImage(
+                              pickedImage, userViewModel.currentUser!.uid);
+                        },
+                      ),
+                      Text(
+                        userViewModel.fullName.toUpperCase(),
+                        style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 24,
+                            fontWeight: FontWeight.w700),
+                        textAlign: TextAlign.center,
+                      ),
+                      const SizedBox(height: 8),
+                      Text(
+                        userViewModel.email,
+                        style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w400),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -103,6 +105,18 @@ class _ProfileViewState extends State<ProfileView> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
+                  SectionCard(
+                    img: "profile",
+                    title: "Comunicarse",
+                    color: Theme.of(context).colorScheme.secondary,
+                    isClickable: true,
+                  ),
+                  SectionCard(
+                    img: "profile",
+                    title: "Perfil Completo",
+                    color: Theme.of(context).colorScheme.secondary,
+                    isClickable: true,
+                  ),
                   AttributeContainer(
                     title: 'Intolerancias',
                     content: listToMultilineString(userViewModel.allergies),
