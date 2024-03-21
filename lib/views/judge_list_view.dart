@@ -4,10 +4,12 @@ import 'package:provider/provider.dart';
 import 'package:catas_univalle/view_models/judge_viewmodel.dart';
 
 class JudgeListView extends StatefulWidget {
-  const JudgeListView({Key? key}) : super(key: key);
+  const JudgeListView({super.key});
 
   @override
-  _JudgeListViewState createState() => _JudgeListViewState();
+  State<StatefulWidget> createState() {
+    return _JudgeListViewState();
+  }
 }
 
 class _JudgeListViewState extends State<JudgeListView> {

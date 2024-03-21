@@ -29,6 +29,10 @@ class AdminHomeView extends StatelessWidget {
               child: const Text('Lista de Jueces'),
             ),
             ElevatedButton(
+              onPressed: () => viewModel.navigateToClientList(context),
+              child: const Text('Clientes'),
+            ),
+            ElevatedButton(
               onPressed: () => _handleSignOut(context),
               child: const Text('Cerrar Sesión'),
             ),
