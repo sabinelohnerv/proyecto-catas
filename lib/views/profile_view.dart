@@ -100,23 +100,22 @@ class _ProfileViewState extends State<ProfileView> {
                 ),
               ),
             ),
+            const Padding(
+              padding: EdgeInsets.only(top: 20, left: 20, right: 20),
+              child: Center(
+                child: SimpleSectionCard(
+                  img: "profile",
+                  title: "Perfil",
+                  subtitle: 'Editar',
+                  isClickable: false,
+                ),
+              ),
+            ),
             Padding(
-              padding: const EdgeInsets.all(16),
+              padding: const EdgeInsets.all(25),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  SectionCard(
-                    img: "profile",
-                    title: "Comunicarse",
-                    color: Theme.of(context).colorScheme.secondary,
-                    isClickable: true,
-                  ),
-                  SectionCard(
-                    img: "profile",
-                    title: "Perfil Completo",
-                    color: Theme.of(context).colorScheme.secondary,
-                    isClickable: true,
-                  ),
                   AttributeContainer(
                     title: 'Intolerancias',
                     content: listToMultilineString(userViewModel.allergies),
