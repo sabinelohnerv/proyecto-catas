@@ -35,8 +35,7 @@ class ProfileViewModel extends ChangeNotifier {
 
   // Getters
 
-  String get imageUrl => _userDetails?['image_url'] ?? '';
-
+  String get imageUrl => _userDetails?['image_url'] ?? 'blank';
   String get fullName => _userDetails?['fullName'] ?? 'Nombre no disponible';
   String get email => _userDetails?['email'] ?? 'Email no disponible';
   String get birthDate =>
