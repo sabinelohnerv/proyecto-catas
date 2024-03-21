@@ -1,4 +1,3 @@
-import 'package:catas_univalle/views/add_client_view.dart';
 import 'package:catas_univalle/views/client_list_view.dart';
 import 'package:catas_univalle/views/judge_list_view.dart';
 import 'package:flutter/material.dart';
@@ -28,7 +27,7 @@ class ProfileViewModel {
   void navigateToClientList(BuildContext context) {
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => ClientListView()),
+      MaterialPageRoute(builder: (context) => const ClientListView()),
     );
   }
 }

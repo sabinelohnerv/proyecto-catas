@@ -1,5 +1,6 @@
 import 'package:catas_univalle/models/client.dart';
 import 'package:catas_univalle/services/client_service.dart';
+import 'package:catas_univalle/views/add_client_view.dart';
 import 'package:flutter/material.dart';
 
 
@@ -24,5 +25,12 @@ class ClientListViewModel extends ChangeNotifier {
       _isBusy = false;
       notifyListeners();
     });
+  }
+
+  void navigateToAddClient(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const AddClientView()),
+    );
   }
 }

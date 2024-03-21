@@ -1,5 +1,6 @@
 import 'package:catas_univalle/models/client.dart';
 import 'package:catas_univalle/view_models/client_list_viewmodel.dart';
+import 'package:catas_univalle/widgets/clients/client_card.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'add_client_view.dart';
@@ -12,7 +13,7 @@ class ClientListView extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          'Añadir Cliente',
+          'Clientes',
           style: TextStyle(color: Colors.white),
         ),
         backgroundColor: Theme.of(context).primaryColor,
@@ -38,25 +39,14 @@ class ClientListView extends StatelessWidget {
               itemCount: viewModel.clients.length,
               itemBuilder: (context, index) {
                 Client client = viewModel.clients[index];
-                return ListTile(
-                  leading: client.logoImgUrl.isNotEmpty
-                      ? Image.network(client.logoImgUrl, width: 50, height: 50)
-                      : const Icon(Icons.business),
-                  title: Text(client.name),
-                  subtitle: Text(client.email),
-                );
+                return ClientCard(client: client);
               },
             );
           },
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => const AddClientView()),
-          );
-        },
+        onPressed: () => ClientListViewModel().navigateToAddClient(context),
         child: const Icon(Icons.add),
       ),
     );

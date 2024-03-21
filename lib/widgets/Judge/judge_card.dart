@@ -47,7 +47,7 @@ class JudgeCard extends StatelessWidget {
               certificationStatus,
               style: TextStyle(
                 fontSize: 14.0,
-                fontWeight: FontWeight.bold,
+                fontWeight: FontWeight.bold, 
                 color: judge.applicationState == "approved" ? const Color.fromARGB(255, 0, 0, 0) : const Color.fromARGB(255, 0, 0, 0),
               ),
             ),
