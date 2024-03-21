@@ -1,5 +1,6 @@
 import 'package:catas_univalle/view_models/profile_viewmodel.dart';
 import 'package:catas_univalle/views/login_view.dart';
+import 'package:catas_univalle/views/profile_view.dart';
 import 'package:flutter/material.dart';
 
 class UserHomeView extends StatelessWidget {
@@ -24,6 +25,12 @@ class UserHomeView extends StatelessWidget {
             ElevatedButton(
               onPressed: () => _handleSignOut(context),
               child: const Text('Cerrar Sesión'),
+            ),
+            ElevatedButton(
+              onPressed: () => Navigator.of(context).pushReplacement(
+                MaterialPageRoute(builder: (context) => const ProfileView()),
+              ),
+              child: const Text('Profile'),
             ),
           ],
         ),
