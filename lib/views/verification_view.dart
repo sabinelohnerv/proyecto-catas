@@ -1,4 +1,4 @@
-import 'package:catas_univalle/views/admin_home_view.dart';
+import 'package:catas_univalle/views/user_home_view.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'dart:async';
@@ -25,7 +25,7 @@ class _VerificationViewState extends State<VerificationView> {
         timer.cancel();
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) => const AdminHomeView()),
+          MaterialPageRoute(builder: (context) => const UserHomeView()),
         );
       }
     });

@@ -52,7 +52,7 @@ class _UserImagePickerState extends State<UserImagePicker> {
       children: [
         CircleAvatar(
           radius: 40,
-          backgroundColor: Colors.grey,
+          backgroundColor: Colors.grey.shade300,
           backgroundImage: getImageProvider(),
           child: _pickedImageFile == null && widget.initialImage == null
               ? const Icon(Icons.person, size: 60, color: Colors.white)
