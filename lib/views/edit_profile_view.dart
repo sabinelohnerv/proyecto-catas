@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:catas_univalle/view_models/register_viewmodel.dart';
 
-import '../widgets/profile/edit_field.dart'; // Asegúrate de que la ruta sea correcta
+import '../widgets/profile/edit_field.dart';
 
 class EditProfileView extends StatefulWidget {
   const EditProfileView({Key? key}) : super(key: key);
@@ -52,13 +52,11 @@ class _EditProfileViewState extends State<EditProfileView> {
             ),
             child: Column(
               children: [
-                // Dislikes
                 CustomTextFormField(
                   controller: TextEditingController(text: viewModel.dislikes),
                   labelText: 'Alimentos que le disgustan',
                   onSaved: (value) => viewModel.updateDislikes(value ?? ''),
                 ),
-                // Smokes
                 ListTile(
                   title: const Text("Fumador"),
                   trailing: Switch(
@@ -70,7 +68,6 @@ class _EditProfileViewState extends State<EditProfileView> {
                     },
                   ),
                 ),
-                // Cigarettes per day
                 CustomTextFormField(
                   controller: TextEditingController(
                       text: viewModel.cigarettesPerDay.toString()),
@@ -79,7 +76,6 @@ class _EditProfileViewState extends State<EditProfileView> {
                   onSaved: (value) => viewModel
                       .updateCigarettesPerDay(int.tryParse(value ?? '0') ?? 0),
                 ),
-                // Coffee consumption
                 CustomDropdownFormField(
                   value: viewModel.coffee,
                   labelText: 'Consumo de café',
@@ -87,7 +83,6 @@ class _EditProfileViewState extends State<EditProfileView> {
                   onChanged: (String? newValue) =>
                       viewModel.coffee = (newValue!),
                 ),
-                // Coffee cups per day
                 CustomTextFormField(
                   controller: TextEditingController(
                       text: viewModel.coffeeCupsPerDay.toString()),
@@ -96,7 +91,6 @@ class _EditProfileViewState extends State<EditProfileView> {
                   onSaved: (value) => viewModel
                       .updateCoffeeCupsPerDay(int.tryParse(value ?? '0') ?? 0),
                 ),
-                // Llajua consumption
                 CustomDropdownFormField(
                   value: viewModel.llajua,
                   labelText: 'Consumo de llajua',
@@ -104,7 +98,6 @@ class _EditProfileViewState extends State<EditProfileView> {
                   onChanged: (String? newValue) =>
                       viewModel.llajua = (newValue!),
                 ),
-                // Sugar in drinks
                 CustomTextFormField(
                   controller: TextEditingController(
                       text: viewModel.sugarInDrinks.toString()),
@@ -113,14 +106,12 @@ class _EditProfileViewState extends State<EditProfileView> {
                   onSaved: (value) => viewModel
                       .updateSugarInDrinks(int.tryParse(value ?? '0') ?? 0),
                 ),
-                // Comment
                 CustomTextFormField(
                   controller: TextEditingController(text: viewModel.comment),
                   labelText: 'Comentarios',
                   maxLines: 3,
                   onSaved: (value) => viewModel.updateComment(value ?? ''),
                 ),
-                // Submit button
                 ElevatedButton(
                   onPressed: () async {
                     if (_formKey.currentState!.validate()) {
