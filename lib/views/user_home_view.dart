@@ -2,6 +2,9 @@ import 'package:catas_univalle/view_models/profile_viewmodel.dart';
 import 'package:catas_univalle/views/login_view.dart';
 import 'package:catas_univalle/views/profile_view.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../widgets/profile/profile_card.dart';
 
 class UserHomeView extends StatelessWidget {
   const UserHomeView({super.key});
@@ -16,21 +19,64 @@ class UserHomeView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final userViewModel = Provider.of<ProfileViewModel>(context);
+    userViewModel.loadCurrentUser();
+
     return Scaffold(
-      body: Center(
+      appBar: AppBar(
+        title: const Text('Inicio'),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.logout),
+            onPressed: () => _handleSignOut(context),
+          ),
+        ],
+      ),
+      body: SingleChildScrollView(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text('User Home'),
-            ElevatedButton(
-              onPressed: () => _handleSignOut(context),
-              child: const Text('Cerrar Sesión'),
-            ),
-            ElevatedButton(
-              onPressed: () => Navigator.of(context).pushReplacement(
-                MaterialPageRoute(builder: (context) => const ProfileView()),
+            Container(
+              height: 200,
+              width: double.infinity,
+              margin: const EdgeInsets.all(20),
+              decoration: BoxDecoration(
+                color: Colors.grey.shade300,
+                borderRadius: BorderRadius.circular(12),
               ),
-              child: const Text('Profile'),
+              child: const Center(child: Text("Placeholder")),
+            ),
+            Container(
+              color: Theme.of(context).primaryColor,
+              width: double.infinity,
+              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+              child: Text(
+                'Bienvenido, ${userViewModel.fullName}',
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 18,
+                ),
+              ),
+            ),
+            const Padding(
+              padding: EdgeInsets.all(20),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  SimpleSectionCard(
+                    img: 'food',
+                    title: 'Catas',
+                    subtitle: 'Ver más',
+                    isClickable: false,
+                  ),
+                  SimpleSectionCard(
+                    img: 'cocinero',
+                    title: 'Perfil',
+                    subtitle: 'Ver perfil',
+                    destinationScreen: ProfileView(),
+                  ),
+                ],
+              ),
             ),
           ],
         ),

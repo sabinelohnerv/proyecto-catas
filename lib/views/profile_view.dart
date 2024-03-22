@@ -105,7 +105,7 @@ class _ProfileViewState extends State<ProfileView> {
               padding: EdgeInsets.only(top: 20, left: 20, right: 20),
               child: Center(
                 child: SimpleSectionCard(
-                  img: "profile",
+                  img: "cocinero",
                   title: "Perfil",
                   subtitle: 'Editar',
                   destinationScreen: EditProfileView(),
