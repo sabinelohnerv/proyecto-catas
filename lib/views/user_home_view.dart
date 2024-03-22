@@ -27,7 +27,7 @@ class UserHomeView extends StatelessWidget {
               child: const Text('Cerrar Sesión'),
             ),
             ElevatedButton(
-              onPressed: () => Navigator.of(context).pushReplacement(
+              onPressed: () => Navigator.of(context).push(
                 MaterialPageRoute(builder: (context) => const ProfileView()),
               ),
               child: const Text('Profile'),
