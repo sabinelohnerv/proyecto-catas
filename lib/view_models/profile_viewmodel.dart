@@ -39,9 +39,7 @@ class ProfileViewModel extends ChangeNotifier {
 
   // Getters
 
-  String get imageUrl =>
-      _userDetails?['image_url'] ??
-      'https://firebasestorage.googleapis.com/v0/b/catas-univalle.appspot.com/o/user_profile_images%2FQf0El6c5R7Suh8y3oXBLu1ReV7r2.jpg?alt=media&token=54b51bb0-1a01-49de-9d40-e868e0f493d7';
+  String get imageUrl => _userDetails?['image_url'] ?? '';
   String get fullName => _userDetails?['fullName'] ?? 'Nombre no disponible';
   String get email => _userDetails?['email'] ?? 'Email no disponible';
   String get birthDate =>
