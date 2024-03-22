@@ -6,6 +6,9 @@ class SimpleSectionCard extends StatelessWidget {
   final String subtitle;
   final Widget? destinationScreen;
   final bool isClickable;
+  final VoidCallback? onTap;
+  final double width;
+  final double height;
 
   const SimpleSectionCard({
     Key? key,
@@ -14,12 +17,15 @@ class SimpleSectionCard extends StatelessWidget {
     required this.subtitle,
     this.destinationScreen,
     this.isClickable = true,
+    this.onTap,
+    this.width = 130,
+    this.height = 130,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: isClickable ? () => _handleTap(context) : null,
+      onTap: isClickable ? onTap ?? () => _handleTap(context) : null,
       child: Container(
         width: 130,
         height: 130,
@@ -48,7 +54,7 @@ class SimpleSectionCard extends StatelessWidget {
             Text(
               title.toUpperCase(),
               style: const TextStyle(
-                fontSize: 14,
+                fontSize: 12,
                 fontWeight: FontWeight.w600,
               ),
             ),

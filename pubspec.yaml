@@ -71,6 +71,11 @@ flutter:
       - assets/images/cocinero.png
       - assets/images/jueces.png
       - assets/images/clientes.png
+      - assets/images/sintomas.png
+      - assets/images/alergias.png
+      - assets/images/condimentos.png
+
+
 
 
   

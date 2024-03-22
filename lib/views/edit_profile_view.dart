@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:catas_univalle/view_models/register_viewmodel.dart';
 
 import '../widgets/profile/edit_field.dart';
+import '../widgets/profile/profile_card.dart';
 
 class EditProfileView extends StatefulWidget {
   const EditProfileView({Key? key}) : super(key: key);
@@ -52,6 +53,49 @@ class _EditProfileViewState extends State<EditProfileView> {
             ),
             child: Column(
               children: [
+                Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Expanded(
+                        child: SimpleSectionCard(
+                          img: 'sintomas',
+                          title: 'Síntomas',
+                          subtitle: 'Editar',
+                          destinationScreen: null,
+                          isClickable: true,
+                          onTap: () => viewModel.showSymptomsDialog(context),
+                        ),
+                      ),
+                      const SizedBox(width: 10),
+                      Expanded(
+                        child: SimpleSectionCard(
+                          img: 'alergias',
+                          title: 'Alergias',
+                          subtitle: 'Editar',
+                          destinationScreen: null,
+                          isClickable: true,
+                          onTap: () => viewModel.showAllergiesDialog(context),
+                        ),
+                      ),
+                      const SizedBox(width: 10),
+                      Expanded(
+                        child: SimpleSectionCard(
+                          img: 'condimentos',
+                          title: 'Condimento',
+                          subtitle: 'Editar',
+                          destinationScreen: null,
+                          isClickable: true,
+                          onTap: () => viewModel.showSeasoningsDialog(context),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(
+                  height: 15,
+                ),
                 CustomTextFormField(
                   controller: TextEditingController(text: viewModel.dislikes),
                   labelText: 'Alimentos que le disgustan',
