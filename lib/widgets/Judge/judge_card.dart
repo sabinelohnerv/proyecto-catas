@@ -9,8 +9,13 @@ class JudgeCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Determina el estado de certificación del juez
-    String certificationStatus = judge.applicationState == "approved" ? "Certificado" : "No Certificado";
+    String certificationStatus =
+        judge.applicationState == "approved" ? "Certificado" : "No Certificado";
+    Color statusColor = judge.applicationState == "approved"
+        ? Theme.of(context).colorScheme.primary
+        : Theme.of(context).colorScheme.error;
+
+    String imageUrl = judge.profileImgUrl;
 
     return GestureDetector(
       onTap: () {
@@ -22,24 +27,28 @@ class JudgeCard extends StatelessWidget {
         );
       },
       child: Card(
-        color: Colors.white,
+        color: Theme.of(context).colorScheme.surface,
         elevation: 5.0,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const CircleAvatar(
-              backgroundColor: Colors.white,
+            CircleAvatar(
               radius: 30.0,
-              child: Icon(Icons.person, size: 50, color: Colors.black),
+              backgroundImage:
+                  imageUrl.isNotEmpty ? NetworkImage(imageUrl) : null,
+              backgroundColor: Theme.of(context).colorScheme.primary,
+              child: imageUrl.isEmpty
+                  ? Icon(Icons.person, size: 50, color: Colors.white)
+                  : null,
             ),
             const SizedBox(height: 10),
             Text(
               judge.fullName,
               textAlign: TextAlign.center,
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 16.0,
                 fontWeight: FontWeight.bold,
-                color: Colors.black,
+                color: Theme.of(context).colorScheme.onSurface,
               ),
             ),
             const SizedBox(height: 5),
@@ -47,8 +56,8 @@ class JudgeCard extends StatelessWidget {
               certificationStatus,
               style: TextStyle(
                 fontSize: 14.0,
-                fontWeight: FontWeight.bold, 
-                color: judge.applicationState == "approved" ? const Color.fromARGB(255, 0, 0, 0) : const Color.fromARGB(255, 0, 0, 0),
+                fontWeight: FontWeight.bold,
+                color: statusColor,
               ),
             ),
           ],
