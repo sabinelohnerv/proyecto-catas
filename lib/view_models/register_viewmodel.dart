@@ -4,9 +4,11 @@ import 'package:catas_univalle/services/auth_service.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../models/judge.dart';
+import '../services/user_service.dart';
 
 class RegisterViewModel with ChangeNotifier {
   final _authService = AuthService();
+  final _userService = UserService();
 
   String fullName = '';
   String email = '';
@@ -91,6 +93,21 @@ class RegisterViewModel with ChangeNotifier {
     cigarettesPerDayController.text = cigarettesPerDay.toString();
     coffeeCupsPerDayController.text = coffeeCupsPerDay.toString();
     sugarInDrinksController.text = sugarInDrinks.toString();
+  }
+
+  void updateDislikes(String value) {
+    dislikes = value;
+    notifyListeners();
+  }
+
+  void updateSmokes(bool value) {
+    smokes = value;
+    notifyListeners();
+  }
+
+  void updateComment(String value) {
+    comment = value;
+    notifyListeners();
   }
 
   void updateCigarettesPerDay(int value) {
@@ -303,5 +320,56 @@ class RegisterViewModel with ChangeNotifier {
       print(e);
       return false;
     }
+  }
+
+  //Edit
+
+  Future<void> loadUserProfile() async {
+    final currentUser = _userService.getCurrentUser();
+    if (currentUser != null) {
+      final userDetails = await _userService.getUserDetails(currentUser.uid);
+      if (userDetails != null) {
+        dislikes = userDetails['dislikes'] ?? '';
+        symptoms = List.from(userDetails['symptoms'] ?? []);
+        smokes = userDetails['smokes'] ?? false;
+        cigarettesPerDay = userDetails['cigarettesPerDay'] ?? 0;
+        coffee = userDetails['coffee'] ?? 'Nunca';
+        coffeeCupsPerDay = userDetails['coffeeCupsPerDay'] ?? 0;
+        llajua = userDetails['llajua'] ?? 'Nunca';
+        seasonings = List.from(userDetails['seasonings'] ?? []);
+        sugarInDrinks = userDetails['sugarInDrinks'] ?? 0;
+        allergies = List.from(userDetails['allergies'] ?? []);
+        comment = userDetails['comment'] ?? '';
+        notifyListeners();
+      }
+    }
+  }
+
+  Future<bool> saveProfileChanges() async {
+    final currentUser = _userService.getCurrentUser();
+    if (currentUser != null) {
+      Judge updatedJudge = Judge(
+        id: currentUser.uid,
+        fullName: '',
+        email: '',
+        birthDate: '',
+        gender: '',
+        dislikes: dislikes,
+        symptoms: selectedSymptoms,
+        smokes: smokes,
+        cigarettesPerDay: cigarettesPerDay,
+        coffee: coffee,
+        coffeeCupsPerDay: coffeeCupsPerDay,
+        llajua: llajua,
+        seasonings: selectedSeasonings,
+        sugarInDrinks: sugarInDrinks,
+        allergies: selectedAllergies,
+        comment: comment,
+        applicationState: '',
+        profileImgUrl: '',
+      );
+      return await _userService.updateJudgeDetails(updatedJudge);
+    }
+    return false;
   }
 }

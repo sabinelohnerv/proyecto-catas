@@ -1,3 +1,4 @@
+import 'package:catas_univalle/views/edit_profile_view.dart';
 import 'package:catas_univalle/widgets/profile/attributes_container.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -107,7 +108,8 @@ class _ProfileViewState extends State<ProfileView> {
                   img: "profile",
                   title: "Perfil",
                   subtitle: 'Editar',
-                  isClickable: false,
+                  destinationScreen: EditProfileView(),
+                  isClickable: true,
                 ),
               ),
             ),
