@@ -1,6 +1,8 @@
 import 'dart:io';
-import 'package:catas_univalle/models/client.dart';
+import 'package:catas_univalle/functions/util.dart';
 import 'package:catas_univalle/view_models/add_client_viewmodel.dart';
+import 'package:catas_univalle/widgets/clients/submit_new_client.dart';
+import 'package:catas_univalle/widgets/register/custom_textfield.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -15,8 +17,6 @@ class AddClientView extends StatefulWidget {
 
 class _AddClientViewState extends State<AddClientView> {
   final _formKey = GlobalKey<FormState>();
-  String _name = '';
-  String _email = '';
   File? _logo;
   final picker = ImagePicker();
   final AddClientViewModel viewModel = AddClientViewModel();
@@ -27,32 +27,6 @@ class _AddClientViewState extends State<AddClientView> {
       setState(() {
         _logo = File(pickedFile.path);
       });
-    }
-  }
-
-  void _submit() {
-    if (_formKey.currentState!.validate()) {
-      _formKey.currentState!.save();
-
-      if (_logo != null) {
-        viewModel.addClient(_name, _email, _logo!);
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Cliente añadido correctamente.'),
-            backgroundColor: Colors.green,
-          ),
-        );
-        Future.delayed(const Duration(seconds: 2), () {
-          Navigator.of(context).pop();
-        });
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Error al crear el cliente.'),
-            backgroundColor: Colors.red,
-          ),
-        );
-      }
     }
   }
 
@@ -80,31 +54,28 @@ class _AddClientViewState extends State<AddClientView> {
         child: Form(
           key: _formKey,
           child: Padding(
-            padding:
-                const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
-                TextFormField(
-                  decoration:
-                      const InputDecoration(labelText: 'Nombre del Cliente'),
-                  validator: (value) => value!.isEmpty
-                      ? 'Por favor ingresa un nombre para el cliente.'
-                      : null,
-                  onSaved: (value) => _name = value!,
+                CustomTextFormField(
+                  labelText: 'Nombre del Cliente',
+                  onSaved: (value) => viewModel.name = value ?? '',
+                  validator: (value) =>
+                      value!.isEmpty ? 'Este campo es obligatorio.' : null,
                 ),
-                const SizedBox(
-                  height: 20,
+                CustomTextFormField(
+                  labelText: 'Email',
+                  onSaved: (value) => viewModel.email = value ?? '',
+                  validator: (value) {
+                    if ((value == null ||
+                        value.trim().isEmpty ||
+                        !isValidEmail(value))) {
+                      return 'Ingresa un email válido.';
+                    }
+                    return null;
+                  },
                 ),
-                TextFormField(
-                  decoration:
-                      const InputDecoration(labelText: 'Email del Cliente'),
-                  validator: (value) => (value!.isEmpty || !value.contains('@'))
-                      ? 'Por favor ingresa un email válido.'
-                      : null,
-                  onSaved: (value) => _email = value!,
-                ),
-                const SizedBox(height: 20),
                 const Text(
                   'Logo del Cliente',
                   style: TextStyle(fontSize: 16),
@@ -118,6 +89,7 @@ class _AddClientViewState extends State<AddClientView> {
                             child: Text('No has seleccionado un logo aún.')))
                     : SizedBox(
                         height: 220,
+                        width: MediaQuery.sizeOf(context).width,
                         child: Image.file(
                           _logo!,
                           fit: BoxFit.cover,
@@ -130,14 +102,12 @@ class _AddClientViewState extends State<AddClientView> {
                 const SizedBox(
                   height: 20,
                 ),
-                ElevatedButton(
-                  onPressed: _submit,
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Theme.of(context).primaryColor,
-                    foregroundColor: Colors.white,
-                  ),
-                  child: const Text('Guardar'),
-                ),
+                SubmitNewClient(
+                    formKey: _formKey,
+                    logo: _logo,
+                    viewModel: viewModel,
+                    name: viewModel.name,
+                    email: viewModel.email),
               ],
             ),
           ),

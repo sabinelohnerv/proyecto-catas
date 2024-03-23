@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:io';
 
 import 'package:catas_univalle/models/judge.dart';
@@ -50,23 +52,23 @@ class SubmitRegistrationButton extends StatelessWidget {
                 applicationState: 'PENDING',
                 profileImgUrl: '',
               );
-              if (await viewModel.register(
-                  newJudge, selectedImage!)) {
+              if (await viewModel.register(newJudge, selectedImage!)) {
                 Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
-                      builder: (context) =>
-                          const VerificationView()),
+                      builder: (context) => const VerificationView()),
                 );
               } else {
                 ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                      content: Text('Error en el registro.')),
+                  const SnackBar(content: Text('Error en el registro.')),
                 );
               }
             }
           },
-          child: const Text('Registrarse'),
+          child: const Text(
+            'REGISTRARSE',
+            style: TextStyle(fontWeight: FontWeight.w700),
+          ),
         ));
   }
 }

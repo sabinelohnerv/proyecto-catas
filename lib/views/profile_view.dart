@@ -2,9 +2,7 @@ import 'package:catas_univalle/views/edit_profile_view.dart';
 import 'package:catas_univalle/widgets/profile/attributes_container.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
 import '../view_models/profile_viewmodel.dart';
-import '../widgets/profile/profile_card.dart';
 import '../widgets/register/user_image_picker.dart';
 
 class ProfileView extends StatefulWidget {
@@ -39,6 +37,17 @@ class _ProfileViewState extends State<ProfileView> {
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
+        actions: [
+          IconButton(
+            icon: const Icon(
+              Icons.edit,
+              color: Colors.white,
+            ),
+            onPressed: () => Navigator.of(context).push(
+              MaterialPageRoute(builder: (context) => const EditProfileView()),
+            ),
+          ),
+        ],
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
           onPressed: () => Navigator.of(context).pop(),
@@ -101,30 +110,22 @@ class _ProfileViewState extends State<ProfileView> {
                 ),
               ),
             ),
-            const Padding(
-              padding: EdgeInsets.only(top: 20, left: 20, right: 20),
-              child: Center(
-                child: SimpleSectionCard(
-                  img: "cocinero",
-                  title: "Perfil",
-                  subtitle: 'Editar',
-                  destinationScreen: EditProfileView(),
-                  isClickable: true,
-                ),
-              ),
-            ),
             Padding(
               padding: const EdgeInsets.all(25),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   AttributeContainer(
-                    title: 'Intolerancias',
+                    title: 'Alergias e Intolerancias',
                     content: listToMultilineString(userViewModel.allergies),
                   ),
                   AttributeContainer(
-                    title: 'Dislikes',
-                    content: commasToLineBreaks(userViewModel.dislikes),
+                    title: 'Condiciones y Síntomas ',
+                    content: listToMultilineString(userViewModel.symptoms),
+                  ),
+                  AttributeContainer(
+                    title: 'Condimentos',
+                    content: listToMultilineString(userViewModel.seasonings),
                   ),
                   AttributeContainer(
                     title: 'Comentarios',

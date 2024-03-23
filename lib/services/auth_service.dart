@@ -82,7 +82,6 @@ class AuthService {
         if (imageUrl != null) 'image_url': imageUrl,
       };
 
-      // Save the user data to Firestore
       await FirebaseFirestore.instance
           .collection('users')
           .doc(userId)

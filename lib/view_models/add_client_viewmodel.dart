@@ -6,6 +6,8 @@ import 'package:flutter/foundation.dart';
 class AddClientViewModel extends ChangeNotifier {
   final ClientService _clientService = ClientService();
   bool _isUploading = false;
+  String name = '';
+  String email = '';
 
   bool get isUploading => _isUploading;
 

@@ -13,23 +13,21 @@ class HaveAnAccount extends StatelessWidget {
         onTap: () {
           Navigator.push(
             context,
-            MaterialPageRoute(
-                builder: (context) => const LoginView()),
+            MaterialPageRoute(builder: (context) => const LoginView()),
           );
         },
         child: RichText(
           text: TextSpan(
             style: const TextStyle(
               color: Colors.black,
-              fontWeight: FontWeight.bold,
+              fontWeight: FontWeight.w600,
+              fontFamily: 'Montserrat',
             ),
             children: [
               const TextSpan(text: '¿Ya tienes una cuenta? '),
               TextSpan(
                 text: 'Inicia sesión',
-                style: TextStyle(
-                    color:
-                        Theme.of(context).colorScheme.primary),
+                style: TextStyle(color: Theme.of(context).colorScheme.primary),
               ),
             ],
           ),
