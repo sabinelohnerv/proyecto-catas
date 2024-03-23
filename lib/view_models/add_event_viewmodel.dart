@@ -299,9 +299,6 @@ class AddEventViewModel with ChangeNotifier {
   }
 
   bool validateInputs() {
-    print('Allergies:${selectedAllergies!.join(', ')}');
-    print('Symptoms:${selectedSymptoms!.join(', ')}');
-
     return name != null &&
         date != null &&
         start != null &&

@@ -17,8 +17,6 @@ class AddClientView extends StatefulWidget {
 
 class _AddClientViewState extends State<AddClientView> {
   final _formKey = GlobalKey<FormState>();
-  String _name = '';
-  String _email = '';
   File? _logo;
   final picker = ImagePicker();
   final AddClientViewModel viewModel = AddClientViewModel();
