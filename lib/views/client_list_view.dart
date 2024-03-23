@@ -3,7 +3,6 @@ import 'package:catas_univalle/view_models/client_list_viewmodel.dart';
 import 'package:catas_univalle/widgets/clients/client_card.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'add_client_view.dart';
 
 class ClientListView extends StatelessWidget {
   const ClientListView({super.key});

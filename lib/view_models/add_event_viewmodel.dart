@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:catas_univalle/functions/util.dart';
 import 'package:catas_univalle/models/client.dart';
+import 'package:catas_univalle/services/client_service.dart';
 import 'package:flutter/foundation.dart';
 import 'package:catas_univalle/models/event.dart';
 import 'package:catas_univalle/services/event_service.dart';
@@ -9,6 +10,7 @@ import 'package:intl/intl.dart';
 
 class AddEventViewModel with ChangeNotifier {
   final EventService _eventService = EventService();
+  final ClientService _clientService = ClientService();
 
   String? name;
   String? date;
@@ -52,8 +54,14 @@ class AddEventViewModel with ChangeNotifier {
 
   List<String> selectedSymptoms = [];
   List<String> selectedAllergies = [];
+  List<Client> clients = [];
+
+  TimeOfDay? startTime;
+  TimeOfDay? endTime;
 
   TextEditingController dateController = TextEditingController();
+  TextEditingController startTimeController = TextEditingController();
+  TextEditingController endTimeController = TextEditingController();
   TextEditingController codeController = TextEditingController();
   TextEditingController numberOfJudgesController = TextEditingController();
   TextEditingController symptomsController = TextEditingController();
@@ -77,6 +85,48 @@ class AddEventViewModel with ChangeNotifier {
       dateController.text = formattedDate;
       notifyListeners();
     }
+  }
+
+  void selectStartTime(BuildContext context) async {
+    final TimeOfDay? picked = await showTimePicker(
+      context: context,
+      initialTime: TimeOfDay.now(),
+    );
+    if (picked != null) {
+      startTime = picked;
+      start = _formatTimeOfDay(picked);
+      startTimeController.text = start!;
+      notifyListeners();
+    }
+  }
+
+  void selectEndTime(BuildContext context) async {
+    final TimeOfDay? picked = await showTimePicker(
+      context: context,
+      initialTime: TimeOfDay.now(),
+    );
+    if (picked != null) {
+      endTime = picked;
+      end = _formatTimeOfDay(picked);
+      endTimeController.text = end!;
+      notifyListeners();
+    }
+  }
+
+  String _formatTimeOfDay(TimeOfDay tod) {
+    final now = DateTime.now();
+    final dt = DateTime(now.year, now.month, now.day, tod.hour, tod.minute);
+    final format = DateFormat.Hm();
+    return format.format(dt);
+  }
+
+  bool validateTime() {
+    if (startTime != null && endTime != null) {
+      return startTime!.hour < endTime!.hour ||
+          (startTime!.hour == endTime!.hour &&
+              startTime!.minute < endTime!.minute);
+    }
+    return false;
   }
 
   void randomizeCode() {
@@ -198,8 +248,19 @@ class AddEventViewModel with ChangeNotifier {
     notifyListeners();
   }
 
+  Future<void> fetchClients() async {
+    clients = await _clientService.fetchClients();
+    notifyListeners();
+  }
+
+  void selectClient(Client selectedClient) {
+    client = selectedClient;
+    notifyListeners();
+  }
+
   Future<bool> addEvent() async {
     if (!validateInputs()) {
+      print('could not validate INPUTS');
       return false;
     }
     setIsSaving(true);
@@ -221,22 +282,26 @@ class AddEventViewModel with ChangeNotifier {
         imageUrl: imageUrl,
         code: code!,
         formUrl: formUrl!,
-        allergyRestrictions: allergyRestrictions!,
-        symptomRestrictions: symptomRestrictions!,
+        allergyRestrictions: selectedAllergies,
+        symptomRestrictions: selectedSymptoms,
         client: client!,
         numberOfJudges: numberOfJudges!,
-        judgesEmails: judgesEmails!,
+        judgesEmails: [],
       );
       await _eventService.addEvent(newEvent);
       setIsSaving(false);
       return true;
     } catch (e) {
       setIsSaving(false);
+      print('Failed to add event: $e');
       return false;
     }
   }
 
   bool validateInputs() {
+    print('Allergies:${selectedAllergies!.join(', ')}');
+    print('Symptoms:${selectedSymptoms!.join(', ')}');
+
     return name != null &&
         date != null &&
         start != null &&
@@ -245,5 +310,51 @@ class AddEventViewModel with ChangeNotifier {
         about != null &&
         client != null &&
         numberOfJudges != null;
+  }
+
+  void resetData() {
+    name = null;
+    date = null;
+    start = null;
+    end = null;
+    location = null;
+    locationUrl = null;
+    about = null;
+    logo = null;
+    code = null;
+    formUrl = null;
+    allergyRestrictions = null;
+    symptomRestrictions = null;
+    client = null;
+    numberOfJudges = null;
+    judgesEmails = null;
+
+    selectedSymptoms.clear();
+    selectedAllergies.clear();
+    clients.clear();
+
+    startTime = null;
+    endTime = null;
+
+    dateController.clear();
+    startTimeController.clear();
+    endTimeController.clear();
+    codeController.clear();
+    numberOfJudgesController.clear();
+    symptomsController.clear();
+    allergiesController.clear();
+    notifyListeners();
+  }
+
+  @override
+  void dispose() {
+    dateController.dispose();
+    startTimeController.dispose();
+    endTimeController.dispose();
+    codeController.dispose();
+    numberOfJudgesController.dispose();
+    symptomsController.dispose();
+    allergiesController.dispose();
+    super.dispose();
   }
 }
