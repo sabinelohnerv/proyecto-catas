@@ -52,7 +52,8 @@ class _JudgeListViewState extends State<JudgeListView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Jueces', style: TextStyle(color: Theme.of(context).colorScheme.onPrimary)),
+        title: Text('Jueces',
+            style: TextStyle(color: Theme.of(context).colorScheme.onPrimary)),
         backgroundColor: Theme.of(context).colorScheme.primary,
         actions: [
           IconButton(
@@ -76,7 +77,7 @@ class _JudgeListViewState extends State<JudgeListView> {
               ? filteredJudges
               : filteredJudges.where((judge) {
                   return judge.fullName.toLowerCase().contains(searchQuery) ||
-                         judge.email.toLowerCase().contains(searchQuery);
+                      judge.email.toLowerCase().contains(searchQuery);
                 }).toList();
 
           return judges.isNotEmpty

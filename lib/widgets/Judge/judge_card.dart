@@ -1,6 +1,6 @@
+import 'package:flutter/material.dart';
 import 'package:catas_univalle/models/judge.dart';
 import 'package:catas_univalle/views/judge_detail_view.dart';
-import 'package:flutter/material.dart';
 
 class JudgeCard extends StatelessWidget {
   final Judge judge;
@@ -9,14 +9,6 @@ class JudgeCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String certificationStatus =
-        judge.applicationState == "approved" ? "Certificado" : "No Certificado";
-    Color statusColor = judge.applicationState == "approved"
-        ? Theme.of(context).colorScheme.primary
-        : Theme.of(context).colorScheme.error;
-
-    String imageUrl = judge.profileImgUrl;
-
     return GestureDetector(
       onTap: () {
         Navigator.push(
@@ -32,15 +24,17 @@ class JudgeCard extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            CircleAvatar(
-              radius: 30.0,
-              backgroundImage:
-                  imageUrl.isNotEmpty ? NetworkImage(imageUrl) : null,
-              backgroundColor: Theme.of(context).colorScheme.primary,
-              child: imageUrl.isEmpty
-                  ? Icon(Icons.person, size: 50, color: Colors.white)
-                  : null,
-            ),
+            judge.profileImgUrl.isNotEmpty
+                ? CircleAvatar(
+                    radius: 30.0,
+                    backgroundColor: Theme.of(context).colorScheme.primary,
+                    backgroundImage: NetworkImage(judge.profileImgUrl),
+                  )
+                : CircleAvatar(
+                    radius: 30.0,
+                    backgroundColor: Theme.of(context).colorScheme.primary,
+                    child: Icon(Icons.person, size: 50, color: Colors.white),
+                  ),
             const SizedBox(height: 10),
             Text(
               judge.fullName,
@@ -53,11 +47,15 @@ class JudgeCard extends StatelessWidget {
             ),
             const SizedBox(height: 5),
             Text(
-              certificationStatus,
+              judge.applicationState == "approved"
+                  ? "Certificado"
+                  : "No Certificado",
               style: TextStyle(
                 fontSize: 14.0,
                 fontWeight: FontWeight.bold,
-                color: statusColor,
+                color: judge.applicationState == "approved"
+                    ? Theme.of(context).colorScheme.primary
+                    : Theme.of(context).colorScheme.error,
               ),
             ),
           ],
