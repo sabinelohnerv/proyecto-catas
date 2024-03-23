@@ -26,7 +26,7 @@ class _JudgeListViewState extends State<JudgeListView> {
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: Text("Filtrar por Estado"),
+          title: const Text("Filtrar por Estado"),
           content: DropdownButton<String>(
             value: filterStatus,
             onChanged: (value) {
@@ -52,14 +52,22 @@ class _JudgeListViewState extends State<JudgeListView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Jueces', style: TextStyle(color: Colors.white)),
+        title: const Text('Jueces', style: TextStyle(color: Colors.white)),
         backgroundColor: Theme.of(context).colorScheme.primary,
-        iconTheme: IconThemeData(
-            color: Colors.white), // Hace el botón de retroceso blanco
+        iconTheme: const IconThemeData(color: Colors.white),
+        centerTitle: true,
+        leading: IconButton(
+          icon: const Icon(
+            Icons.arrow_back_ios,
+            color: Colors.white,
+          ),
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+        ),
         actions: [
           IconButton(
-            icon: Icon(Icons.filter_list,
-                color: Colors.white), 
+            icon: const Icon(Icons.filter_list, color: Colors.white),
             onPressed: _showFilterDialog,
           ),
         ],
@@ -103,7 +111,7 @@ class _JudgeListViewState extends State<JudgeListView> {
                     return JudgeCard(judge: judge);
                   },
                 )
-              : Center(child: Text('No se encontraron datos.'));
+              : const Center(child: Text('No se encontraron datos.'));
         },
       ),
     );

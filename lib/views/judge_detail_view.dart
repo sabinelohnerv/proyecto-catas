@@ -52,7 +52,7 @@ class _JudgeDetailScreenState extends State<JudgeDetailScreen> {
         certificationStatus = "Rechazado";
         break;
       default:
-        certificationStatus = "pendiente";
+        certificationStatus = "Pendiente";
     }
 
     return Scaffold(
@@ -60,6 +60,14 @@ class _JudgeDetailScreenState extends State<JudgeDetailScreen> {
         backgroundColor: Colors.transparent,
         elevation: 0,
         iconTheme: IconThemeData(color: Theme.of(context).colorScheme.primary),
+        leading: IconButton(
+          icon: const Icon(
+            Icons.arrow_back_ios,
+          ),
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+        ),
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -68,7 +76,7 @@ class _JudgeDetailScreenState extends State<JudgeDetailScreen> {
               width: double.infinity,
               child: Column(
                 children: [
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   widget.judge.profileImgUrl.isNotEmpty
                       ? CircleAvatar(
                           radius: 60,
@@ -79,16 +87,16 @@ class _JudgeDetailScreenState extends State<JudgeDetailScreen> {
                           backgroundColor:
                               Theme.of(context).colorScheme.primary,
                           radius: 60,
-                          child: Icon(Icons.person,
+                          child: const Icon(Icons.person,
                               size: 120, color: Colors.white),
                         ),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   Text(widget.judge.fullName,
                       style: TextStyle(
                           fontSize: 24.0,
                           fontWeight: FontWeight.bold,
                           color: Theme.of(context).colorScheme.onSurface)),
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
                   Text(certificationStatus,
                       style: TextStyle(
                           fontSize: 15.0,
@@ -98,7 +106,7 @@ class _JudgeDetailScreenState extends State<JudgeDetailScreen> {
                               : certificationStatus == "Rechazado"
                                   ? Colors.red
                                   : Colors.amber)),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                 ],
               ),
             ),
@@ -131,33 +139,35 @@ class _JudgeDetailScreenState extends State<JudgeDetailScreen> {
                     children: [
                       ElevatedButton.icon(
                         onPressed: _approveJudge,
-                        icon: Icon(Icons.check, color: Colors.white),
-                        label: Text('Aprobar',
-                            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor:
-                              Color.fromARGB(255, 232, 137, 158),
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 20, vertical: 10),
-                          shape: RoundedRectangleBorder(
-                            borderRadius:
-                                BorderRadius.circular(30), 
-                          ),
-                        ),
-                      ),
-                      ElevatedButton.icon(
-                        onPressed: _rejectJudge,
-                        icon: Icon(Icons.close, color: Colors.white),
-                        label: Text('Rechazar',
-                            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+                        icon: const Icon(Icons.check, color: Colors.white),
+                        label: const Text('Aprobar',
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold)),
                         style: ElevatedButton.styleFrom(
                           backgroundColor:
                               const Color.fromARGB(255, 232, 137, 158),
                           padding: const EdgeInsets.symmetric(
                               horizontal: 20, vertical: 10),
                           shape: RoundedRectangleBorder(
-                            borderRadius:
-                                BorderRadius.circular(30),
+                            borderRadius: BorderRadius.circular(30),
+                          ),
+                        ),
+                      ),
+                      ElevatedButton.icon(
+                        onPressed: _rejectJudge,
+                        icon: const Icon(Icons.close, color: Colors.white),
+                        label: const Text('Rechazar',
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold)),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor:
+                              const Color.fromARGB(255, 232, 137, 158),
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 20, vertical: 10),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(30),
                           ),
                         ),
                       ),
