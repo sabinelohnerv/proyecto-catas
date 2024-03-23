@@ -89,14 +89,39 @@ class RegisterViewModel with ChangeNotifier {
   TextEditingController coffeeCupsPerDayController = TextEditingController();
   TextEditingController sugarInDrinksController = TextEditingController();
 
+  TextEditingController dislikesController = TextEditingController();
+  TextEditingController commentController = TextEditingController();
+
   RegisterViewModel() {
     cigarettesPerDayController.text = cigarettesPerDay.toString();
     coffeeCupsPerDayController.text = coffeeCupsPerDay.toString();
     sugarInDrinksController.text = sugarInDrinks.toString();
+    dislikesController.text = dislikes.toString();
+    commentController.text = comment.toString();
+  }
+
+  @override
+  void dispose() {
+    dislikesController.dispose();
+    cigarettesPerDayController.dispose();
+    coffeeCupsPerDayController.dispose();
+    sugarInDrinksController.dispose();
+    commentController.dispose();
+
+    super.dispose();
+  }
+
+  void resetFields() {
+    dislikesController.text = '';
+    cigarettesPerDayController.text = '0';
+    coffeeCupsPerDayController.text = '0';
+    sugarInDrinksController.text = '0';
+    commentController.text = '';
   }
 
   void updateDislikes(String value) {
     dislikes = value;
+    dislikesController.text = dislikes.toString();
     notifyListeners();
   }
 
@@ -330,16 +355,23 @@ class RegisterViewModel with ChangeNotifier {
       final userDetails = await _userService.getUserDetails(currentUser.uid);
       if (userDetails != null) {
         dislikes = userDetails['dislikes'] ?? '';
-        symptoms = List.from(userDetails['symptoms'] ?? []);
+        selectedSymptoms = List.from(userDetails['symptoms'] ?? []);
         smokes = userDetails['smokes'] ?? false;
         cigarettesPerDay = userDetails['cigarettesPerDay'] ?? 0;
         coffee = userDetails['coffee'] ?? 'Nunca';
         coffeeCupsPerDay = userDetails['coffeeCupsPerDay'] ?? 0;
         llajua = userDetails['llajua'] ?? 'Nunca';
-        seasonings = List.from(userDetails['seasonings'] ?? []);
+        selectedSeasonings = List.from(userDetails['seasonings'] ?? []);
         sugarInDrinks = userDetails['sugarInDrinks'] ?? 0;
-        allergies = List.from(userDetails['allergies'] ?? []);
+        selectedAllergies = List.from(userDetails['allergies'] ?? []);
         comment = userDetails['comment'] ?? '';
+
+        cigarettesPerDayController.text = cigarettesPerDay.toString();
+        coffeeCupsPerDayController.text = coffeeCupsPerDay.toString();
+        sugarInDrinksController.text = sugarInDrinks.toString();
+        dislikesController.text = dislikes.toString();
+        commentController.text = comment.toString();
+
         notifyListeners();
       }
     }
