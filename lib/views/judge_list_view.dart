@@ -35,7 +35,7 @@ class _JudgeListViewState extends State<JudgeListView> {
                 Navigator.pop(context);
               });
             },
-            items: <String>["Todos", "Certificado", "No Certificado"]
+            items: <String>["Todos", "Pendiente", "Aprobado", "Rechazado"]
                 .map<DropdownMenuItem<String>>((String value) {
               return DropdownMenuItem<String>(
                 value: value,
@@ -52,12 +52,14 @@ class _JudgeListViewState extends State<JudgeListView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Jueces',
-            style: TextStyle(color: Theme.of(context).colorScheme.onPrimary)),
+        title: Text('Jueces', style: TextStyle(color: Colors.white)),
         backgroundColor: Theme.of(context).colorScheme.primary,
+        iconTheme: IconThemeData(
+            color: Colors.white), // Hace el botón de retroceso blanco
         actions: [
           IconButton(
-            icon: Icon(Icons.filter_list),
+            icon: Icon(Icons.filter_list,
+                color: Colors.white), 
             onPressed: _showFilterDialog,
           ),
         ],
@@ -65,12 +67,18 @@ class _JudgeListViewState extends State<JudgeListView> {
       body: Consumer<JudgeViewModel>(
         builder: (context, judgeViewModel, child) {
           List<Judge> filteredJudges = judgeViewModel.judges.where((judge) {
-            if (filterStatus == "Certificado") {
-              return judge.applicationState == "approved";
-            } else if (filterStatus == "No Certificado") {
-              return judge.applicationState != "approved";
+            switch (filterStatus) {
+              case "Pendiente":
+                return judge.applicationState == "" ||
+                    judge.applicationState == "pendiente";
+              case "Aprobado":
+                return judge.applicationState == "aprobado";
+              case "Rechazado":
+                return judge.applicationState == "rechazado";
+              case "Todos":
+              default:
+                return true;
             }
-            return true;
           }).toList();
 
           final judges = searchQuery.isEmpty

@@ -9,6 +9,23 @@ class JudgeCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    String statusLabel;
+    Color statusColor;
+
+    switch (judge.applicationState) {
+      case "aprobado":
+        statusLabel = "Aprobado";
+        statusColor = Colors.green;
+        break;
+      case "rechazado":
+        statusLabel = "Rechazado";
+        statusColor = Colors.red;
+        break;
+      default:
+        statusLabel = "Pendiente";
+        statusColor = Colors.amber;
+    }
+
     return GestureDetector(
       onTap: () {
         Navigator.push(
@@ -47,15 +64,11 @@ class JudgeCard extends StatelessWidget {
             ),
             const SizedBox(height: 5),
             Text(
-              judge.applicationState == "approved"
-                  ? "Certificado"
-                  : "No Certificado",
+              statusLabel,
               style: TextStyle(
                 fontSize: 14.0,
                 fontWeight: FontWeight.bold,
-                color: judge.applicationState == "approved"
-                    ? Theme.of(context).colorScheme.primary
-                    : Theme.of(context).colorScheme.error,
+                color: statusColor,
               ),
             ),
           ],

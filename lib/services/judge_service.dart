@@ -6,14 +6,16 @@ class JudgeService {
 
   Future<List<Judge>> getJudges() async {
     QuerySnapshot snapshot = await _firestore.collection('users').get();
-    List<Judge> filteredJudges = []; 
+    List<Judge> judges = [];
 
     for (var doc in snapshot.docs) {
       Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
 
-      if (data.containsKey('fullName') && data['fullName'].toString().isNotEmpty &&
+      if (data['role'] == 'judge' &&
+          data.containsKey('fullName') && data['fullName'].toString().isNotEmpty &&
           data.containsKey('email') && data['email'].toString().isNotEmpty &&
           data.containsKey('comment') && data['comment'].toString().isNotEmpty) {
+        
         Judge judge = Judge(
           id: doc.id,
           fullName: data['fullName'],
@@ -34,10 +36,10 @@ class JudgeService {
           applicationState: data['applicationState'],
           profileImgUrl: data['image_url'] ?? '',
         );
-        filteredJudges.add(judge);
+        judges.add(judge);
       }
     }
 
-    return filteredJudges; 
+    return judges;
   }
 }
