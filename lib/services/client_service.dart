@@ -8,7 +8,8 @@ class ClientService {
   final FirebaseFirestore _db = FirebaseFirestore.instance;
 
   Future<String> uploadClientLogo(File logo, String clientId) async {
-    firebase_storage.Reference storageReference = firebase_storage.FirebaseStorage.instance
+    firebase_storage.Reference storageReference = firebase_storage
+        .FirebaseStorage.instance
         .ref()
         .child('client_images/${Path.basename(logo.path)}');
     firebase_storage.UploadTask uploadTask = storageReference.putFile(logo);
@@ -29,5 +30,18 @@ class ClientService {
     return _db.collection('clients').snapshots().map((snapshot) {
       return snapshot.docs.map((doc) => Client.fromSnapshot(doc)).toList();
     });
+  }
+
+  Future<List<Client>> fetchClients() async {
+    try {
+      QuerySnapshot snapshot = await _db.collection('clients').get();
+      List<Client> clients = snapshot.docs.map((doc) {
+        return Client.fromSnapshot(doc);
+      }).toList();
+      return clients;
+    } catch (e) {
+      print(e);
+      return [];
+    }
   }
 }

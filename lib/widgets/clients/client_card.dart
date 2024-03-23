@@ -12,35 +12,35 @@ class ClientCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 8),
+      padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 6),
       decoration: BoxDecoration(
         border: Border.all(color: Colors.grey.shade100),
       ),
       child: ListTile(
-        leading: CircleAvatar(
-          backgroundImage: client.logoImgUrl.isNotEmpty
-              ? NetworkImage(client.logoImgUrl)
+        leading: Container(
+          width: 40,
+          height: 40,
+          decoration: BoxDecoration(
+            image: client.logoImgUrl.isNotEmpty
+                ? DecorationImage(
+                    image: NetworkImage(client.logoImgUrl),
+                    fit: BoxFit.cover,
+                  )
+                : null,
+            color: Colors.grey.shade200,
+            //borderRadius: BorderRadius.circular(4),
+          ),
+          child: client.logoImgUrl.isEmpty
+              ? const Icon(Icons.business, color: Colors.white)
               : null,
-          child: client.logoImgUrl.isEmpty ? const Icon(Icons.business) : null,
         ),
         title: Text(client.name),
         subtitle: Text(client.email),
-        trailing: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            IconButton(
-              icon: const Icon(Icons.edit, color: Colors.grey),
-              onPressed: () {
-                // todo: edit client
-              },
-            ),
-            IconButton(
-              icon: const Icon(Icons.delete, color: Colors.red),
-              onPressed: () {
-                // todo: delete client
-              },
-            ),
-          ],
+        trailing: IconButton(
+          icon: const Icon(Icons.edit, color: Colors.grey),
+          onPressed: () {
+            // TODO: Implement edit client functionality
+          },
         ),
       ),
     );

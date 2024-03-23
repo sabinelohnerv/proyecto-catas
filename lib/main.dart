@@ -1,3 +1,4 @@
+import 'package:catas_univalle/view_models/add_event_viewmodel.dart';
 import 'package:catas_univalle/view_models/client_list_viewmodel.dart';
 import 'package:catas_univalle/view_models/profile_viewmodel.dart';
 import 'package:catas_univalle/widgets/initial_screen_decider.dart';
@@ -7,7 +8,6 @@ import 'firebase_options.dart';
 import 'package:provider/provider.dart';
 import 'package:catas_univalle/view_models/register_viewmodel.dart';
 import 'package:catas_univalle/view_models/judge_viewmodel.dart';
-import 'package:catas_univalle/views/login_view.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -29,6 +29,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => JudgeViewModel()),
         ChangeNotifierProvider(create: (context) => ProfileViewModel()),
         ChangeNotifierProvider(create: (context) => ClientListViewModel()),
+        ChangeNotifierProvider(create: (context) => AddEventViewModel()),
       ],
       child: MaterialApp(
         title: 'Catas Univalle',
