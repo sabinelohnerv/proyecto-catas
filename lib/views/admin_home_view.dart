@@ -1,4 +1,5 @@
 import 'package:catas_univalle/view_models/profile_viewmodel.dart';
+import 'package:catas_univalle/views/add_event_view.dart';
 import 'package:catas_univalle/views/client_list_view.dart';
 import 'package:catas_univalle/views/judge_list_view.dart';
 import 'package:catas_univalle/views/login_view.dart';
@@ -73,7 +74,7 @@ class AdminHomeView extends StatelessWidget {
                       img: 'food',
                       title: 'Catas',
                       subtitle: 'Ver más',
-                      isClickable: false,
+                      destinationScreen: AddEventView(),
                     ),
                     SimpleSectionCard(
                       img: 'cocinero',

@@ -142,7 +142,7 @@ class _RegisterViewState extends State<RegisterView> {
                     labelText: 'Cigarrillos por día',
                     controller: viewModel.cigarettesPerDayController,
                     onSaved: (value) {
-                      int cigarettes = int.tryParse(value!) ?? 0;
+                      int cigarettes = int.tryParse(value) ?? 0;
                       viewModel.updateCigarettesPerDay(cigarettes);
                     },
                   ),
@@ -157,7 +157,7 @@ class _RegisterViewState extends State<RegisterView> {
                     labelText: 'Tazas de café por día',
                     controller: viewModel.coffeeCupsPerDayController,
                     onSaved: (value) {
-                      int coffeeCups = int.tryParse(value!) ?? 0;
+                      int coffeeCups = int.tryParse(value) ?? 0;
                       viewModel.updateCoffeeCupsPerDay(coffeeCups);
                     },
                   ),
@@ -172,7 +172,7 @@ class _RegisterViewState extends State<RegisterView> {
                     labelText: 'Cucharillas de azúcar en bebidas (200 ml)',
                     controller: viewModel.sugarInDrinksController,
                     onSaved: (value) {
-                      int sugar = int.tryParse(value!) ?? 0;
+                      int sugar = int.tryParse(value) ?? 0;
                       viewModel.updateSugarInDrinks(sugar);
                     },
                   ),
