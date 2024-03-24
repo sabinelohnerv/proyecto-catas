@@ -31,7 +31,7 @@ class ClientListView extends StatelessWidget {
         create: (context) => ClientListViewModel(),
         child: Consumer<ClientListViewModel>(
           builder: (context, viewModel, child) {
-            if (viewModel.isBusy) {
+            if (viewModel.isLoading) {
               return const Center(child: CircularProgressIndicator());
             }
             return ListView.builder(

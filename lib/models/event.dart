@@ -1,4 +1,5 @@
 import 'package:catas_univalle/models/client.dart';
+import 'package:catas_univalle/models/event_judge.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Event {
@@ -17,7 +18,7 @@ class Event {
   List<String> symptomRestrictions;
   Client client;
   int numberOfJudges;
-  List<String> judgesEmails;
+  List<EventJudge> eventJudges;
 
   Event(
       {required this.id,
@@ -35,7 +36,7 @@ class Event {
       required this.symptomRestrictions,
       required this.client,
       required this.numberOfJudges,
-      required this.judgesEmails});
+      required this.eventJudges});
 
   factory Event.fromSnapshot(DocumentSnapshot snapshot) {
     if (snapshot == null) {
@@ -62,7 +63,7 @@ class Event {
         email: snapshot['client']['email'],
       ),
       numberOfJudges: snapshot['numberOfJudges'],
-      judgesEmails: List<String>.from(snapshot['judgesEmails']),
+      eventJudges: List<EventJudge>.from(snapshot['eventJudges']),
     );
   }
 }

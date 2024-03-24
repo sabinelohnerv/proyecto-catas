@@ -286,7 +286,7 @@ class AddEventViewModel with ChangeNotifier {
         symptomRestrictions: selectedSymptoms,
         client: client!,
         numberOfJudges: numberOfJudges!,
-        judgesEmails: [],
+        eventJudges: [],
       );
       await _eventService.addEvent(newEvent);
       setIsSaving(false);

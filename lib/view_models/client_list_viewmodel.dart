@@ -6,23 +6,24 @@ import 'package:flutter/material.dart';
 
 class ClientListViewModel extends ChangeNotifier {
   final ClientService _clientService = ClientService();
+  
   List<Client> _clients = [];
-  bool _isBusy = false;
-
   List<Client> get clients => _clients;
-  bool get isBusy => _isBusy;
+  
+  bool _isLoading = false;
+  bool get isLoading => _isLoading;
 
   ClientListViewModel() {
     listenToClients();
   }
 
   void listenToClients() {
-    _isBusy = true;
+    _isLoading = true;
     notifyListeners();
 
     _clientService.clientsStream().listen((clientData) {
       _clients = clientData;
-      _isBusy = false;
+      _isLoading = false;
       notifyListeners();
     });
   }

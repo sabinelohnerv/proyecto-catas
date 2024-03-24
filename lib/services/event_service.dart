@@ -33,12 +33,13 @@ class EventService {
       'allergyRestrictions': event.allergyRestrictions,
       'symptomRestrictions': event.symptomRestrictions,
       'client': {
+        'id': event.client.id,
         'name': event.client.name,
         'email': event.client.email,
         'logoImgUrl': event.client.logoImgUrl
       },
       'numberOfJudges': event.numberOfJudges,
-      'judgesEmails': event.judgesEmails,
+      'judgesEmails': event.eventJudges,
     });
   }
 

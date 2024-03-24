@@ -28,7 +28,6 @@ class ClientCard extends StatelessWidget {
                   )
                 : null,
             color: Colors.grey.shade200,
-            //borderRadius: BorderRadius.circular(4),
           ),
           child: client.logoImgUrl.isEmpty
               ? const Icon(Icons.business, color: Colors.white)

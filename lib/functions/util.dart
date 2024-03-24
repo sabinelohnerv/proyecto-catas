@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'package:intl/intl.dart';
 
 bool isValidEmail(String value) {
   if (value.contains('@')) {
@@ -8,8 +9,8 @@ bool isValidEmail(String value) {
   }
 }
 
-bool isValidPassword(String value){
-  if (value.length>=6) {
+bool isValidPassword(String value) {
+  if (value.length >= 6) {
     return true;
   } else {
     return false;
@@ -17,7 +18,8 @@ bool isValidPassword(String value){
 }
 
 String generateRandomCode() {
-  const String allowedCharacters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#%&*-_=+./?';
+  const String allowedCharacters =
+      'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#%&*-_=+./?';
   final Random random = Random();
   String code = '';
 
@@ -27,4 +29,13 @@ String generateRandomCode() {
   }
 
   return code;
+}
+
+String formatDateToWrittenDate(String inputDate) {
+  DateTime parsedDate = DateFormat('dd-MM-yyyy').parse(inputDate);
+
+  String formattedDate =
+      DateFormat('dd MMMM yyyy', 'es_ES').format(parsedDate);
+
+  return formattedDate.toUpperCase();
 }
