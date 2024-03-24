@@ -1,4 +1,4 @@
-import 'package:catas_univalle/widgets/view_events/admin_event_card.dart';
+import 'package:catas_univalle/widgets/events/admin_event_card.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:catas_univalle/models/event.dart';
@@ -20,6 +20,17 @@ class AdminEventListView extends StatelessWidget {
           onPressed: () => Navigator.of(context).pop(),
         ),
         foregroundColor: Colors.white,
+        actions: [
+          IconButton(
+            icon: const Icon(
+              Icons.add,
+              color: Colors.white,
+              size: 30,
+            ),
+            onPressed: () =>
+                AdminEventListViewModel().navigateToAddEvent(context),
+          ),
+        ],
       ),
       body: ChangeNotifierProvider<AdminEventListViewModel>(
         create: (context) => AdminEventListViewModel(),
@@ -46,10 +57,6 @@ class AdminEventListView extends StatelessWidget {
             );
           },
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => AdminEventListViewModel().navigateToAddEvent(context),
-        child: const Icon(Icons.add),
       ),
     );
   }

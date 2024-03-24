@@ -26,6 +26,16 @@ class ClientListView extends StatelessWidget {
             Navigator.of(context).pop();
           },
         ),
+        actions: [
+          IconButton(
+            icon: const Icon(
+              Icons.add,
+              color: Colors.white,
+              size: 30,
+            ),
+            onPressed: () => ClientListViewModel().navigateToAddClient(context),
+          ),
+        ],
       ),
       body: ChangeNotifierProvider<ClientListViewModel>(
         create: (context) => ClientListViewModel(),
@@ -43,10 +53,6 @@ class ClientListView extends StatelessWidget {
             );
           },
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => ClientListViewModel().navigateToAddClient(context),
-        child: const Icon(Icons.add),
       ),
     );
   }

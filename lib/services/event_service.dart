@@ -39,7 +39,7 @@ class EventService {
         'logoImgUrl': event.client.logoImgUrl
       },
       'numberOfJudges': event.numberOfJudges,
-      'judgesEmails': event.eventJudges,
+      'eventJudges': event.eventJudges,
     });
   }
 

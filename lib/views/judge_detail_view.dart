@@ -72,7 +72,7 @@ class _JudgeDetailScreenState extends State<JudgeDetailScreen> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            Container(
+            SizedBox(
               width: double.infinity,
               child: Column(
                 children: [

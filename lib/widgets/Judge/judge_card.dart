@@ -50,7 +50,7 @@ class JudgeCard extends StatelessWidget {
                 : CircleAvatar(
                     radius: 30.0,
                     backgroundColor: Theme.of(context).colorScheme.primary,
-                    child: Icon(Icons.person, size: 50, color: Colors.white),
+                    child: const Icon(Icons.person, size: 50, color: Colors.white),
                   ),
             const SizedBox(height: 10),
             Text(
