@@ -1,5 +1,7 @@
 import 'package:catas_univalle/models/event.dart';
+import 'package:catas_univalle/view_models/admin_event_details_viewmodel.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class AdminEventDetailsView extends StatelessWidget {
   final Event event;
@@ -10,7 +12,20 @@ class AdminEventDetailsView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
-      body: Center(child: Text(event.name)),
+      body: Center(
+        child: Column(
+          children: [
+            Text(event.name),
+            ElevatedButton(
+              onPressed: () {
+                Provider.of<AdminEventDetailsViewModel>(context, listen: false)
+                    .navigateToSelectJudges(context, event);
+              },
+              child: const Text('Seleccionar Jueces')
+            )
+          ],
+        )
+      ),
     );
   }
 }

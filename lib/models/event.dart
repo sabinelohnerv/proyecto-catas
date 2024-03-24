@@ -66,4 +66,25 @@ class Event {
       eventJudges: List<EventJudge>.from(snapshot['eventJudges']),
     );
   }
+
+  factory Event.placeholder() {
+    return Event(
+      id: 'placeholder_id',
+      name: 'Placeholder Name',
+      date: '01-01-2000',
+      start: '00:00',
+      end: '00:00',
+      location: 'Placeholder Location',
+      locationUrl: 'http://example.com',
+      about: 'This is a placeholder about text.',
+      imageUrl: 'http://placeholder.com/image.jpg',
+      code: '0000',
+      formUrl: 'http://example.com/form',
+      allergyRestrictions: [],
+      symptomRestrictions: [],
+      client: Client.placeholder(), 
+      numberOfJudges: 0,
+      eventJudges: [], 
+    );
+  }
 }
