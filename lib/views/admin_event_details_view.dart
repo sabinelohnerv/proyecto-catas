@@ -17,6 +17,15 @@ class AdminEventDetailsView extends StatelessWidget {
     return ChangeNotifierProvider<AdminEventDetailsViewModel>(
       create: (_) => AdminEventDetailsViewModel(),
       child: Scaffold(
+        extendBodyBehindAppBar: true,
+        appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          centerTitle: true,
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
+            onPressed: () => Navigator.of(context).pop(),
+          ),
+        ),
         body: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -80,10 +89,12 @@ class AdminEventDetailsView extends StatelessWidget {
                                 color: Theme.of(context).primaryColor),
                             const SizedBox(width: 8),
                             Expanded(
-                                child: Text(event.location.toUpperCase(),
-                                    style: const TextStyle(
-                                        fontWeight: FontWeight.w600,
-                                        fontSize: 16))),
+                              child: Text(
+                                event.location.toUpperCase(),
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.w600, fontSize: 16),
+                              ),
+                            ),
                           ],
                         ),
                       ),
@@ -114,16 +125,18 @@ class AdminEventDetailsView extends StatelessWidget {
                         padding: const EdgeInsets.symmetric(vertical: 5.0),
                         child: Text(event.about),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 20),
-                        child: FilledButton(
-                          onPressed: () {
-                            Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) =>
-                                  SelectJudgesView(event: event),
-                            ));
-                          },
-                          child: const Text('SELECCIONAR JUECES'),
+                      Center(
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 20),
+                          child: FilledButton(
+                            onPressed: () {
+                              Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) =>
+                                    SelectJudgesView(event: event),
+                              ));
+                            },
+                            child: const Text('SELECCIONAR JUECES'),
+                          ),
                         ),
                       ),
                     ],
