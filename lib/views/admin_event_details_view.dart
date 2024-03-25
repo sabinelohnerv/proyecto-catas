@@ -63,7 +63,7 @@ class AdminEventDetailsView extends StatelessWidget {
                         ),
                       ),
                       Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 20.0),
+                        padding: const EdgeInsets.symmetric(vertical: 10.0),
                         child: Row(
                           children: [
                             Icon(Icons.calendar_today,

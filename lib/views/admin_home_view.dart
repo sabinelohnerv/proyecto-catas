@@ -29,7 +29,12 @@ class AdminHomeView extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Inicio'),
+        title: const Text(
+          'FoodSense',
+          style: TextStyle(fontWeight: FontWeight.w700, fontSize: 32),
+        ),
+        foregroundColor: Theme.of(context).colorScheme.primary,
+        centerTitle: true,
         actions: [
           IconButton(
             icon: const Icon(Icons.logout),
@@ -42,14 +47,18 @@ class AdminHomeView extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
-              height: 200,
+              height: 280,
               width: double.infinity,
-              margin: const EdgeInsets.all(20),
+              clipBehavior: Clip.antiAlias,
+              margin: const EdgeInsets.all(24),
               decoration: BoxDecoration(
                 color: Colors.grey.shade300,
                 borderRadius: BorderRadius.circular(12),
               ),
-              child: const Center(child: Text("Placeholder")),
+              child: Image.network(
+                'https://firebasestorage.googleapis.com/v0/b/catas-univalle.appspot.com/o/event_images%2Fcookies_cata.jpg?alt=media&token=574d2978-3240-4425-b3f2-c42a64b089c2',
+                fit: BoxFit.cover,
+              ),
             ),
             Container(
               color: Theme.of(context).primaryColor,
@@ -68,8 +77,8 @@ class AdminHomeView extends StatelessWidget {
               child: Center(
                 child: Wrap(
                   alignment: WrapAlignment.spaceEvenly,
-                  spacing: 20,
-                  runSpacing: 20,
+                  spacing: 25,
+                  runSpacing: 25,
                   children: [
                     SimpleSectionCard(
                       img: 'food',
