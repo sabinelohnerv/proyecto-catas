@@ -67,7 +67,7 @@ class _JudgeListViewState extends State<JudgeListView> {
         ),
         actions: [
           IconButton(
-            icon: const Icon(Icons.filter_list, color: Colors.white),
+            icon: const Icon(Icons.tune, color: Colors.white),
             onPressed: _showFilterDialog,
           ),
         ],
