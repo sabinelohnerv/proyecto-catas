@@ -1,5 +1,5 @@
 import 'package:catas_univalle/models/event.dart';
-import 'package:catas_univalle/views/select_judges_view.dart';
+import 'package:catas_univalle/views/selected_judges_view.dart';
 import 'package:flutter/material.dart';
 
 class AdminEventDetailsViewModel extends ChangeNotifier {
@@ -12,11 +12,11 @@ class AdminEventDetailsViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  void navigateToSelectJudges(BuildContext context, Event event) {
+  void navigateToSelectedJudges(BuildContext context, Event event) {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => SelectJudgesView(
+        builder: (context) => SelectedJudgesView(
           event: event,
         ),
       ),

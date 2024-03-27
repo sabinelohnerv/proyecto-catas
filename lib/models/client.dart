@@ -6,18 +6,29 @@ class Client {
   String logoImgUrl;
   String email;
 
-  Client(
-      {required this.id,
-      required this.name,
-      required this.logoImgUrl,
-      required this.email});
+  Client({
+    required this.id,
+    required this.name,
+    required this.logoImgUrl,
+    required this.email,
+  });
 
   factory Client.fromSnapshot(DocumentSnapshot snapshot) {
+    Map<String, dynamic> data = snapshot.data() as Map<String, dynamic>;
     return Client(
       id: snapshot.id,
-      name: snapshot['name'],
-      logoImgUrl: snapshot['logoImgUrl'],
-      email: snapshot['email'],
+      name: data['name'],
+      logoImgUrl: data['logoImgUrl'],
+      email: data['email'],
+    );
+  }
+
+  factory Client.fromMap(Map<String, dynamic> map) {
+    return Client(
+      id: map['id'],
+      name: map['name'],
+      logoImgUrl: map['logoImgUrl'],
+      email: map['email'],
     );
   }
 

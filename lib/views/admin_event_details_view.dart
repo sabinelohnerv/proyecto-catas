@@ -129,12 +129,7 @@ class AdminEventDetailsView extends StatelessWidget {
                         child: Padding(
                           padding: const EdgeInsets.symmetric(vertical: 20),
                           child: FilledButton(
-                            onPressed: () {
-                              Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) =>
-                                    SelectJudgesView(event: event),
-                              ));
-                            },
+                            onPressed: () => AdminEventDetailsViewModel().navigateToSelectedJudges(context, event),
                             child: const Text('SELECCIONAR JUECES'),
                           ),
                         ),

@@ -39,31 +39,28 @@ class Event {
       required this.eventJudges});
 
   factory Event.fromSnapshot(DocumentSnapshot snapshot) {
-    if (snapshot == null) {
-      throw Exception('Document snapshot was null for event ${snapshot.id}');
-    }
+    Map<String, dynamic> data = snapshot.data() as Map<String, dynamic>;
+
     return Event(
       id: snapshot.id,
-      name: snapshot['name'],
-      date: snapshot['date'],
-      start: snapshot['start'],
-      end: snapshot['end'],
-      location: snapshot['location'],
-      locationUrl: snapshot['locationUrl'],
-      about: snapshot['about'],
-      imageUrl: snapshot['imageUrl'],
-      code: snapshot['code'],
-      formUrl: snapshot['formUrl'],
-      allergyRestrictions: List<String>.from(snapshot['allergyRestrictions']),
-      symptomRestrictions: List<String>.from(snapshot['symptomRestrictions']),
-      client: Client(
-        id: snapshot['client']['id'],
-        name: snapshot['client']['name'],
-        logoImgUrl: snapshot['client']['logoImgUrl'],
-        email: snapshot['client']['email'],
-      ),
-      numberOfJudges: snapshot['numberOfJudges'],
-      eventJudges: List<EventJudge>.from(snapshot['eventJudges']),
+      name: data['name'],
+      date: data['date'],
+      start: data['start'],
+      end: data['end'],
+      location: data['location'],
+      locationUrl: data['locationUrl'],
+      about: data['about'],
+      imageUrl: data['imageUrl'],
+      code: data['code'],
+      formUrl: data['formUrl'],
+      allergyRestrictions: List<String>.from(data['allergyRestrictions']),
+      symptomRestrictions: List<String>.from(data['symptomRestrictions']),
+      client: Client.fromMap(data['client'] as Map<String, dynamic>),
+      numberOfJudges: data['numberOfJudges'],
+      eventJudges: (data['eventJudges'] as List<dynamic>?)
+              ?.map((e) => EventJudge.fromMap(e as Map<String, dynamic>))
+              .toList() ??
+          [],
     );
   }
 
@@ -82,9 +79,9 @@ class Event {
       formUrl: 'http://example.com/form',
       allergyRestrictions: [],
       symptomRestrictions: [],
-      client: Client.placeholder(), 
+      client: Client.placeholder(),
       numberOfJudges: 0,
-      eventJudges: [], 
+      eventJudges: [],
     );
   }
 }
