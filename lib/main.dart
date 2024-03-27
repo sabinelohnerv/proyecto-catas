@@ -40,7 +40,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => ClientListViewModel()),
         ChangeNotifierProvider(create: (context) => AddEventViewModel()),
         ChangeNotifierProvider(create: (context) => AdminEventListViewModel()),
-        ChangeNotifierProvider(create: (context) => SelectJudgesViewModel(Event.placeholder())),
+        ChangeNotifierProvider(create: (context) => SelectJudgesViewModel('eventId')),
         ChangeNotifierProvider(create: (context) => AdminEventDetailsViewModel()),
         ChangeNotifierProvider(create: (context) => SelectedJudgesViewModel(Event.placeholder()))
       ],
