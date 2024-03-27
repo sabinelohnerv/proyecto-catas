@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:catas_univalle/models/event.dart';
+import 'package:catas_univalle/models/event_judge.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:path/path.dart' as Path;
@@ -46,6 +47,34 @@ class EventService {
   Stream<List<Event>> eventsStream() {
     return _db.collection('events').snapshots().map((snapshot) {
       return snapshot.docs.map((doc) => Event.fromSnapshot(doc)).toList();
+    });
+  }
+
+  Future<void> addOrUpdateSelectedJudges(
+      String eventId, List<EventJudge> selectedJudges) async {
+    List<Map<String, dynamic>> judgesMap = selectedJudges
+        .map((j) => {
+              'id': j.id,
+              'name': j.name,
+              'email': j.email,
+              'state': j.state,
+              'imgUrl': j.imgUrl,
+            })
+        .toList();
+
+    await _db.collection('events').doc(eventId).update({
+      'eventJudges': judgesMap,
+    });
+  }
+
+  Stream<List<EventJudge>> getSelectedJudgesStream(String eventId) {
+    return FirebaseFirestore.instance
+        .collection('events')
+        .doc(eventId)
+        .snapshots()
+        .map((snapshot) {
+      var judgesList = snapshot['eventJudges'] as List;
+      return judgesList.map((j) => EventJudge.fromMap(j)).toList();
     });
   }
 }
