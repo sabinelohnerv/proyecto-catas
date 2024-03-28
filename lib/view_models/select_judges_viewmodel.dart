@@ -5,14 +5,17 @@ import 'package:catas_univalle/models/event.dart';
 import 'package:catas_univalle/models/event_judge.dart';
 import 'package:catas_univalle/models/judge.dart';
 import 'package:catas_univalle/services/judge_service.dart';
+import 'package:catas_univalle/widgets/select_judges/judge_detail_card.dart';
 import 'package:flutter/material.dart';
 
 class SelectJudgesViewModel with ChangeNotifier {
   final JudgeService _judgeService = JudgeService();
   final EventService _eventService = EventService();
 
-  final Event event;
+  Event? _event;
+  Event? get event => _event;
 
+  String _eventId;
   List<Judge> _judges = [];
   List<Judge> get judges => _judges;
 
@@ -24,8 +27,8 @@ class SelectJudgesViewModel with ChangeNotifier {
   List<EventJudge> _selectedJudges = [];
   List<EventJudge> get selectedJudges => _selectedJudges;
 
-  SelectJudgesViewModel(this.event) {
-    fetchJudges();
+  SelectJudgesViewModel(this._eventId) {
+    initialize();
   }
 
   @override
@@ -38,37 +41,52 @@ class SelectJudgesViewModel with ChangeNotifier {
   void resetData() {
     _judges.clear();
     _selectedJudges.clear();
+    notifyListeners();
+  }
+
+  Future<void> initialize() async {
+    try {
+      _event = await _eventService.fetchEventById(_eventId).first;
+      if (_event != null) {
+        await fetchJudges();
+      }
+    } catch (e) {
+      return;
+    }
+    notifyListeners();
   }
 
   Future<void> fetchJudges() async {
+    if (_event == null) return;
+
     List<Judge> allJudges = await _judgeService.getJudges();
 
     List<Judge> approvedJudges = allJudges
         .where((judge) => judge.applicationState == 'aprobado')
         .toList();
 
-    List<Judge> filteredByAllergies = event.allergyRestrictions
-            .contains('Ninguna')
-        ? approvedJudges
-        : approvedJudges
-            .where((judge) => !judge.allergies
-                .any((allergy) => event.allergyRestrictions.contains(allergy)))
-            .toList();
+    List<Judge> filteredByAllergies =
+        _event!.allergyRestrictions.contains('Ninguna')
+            ? approvedJudges
+            : approvedJudges
+                .where((judge) => !judge.allergies.any(
+                    (allergy) => _event!.allergyRestrictions.contains(allergy)))
+                .toList();
 
-    List<Judge> filteredJudges = event.symptomRestrictions.contains('Ninguno')
+    List<Judge> filteredJudges = _event!.symptomRestrictions.contains('Ninguno')
         ? filteredByAllergies
         : filteredByAllergies
-            .where((judge) => !judge.symptoms
-                .any((symptom) => event.symptomRestrictions.contains(symptom)))
+            .where((judge) => !judge.symptoms.any(
+                (symptom) => _event!.symptomRestrictions.contains(symptom)))
             .toList();
 
     _judges = filteredJudges;
 
     _selectedJudges.clear();
     for (var judge in _judges) {
-      if (event.eventJudges.any((eJudge) => eJudge.id == judge.id)) {
+      if (_event!.eventJudges.any((eJudge) => eJudge.id == judge.id)) {
         _selectedJudges.add(
-            event.eventJudges.firstWhere((eJudge) => eJudge.id == judge.id));
+            _event!.eventJudges.firstWhere((eJudge) => eJudge.id == judge.id));
       }
     }
 
@@ -80,7 +98,7 @@ class SelectJudgesViewModel with ChangeNotifier {
   void toggleJudgeSelection(
       Judge judge, bool isSelected, BuildContext context) {
     if (isSelected) {
-      if (_selectedJudges.length < event.numberOfJudges) {
+      if (_selectedJudges.length < _event!.numberOfJudges) {
         _selectedJudges.add(
           EventJudge(
               id: judge.id,
@@ -119,8 +137,11 @@ class SelectJudgesViewModel with ChangeNotifier {
   }
 
   Future<void> saveSelectedJudges() async {
+    if (_event == null) return;
+
     try {
-      await _eventService.addOrUpdateSelectedJudges(event.id, _selectedJudges);
+      await _eventService.addOrUpdateSelectedJudges(
+          _event!.id, _selectedJudges);
     } catch (e) {
       print('Error saving selected judges: $e');
     }
@@ -129,26 +150,9 @@ class SelectJudgesViewModel with ChangeNotifier {
   void showJudgeDetails(BuildContext context, Judge judge) {
     showDialog(
       context: context,
-      builder: (context) {
-        return AlertDialog(
-          title: Text(judge.fullName),
-          content: SingleChildScrollView(
-            child: ListBody(
-              children: <Widget>[
-                Text('Email: ${judge.email}'),
-              ],
-            ),
-          ),
-          actions: <Widget>[
-            TextButton(
-              child: const Text('OK'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
-      },
+      builder: (context) => Dialog(
+        child: JudgeDetailCard(judge: judge),
+      ),
     );
   }
 }

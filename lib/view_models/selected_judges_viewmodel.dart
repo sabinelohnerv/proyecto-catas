@@ -24,7 +24,7 @@ class SelectedJudgesViewModel extends ChangeNotifier {
       context,
       MaterialPageRoute(
         builder: (context) => SelectJudgesView(
-          event: event,
+          eventId: event.id,
         ),
       ),
     );

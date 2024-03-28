@@ -50,6 +50,16 @@ class EventService {
     });
   }
 
+  Stream<Event> fetchEventById(String eventId) {
+    return _db.collection('events').doc(eventId).snapshots().map((snapshot) {
+      if (snapshot.exists) {
+        return Event.fromSnapshot(snapshot);
+      } else {
+        throw Exception("No se encontró el evento.");
+      }
+    });
+  }
+
   Future<void> addOrUpdateSelectedJudges(
       String eventId, List<EventJudge> selectedJudges) async {
     List<Map<String, dynamic>> judgesMap = selectedJudges
