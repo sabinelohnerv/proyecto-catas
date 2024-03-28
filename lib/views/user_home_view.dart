@@ -1,4 +1,5 @@
 import 'package:catas_univalle/view_models/profile_viewmodel.dart';
+import 'package:catas_univalle/views/judge_selected_events_view.dart';
 import 'package:catas_univalle/views/login_view.dart';
 import 'package:catas_univalle/views/profile_view.dart';
 import 'package:flutter/material.dart';
@@ -7,14 +8,16 @@ import 'package:provider/provider.dart';
 import '../widgets/profile/profile_card.dart';
 
 class UserHomeView extends StatelessWidget {
-  const UserHomeView({super.key});
+  const UserHomeView({Key? key}) : super(key: key);
 
   void _handleSignOut(BuildContext context) async {
     final ProfileViewModel viewModel = ProfileViewModel();
     bool signedOut = await viewModel.signOut();
-    Navigator.of(context).pushReplacement(
-      MaterialPageRoute(builder: (context) => const LoginView()),
-    );
+    if (signedOut) {
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (context) => const LoginView()),
+      );
+    }
   }
 
   @override
@@ -67,8 +70,8 @@ class UserHomeView extends StatelessWidget {
                 ),
               ),
             ),
-            const Padding(
-              padding: EdgeInsets.all(20),
+            Padding( // Se ha eliminado el const aquí para permitir la actualización dinámica.
+              padding: const EdgeInsets.all(20),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
@@ -76,13 +79,22 @@ class UserHomeView extends StatelessWidget {
                     img: 'food',
                     title: 'Catas',
                     subtitle: 'Ver más',
-                    isClickable: false,
+                    isClickable: true,
+                    onTap: () {
+                      final String judgeId = userViewModel.currentUser!.uid;
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => JudgeSelectedEventsView(judgeId: judgeId),
+                        ),
+                      );
+                    },
                   ),
                   SimpleSectionCard(
                     img: 'cocinero',
                     title: 'Perfil',
                     subtitle: 'Ver perfil',
-                    destinationScreen: ProfileView(),
+                    destinationScreen: const ProfileView(),
                   ),
                 ],
               ),
