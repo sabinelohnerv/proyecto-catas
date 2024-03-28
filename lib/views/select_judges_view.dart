@@ -18,11 +18,21 @@ class SelectJudgesView extends StatelessWidget {
       },
       child: Scaffold(
         appBar: AppBar(
-          title: const Text(
-            'Seleccionar Jueces',
-            style: TextStyle(color: Colors.white),
+          title: Consumer<SelectJudgesViewModel>(
+            builder: (context, viewModel, child) {
+              int selectedCount = viewModel.selectedJudges.length;
+              int totalCount = viewModel.event?.numberOfJudges ?? 0;
+              return Column(
+                children: [
+                  const Text('Seleccionar Jueces', style: TextStyle(fontSize: 22),),
+                  const SizedBox(height: 2,),
+                  Text('$selectedCount de $totalCount jueces seleccionados', style: const TextStyle(fontSize: 14),),
+                ],
+              );
+            },
           ),
           backgroundColor: Theme.of(context).primaryColor,
+          foregroundColor: Colors.white,
           centerTitle: true,
           leading: IconButton(
             icon: const Icon(
@@ -58,7 +68,8 @@ class SelectJudgesView extends StatelessWidget {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 36),
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 16, horizontal: 36),
                   child: ElevatedButton(
                     onPressed: () {
                       viewModel.saveSelectedJudges();
