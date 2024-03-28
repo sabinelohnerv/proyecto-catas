@@ -1,6 +1,7 @@
 import 'package:catas_univalle/models/event.dart';
 import 'package:catas_univalle/services/event_service.dart';
 import 'package:catas_univalle/view_models/selected_judges_viewmodel.dart';
+import 'package:catas_univalle/widgets/select_judges/selected_judge_card.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:catas_univalle/models/event_judge.dart';
@@ -57,8 +58,8 @@ class SelectedJudgesView extends StatelessWidget {
                   itemCount: snapshot.data!.length,
                   itemBuilder: (context, index) {
                     EventJudge judge = snapshot.data![index];
-                    return ListTile(
-                      title: Text(judge.email),
+                    return SelectedJudgeCard(
+                      judge: judge,
                     );
                   },
                 );
