@@ -1,16 +1,50 @@
+import 'package:catas_univalle/widgets/event_details/page_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:catas_univalle/models/event.dart';
 import 'package:catas_univalle/view_models/admin_event_details_viewmodel.dart';
-import 'package:catas_univalle/views/select_judges_view.dart';
-
 import '../functions/util.dart';
+import '../widgets/event_details/event_about.dart';
+import '../widgets/event_details/event_details.dart';
+import '../widgets/event_details/event_header.dart';
+import '../widgets/event_details/event_judge.dart';
+import '../widgets/event_details/event_restrictions.dart';
+import '../widgets/event_details/judges_section.dart';
 
-class AdminEventDetailsView extends StatelessWidget {
+class AdminEventDetailsView extends StatefulWidget {
   final Event event;
 
   const AdminEventDetailsView({Key? key, required this.event})
       : super(key: key);
+
+  @override
+  State<AdminEventDetailsView> createState() => _AdminEventDetailsViewState();
+}
+
+class _AdminEventDetailsViewState extends State<AdminEventDetailsView> {
+  final PageController _pageController = PageController();
+  int _currentPage = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    _pageController.addListener(_updatePageIndex);
+  }
+
+  @override
+  void dispose() {
+    _pageController.removeListener(_updatePageIndex);
+    _pageController.dispose();
+    super.dispose();
+  }
+
+  void _updatePageIndex() {
+    if (_pageController.page!.round() != _currentPage) {
+      setState(() {
+        _currentPage = _pageController.page!.round();
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,112 +64,63 @@ class AdminEventDetailsView extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              ClipRRect(
-                borderRadius: const BorderRadius.only(
-                  bottomLeft: Radius.circular(25.0),
-                  bottomRight: Radius.circular(25.0),
-                ),
-                child: Image.network(
-                  event.imageUrl,
-                  width: double.infinity,
-                  height: 300,
-                  fit: BoxFit.cover,
-                  errorBuilder: (context, error, stackTrace) => Container(
-                    color: Colors.grey,
-                    height: 275,
-                    width: double.infinity,
-                    child: const Icon(Icons.error, color: Colors.red),
+              EventImage(imageUrl: widget.event.imageUrl),
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 20.0, vertical: 5.0),
+                child: Text(
+                  widget.event.name,
+                  style: const TextStyle(
+                    fontSize: 32,
+                    fontWeight: FontWeight.w800,
                   ),
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.all(15.0),
-                child: Padding(
-                  padding: const EdgeInsets.all(20.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        event.name,
-                        style: const TextStyle(
-                          fontSize: 40,
-                          fontWeight: FontWeight.w700,
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 10.0),
-                        child: Row(
+                padding: const EdgeInsets.all(20.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    EventDetail(
+                        icon: Icons.calendar_today,
+                        text: formatDateToWrittenDate(widget.event.date)),
+                    EventDetail(
+                        icon: Icons.timer_sharp,
+                        text: '${widget.event.start} - ${widget.event.end}'),
+                    EventDetail(
+                        icon: Icons.location_on, text: widget.event.location),
+                    EventDetail(
+                        icon: Icons.business, text: widget.event.client.name),
+                    SizedBox(
+                      height: 250,
+                      child: PageView(
+                          controller: _pageController,
                           children: [
-                            Icon(Icons.calendar_today,
-                                color: Theme.of(context).primaryColor),
-                            const SizedBox(width: 8),
-                            Text(formatDateToWrittenDate(event.date),
-                                style: const TextStyle(
-                                    fontWeight: FontWeight.w600, fontSize: 16)),
-                            const SizedBox(width: 10),
-                            Text('${event.start} - ${event.end}',
-                                style: TextStyle(
-                                    color: Theme.of(context).primaryColor,
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 16)),
-                          ],
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 10.0),
-                        child: Row(
-                          children: [
-                            Icon(Icons.location_on,
-                                color: Theme.of(context).primaryColor),
-                            const SizedBox(width: 8),
-                            Expanded(
-                              child: Text(
-                                event.location.toUpperCase(),
-                                style: const TextStyle(
-                                    fontWeight: FontWeight.w600, fontSize: 16),
-                              ),
+                            AboutSection(about: widget.event.about),
+                            RestrictionsSection(
+                              title: 'ALERGIAS',
+                              restrictions: widget.event.allergyRestrictions,
+                            ),
+                            RestrictionsSection(
+                              title: 'SINTOMAS',
+                              restrictions: widget.event.symptomRestrictions,
                             ),
                           ],
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 10.0),
-                        child: Row(
-                          children: [
-                            Icon(Icons.business_sharp,
-                                color: Theme.of(context).primaryColor),
-                            const SizedBox(width: 8),
-                            Text(event.client.name.toUpperCase(),
-                                style: const TextStyle(
-                                    fontWeight: FontWeight.w600, fontSize: 16)),
-                          ],
-                        ),
-                      ),
-                      const Padding(
-                        padding: EdgeInsets.symmetric(vertical: 20.0),
-                        child: Text(
-                          "ACERCA",
-                          style: TextStyle(
-                            fontSize: 24,
-                            fontWeight: FontWeight.w700,
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 5.0),
-                        child: Text(event.about),
-                      ),
-                      Center(
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 20),
-                          child: FilledButton(
-                            onPressed: () => AdminEventDetailsViewModel().navigateToSelectedJudges(context, event),
-                            child: const Text('SELECCIONAR JUECES'),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
+                          onPageChanged: (int page) {
+                            setState(() {
+                              _currentPage = page;
+                            });
+                          }),
+                    ),
+                    PageIndicator(
+                      controller: _pageController,
+                      itemCount: 3,
+                    ),
+                    SelectJudgesButton(
+                      onPressed: () => AdminEventDetailsViewModel()
+                          .navigateToSelectedJudges(context, widget.event),
+                    ),
+                  ],
                 ),
               ),
             ],
