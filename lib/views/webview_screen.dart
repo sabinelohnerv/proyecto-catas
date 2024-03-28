@@ -8,8 +8,18 @@ class WebViewScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+
     return Scaffold(
-      appBar: AppBar(title: const Text('Cuestionario')),
+      appBar: AppBar(
+        title: const Text(
+          'Cuestionario',
+          style: TextStyle(color: Colors.white), 
+        ),
+        backgroundColor: colorScheme.primary, 
+        iconTheme: IconThemeData(color: Colors.white),
+        actionsIconTheme: IconThemeData(color: Colors.white),
+      ),
       body: WebViewWidget(url: formUrl),
     );
   }

@@ -1,6 +1,6 @@
-import 'package:catas_univalle/views/webview_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
+import 'package:catas_univalle/views/webview_screen.dart';
 
 class EventFormView extends StatelessWidget {
   final String formUrl;
@@ -8,9 +8,17 @@ class EventFormView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Cuestionario del Evento'),
+        title: const Text(
+          'Información del Evento',
+          style: TextStyle(color: Colors.white),
+        ),
+        backgroundColor: colorScheme.primary,
+        iconTheme: IconThemeData(color: Colors.white),
+        actionsIconTheme: IconThemeData(color: Colors.white), 
       ),
       body: Center(
         child: ElevatedButton(
@@ -21,7 +29,12 @@ class EventFormView extends StatelessWidget {
               ),
             );
           },
-          child: const Text('Iniciar Cuestionario'),
+          child: const Text(
+            'Iniciar Cuestionario',
+            style: TextStyle(color: Color.fromARGB(255, 0, 0, 0)),
+          ),
+          style: ElevatedButton.styleFrom(
+          ),
         ),
       ),
     );
