@@ -87,4 +87,23 @@ class EventService {
       return judgesList.map((j) => EventJudge.fromMap(j)).toList();
     });
   }
+
+  Future<List<Event>> fetchEventsForJudge(String judgeId) async {
+    List<Event> eventsForJudge = [];
+    try {
+      var eventsSnapshot = await _db.collection('events').get();
+
+      for (var doc in eventsSnapshot.docs) {
+        var event = Event.fromSnapshot(doc);
+        bool isJudgeSelected = event.eventJudges.any((judge) => judge.id == judgeId);
+        if (isJudgeSelected) {
+          eventsForJudge.add(event);
+        }
+      }
+      return eventsForJudge;
+    } catch (e) {
+      print("Error fetching events for judge: $e");
+      return [];
+    }
+  }
 }
