@@ -5,6 +5,7 @@ import 'package:catas_univalle/models/event.dart';
 import 'package:catas_univalle/models/event_judge.dart';
 import 'package:catas_univalle/models/judge.dart';
 import 'package:catas_univalle/services/judge_service.dart';
+import 'package:catas_univalle/widgets/select_judges/judge_detail_card.dart';
 import 'package:flutter/material.dart';
 
 class SelectJudgesViewModel with ChangeNotifier {
@@ -149,26 +150,9 @@ class SelectJudgesViewModel with ChangeNotifier {
   void showJudgeDetails(BuildContext context, Judge judge) {
     showDialog(
       context: context,
-      builder: (context) {
-        return AlertDialog(
-          title: Text(judge.fullName),
-          content: SingleChildScrollView(
-            child: ListBody(
-              children: <Widget>[
-                Text('Email: ${judge.email}'),
-              ],
-            ),
-          ),
-          actions: <Widget>[
-            TextButton(
-              child: const Text('OK'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
-      },
+      builder: (context) => Dialog(
+        child: JudgeDetailCard(judge: judge),
+      ),
     );
   }
 }

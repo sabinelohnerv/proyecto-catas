@@ -13,8 +13,8 @@ class SelectJudgesView extends StatelessWidget {
     return ChangeNotifierProvider<SelectJudgesViewModel>(
       create: (_) {
         var viewModel = SelectJudgesViewModel(eventId);
-        viewModel.initialize(); 
-        return viewModel; 
+        viewModel.initialize();
+        return viewModel;
       },
       child: Scaffold(
         appBar: AppBar(
@@ -30,7 +30,8 @@ class SelectJudgesView extends StatelessWidget {
               color: Colors.white,
             ),
             onPressed: () {
-              context.read<SelectJudgesViewModel>().resetData();
+              Provider.of<SelectJudgesViewModel>(context, listen: false)
+                  .resetData();
               Navigator.of(context).pop();
             },
           ),
@@ -57,7 +58,7 @@ class SelectJudgesView extends StatelessWidget {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.all(16.0),
+                  padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 36),
                   child: ElevatedButton(
                     onPressed: () {
                       viewModel.saveSelectedJudges();
@@ -65,7 +66,9 @@ class SelectJudgesView extends StatelessWidget {
                       Navigator.of(context).pop();
                     },
                     style: ElevatedButton.styleFrom(
-                      minimumSize: const Size.fromHeight(50),
+                      backgroundColor: Theme.of(context).primaryColor,
+                      foregroundColor: Colors.white,
+                      minimumSize: const Size.fromHeight(42.5),
                     ),
                     child: const Text('Guardar'),
                   ),
