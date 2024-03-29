@@ -47,8 +47,13 @@ class ClientListView extends StatelessWidget {
             return ListView.builder(
               itemCount: viewModel.clients.length,
               itemBuilder: (context, index) {
-                Client client = viewModel.clients[index];
-                return ClientCard(client: client);
+                final client = viewModel.clients[index];
+                return ClientCard(
+                  client: client,
+                  onDelete: () {
+                    viewModel.deleteClient(client.id);
+                  },
+                );
               },
             );
           },

@@ -5,16 +5,48 @@ class ClientCard extends StatelessWidget {
   const ClientCard({
     super.key,
     required this.client,
+    required this.onDelete,
   });
 
   final Client client;
+  final VoidCallback onDelete;
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () {
-        // TODO: Implement onTap functionality if needed
+    return Dismissible(
+      key: Key(client.id),
+      direction: DismissDirection.endToStart,
+      confirmDismiss: (direction) async {
+        return await showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: const Text("Confirmar eliminación"),
+              content: Text(
+                  "¿Estás seguro de querer eliminar al cliente: ${client.name.toUpperCase()}?"),
+              actions: <Widget>[
+                TextButton(
+                  onPressed: () => Navigator.of(context).pop(true),
+                  child: const Text("Eliminar"),
+                ),
+                TextButton(
+                  onPressed: () => Navigator.of(context).pop(false),
+                  child: const Text("Cancelar"),
+                ),
+              ],
+            );
+          },
+        );
       },
+      onDismissed: (direction) {
+        onDelete();
+      },
+      background: Container(
+        color: Colors.red,
+        alignment: Alignment.centerRight,
+        padding: const EdgeInsets.symmetric(horizontal: 20),
+        child: const Icon(Icons.delete, color: Colors.white),
+      ),
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 6),
         decoration: BoxDecoration(
@@ -32,7 +64,9 @@ class ClientCard extends StatelessWidget {
                         fit: BoxFit.cover,
                       )
                     : null,
-                color: client.logoImgUrl.isNotEmpty ? Colors.transparent : Colors.white,
+                color: client.logoImgUrl.isNotEmpty
+                    ? Colors.transparent
+                    : Colors.white,
                 borderRadius: BorderRadius.circular(4),
               ),
               child: client.logoImgUrl.isEmpty
@@ -48,7 +82,8 @@ class ClientCard extends StatelessWidget {
                   children: [
                     Text(
                       client.name,
-                      style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                      style: const TextStyle(
+                          fontSize: 18, fontWeight: FontWeight.bold),
                       overflow: TextOverflow.ellipsis,
                     ),
                     const SizedBox(height: 5),
