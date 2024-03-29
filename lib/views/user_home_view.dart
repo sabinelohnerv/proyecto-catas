@@ -1,10 +1,10 @@
 import 'package:catas_univalle/view_models/profile_viewmodel.dart';
+import 'package:catas_univalle/views/invitations_view.dart';
 import 'package:catas_univalle/views/judge_selected_events_view.dart';
 import 'package:catas_univalle/views/login_view.dart';
 import 'package:catas_univalle/views/profile_view.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
 import '../widgets/profile/profile_card.dart';
 
 class UserHomeView extends StatelessWidget {
@@ -70,10 +70,12 @@ class UserHomeView extends StatelessWidget {
                 ),
               ),
             ),
-            Padding( // Se ha eliminado el const aquí para permitir la actualización dinámica.
+            Padding(
               padding: const EdgeInsets.all(20),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
+              child: Wrap(
+                spacing: 20, // Espacio horizontal entre las tarjetas
+                runSpacing: 20, // Espacio vertical entre las tarjetas
+                alignment: WrapAlignment.spaceAround, // Alineación de las tarjetas
                 children: [
                   SimpleSectionCard(
                     img: 'food',
@@ -90,11 +92,18 @@ class UserHomeView extends StatelessWidget {
                       );
                     },
                   ),
+                  
                   SimpleSectionCard(
                     img: 'cocinero',
                     title: 'Perfil',
                     subtitle: 'Ver perfil',
                     destinationScreen: const ProfileView(),
+                  ),
+                  SimpleSectionCard(
+                    img: 'invitacion',
+                    title: 'Invitaciones',
+                    subtitle: 'Ver Más',
+                    destinationScreen: const InvitationsView(),
                   ),
                 ],
               ),
