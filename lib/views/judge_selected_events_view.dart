@@ -3,7 +3,6 @@ import 'package:catas_univalle/views/event_form_view.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:catas_univalle/models/event.dart';
-import 'package:catas_univalle/services/event_service.dart';
 
 class JudgeSelectedEventsView extends StatelessWidget {
   final String judgeId;

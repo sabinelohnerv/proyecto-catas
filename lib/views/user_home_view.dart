@@ -8,7 +8,7 @@ import 'package:provider/provider.dart';
 import '../widgets/profile/profile_card.dart';
 
 class UserHomeView extends StatelessWidget {
-  const UserHomeView({Key? key}) : super(key: key);
+  const UserHomeView({super.key});
 
   void _handleSignOut(BuildContext context) async {
     final ProfileViewModel viewModel = ProfileViewModel();
@@ -90,11 +90,11 @@ class UserHomeView extends StatelessWidget {
                       );
                     },
                   ),
-                  SimpleSectionCard(
+                  const SimpleSectionCard(
                     img: 'cocinero',
                     title: 'Perfil',
                     subtitle: 'Ver perfil',
-                    destinationScreen: const ProfileView(),
+                    destinationScreen: ProfileView(),
                   ),
                 ],
               ),

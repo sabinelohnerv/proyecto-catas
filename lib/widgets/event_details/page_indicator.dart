@@ -5,10 +5,10 @@ class PageIndicator extends StatefulWidget {
   final int itemCount;
 
   const PageIndicator({
-    Key? key,
+    super.key,
     required this.controller,
     required this.itemCount,
-  }) : super(key: key);
+  });
 
   @override
   // ignore: library_private_types_in_public_api

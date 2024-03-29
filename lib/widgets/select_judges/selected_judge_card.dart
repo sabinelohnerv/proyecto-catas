@@ -1,5 +1,4 @@
 import 'package:catas_univalle/models/event_judge.dart';
-import 'package:catas_univalle/view_models/select_judges_viewmodel.dart';
 import 'package:flutter/material.dart';
 
 class SelectedJudgeCard extends StatelessWidget {

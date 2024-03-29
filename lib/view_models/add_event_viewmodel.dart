@@ -2,7 +2,6 @@ import 'dart:io';
 import 'package:catas_univalle/functions/util.dart';
 import 'package:catas_univalle/models/client.dart';
 import 'package:catas_univalle/services/client_service.dart';
-import 'package:flutter/foundation.dart';
 import 'package:catas_univalle/models/event.dart';
 import 'package:catas_univalle/services/event_service.dart';
 import 'package:flutter/material.dart';

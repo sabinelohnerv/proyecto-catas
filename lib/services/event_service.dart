@@ -77,6 +77,10 @@ class EventService {
     });
   }
 
+  Future<void> deleteEvent(String eventId) async {
+    await _db.collection('events').doc(eventId).delete();
+  }
+
   Stream<List<EventJudge>> getSelectedJudgesStream(String eventId) {
     return FirebaseFirestore.instance
         .collection('events')

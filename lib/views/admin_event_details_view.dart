@@ -9,7 +9,6 @@ import '../widgets/event_details/event_details.dart';
 import '../widgets/event_details/event_header.dart';
 import '../widgets/event_details/event_judge.dart';
 import '../widgets/event_details/event_restrictions.dart';
-import '../widgets/event_details/judges_section.dart';
 
 class AdminEventDetailsView extends StatefulWidget {
   final Event event;
