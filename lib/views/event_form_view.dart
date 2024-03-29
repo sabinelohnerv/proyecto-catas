@@ -4,7 +4,7 @@ import 'package:catas_univalle/views/webview_screen.dart';
 
 class EventFormView extends StatelessWidget {
   final String formUrl;
-  const EventFormView({Key? key, required this.formUrl}) : super(key: key);
+  const EventFormView({super.key, required this.formUrl});
 
   @override
   Widget build(BuildContext context) {
@@ -17,8 +17,8 @@ class EventFormView extends StatelessWidget {
           style: TextStyle(color: Colors.white),
         ),
         backgroundColor: colorScheme.primary,
-        iconTheme: IconThemeData(color: Colors.white),
-        actionsIconTheme: IconThemeData(color: Colors.white), 
+        iconTheme: const IconThemeData(color: Colors.white),
+        actionsIconTheme: const IconThemeData(color: Colors.white), 
       ),
       body: Center(
         child: ElevatedButton(

@@ -5,10 +5,10 @@ class RestrictionsSection extends StatelessWidget {
   final String title;
 
   const RestrictionsSection({
-    Key? key,
+    super.key,
     required this.restrictions,
     required this.title,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

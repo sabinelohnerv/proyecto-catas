@@ -7,8 +7,7 @@ import 'package:catas_univalle/services/event_service.dart';
 
 class JudgeSelectedEventsView extends StatelessWidget {
   final String judgeId;
-  const JudgeSelectedEventsView({Key? key, required this.judgeId})
-      : super(key: key);
+  const JudgeSelectedEventsView({super.key, required this.judgeId});
 
   @override
   Widget build(BuildContext context) {
@@ -16,15 +15,15 @@ class JudgeSelectedEventsView extends StatelessWidget {
       create: (context) => JudgeEventsViewModel(judgeId),
       child: Scaffold(
         appBar: AppBar(
-          title: Text('Eventos Seleccionados'),
+          title: const Text('Eventos Seleccionados'),
         ),
         body: Consumer<JudgeEventsViewModel>(
           builder: (context, viewModel, child) {
             if (viewModel.isLoading) {
-              return Center(child: CircularProgressIndicator());
+              return const Center(child: CircularProgressIndicator());
             }
             if (viewModel.events.isEmpty) {
-              return Center(child: Text('No hay eventos seleccionados.'));
+              return const Center(child: Text('No hay eventos seleccionados.'));
             }
             return ListView.builder(
               itemCount: viewModel.events.length,

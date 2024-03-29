@@ -14,8 +14,7 @@ import '../widgets/event_details/judges_section.dart';
 class AdminEventDetailsView extends StatefulWidget {
   final Event event;
 
-  const AdminEventDetailsView({Key? key, required this.event})
-      : super(key: key);
+  const AdminEventDetailsView({super.key, required this.event});
 
   @override
   State<AdminEventDetailsView> createState() => _AdminEventDetailsViewState();
