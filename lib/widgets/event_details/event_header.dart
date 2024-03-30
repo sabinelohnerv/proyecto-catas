@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class EventImage extends StatelessWidget {
   final String imageUrl;
 
-  const EventImage({Key? key, required this.imageUrl}) : super(key: key);
+  const EventImage({super.key, required this.imageUrl});
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +15,7 @@ class EventImage extends StatelessWidget {
       child: Image.network(
         imageUrl,
         width: double.infinity,
-        height: 300,
+        height: 265,
         fit: BoxFit.cover,
         errorBuilder: (context, error, stackTrace) => Container(
           color: Colors.grey,

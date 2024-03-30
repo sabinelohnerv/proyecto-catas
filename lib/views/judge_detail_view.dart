@@ -6,7 +6,7 @@ import '../view_models/judge_viewmodel.dart';
 class JudgeDetailScreen extends StatefulWidget {
   final Judge judge;
 
-  const JudgeDetailScreen({Key? key, required this.judge}) : super(key: key);
+  const JudgeDetailScreen({super.key, required this.judge});
 
   @override
   _JudgeDetailScreenState createState() => _JudgeDetailScreenState();

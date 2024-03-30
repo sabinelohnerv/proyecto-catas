@@ -1,4 +1,3 @@
-import 'package:catas_univalle/models/client.dart';
 import 'package:catas_univalle/view_models/client_list_viewmodel.dart';
 import 'package:catas_univalle/widgets/clients/client_card.dart';
 import 'package:flutter/material.dart';

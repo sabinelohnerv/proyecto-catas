@@ -8,7 +8,7 @@ import 'package:provider/provider.dart';
 import '../widgets/profile/profile_card.dart';
 
 class UserHomeView extends StatelessWidget {
-  const UserHomeView({Key? key}) : super(key: key);
+  const UserHomeView({super.key});
 
   void _handleSignOut(BuildContext context) async {
     final ProfileViewModel viewModel = ProfileViewModel();
@@ -54,7 +54,7 @@ class UserHomeView extends StatelessWidget {
                 borderRadius: BorderRadius.circular(12),
               ),
               child: Image.network(
-                'https://firebasestorage.googleapis.com/v0/b/catas-univalle.appspot.com/o/event_images%2Fcookies_cata.jpg?alt=media&token=574d2978-3240-4425-b3f2-c42a64b089c2',
+                'https://firebasestorage.googleapis.com/v0/b/catas-univalle.appspot.com/o/event_images%2Fcookies_cata.jpg?alt=media&token=95a975a3-b448-4fc5-8bce-28c1e49922e2',
                 fit: BoxFit.cover,
               ),
             ),
@@ -75,7 +75,8 @@ class UserHomeView extends StatelessWidget {
               child: Wrap(
                 spacing: 20, // Espacio horizontal entre las tarjetas
                 runSpacing: 20, // Espacio vertical entre las tarjetas
-                alignment: WrapAlignment.spaceAround, // Alineación de las tarjetas
+                alignment:
+                    WrapAlignment.spaceAround, // Alineación de las tarjetas
                 children: [
                   SimpleSectionCard(
                     img: 'food',
@@ -87,23 +88,23 @@ class UserHomeView extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => JudgeSelectedEventsView(judgeId: judgeId),
+                          builder: (context) =>
+                              JudgeSelectedEventsView(judgeId: judgeId),
                         ),
                       );
                     },
                   ),
-                  
-                  SimpleSectionCard(
+                  const SimpleSectionCard(
                     img: 'cocinero',
                     title: 'Perfil',
                     subtitle: 'Ver perfil',
-                    destinationScreen: const ProfileView(),
+                    destinationScreen: ProfileView(),
                   ),
-                  SimpleSectionCard(
+                  const SimpleSectionCard(
                     img: 'invitacion',
                     title: 'Invitaciones',
                     subtitle: 'Ver Más',
-                    destinationScreen: const InvitationsView(),
+                    destinationScreen: InvitationsView(),
                   ),
                 ],
               ),

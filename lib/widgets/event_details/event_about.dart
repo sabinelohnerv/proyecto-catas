@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class AboutSection extends StatelessWidget {
   final String about;
 
-  const AboutSection({Key? key, required this.about}) : super(key: key);
+  const AboutSection({super.key, required this.about});
 
   @override
   Widget build(BuildContext context) {

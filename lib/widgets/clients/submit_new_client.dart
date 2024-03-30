@@ -27,7 +27,7 @@ class SubmitNewClient extends StatelessWidget {
           _formKey.currentState!.save();
     
           if (_logo != null) {
-            viewModel.addClient(viewModel.name, viewModel.email, _logo!);
+            viewModel.addClient(viewModel.name, viewModel.email, _logo);
             ScaffoldMessenger.of(context).showSnackBar(
               const SnackBar(
                 content: Text('Cliente añadido correctamente.'),

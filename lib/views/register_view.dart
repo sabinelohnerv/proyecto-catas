@@ -14,7 +14,7 @@ import 'package:catas_univalle/widgets/register/custom_textfield.dart';
 import 'package:catas_univalle/functions/util.dart';
 
 class RegisterView extends StatefulWidget {
-  const RegisterView({Key? key}) : super(key: key);
+  const RegisterView({super.key});
 
   @override
   State<RegisterView> createState() => _RegisterViewState();

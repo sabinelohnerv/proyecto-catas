@@ -4,8 +4,7 @@ class EventDetail extends StatelessWidget {
   final IconData icon;
   final String text;
 
-  const EventDetail({Key? key, required this.icon, required this.text})
-      : super(key: key);
+  const EventDetail({super.key, required this.icon, required this.text});
 
   @override
   Widget build(BuildContext context) {

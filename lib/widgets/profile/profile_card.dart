@@ -12,7 +12,7 @@ class SimpleSectionCard extends StatelessWidget {
   final double fontSize;
 
   const SimpleSectionCard({
-    Key? key,
+    super.key,
     required this.img,
     required this.title,
     required this.subtitle,
@@ -22,7 +22,7 @@ class SimpleSectionCard extends StatelessWidget {
     this.width = 150,
     this.height = 150,
     this.fontSize = 14,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

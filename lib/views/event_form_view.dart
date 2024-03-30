@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:webview_flutter/webview_flutter.dart';
 import 'package:catas_univalle/views/webview_screen.dart';
 
 class EventFormView extends StatelessWidget {
@@ -29,11 +28,11 @@ class EventFormView extends StatelessWidget {
               ),
             );
           },
+          style: ElevatedButton.styleFrom(
+          ),
           child: const Text(
             'Iniciar Cuestionario',
             style: TextStyle(color: Color.fromARGB(255, 0, 0, 0)),
-          ),
-          style: ElevatedButton.styleFrom(
           ),
         ),
       ),

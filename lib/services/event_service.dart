@@ -77,6 +77,16 @@ class EventService {
     });
   }
 
+  Future<bool> deleteEvent(String eventId) async {
+    try {
+      await _db.collection('events').doc(eventId).delete();
+      return true;
+    } catch (e) {
+      print("Failed to delete event: $e");
+      return false;
+    }
+  }
+
   Stream<List<EventJudge>> getSelectedJudgesStream(String eventId) {
     return FirebaseFirestore.instance
         .collection('events')
@@ -95,7 +105,8 @@ class EventService {
 
       for (var doc in eventsSnapshot.docs) {
         var event = Event.fromSnapshot(doc);
-        bool isJudgeSelected = event.eventJudges.any((judge) => judge.id == judgeId);
+        bool isJudgeSelected =
+            event.eventJudges.any((judge) => judge.id == judgeId);
         if (isJudgeSelected) {
           eventsForJudge.add(event);
         }

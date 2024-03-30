@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:catas_univalle/view_models/login_viewmodel.dart';
 import 'package:catas_univalle/views/admin_home_view.dart';
 import 'package:catas_univalle/views/login_view.dart';
