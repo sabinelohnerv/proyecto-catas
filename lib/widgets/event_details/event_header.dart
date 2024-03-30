@@ -15,7 +15,7 @@ class EventImage extends StatelessWidget {
       child: Image.network(
         imageUrl,
         width: double.infinity,
-        height: 300,
+        height: 265,
         fit: BoxFit.cover,
         errorBuilder: (context, error, stackTrace) => Container(
           color: Colors.grey,

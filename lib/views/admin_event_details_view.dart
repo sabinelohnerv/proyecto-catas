@@ -1,3 +1,4 @@
+import 'package:catas_univalle/widgets/event_details/event_actions.dart';
 import 'package:catas_univalle/widgets/event_details/page_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -118,6 +119,7 @@ class _AdminEventDetailsViewState extends State<AdminEventDetailsView> {
                       onPressed: () => AdminEventDetailsViewModel()
                           .navigateToSelectedJudges(context, widget.event),
                     ),
+                    EventActionButtons(eventId: widget.event.id),
                   ],
                 ),
               ),
