@@ -1,10 +1,10 @@
 import 'dart:io';
+import 'package:catas_univalle/widgets/register/custom_editfield.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:catas_univalle/models/client.dart';
 import 'package:catas_univalle/view_models/edit_client_viewmodel.dart';
-import 'package:catas_univalle/widgets/register/custom_textfield.dart';
 
 class EditClientView extends StatefulWidget {
   final Client client;
@@ -66,14 +66,14 @@ class _EditClientViewState extends State<EditClientView> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              CustomTextFormField(
+              CustomEditFormField(
                 initialValue: viewModel.name,
                 labelText: "Nombre del Cliente",
                 onSaved: (value) => viewModel.name = value ?? "",
                 validator: (value) =>
                     value!.isEmpty ? 'Este campo es obligatorio.' : null,
               ),
-              CustomTextFormField(
+              CustomEditFormField(
                 initialValue: viewModel.email,
                 labelText: "Email",
                 onSaved: (value) => viewModel.email = value ?? "",
