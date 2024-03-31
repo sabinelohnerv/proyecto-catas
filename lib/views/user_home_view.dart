@@ -75,39 +75,42 @@ class UserHomeView extends StatelessWidget {
             ),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
-              child: Wrap(
-                spacing: 20,
-                runSpacing: 20,
-                alignment: WrapAlignment.center,
-                children: [
-                  SimpleSectionCard(
-                    img: 'food',
-                    title: 'Catas',
-                    subtitle: 'Ver más',
-                    isClickable: true,
-                    onTap: () {
-                      final String judgeId = userViewModel.currentUser!.uid;
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => JudgeSelectedEventsView(judgeId: judgeId),
-                        ),
-                      );
-                    },
-                  ),
-                  const SimpleSectionCard(
-                    img: 'cocinero',
-                    title: 'Perfil',
-                    subtitle: 'Ver perfil',
-                    destinationScreen: ProfileView(),
-                  ),
-                  const SimpleSectionCard(
-                    img: 'invitacion',
-                    title: 'Invitaciones',
-                    subtitle: 'Ver Más',
-                    destinationScreen: InvitationsView(),
-                  ),
-                ],
+              child: Center(
+                child: Wrap(
+                  spacing: 20,
+                  runSpacing: 20,
+                  alignment: WrapAlignment.center,
+                  children: [
+                    SimpleSectionCard(
+                      img: 'food',
+                      title: 'Catas',
+                      subtitle: 'Ver más',
+                      isClickable: true,
+                      onTap: () {
+                        final String judgeId = userViewModel.currentUser!.uid;
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                JudgeSelectedEventsView(judgeId: judgeId),
+                          ),
+                        );
+                      },
+                    ),
+                    const SimpleSectionCard(
+                      img: 'cocinero',
+                      title: 'Perfil',
+                      subtitle: 'Ver perfil',
+                      destinationScreen: ProfileView(),
+                    ),
+                    const SimpleSectionCard(
+                      img: 'invitacion',
+                      title: 'Invitaciones',
+                      subtitle: 'Ver Más',
+                      destinationScreen: InvitationsView(),
+                    ),
+                  ],
+                ),
               ),
             ),
           ],
