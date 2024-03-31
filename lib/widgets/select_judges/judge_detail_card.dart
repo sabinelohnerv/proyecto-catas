@@ -4,7 +4,7 @@ import 'package:catas_univalle/models/judge.dart';
 class JudgeDetailCard extends StatelessWidget {
   final Judge judge;
 
-  const JudgeDetailCard({Key? key, required this.judge}) : super(key: key);
+  const JudgeDetailCard({super.key, required this.judge});
 
   @override
   Widget build(BuildContext context) {

@@ -26,6 +26,25 @@ class ClientService {
     });
   }
 
+  Future<void> updateClient(Client client) async {
+    await _db.collection('clients').doc(client.id).update({
+      'name': client.name,
+      'logoImgUrl': client.logoImgUrl,
+      'email': client.email,
+    });
+  }
+
+  Future<void> updateClientLogo(File newLogo, String clientId) async {
+    String newLogoUrl = await uploadClientLogo(newLogo, clientId);
+    await _db.collection('clients').doc(clientId).update({
+      'logoImgUrl': newLogoUrl,
+    });
+  }
+
+  Future<void> deleteClient(String clientId) async {
+    await _db.collection('clients').doc(clientId).delete();
+  }
+
   Stream<List<Client>> clientsStream() {
     return _db.collection('clients').snapshots().map((snapshot) {
       return snapshot.docs.map((doc) => Client.fromSnapshot(doc)).toList();

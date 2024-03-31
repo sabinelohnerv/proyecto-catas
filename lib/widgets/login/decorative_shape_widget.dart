@@ -6,11 +6,11 @@ class DecorativeShapeWidget extends StatelessWidget {
   final Color color;
   final Color shadowColor;
   const DecorativeShapeWidget({
-    Key? key,
+    super.key,
     this.size = 200,
     required this.color,
     required this.shadowColor,
-  }) : super(key: key);
+  });
   @override
   Widget build(BuildContext context) {
     return CustomPaint(

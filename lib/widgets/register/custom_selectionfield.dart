@@ -6,11 +6,11 @@ class CustomSelectionField extends StatelessWidget {
   final VoidCallback onTap;
 
   const CustomSelectionField({
-    Key? key,
+    super.key,
     required this.labelText,
     required this.controller,
     required this.onTap,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

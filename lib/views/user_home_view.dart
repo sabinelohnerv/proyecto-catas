@@ -1,9 +1,10 @@
 import 'package:catas_univalle/view_models/profile_viewmodel.dart';
+import 'package:catas_univalle/views/invitations_view.dart';
+import 'package:catas_univalle/views/judge_selected_events_view.dart';
 import 'package:catas_univalle/views/login_view.dart';
 import 'package:catas_univalle/views/profile_view.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
 import '../widgets/profile/profile_card.dart';
 
 class UserHomeView extends StatelessWidget {
@@ -12,9 +13,11 @@ class UserHomeView extends StatelessWidget {
   void _handleSignOut(BuildContext context) async {
     final ProfileViewModel viewModel = ProfileViewModel();
     bool signedOut = await viewModel.signOut();
-    Navigator.of(context).pushReplacement(
-      MaterialPageRoute(builder: (context) => const LoginView()),
-    );
+    if (signedOut) {
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (context) => const LoginView()),
+      );
+    }
   }
 
   @override
@@ -51,7 +54,7 @@ class UserHomeView extends StatelessWidget {
                 borderRadius: BorderRadius.circular(12),
               ),
               child: Image.network(
-                'https://firebasestorage.googleapis.com/v0/b/catas-univalle.appspot.com/o/event_images%2Fcookies_cata.jpg?alt=media&token=574d2978-3240-4425-b3f2-c42a64b089c2',
+                'https://firebasestorage.googleapis.com/v0/b/catas-univalle.appspot.com/o/event_images%2Fcookies_cata.jpg?alt=media&token=95a975a3-b448-4fc5-8bce-28c1e49922e2',
                 fit: BoxFit.cover,
               ),
             ),
@@ -67,22 +70,41 @@ class UserHomeView extends StatelessWidget {
                 ),
               ),
             ),
-            const Padding(
-              padding: EdgeInsets.all(20),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
+            Padding(
+              padding: const EdgeInsets.all(20),
+              child: Wrap(
+                spacing: 20, // Espacio horizontal entre las tarjetas
+                runSpacing: 20, // Espacio vertical entre las tarjetas
+                alignment:
+                    WrapAlignment.spaceAround, // Alineación de las tarjetas
                 children: [
                   SimpleSectionCard(
                     img: 'food',
                     title: 'Catas',
                     subtitle: 'Ver más',
-                    isClickable: false,
+                    isClickable: true,
+                    onTap: () {
+                      final String judgeId = userViewModel.currentUser!.uid;
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              JudgeSelectedEventsView(judgeId: judgeId),
+                        ),
+                      );
+                    },
                   ),
-                  SimpleSectionCard(
+                  const SimpleSectionCard(
                     img: 'cocinero',
                     title: 'Perfil',
                     subtitle: 'Ver perfil',
                     destinationScreen: ProfileView(),
+                  ),
+                  const SimpleSectionCard(
+                    img: 'invitacion',
+                    title: 'Invitaciones',
+                    subtitle: 'Ver Más',
+                    destinationScreen: InvitationsView(),
                   ),
                 ],
               ),

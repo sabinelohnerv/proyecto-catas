@@ -6,7 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class InitialScreenDecider extends StatefulWidget {
-  const InitialScreenDecider({Key? key}) : super(key: key);
+  const InitialScreenDecider({super.key});
 
   @override
   State<StatefulWidget> createState() {

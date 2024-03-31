@@ -1,3 +1,4 @@
+import 'package:catas_univalle/widgets/event_details/event_actions.dart';
 import 'package:catas_univalle/widgets/event_details/page_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -9,13 +10,11 @@ import '../widgets/event_details/event_details.dart';
 import '../widgets/event_details/event_header.dart';
 import '../widgets/event_details/event_judge.dart';
 import '../widgets/event_details/event_restrictions.dart';
-import '../widgets/event_details/judges_section.dart';
 
 class AdminEventDetailsView extends StatefulWidget {
   final Event event;
 
-  const AdminEventDetailsView({Key? key, required this.event})
-      : super(key: key);
+  const AdminEventDetailsView({super.key, required this.event});
 
   @override
   State<AdminEventDetailsView> createState() => _AdminEventDetailsViewState();
@@ -120,6 +119,7 @@ class _AdminEventDetailsViewState extends State<AdminEventDetailsView> {
                       onPressed: () => AdminEventDetailsViewModel()
                           .navigateToSelectedJudges(context, widget.event),
                     ),
+                    EventActionButtons(eventId: widget.event.id),
                   ],
                 ),
               ),

@@ -6,9 +6,9 @@ class JudgesSection extends StatelessWidget {
   final List<EventJudge> judges;
 
   const JudgesSection({
-    Key? key,
+    super.key,
     required this.judges,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

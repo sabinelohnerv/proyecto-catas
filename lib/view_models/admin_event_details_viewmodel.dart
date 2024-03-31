@@ -1,8 +1,10 @@
 import 'package:catas_univalle/models/event.dart';
+import 'package:catas_univalle/services/event_service.dart';
 import 'package:catas_univalle/views/selected_judges_view.dart';
 import 'package:flutter/material.dart';
 
 class AdminEventDetailsViewModel extends ChangeNotifier {
+  EventService _eventService = EventService();
   Event? _event;
 
   Event? get event => _event;
@@ -21,5 +23,15 @@ class AdminEventDetailsViewModel extends ChangeNotifier {
         ),
       ),
     );
+  }
+
+  Future<bool> deleteCurrentEvent(BuildContext context, String eventId) async {
+    try {
+      await _eventService.deleteEvent(eventId);
+      return true;
+    } catch (e) {
+      print("Error deleting event: $e");
+      return false;
+    }
   }
 }
