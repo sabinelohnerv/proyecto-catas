@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:catas_univalle/services/event_service.dart';
 import 'package:catas_univalle/models/event.dart';
+import 'package:catas_univalle/models/event_judge.dart';
+import 'package:catas_univalle/services/event_service.dart';
 
 class JudgeEventsViewModel extends ChangeNotifier {
   final String judgeId;
@@ -8,7 +9,7 @@ class JudgeEventsViewModel extends ChangeNotifier {
   List<Event> _events = [];
   bool _isLoading = false;
 
-  List<Event> get events => _events;
+  List<Event> get events => _events.where((event) => event.eventJudges.any((judge) => judge.id == judgeId && judge.state == 'accepted')).toList();
   bool get isLoading => _isLoading;
 
   JudgeEventsViewModel(this.judgeId) {
@@ -18,7 +19,8 @@ class JudgeEventsViewModel extends ChangeNotifier {
   Future<void> _loadEventsForJudge() async {
     _isLoading = true;
     notifyListeners();
-    _events = await _eventService.fetchEventsForJudge(judgeId);
+    List<Event> allEvents = await _eventService.fetchEventsForJudge(judgeId);
+    _events = allEvents.where((event) => event.eventJudges.any((judge) => judge.id == judgeId && judge.state == 'accepted')).toList();
     _isLoading = false;
     notifyListeners();
   }
