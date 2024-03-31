@@ -1,5 +1,6 @@
 import 'package:catas_univalle/view_models/judge_events_viewmodel.dart';
-import 'package:catas_univalle/views/event_form_view.dart';
+import 'package:catas_univalle/views/admin_event_details_view.dart';
+import 'package:catas_univalle/views/event_form_view.dart'; // Borrar
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:catas_univalle/models/event.dart';
@@ -34,8 +35,10 @@ class JudgeSelectedEventsView extends StatelessWidget {
                   onTap: () {
                     Navigator.of(context).push(
                       MaterialPageRoute(
-                        builder: (context) =>
-                            EventFormView(formUrl: event.formUrl),
+                        builder: (context) => AdminEventDetailsView(
+                          event: event,
+                          isAdmin: false,
+                        ),
                       ),
                     );
                   },

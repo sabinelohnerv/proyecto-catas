@@ -13,9 +13,7 @@ import 'firebase_options.dart';
 import 'package:provider/provider.dart';
 import 'package:catas_univalle/view_models/register_viewmodel.dart';
 import 'package:catas_univalle/view_models/judge_viewmodel.dart';
-import 'package:intl/intl.dart';
 import 'package:intl/date_symbol_data_local.dart';
-
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -40,9 +38,12 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => ClientListViewModel()),
         ChangeNotifierProvider(create: (context) => AddEventViewModel()),
         ChangeNotifierProvider(create: (context) => AdminEventListViewModel()),
-        ChangeNotifierProvider(create: (context) => SelectJudgesViewModel('eventId')),
-        ChangeNotifierProvider(create: (context) => AdminEventDetailsViewModel()),
-        ChangeNotifierProvider(create: (context) => SelectedJudgesViewModel(Event.placeholder()))
+        ChangeNotifierProvider(
+            create: (context) => SelectJudgesViewModel('eventId')),
+        ChangeNotifierProvider(
+            create: (context) => AdminEventDetailsViewModel()),
+        ChangeNotifierProvider(
+            create: (context) => SelectedJudgesViewModel(Event.placeholder()))
       ],
       child: MaterialApp(
         title: 'Catas Univalle',

@@ -76,6 +76,14 @@ class ProfileViewModel extends ChangeNotifier {
     await loadCurrentUser();
   }
 
+  Future<String?> getUserRole() async {
+    String? userId = _authService.getCurrentUserId();
+    if (userId != null) {
+      return await _authService.getUserRole(userId);
+    }
+    return null;
+  }
+
   void navigateToJudgeList(BuildContext context) {
     Navigator.push(
       context,

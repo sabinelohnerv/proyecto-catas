@@ -8,6 +8,10 @@ import 'package:catas_univalle/widgets/profile/profile_card.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../view_models/admin_event_list_viewmodel.dart';
+import '../widgets/events/event_carousel.dart';
+import 'admin_profile_view.dart';
+
 class AdminHomeView extends StatelessWidget {
   const AdminHomeView({super.key});
 
@@ -45,18 +49,19 @@ class AdminHomeView extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Container(
-              height: 280,
-              width: double.infinity,
-              clipBehavior: Clip.antiAlias,
-              margin: const EdgeInsets.all(24),
-              decoration: BoxDecoration(
-                color: Colors.grey.shade300,
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: Image.network(
-                'https://firebasestorage.googleapis.com/v0/b/catas-univalle.appspot.com/o/event_images%2Fcookies_cata.jpg?alt=media&token=95a975a3-b448-4fc5-8bce-28c1e49922e2',
-                fit: BoxFit.cover,
+            ChangeNotifierProvider<AdminEventListViewModel>(
+              create: (_) => AdminEventListViewModel(),
+              child: Consumer<AdminEventListViewModel>(
+                builder: (context, viewModel, child) {
+                  if (viewModel.isLoading) {
+                    return const SizedBox(
+                        height: 350,
+                        child: Center(child: CircularProgressIndicator()));
+                  }
+
+                  return HomeEventsCarousel(
+                      events: viewModel.events, isAdmin: true);
+                },
               ),
             ),
             Container(
@@ -83,13 +88,15 @@ class AdminHomeView extends StatelessWidget {
                       img: 'food',
                       title: 'Catas',
                       subtitle: 'Ver más',
-                      destinationScreen: AdminEventListView(),
+                      destinationScreen: AdminEventListView(
+                        isAdmin: true,
+                      ),
                     ),
                     SimpleSectionCard(
                       img: 'cocinero',
                       title: 'Perfil',
                       subtitle: 'Ver perfil',
-                      destinationScreen: ProfileView(),
+                      destinationScreen: AdminProfileView(),
                     ),
                     SimpleSectionCard(
                       img: 'jueces',

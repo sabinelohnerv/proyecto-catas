@@ -3,9 +3,12 @@ import 'package:catas_univalle/services/event_service.dart';
 import 'package:catas_univalle/views/selected_judges_view.dart';
 import 'package:flutter/material.dart';
 
+import '../views/webview_screen.dart';
+
 class AdminEventDetailsViewModel extends ChangeNotifier {
   EventService _eventService = EventService();
   Event? _event;
+  late String formUrl;
 
   Event? get event => _event;
 
@@ -20,6 +23,17 @@ class AdminEventDetailsViewModel extends ChangeNotifier {
       MaterialPageRoute(
         builder: (context) => SelectedJudgesView(
           event: event,
+        ),
+      ),
+    );
+  }
+
+  void navigateToForm(BuildContext context, String formUrl) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => WebViewScreen(
+          formUrl: formUrl,
         ),
       ),
     );
