@@ -15,6 +15,7 @@ class WebViewScreen extends StatelessWidget {
         title: const Text(
           'Cuestionario',
           style: TextStyle(color: Colors.white),
+          semanticsLabel: 'Formulario',
         ),
         backgroundColor: colorScheme.primary,
         iconTheme: const IconThemeData(color: Colors.white),
