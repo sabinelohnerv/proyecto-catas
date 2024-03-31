@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:catas_univalle/models/event.dart';
 import 'package:catas_univalle/services/event_service.dart';
 import 'package:catas_univalle/view_models/profile_viewmodel.dart';
+import 'package:catas_univalle/views/judge_event_details_view.dart'; 
 
 class InvitationsView extends StatefulWidget {
   const InvitationsView({Key? key}) : super(key: key);
@@ -17,15 +18,17 @@ class _InvitationsViewState extends State<InvitationsView> {
   @override
   void initState() {
     super.initState();
-    final profileViewModel = Provider.of<ProfileViewModel>(context, listen: false);
-    _futureEvents = EventService().fetchEventsForJudge(profileViewModel.currentUser!.uid);
   }
 
   @override
   Widget build(BuildContext context) {
+    final profileViewModel = Provider.of<ProfileViewModel>(context, listen: false);
+    _futureEvents = EventService().fetchEventsForJudge(profileViewModel.currentUser!.uid);
+
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Mis Invitaciones', style: TextStyle(color: Colors.white)),
+        title: const Text('Mis Invitaciones',
+            style: TextStyle(color: Colors.white)),
         backgroundColor: Theme.of(context).colorScheme.primary,
         iconTheme: IconThemeData(color: Colors.white),
       ),
@@ -45,11 +48,19 @@ class _InvitationsViewState extends State<InvitationsView> {
               itemBuilder: (context, index) {
                 final Event event = snapshot.data![index];
                 return ListTile(
-                  leading: event.imageUrl != null ? Image.network(event.imageUrl, width: 50, height: 50) : null,
+                  leading: event.imageUrl != null
+                      ? Image.network(event.imageUrl, width: 50, height: 50)
+                      : null,
                   title: Text(event.name),
                   subtitle: Text(event.date.toString()),
                   onTap: () {
-                    // Todo: crear una pantalla de detalles del evento con los botones de aceptar o rechazar
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => JudgeEventDetailsView(
+                            event: event,
+                            judgeId: profileViewModel.currentUser!.uid),
+                      ),
+                    );
                   },
                 );
               },
