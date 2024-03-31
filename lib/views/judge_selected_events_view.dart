@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:catas_univalle/models/event.dart';
 
+import '../widgets/events/admin_event_card.dart';
+
 class JudgeSelectedEventsView extends StatelessWidget {
   final String judgeId;
   const JudgeSelectedEventsView({super.key, required this.judgeId});
@@ -15,7 +17,16 @@ class JudgeSelectedEventsView extends StatelessWidget {
       create: (context) => JudgeEventsViewModel(judgeId),
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('Eventos Seleccionados'),
+          title: const Text(
+            'Eventos Seleccionados',
+            style: TextStyle(color: Colors.white),
+          ),
+          backgroundColor: Theme.of(context).primaryColor,
+          centerTitle: true,
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
+            onPressed: () => Navigator.of(context).pop(),
+          ),
         ),
         body: Consumer<JudgeEventsViewModel>(
           builder: (context, viewModel, child) {
@@ -29,19 +40,17 @@ class JudgeSelectedEventsView extends StatelessWidget {
               itemCount: viewModel.events.length,
               itemBuilder: (context, index) {
                 Event event = viewModel.events[index];
-                return ListTile(
-                  title: Text(event.name),
-                  subtitle: Text(event.date),
-                  onTap: () {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (context) => AdminEventDetailsView(
-                          event: event,
-                          isAdmin: false,
-                        ),
+                return AdminEventCard(
+                  event: event,
+                  onTap: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => AdminEventDetailsView(
+                        event: event,
+                        isAdmin: false,
                       ),
-                    );
-                  },
+                    ),
+                  ),
                 );
               },
             );

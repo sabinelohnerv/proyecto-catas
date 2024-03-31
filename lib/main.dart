@@ -12,19 +12,9 @@ import 'package:catas_univalle/view_models/admin_event_list_viewmodel.dart';
 import 'package:catas_univalle/view_models/client_list_viewmodel.dart';
 import 'package:catas_univalle/view_models/edit_client_viewmodel.dart';
 import 'package:catas_univalle/view_models/profile_viewmodel.dart';
-import 'package:catas_univalle/view_models/select_judges_viewmodel.dart';
-import 'package:catas_univalle/view_models/selected_judges_viewmodel.dart';
-import 'package:catas_univalle/widgets/initial_screen_decider.dart';
-import 'package:flutter/material.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'firebase_options.dart';
-import 'package:provider/provider.dart';
 import 'package:catas_univalle/view_models/register_viewmodel.dart';
 import 'package:catas_univalle/view_models/judge_viewmodel.dart';
-import 'package:catas_univalle/view_models/profile_viewmodel.dart';
-import 'package:catas_univalle/view_models/register_viewmodel.dart';
 import 'package:catas_univalle/widgets/initial_screen_decider.dart';
-import 'package:intl/intl.dart';
 import 'package:intl/date_symbol_data_local.dart';
 
 void main() async {

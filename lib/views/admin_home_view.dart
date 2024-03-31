@@ -3,7 +3,6 @@ import 'package:catas_univalle/views/admin_event_list_view.dart';
 import 'package:catas_univalle/views/client_list_view.dart';
 import 'package:catas_univalle/views/judge_list_view.dart';
 import 'package:catas_univalle/views/login_view.dart';
-import 'package:catas_univalle/views/profile_view.dart';
 import 'package:catas_univalle/widgets/profile/profile_card.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
