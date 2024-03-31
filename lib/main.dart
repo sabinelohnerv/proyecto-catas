@@ -1,4 +1,11 @@
+import 'package:catas_univalle/view_models/select_judges_viewmodel.dart';
+import 'package:catas_univalle/view_models/selected_judges_viewmodel.dart';
+import 'package:flutter/material.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:provider/provider.dart';
+import 'firebase_options.dart';
 import 'package:catas_univalle/models/event.dart';
+import 'package:catas_univalle/services/event_service.dart';
 import 'package:catas_univalle/view_models/add_event_viewmodel.dart';
 import 'package:catas_univalle/view_models/admin_event_details_viewmodel.dart';
 import 'package:catas_univalle/view_models/admin_event_list_viewmodel.dart';
@@ -14,6 +21,10 @@ import 'firebase_options.dart';
 import 'package:provider/provider.dart';
 import 'package:catas_univalle/view_models/register_viewmodel.dart';
 import 'package:catas_univalle/view_models/judge_viewmodel.dart';
+import 'package:catas_univalle/view_models/profile_viewmodel.dart';
+import 'package:catas_univalle/view_models/register_viewmodel.dart';
+import 'package:catas_univalle/widgets/initial_screen_decider.dart';
+import 'package:intl/intl.dart';
 import 'package:intl/date_symbol_data_local.dart';
 
 void main() async {
@@ -32,8 +43,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (context) => RegisterViewModel()),
-        ChangeNotifierProvider(create: (context) => JudgeViewModel()),
+        ChangeNotifierProvider(create: (_) => RegisterViewModel()),
         ChangeNotifierProvider(create: (_) => JudgeViewModel()),
         ChangeNotifierProvider(create: (context) => ProfileViewModel()),
         ChangeNotifierProvider(create: (context) => ClientListViewModel()),
@@ -45,7 +55,13 @@ class MyApp extends StatelessWidget {
             create: (context) => AdminEventDetailsViewModel()),
         ChangeNotifierProvider(
             create: (context) => SelectedJudgesViewModel(Event.placeholder())),
-        ChangeNotifierProvider(create: (context) => EditClientViewModel())
+        ChangeNotifierProvider(create: (context) => EditClientViewModel()),
+        ChangeNotifierProvider(create: (_) => ProfileViewModel()),
+        ChangeNotifierProvider(create: (_) => ClientListViewModel()),
+        ChangeNotifierProvider(create: (_) => AddEventViewModel()),
+        ChangeNotifierProvider(create: (_) => AdminEventListViewModel()),
+        ChangeNotifierProvider(create: (_) => AdminEventDetailsViewModel()),
+        Provider<EventService>(create: (_) => EventService()),
       ],
       child: MaterialApp(
         title: 'Catas Univalle',
