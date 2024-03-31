@@ -12,6 +12,7 @@ class CustomTextFormField extends StatelessWidget {
   final void Function()? onTap;
   final List<TextInputFormatter>? inputFormatters;
   final int maxLines;
+  final String initialValue;
 
   const CustomTextFormField({
     super.key,
@@ -25,6 +26,7 @@ class CustomTextFormField extends StatelessWidget {
     this.maxLines = 1,
     this.onTap,
     this.inputFormatters,
+    this.initialValue = '',
   });
 
   @override
@@ -44,6 +46,7 @@ class CustomTextFormField extends StatelessWidget {
         onTap: onTap,
         inputFormatters: inputFormatters,
         maxLines: maxLines,
+        initialValue: initialValue,
       ),
     );
   }

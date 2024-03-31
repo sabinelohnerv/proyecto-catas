@@ -3,6 +3,7 @@ import 'package:catas_univalle/view_models/add_event_viewmodel.dart';
 import 'package:catas_univalle/view_models/admin_event_details_viewmodel.dart';
 import 'package:catas_univalle/view_models/admin_event_list_viewmodel.dart';
 import 'package:catas_univalle/view_models/client_list_viewmodel.dart';
+import 'package:catas_univalle/view_models/edit_client_viewmodel.dart';
 import 'package:catas_univalle/view_models/profile_viewmodel.dart';
 import 'package:catas_univalle/view_models/select_judges_viewmodel.dart';
 import 'package:catas_univalle/view_models/selected_judges_viewmodel.dart';
@@ -42,7 +43,8 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => AdminEventListViewModel()),
         ChangeNotifierProvider(create: (context) => SelectJudgesViewModel('eventId')),
         ChangeNotifierProvider(create: (context) => AdminEventDetailsViewModel()),
-        ChangeNotifierProvider(create: (context) => SelectedJudgesViewModel(Event.placeholder()))
+        ChangeNotifierProvider(create: (context) => SelectedJudgesViewModel(Event.placeholder())),
+        ChangeNotifierProvider(create: (context) => EditClientViewModel())
       ],
       child: MaterialApp(
         title: 'Catas Univalle',

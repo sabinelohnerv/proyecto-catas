@@ -7,6 +7,7 @@ import 'package:catas_univalle/models/judge.dart';
 import 'package:catas_univalle/services/judge_service.dart';
 import 'package:catas_univalle/widgets/select_judges/judge_detail_card.dart';
 import 'package:flutter/material.dart';
+import 'package:collection/collection.dart';
 
 class SelectJudgesViewModel with ChangeNotifier {
   final JudgeService _judgeService = JudgeService();
@@ -99,14 +100,25 @@ class SelectJudgesViewModel with ChangeNotifier {
       Judge judge, bool isSelected, BuildContext context) {
     if (isSelected) {
       if (_selectedJudges.length < _event!.numberOfJudges) {
-        _selectedJudges.add(
-          EventJudge(
-              id: judge.id,
-              email: judge.email,
-              state: 'selected',
-              imgUrl: judge.profileImgUrl,
-              name: judge.fullName),
+        final existingJudge = _event!.eventJudges.firstWhereOrNull(
+          (eJudge) => eJudge.id == judge.id && eJudge.state == 'invited',
         );
+
+        if (existingJudge != null) {
+          if (!_selectedJudges.any((eJudge) => eJudge.id == judge.id)) {
+            _selectedJudges.add(existingJudge);
+          }
+        } else {
+          _selectedJudges.add(
+            EventJudge(
+                id: judge.id,
+                email: judge.email,
+                state: 'selected',
+                imgUrl: judge.profileImgUrl,
+                name: judge.fullName),
+          );
+        }
+
         _selectedJudgesController.sink.add(_selectedJudges);
       } else {
         _showMaxJudgesSelectedMessage(context);

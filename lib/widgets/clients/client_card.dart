@@ -1,3 +1,4 @@
+import 'package:catas_univalle/views/edit_client_view.dart';
 import 'package:flutter/material.dart';
 import 'package:catas_univalle/models/client.dart';
 
@@ -99,7 +100,12 @@ class ClientCard extends StatelessWidget {
             IconButton(
               icon: const Icon(Icons.edit, color: Colors.grey),
               onPressed: () {
-                // TODO: Implement edit client functionality
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => EditClientView(client: client,),
+                  ),
+                );
               },
             ),
           ],
