@@ -7,14 +7,20 @@ import 'package:catas_univalle/view_models/admin_event_details_viewmodel.dart';
 import '../functions/util.dart';
 import '../widgets/event_details/event_about.dart';
 import '../widgets/event_details/event_details.dart';
+import '../widgets/event_details/event_form_button.dart';
 import '../widgets/event_details/event_header.dart';
 import '../widgets/event_details/event_judge.dart';
 import '../widgets/event_details/event_restrictions.dart';
 
 class AdminEventDetailsView extends StatefulWidget {
   final Event event;
+  final bool isAdmin;
 
-  const AdminEventDetailsView({super.key, required this.event});
+  const AdminEventDetailsView({
+    super.key,
+    required this.event,
+    required this.isAdmin,
+  });
 
   @override
   State<AdminEventDetailsView> createState() => _AdminEventDetailsViewState();
@@ -115,11 +121,21 @@ class _AdminEventDetailsViewState extends State<AdminEventDetailsView> {
                       controller: _pageController,
                       itemCount: 3,
                     ),
-                    SelectJudgesButton(
-                      onPressed: () => AdminEventDetailsViewModel()
-                          .navigateToSelectedJudges(context, widget.event),
-                    ),
-                    EventActionButtons(eventId: widget.event.id),
+                    widget.isAdmin
+                        ? Column(
+                            children: [
+                              SelectJudgesButton(
+                                onPressed: () => AdminEventDetailsViewModel()
+                                    .navigateToSelectedJudges(
+                                        context, widget.event),
+                              ),
+                              EventActionButtons(eventId: widget.event.id),
+                            ],
+                          )
+                        : TakeFormButton(
+                            onPressed: () => AdminEventDetailsViewModel()
+                                .navigateToForm(context, widget.event.formUrl),
+                          ),
                   ],
                 ),
               ),

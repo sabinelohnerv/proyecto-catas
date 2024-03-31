@@ -5,6 +5,8 @@ import 'package:catas_univalle/views/login_view.dart';
 import 'package:catas_univalle/views/profile_view.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../view_models/admin_event_list_viewmodel.dart';
+import '../widgets/events/event_carousel.dart';
 import '../widgets/profile/profile_card.dart';
 
 class UserHomeView extends StatelessWidget {
@@ -44,18 +46,19 @@ class UserHomeView extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Container(
-              height: 280,
-              width: double.infinity,
-              margin: const EdgeInsets.all(24),
-              clipBehavior: Clip.antiAlias,
-              decoration: BoxDecoration(
-                color: Colors.grey.shade300,
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: Image.network(
-                'https://firebasestorage.googleapis.com/v0/b/catas-univalle.appspot.com/o/event_images%2Fcookies_cata.jpg?alt=media&token=95a975a3-b448-4fc5-8bce-28c1e49922e2',
-                fit: BoxFit.cover,
+            ChangeNotifierProvider<AdminEventListViewModel>(
+              create: (_) => AdminEventListViewModel(),
+              child: Consumer<AdminEventListViewModel>(
+                builder: (context, viewModel, child) {
+                  if (viewModel.isLoading) {
+                    return const SizedBox(
+                        height: 350,
+                        child: Center(child: CircularProgressIndicator()));
+                  }
+
+                  return HomeEventsCarousel(
+                      events: viewModel.events, isAdmin: false);
+                },
               ),
             ),
             Container(
@@ -71,42 +74,43 @@ class UserHomeView extends StatelessWidget {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.all(20),
-              child: Wrap(
-                spacing: 20, // Espacio horizontal entre las tarjetas
-                runSpacing: 20, // Espacio vertical entre las tarjetas
-                alignment:
-                    WrapAlignment.spaceAround, // Alineación de las tarjetas
-                children: [
-                  SimpleSectionCard(
-                    img: 'food',
-                    title: 'Catas',
-                    subtitle: 'Ver más',
-                    isClickable: true,
-                    onTap: () {
-                      final String judgeId = userViewModel.currentUser!.uid;
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) =>
-                              JudgeSelectedEventsView(judgeId: judgeId),
-                        ),
-                      );
-                    },
-                  ),
-                  const SimpleSectionCard(
-                    img: 'cocinero',
-                    title: 'Perfil',
-                    subtitle: 'Ver perfil',
-                    destinationScreen: ProfileView(),
-                  ),
-                  const SimpleSectionCard(
-                    img: 'invitacion',
-                    title: 'Invitaciones',
-                    subtitle: 'Ver Más',
-                    destinationScreen: InvitationsView(),
-                  ),
-                ],
+              padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+              child: Center(
+                child: Wrap(
+                  spacing: 20,
+                  runSpacing: 20,
+                  alignment: WrapAlignment.center,
+                  children: [
+                    SimpleSectionCard(
+                      img: 'food',
+                      title: 'Catas',
+                      subtitle: 'Ver más',
+                      isClickable: true,
+                      onTap: () {
+                        final String judgeId = userViewModel.currentUser!.uid;
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                JudgeSelectedEventsView(judgeId: judgeId),
+                          ),
+                        );
+                      },
+                    ),
+                    const SimpleSectionCard(
+                      img: 'cocinero',
+                      title: 'Perfil',
+                      subtitle: 'Ver perfil',
+                      destinationScreen: ProfileView(),
+                    ),
+                    const SimpleSectionCard(
+                      img: 'invitacion',
+                      title: 'Invitaciones',
+                      subtitle: 'Ver Más',
+                      destinationScreen: InvitationsView(),
+                    ),
+                  ],
+                ),
               ),
             ),
           ],

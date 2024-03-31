@@ -6,7 +6,9 @@ import 'package:catas_univalle/view_models/admin_event_list_viewmodel.dart';
 import 'package:catas_univalle/views/admin_event_details_view.dart';
 
 class AdminEventListView extends StatelessWidget {
-  const AdminEventListView({super.key});
+  final bool isAdmin;
+
+  const AdminEventListView({super.key, required this.isAdmin});
 
   @override
   Widget build(BuildContext context) {
@@ -20,17 +22,19 @@ class AdminEventListView extends StatelessWidget {
           onPressed: () => Navigator.of(context).pop(),
         ),
         foregroundColor: Colors.white,
-        actions: [
-          IconButton(
-            icon: const Icon(
-              Icons.add,
-              color: Colors.white,
-              size: 30,
-            ),
-            onPressed: () =>
-                AdminEventListViewModel().navigateToAddEvent(context),
-          ),
-        ],
+        actions: isAdmin
+            ? [
+                IconButton(
+                  icon: const Icon(
+                    Icons.add,
+                    color: Colors.white,
+                    size: 30,
+                  ),
+                  onPressed: () =>
+                      AdminEventListViewModel().navigateToAddEvent(context),
+                ),
+              ]
+            : [],
       ),
       body: ChangeNotifierProvider<AdminEventListViewModel>(
         create: (context) => AdminEventListViewModel(),
@@ -49,7 +53,10 @@ class AdminEventListView extends StatelessWidget {
                   onTap: () => Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => AdminEventDetailsView(event: event),
+                      builder: (context) => AdminEventDetailsView(
+                        event: event,
+                        isAdmin: isAdmin,
+                      ),
                     ),
                   ),
                 );
