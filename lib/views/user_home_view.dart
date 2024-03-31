@@ -73,10 +73,10 @@ class UserHomeView extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(20),
               child: Wrap(
-                spacing: 20, // Espacio horizontal entre las tarjetas
-                runSpacing: 20, // Espacio vertical entre las tarjetas
+                spacing: 20,
+                runSpacing: 20, 
                 alignment:
-                    WrapAlignment.spaceAround, // Alineación de las tarjetas
+                    WrapAlignment.spaceAround, 
                 children: [
                   SimpleSectionCard(
                     img: 'food',

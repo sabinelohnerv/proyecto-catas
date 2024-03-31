@@ -13,7 +13,7 @@ class WebViewScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          'Cuestionario',
+          'Formulario',
           style: TextStyle(color: Colors.white), 
         ),
         backgroundColor: colorScheme.primary, 
