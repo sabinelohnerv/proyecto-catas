@@ -57,12 +57,22 @@ class _InvitationsViewState extends State<InvitationsView> {
       appBar: AppBar(
         title: const Text('Mis Invitaciones',
             style: TextStyle(color: Colors.white)),
+        centerTitle: true,
         backgroundColor: Theme.of(context).colorScheme.primary,
         iconTheme: const IconThemeData(color: Colors.white),
+        leading: IconButton(
+          icon: const Icon(
+            Icons.arrow_back_ios,
+            color: Colors.white,
+          ),
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+        ),
         actions: <Widget>[
           PopupMenuButton<String>(
             onSelected: _changeFilter,
-            icon: Icon(Icons.tune),
+            icon: const Icon(Icons.tune),
             itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
               const PopupMenuItem<String>(
                 value: 'all',

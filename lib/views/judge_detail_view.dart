@@ -9,7 +9,9 @@ class JudgeDetailScreen extends StatefulWidget {
   const JudgeDetailScreen({super.key, required this.judge});
 
   @override
-  _JudgeDetailScreenState createState() => _JudgeDetailScreenState();
+  State<StatefulWidget> createState() {
+    return _JudgeDetailScreenState();
+  }
 }
 
 class _JudgeDetailScreenState extends State<JudgeDetailScreen> {
