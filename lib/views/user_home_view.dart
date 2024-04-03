@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../view_models/admin_event_list_viewmodel.dart';
 import '../widgets/events/event_carousel.dart';
+import '../widgets/home/drawer.dart';
 import '../widgets/profile/profile_card.dart';
 
 class UserHomeView extends StatelessWidget {
@@ -35,12 +36,12 @@ class UserHomeView extends StatelessWidget {
         ),
         foregroundColor: Theme.of(context).colorScheme.primary,
         centerTitle: true,
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.logout),
-            onPressed: () => _handleSignOut(context),
-          ),
-        ],
+      ),
+      drawer: CustomDrawer(
+        fullName: userViewModel.fullName,
+        email: userViewModel.email,
+        imageUrl: userViewModel.imageUrl,
+        onSignOut: () => _handleSignOut(context),
       ),
       body: SingleChildScrollView(
         child: Column(
