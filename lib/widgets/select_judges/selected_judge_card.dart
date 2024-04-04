@@ -25,7 +25,7 @@ class SelectedJudgeCard extends StatelessWidget {
           textColor = Colors.orange;
           stateText = 'Invitado';
           break;
-        case 'confirmed':
+        case 'accepted':
           textColor = Colors.green;
           stateText = 'Confirmado';
           break;
