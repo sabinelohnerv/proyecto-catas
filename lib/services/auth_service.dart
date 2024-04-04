@@ -78,6 +78,8 @@ class AuthService {
         'allergies': judge.allergies,
         'comment': judge.comment,
         'applicationState': judge.applicationState,
+        'roleAsJudge': judge.roleAsJudge,
+        'hasTime': judge.hasTime,
         'role': 'judge',
         if (imageUrl != null) 'image_url': imageUrl,
       };

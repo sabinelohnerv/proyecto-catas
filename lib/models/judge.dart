@@ -4,9 +4,11 @@ class Judge {
   String email;
   String birthDate;
   String gender;
+  String roleAsJudge;
   String dislikes;
   List<String> symptoms;
   bool smokes;
+  bool hasTime;
   int cigarettesPerDay;
   String coffee;
   int coffeeCupsPerDay;
@@ -24,9 +26,11 @@ class Judge {
     required this.email,
     required this.gender,
     required this.birthDate,
+    required this.roleAsJudge,
     required this.dislikes,
     required this.symptoms,
     required this.smokes,
+    required this.hasTime,
     required this.cigarettesPerDay,
     required this.coffee,
     required this.coffeeCupsPerDay,
