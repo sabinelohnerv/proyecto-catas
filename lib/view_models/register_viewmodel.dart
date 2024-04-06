@@ -18,12 +18,20 @@ class RegisterViewModel with ChangeNotifier {
   String dislikes = '';
   List<String> symptoms = [];
   bool smokes = true;
+  bool hasTime = true;
   int cigarettesPerDay = 0;
   int coffeeCupsPerDay = 0;
   List<String> seasonings = [];
   int sugarInDrinks = 0;
   List<String> allergies = [];
   String comment = '';
+
+  String _roleAsJudge = 'Estudiante';
+  String get roleAsJudge => _roleAsJudge;
+  set roleAsJudge(String newValue) {
+    _roleAsJudge = newValue;
+    notifyListeners();
+  }
 
   String _coffee = 'Nunca';
   String get coffee => _coffee;
@@ -75,6 +83,13 @@ class RegisterViewModel with ChangeNotifier {
     'En ocasiones',
     'Frecuentemente',
     'Todos los días'
+  ];
+
+  final List<String> roleOptions = [
+    'Estudiante',
+    'Docente',
+    'Administrativo',
+    'Externo',
   ];
 
   List<String> selectedSymptoms = [];
@@ -357,8 +372,10 @@ class RegisterViewModel with ChangeNotifier {
         dislikes = userDetails['dislikes'] ?? '';
         selectedSymptoms = List.from(userDetails['symptoms'] ?? []);
         smokes = userDetails['smokes'] ?? false;
+        hasTime = userDetails['hasTime'] ?? false;
         cigarettesPerDay = userDetails['cigarettesPerDay'] ?? 0;
         coffee = userDetails['coffee'] ?? 'Nunca';
+        roleAsJudge = userDetails['roleAsJudge'] ?? 'Estudiante';
         coffeeCupsPerDay = userDetails['coffeeCupsPerDay'] ?? 0;
         llajua = userDetails['llajua'] ?? 'Nunca';
         selectedSeasonings = List.from(userDetails['seasonings'] ?? []);
@@ -381,25 +398,26 @@ class RegisterViewModel with ChangeNotifier {
     final currentUser = _userService.getCurrentUser();
     if (currentUser != null) {
       Judge updatedJudge = Judge(
-        id: currentUser.uid,
-        fullName: '',
-        email: '',
-        birthDate: '',
-        gender: '',
-        dislikes: dislikes,
-        symptoms: selectedSymptoms,
-        smokes: smokes,
-        cigarettesPerDay: cigarettesPerDay,
-        coffee: coffee,
-        coffeeCupsPerDay: coffeeCupsPerDay,
-        llajua: llajua,
-        seasonings: selectedSeasonings,
-        sugarInDrinks: sugarInDrinks,
-        allergies: selectedAllergies,
-        comment: comment,
-        applicationState: '',
-        profileImgUrl: '',
-      );
+          id: currentUser.uid,
+          fullName: '',
+          email: '',
+          birthDate: '',
+          gender: '',
+          dislikes: dislikes,
+          symptoms: selectedSymptoms,
+          smokes: smokes,
+          cigarettesPerDay: cigarettesPerDay,
+          coffee: coffee,
+          coffeeCupsPerDay: coffeeCupsPerDay,
+          llajua: llajua,
+          seasonings: selectedSeasonings,
+          sugarInDrinks: sugarInDrinks,
+          allergies: selectedAllergies,
+          comment: comment,
+          applicationState: '',
+          profileImgUrl: '',
+          hasTime: hasTime,
+          roleAsJudge: roleAsJudge);
       return await _userService.updateJudgeDetails(updatedJudge);
     }
     return false;

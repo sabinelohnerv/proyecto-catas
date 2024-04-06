@@ -3,7 +3,7 @@ import 'package:catas_univalle/widgets/register/custom_numberinput.dart';
 import 'package:catas_univalle/widgets/register/custom_selectfield.dart';
 import 'package:catas_univalle/widgets/register/custom_selectionfield.dart';
 import 'package:catas_univalle/widgets/register/gender_selection.dart';
-import 'package:catas_univalle/widgets/register/smoking_selection_widget.dart';
+import 'package:catas_univalle/widgets/register/bool_selection_widget.dart';
 import 'package:catas_univalle/widgets/register/submit_registration_button.dart';
 import 'package:catas_univalle/widgets/register/user_image_picker.dart';
 import 'package:flutter/material.dart';
@@ -124,6 +124,30 @@ class _RegisterViewState extends State<RegisterView> {
                       onChanged: (value) =>
                           setState(() => viewModel.gender = value),
                     ),
+                    CustomSelectField<String>(
+                      value: viewModel.roleAsJudge,
+                      items: viewModel.roleOptions,
+                      labelText: 'Rol en la institución',
+                      onChanged: (value) => viewModel.roleAsJudge = value!,
+                      itemLabelBuilder: (value) => value,
+                    ),
+                    const Padding(
+                      padding: EdgeInsets.symmetric(vertical: 8, horizontal: 15),
+                      child: Text(
+                        '¿Tiene tiempo para realizar capacitaciones de 1 hora semanalmente?',
+                        style: TextStyle(fontSize: 16),
+                        overflow: TextOverflow.clip,
+                        maxLines: 3,
+                        softWrap: true,
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                    BoolSelectionWidget(
+                      changingValue: viewModel.hasTime,
+                      labelText: '',
+                      onChanged: (value) =>
+                          setState(() => viewModel.hasTime = value),
+                    ),
                     CustomTextFormField(
                       labelText: 'Alimentos que le disgustan',
                       onSaved: (value) => viewModel.dislikes = value ?? '',
@@ -138,8 +162,9 @@ class _RegisterViewState extends State<RegisterView> {
                       controller: viewModel.allergiesController,
                       onTap: () => viewModel.showAllergiesDialog(context),
                     ),
-                    SmokingSelectionWidget(
-                      smokes: viewModel.smokes,
+                    BoolSelectionWidget(
+                      changingValue: viewModel.smokes,
+                      labelText: '¿Fuma?:',
                       onChanged: (value) =>
                           setState(() => viewModel.smokes = value),
                     ),

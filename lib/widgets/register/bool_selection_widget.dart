@@ -1,20 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
-class SmokingSelectionWidget extends StatefulWidget {
-  final bool smokes;
+class BoolSelectionWidget extends StatefulWidget {
+  final bool changingValue;
+  final String labelText;
   final Function(bool) onChanged;
 
-  const SmokingSelectionWidget({
+  const BoolSelectionWidget({
     super.key,
-    required this.smokes,
+    required this.changingValue,
+    required this.labelText,
     required this.onChanged,
   });
 
   @override
-  State<SmokingSelectionWidget> createState() => _SmokingSelectionWidgetState();
+  State<BoolSelectionWidget> createState() => _BoolSelectionWidgetState();
 }
 
-class _SmokingSelectionWidgetState extends State<SmokingSelectionWidget> {
+class _BoolSelectionWidgetState extends State<BoolSelectionWidget> {
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -22,13 +25,24 @@ class _SmokingSelectionWidgetState extends State<SmokingSelectionWidget> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
-          const Text('¿Fuma?: ', style: TextStyle(fontSize: 16)),
+          Visibility(
+            visible: widget.labelText != '',
+            child: Expanded(
+              child: Text(
+                widget.labelText,
+                style: const TextStyle(fontSize: 16),
+                overflow: TextOverflow.clip,
+                maxLines: 2,
+                softWrap: true,
+              ),
+            ),
+          ),
           Expanded(
             child: ListTile(
               title: const Text('✓'),
               leading: Radio<bool>(
                 value: true,
-                groupValue: widget.smokes,
+                groupValue: widget.changingValue,
                 onChanged: (bool? value) {
                   widget.onChanged(value!);
                 },
@@ -40,7 +54,7 @@ class _SmokingSelectionWidgetState extends State<SmokingSelectionWidget> {
               title: const Text('✗'),
               leading: Radio<bool>(
                 value: false,
-                groupValue: widget.smokes,
+                groupValue: widget.changingValue,
                 onChanged: (bool? value) {
                   widget.onChanged(value!);
                 },

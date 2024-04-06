@@ -16,8 +16,17 @@ class WebViewScreen extends StatelessWidget {
           'Formulario',
           style: TextStyle(color: Colors.white), 
         ),
+        centerTitle: true,
         backgroundColor: colorScheme.primary,
         iconTheme: const IconThemeData(color: Colors.white),
+        leading: IconButton(
+          icon: const Icon(
+            Icons.arrow_back_ios,
+          ),
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+        ),
         actionsIconTheme: const IconThemeData(color: Colors.white),
       ),
       body: WebViewWidget(url: formUrl),

@@ -51,6 +51,8 @@ class SubmitRegistrationButton extends StatelessWidget {
                 comment: viewModel.comment,
                 applicationState: 'PENDING',
                 profileImgUrl: '',
+                roleAsJudge: viewModel.roleAsJudge,
+                hasTime: viewModel.hasTime
               );
               if (await viewModel.register(newJudge, selectedImage!)) {
                 Navigator.pushReplacement(
