@@ -187,11 +187,13 @@ class _EditProfileViewState extends State<EditProfileView> {
                     onPressed: () async {
                       if (_formKey.currentState!.validate()) {
                         _formKey.currentState!.save();
+                        viewModel.calculateReliability();
                         if (await viewModel.saveProfileChanges()) {
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(
-                                content:
-                                    Text('Perfil actualizado correctamente')),
+                              content: Text('Perfil actualizado correctamente'),
+                              backgroundColor: Colors.green,
+                            ),
                           );
                           Navigator.of(context).pop();
                         } else {

@@ -25,6 +25,7 @@ class RegisterViewModel with ChangeNotifier {
   int sugarInDrinks = 0;
   List<String> allergies = [];
   String comment = '';
+  double reliability = 0;
 
   String _roleAsJudge = 'Estudiante';
   String get roleAsJudge => _roleAsJudge;
@@ -351,6 +352,99 @@ class RegisterViewModel with ChangeNotifier {
     return false;
   }
 
+  void calculateReliability() {
+    int addUpReliabilty = 0;
+
+    int maxSmokes = 4;
+    int maxHasTime = 2;
+    int maxCigarettesPerDay = 5;
+    int maxCoffeeCupsPerDay = 3;
+    int maxAgeReliability = 4;
+
+    !smokes ? addUpReliabilty += maxSmokes : addUpReliabilty += 1;
+    hasTime ? addUpReliabilty += maxHasTime : addUpReliabilty += 1;
+
+    if (cigarettesPerDay == 0) {
+      addUpReliabilty += maxCigarettesPerDay;
+    } else if (cigarettesPerDay > 0 && cigarettesPerDay <= 2) {
+      addUpReliabilty += maxCigarettesPerDay - 3;
+    }
+
+    if (coffeeCupsPerDay == 0) {
+      addUpReliabilty += maxCoffeeCupsPerDay;
+    } else if (coffeeCupsPerDay > 0 && coffeeCupsPerDay <= 3) {
+      addUpReliabilty += maxCoffeeCupsPerDay - 1;
+    } else {
+      addUpReliabilty += maxCoffeeCupsPerDay - 2;
+    }
+
+    if (selectedSeasonings.length == 1 &&
+        selectedSeasonings.contains('Ninguno')) {
+      addUpReliabilty += predefinedSeasonings.length - 1;
+    } else {
+      addUpReliabilty +=
+          predefinedSeasonings.length - selectedSeasonings.length ~/ 2 - 1;
+    }
+
+    if (selectedAllergies.length == 1 &&
+        selectedAllergies.contains('Ninguna')) {
+      addUpReliabilty += predefinedAllergies.length - 1;
+    } else {
+      addUpReliabilty +=
+          predefinedAllergies.length - selectedAllergies.length ~/ 2 - 1;
+    }
+
+    if (selectedSymptoms.length == 1 && selectedSymptoms.contains('Ninguno')) {
+      addUpReliabilty += predefinedSymptoms.length - 1;
+    } else {
+      addUpReliabilty +=
+          predefinedSymptoms.length - selectedSymptoms.length ~/ 2 - 1;
+    }
+
+    addUpReliabilty =
+        calculateAgeAndAdjustReliability(addUpReliabilty, maxAgeReliability);
+
+    int maxValue = 2 +
+        maxSmokes +
+        maxHasTime +
+        maxAgeReliability +
+        maxCigarettesPerDay +
+        maxCoffeeCupsPerDay +
+        (predefinedSeasonings.length - 1) +
+        (predefinedAllergies.length - 1) +
+        (predefinedSymptoms.length - 1);
+    reliability = addUpReliabilty * 100 / maxValue;
+    String inString = reliability.toStringAsFixed(2);
+    reliability = double.parse(inString);
+    notifyListeners();
+  }
+
+  int calculateAgeAndAdjustReliability(
+      int addUpReliability, int maxAgeReliability) {
+    List<String> parts = birthDate.split('-');
+    int day = int.parse(parts[0]);
+    int month = int.parse(parts[1]);
+    int year = int.parse(parts[2]);
+    DateTime birthDateTime = DateTime(year, month, day);
+
+    DateTime today = DateTime.now();
+    int age = today.year - birthDateTime.year;
+    if (birthDateTime.month > today.month ||
+        (birthDateTime.month == today.month && birthDateTime.day > today.day)) {
+      age--;
+    }
+
+    if (age >= 18 && age <= 35) {
+      addUpReliability += maxAgeReliability;
+    } else if (age > 35 && age <= 50) {
+      addUpReliability += maxAgeReliability - 1;
+    } else {
+      addUpReliability += maxAgeReliability - 2;
+    }
+
+    return addUpReliability;
+  }
+
   Future<bool> register(Judge judge, File selectedImage) async {
     try {
       bool registrationSuccess =
@@ -361,7 +455,6 @@ class RegisterViewModel with ChangeNotifier {
       return false;
     }
   }
-
   //Edit
 
   Future<void> loadUserProfile() async {
@@ -382,6 +475,7 @@ class RegisterViewModel with ChangeNotifier {
         sugarInDrinks = userDetails['sugarInDrinks'] ?? 0;
         selectedAllergies = List.from(userDetails['allergies'] ?? []);
         comment = userDetails['comment'] ?? '';
+        birthDate = userDetails['birthDate'] ?? '';
 
         cigarettesPerDayController.text = cigarettesPerDay.toString();
         coffeeCupsPerDayController.text = coffeeCupsPerDay.toString();
@@ -417,7 +511,8 @@ class RegisterViewModel with ChangeNotifier {
           applicationState: '',
           profileImgUrl: '',
           hasTime: hasTime,
-          roleAsJudge: roleAsJudge);
+          roleAsJudge: roleAsJudge,
+          reliability: reliability);
       return await _userService.updateJudgeDetails(updatedJudge);
     }
     return false;

@@ -36,7 +36,8 @@ class JudgeService {
           applicationState: data['applicationState'],
           profileImgUrl: data['image_url'] ?? '',
           roleAsJudge: data['roleAsJudge'],
-          hasTime: data['hasTime']
+          hasTime: data['hasTime'],
+          reliability: data['reliability']
         );
         judges.add(judge);
       }

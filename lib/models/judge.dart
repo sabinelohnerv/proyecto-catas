@@ -19,6 +19,7 @@ class Judge {
   String comment;
   String applicationState;
   String profileImgUrl;
+  double reliability;
 
   Judge({
     required this.id,
@@ -41,5 +42,6 @@ class Judge {
     required this.comment,
     required this.applicationState,
     required this.profileImgUrl,
+    required this.reliability,
   });
 }
