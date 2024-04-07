@@ -189,7 +189,7 @@ class _JudgeDetailScreenState extends State<JudgeDetailScreen> {
                         informationRow("Café", widget.judge.coffee),
                         informationRow("Tazas de café al día",
                             widget.judge.coffeeCupsPerDay.toString()),
-                        informationRow("Llajua o Picante", widget.judge.llajua),
+                        informationRow("Picante o Llajua", widget.judge.llajua),
                         informationRow(
                             "Azúcar en bebidas",
                             widget.judge.sugarInDrinks == 1
