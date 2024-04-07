@@ -1,9 +1,11 @@
 import 'package:catas_univalle/services/auth_service.dart';
 import 'package:catas_univalle/views/admin_home_view.dart';
 import 'package:catas_univalle/views/login_view.dart';
+import 'package:catas_univalle/views/onboarding_view.dart';
 import 'package:catas_univalle/views/user_home_view.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class InitialScreenDecider extends StatefulWidget {
   const InitialScreenDecider({super.key});
@@ -18,6 +20,13 @@ class _InitialScreenDeciderState extends State<InitialScreenDecider> {
   final AuthService _authService = AuthService();
 
   Future<Widget> getInitialScreen() async {
+    final prefs = await SharedPreferences.getInstance();
+    final onboardingComplete = prefs.getBool('onboardingComplete') ?? false;
+
+    if (!onboardingComplete) {
+      return const OnBoardingPage();
+    }
+
     final currentUser = FirebaseAuth.instance.currentUser;
     if (currentUser != null) {
       final userRole = await _authService.getUserRole(currentUser.uid);
@@ -41,12 +50,9 @@ class _InitialScreenDeciderState extends State<InitialScreenDecider> {
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Scaffold(
-            body: Center(
-              child: CircularProgressIndicator(),
-            ),
-          );
+              body: Center(child: CircularProgressIndicator()));
         } else {
-          return snapshot.data ?? const LoginView();
+          return snapshot.data ?? const OnBoardingPage();
         }
       },
     );

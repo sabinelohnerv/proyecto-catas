@@ -46,6 +46,9 @@ dependencies:
   webview_flutter: ^3.0.4
   collection: ^1.18.0
   carousel_slider: ^4.2.1
+  introduction_screen: ^3.1.14
+  shared_preferences: ^2.0.13
+
 
 dev_dependencies:
   flutter_test:
@@ -78,6 +81,14 @@ flutter:
       - assets/images/alergias.png
       - assets/images/condimentos.png
       - assets/images/invitacion.png
+      - assets/images/chef.png
+      - assets/images/receta.png
+      - assets/images/tabla.png
+      - assets/images/app.png
+
+
+
+
 
 
 
