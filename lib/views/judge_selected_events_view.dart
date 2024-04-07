@@ -1,4 +1,3 @@
-import 'package:catas_univalle/widgets/events/event_card.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:catas_univalle/models/event.dart';
@@ -18,7 +17,7 @@ class JudgeSelectedEventsView extends StatelessWidget {
       child: Scaffold(
         appBar: AppBar(
           title: const Text(
-            'Eventos de Cata Aceptados',
+            'Eventos Aceptados',
             style: TextStyle(color: Colors.white),
           ),
           backgroundColor: Theme.of(context).primaryColor,
@@ -39,7 +38,7 @@ class JudgeSelectedEventsView extends StatelessWidget {
               return const Center(child: CircularProgressIndicator());
             }
             if (viewModel.events.isEmpty) {
-              return const Center(child: Text('No has aceptado catas aún.'));
+              return const Center(child: Text('No has aceptado eventos aún.'));
             }
             return ListView.builder(
               itemCount: viewModel.events.length,
