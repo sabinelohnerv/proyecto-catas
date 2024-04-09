@@ -366,9 +366,9 @@ class RegisterViewModel with ChangeNotifier {
 
     if (cigarettesPerDay == 0) {
       addUpReliabilty += maxCigarettesPerDay;
-    } else if (cigarettesPerDay > 0 && cigarettesPerDay <= 3) {
+    } else if (cigarettesPerDay > 0 && cigarettesPerDay <= 2) {
       addUpReliabilty += 3;
-    } else if (cigarettesPerDay > 3 && cigarettesPerDay <= 5) {
+    } else if (cigarettesPerDay > 2 && cigarettesPerDay <= 5) {
       addUpReliabilty += 1;
     }
 
