@@ -359,15 +359,17 @@ class RegisterViewModel with ChangeNotifier {
     int maxHasTime = 2;
     int maxCigarettesPerDay = 5;
     int maxCoffeeCupsPerDay = 3;
-    int maxAgeReliability = 4;
+    int maxAgeReliability = 5;
 
     !smokes ? addUpReliabilty += maxSmokes : addUpReliabilty += 1;
     hasTime ? addUpReliabilty += maxHasTime : addUpReliabilty += 1;
 
     if (cigarettesPerDay == 0) {
       addUpReliabilty += maxCigarettesPerDay;
-    } else if (cigarettesPerDay > 0 && cigarettesPerDay <= 2) {
-      addUpReliabilty += maxCigarettesPerDay - 3;
+    } else if (cigarettesPerDay > 0 && cigarettesPerDay <= 3) {
+      addUpReliabilty += 3;
+    } else if (cigarettesPerDay > 3 && cigarettesPerDay <= 5) {
+      addUpReliabilty += 1;
     }
 
     if (coffeeCupsPerDay == 0) {
@@ -404,8 +406,7 @@ class RegisterViewModel with ChangeNotifier {
     addUpReliabilty =
         calculateAgeAndAdjustReliability(addUpReliabilty, maxAgeReliability);
 
-    int maxValue = 2 +
-        maxSmokes +
+    int maxValue = maxSmokes +
         maxHasTime +
         maxAgeReliability +
         maxCigarettesPerDay +
@@ -437,9 +438,9 @@ class RegisterViewModel with ChangeNotifier {
     if (age >= 18 && age <= 35) {
       addUpReliability += maxAgeReliability;
     } else if (age > 35 && age <= 50) {
-      addUpReliability += maxAgeReliability - 1;
+      addUpReliability += 3;
     } else {
-      addUpReliability += maxAgeReliability - 2;
+      addUpReliability += 1;
     }
 
     return addUpReliability;
