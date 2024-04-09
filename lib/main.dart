@@ -1,5 +1,7 @@
+import 'package:catas_univalle/view_models/cata_events_viewmodel.dart';
 import 'package:catas_univalle/view_models/select_judges_viewmodel.dart';
 import 'package:catas_univalle/view_models/selected_judges_viewmodel.dart';
+import 'package:catas_univalle/view_models/training_event_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
@@ -38,6 +40,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => ProfileViewModel()),
         ChangeNotifierProvider(create: (context) => ClientListViewModel()),
         ChangeNotifierProvider(create: (context) => AddEventViewModel()),
+        ChangeNotifierProvider(create: (_) => CataEventsViewModel()),
         ChangeNotifierProvider(create: (context) => AdminEventListViewModel()),
         ChangeNotifierProvider(
             create: (context) => SelectJudgesViewModel('eventId')),
@@ -49,6 +52,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => ProfileViewModel()),
         ChangeNotifierProvider(create: (_) => ClientListViewModel()),
         ChangeNotifierProvider(create: (_) => AddEventViewModel()),
+        ChangeNotifierProvider(create: (_) => TrainingEventListViewModel()),
         ChangeNotifierProvider(create: (_) => AdminEventListViewModel()),
         ChangeNotifierProvider(create: (_) => AdminEventDetailsViewModel()),
         Provider<EventService>(create: (_) => EventService()),

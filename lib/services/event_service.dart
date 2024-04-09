@@ -118,25 +118,35 @@ class EventService {
     }
   }
 
-  Future<void> updateJudgeStatus(String eventId, String judgeId, String status) async {
-  try {
-    final eventDoc = _db.collection('events').doc(eventId);
-    final snapshot = await eventDoc.get();
-    if (!snapshot.exists) throw Exception("Evento no encontrado");
+  Future<void> updateJudgeStatus(
+      String eventId, String judgeId, String status) async {
+    try {
+      final eventDoc = _db.collection('events').doc(eventId);
+      final snapshot = await eventDoc.get();
+      if (!snapshot.exists) throw Exception("Evento no encontrado");
 
-    List<dynamic> judges = snapshot.data()!['eventJudges'];
-    List<dynamic> updatedJudges = judges.map((judge) {
-      if (judge['id'] == judgeId) {
-        return {...judge, 'state': status};
-      }
-      return judge;
-    }).toList();
+      List<dynamic> judges = snapshot.data()!['eventJudges'];
+      List<dynamic> updatedJudges = judges.map((judge) {
+        if (judge['id'] == judgeId) {
+          return {...judge, 'state': status};
+        }
+        return judge;
+      }).toList();
 
-    await eventDoc.update({'eventJudges': updatedJudges});
-  } catch (e) {
-    print("Error updating judge status: $e");
-    throw Exception("Error al actualizar el estado del juez");
+      await eventDoc.update({'eventJudges': updatedJudges});
+    } catch (e) {
+      print("Error updating judge status: $e");
+      throw Exception("Error al actualizar el estado del juez");
+    }
   }
-}
 
+  Future<List<Event>> fetchAllCataEvents() async {
+    try {
+      final QuerySnapshot querySnapshot = await _db.collection('events').get();
+      return querySnapshot.docs.map((doc) => Event.fromSnapshot(doc)).toList();
+    } catch (e) {
+      print("Error fetching all events: $e");
+      return [];
+    }
+  }
 }
