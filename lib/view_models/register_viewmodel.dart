@@ -385,7 +385,7 @@ class RegisterViewModel with ChangeNotifier {
       addUpReliabilty += predefinedSeasonings.length - 1;
     } else {
       addUpReliabilty +=
-          predefinedSeasonings.length - 1 - selectedSeasonings.length ~/ 2 - 1;
+          predefinedSeasonings.length - selectedSeasonings.length ~/ 2 - 1;
     }
 
     if (selectedAllergies.length == 1 &&
@@ -393,14 +393,14 @@ class RegisterViewModel with ChangeNotifier {
       addUpReliabilty += predefinedAllergies.length - 1;
     } else {
       addUpReliabilty +=
-          predefinedAllergies.length - 1 - selectedAllergies.length ~/ 2 - 1;
+          predefinedAllergies.length - selectedAllergies.length ~/ 2 - 1;
     }
 
     if (selectedSymptoms.length == 1 && selectedSymptoms.contains('Ninguno')) {
       addUpReliabilty += predefinedSymptoms.length - 1;
     } else {
       addUpReliabilty +=
-          predefinedSymptoms.length - 1 - selectedSymptoms.length ~/ 2 - 1;
+          predefinedSymptoms.length - selectedSymptoms.length ~/ 2 - 1;
     }
 
     addUpReliabilty =
