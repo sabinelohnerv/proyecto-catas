@@ -374,7 +374,7 @@ class RegisterViewModel with ChangeNotifier {
 
     if (coffeeCupsPerDay == 0) {
       addUpReliabilty += maxCoffeeCupsPerDay;
-    } else if (coffeeCupsPerDay > 0 && coffeeCupsPerDay <= 3) {
+    } else if (coffeeCupsPerDay > 0 && coffeeCupsPerDay <= 2) {
       addUpReliabilty += maxCoffeeCupsPerDay - 1;
     } else {
       addUpReliabilty += maxCoffeeCupsPerDay - 2;
@@ -385,7 +385,7 @@ class RegisterViewModel with ChangeNotifier {
       addUpReliabilty += predefinedSeasonings.length - 1;
     } else {
       addUpReliabilty +=
-          predefinedSeasonings.length - selectedSeasonings.length ~/ 2 - 1;
+          predefinedSeasonings.length- selectedSeasonings.length ~/ 2 - 1;
     }
 
     if (selectedAllergies.length == 1 &&
