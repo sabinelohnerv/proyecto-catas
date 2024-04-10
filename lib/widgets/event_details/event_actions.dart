@@ -1,5 +1,4 @@
 import 'package:catas_univalle/view_models/admin_event_details_viewmodel.dart';
-import 'package:catas_univalle/views/admin_event_details_view.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

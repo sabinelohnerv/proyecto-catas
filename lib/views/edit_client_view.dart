@@ -44,7 +44,7 @@ class _EditClientViewState extends State<EditClientView> {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          'Editar Cliente',
+          'Editar Anfitrión',
           style: TextStyle(color: Colors.white),
         ),
         backgroundColor: Theme.of(context).primaryColor,
@@ -68,7 +68,7 @@ class _EditClientViewState extends State<EditClientView> {
             children: [
               CustomEditFormField(
                 initialValue: viewModel.name,
-                labelText: "Nombre del Cliente",
+                labelText: "Nombre del Anfitrión",
                 onSaved: (value) => viewModel.name = value ?? "",
                 validator: (value) =>
                     value!.isEmpty ? 'Este campo es obligatorio.' : null,

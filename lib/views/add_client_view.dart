@@ -35,7 +35,7 @@ class _AddClientViewState extends State<AddClientView> {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          'Añadir Cliente',
+          'Añadir Anfitrión',
           style: TextStyle(color: Colors.white),
         ),
         backgroundColor: Theme.of(context).primaryColor,
@@ -59,7 +59,7 @@ class _AddClientViewState extends State<AddClientView> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
                 CustomTextFormField(
-                  labelText: 'Nombre del Cliente',
+                  labelText: 'Nombre del Anfitrión',
                   onSaved: (value) => viewModel.name = value ?? '',
                   validator: (value) =>
                       value!.isEmpty ? 'Este campo es obligatorio.' : null,
@@ -77,7 +77,7 @@ class _AddClientViewState extends State<AddClientView> {
                   },
                 ),
                 const Text(
-                  'Logo del Cliente',
+                  'Logo del Anfitrión',
                   style: TextStyle(fontSize: 16),
                 ),
                 const SizedBox(height: 10),

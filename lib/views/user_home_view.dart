@@ -84,7 +84,7 @@ class UserHomeView extends StatelessWidget {
                   children: [
                     SimpleSectionCard(
                       img: 'food',
-                      title: 'Catas',
+                      title: 'Eventos',
                       subtitle: 'Ver más',
                       isClickable: true,
                       onTap: () {

@@ -11,7 +11,7 @@ class ClientListView extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          'Clientes',
+          'Anfitriones',
           style: TextStyle(color: Colors.white),
         ),
         backgroundColor: Theme.of(context).primaryColor,

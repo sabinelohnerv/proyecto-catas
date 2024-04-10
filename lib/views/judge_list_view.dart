@@ -98,11 +98,11 @@ class _JudgeListViewState extends State<JudgeListView> {
 
           return judges.isNotEmpty
               ? GridView.builder(
-                  padding: const EdgeInsets.all(4),
+                  padding: const EdgeInsets.all(15),
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2,
-                    crossAxisSpacing: 4,
-                    mainAxisSpacing: 4,
+                    crossAxisSpacing: 10,
+                    mainAxisSpacing: 10,
                     childAspectRatio: (1 / 1.2),
                   ),
                   itemCount: judges.length,

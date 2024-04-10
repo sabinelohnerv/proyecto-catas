@@ -32,28 +32,29 @@ class SubmitRegistrationButton extends StatelessWidget {
             if (formKey.currentState!.validate()) {
               debugPrint("Picked Image Path: $selectedImage");
               formKey.currentState!.save();
+              viewModel.calculateReliability();
               Judge newJudge = Judge(
-                id: '',
-                fullName: viewModel.fullName,
-                email: viewModel.email,
-                birthDate: viewModel.birthDate,
-                gender: viewModel.gender,
-                dislikes: viewModel.dislikes,
-                symptoms: viewModel.selectedSymptoms,
-                smokes: viewModel.smokes,
-                cigarettesPerDay: viewModel.cigarettesPerDay,
-                coffee: viewModel.coffee,
-                coffeeCupsPerDay: viewModel.coffeeCupsPerDay,
-                llajua: viewModel.llajua,
-                seasonings: viewModel.selectedSeasonings,
-                sugarInDrinks: viewModel.sugarInDrinks,
-                allergies: viewModel.selectedAllergies,
-                comment: viewModel.comment,
-                applicationState: 'PENDING',
-                profileImgUrl: '',
-                roleAsJudge: viewModel.roleAsJudge,
-                hasTime: viewModel.hasTime
-              );
+                  id: '',
+                  fullName: viewModel.fullName,
+                  email: viewModel.email,
+                  birthDate: viewModel.birthDate,
+                  gender: viewModel.gender,
+                  dislikes: viewModel.dislikes,
+                  symptoms: viewModel.selectedSymptoms,
+                  smokes: viewModel.smokes,
+                  cigarettesPerDay: viewModel.cigarettesPerDay,
+                  coffee: viewModel.coffee,
+                  coffeeCupsPerDay: viewModel.coffeeCupsPerDay,
+                  llajua: viewModel.llajua,
+                  seasonings: viewModel.selectedSeasonings,
+                  sugarInDrinks: viewModel.sugarInDrinks,
+                  allergies: viewModel.selectedAllergies,
+                  comment: viewModel.comment,
+                  applicationState: 'PENDING',
+                  profileImgUrl: '',
+                  roleAsJudge: viewModel.roleAsJudge,
+                  hasTime: viewModel.hasTime,
+                  reliability: viewModel.reliability);
               if (await viewModel.register(newJudge, selectedImage!)) {
                 Navigator.pushReplacement(
                   context,

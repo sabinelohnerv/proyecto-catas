@@ -81,6 +81,7 @@ class AuthService {
         'roleAsJudge': judge.roleAsJudge,
         'hasTime': judge.hasTime,
         'role': 'judge',
+        'reliability': judge.reliability,
         if (imageUrl != null) 'image_url': imageUrl,
       };
 

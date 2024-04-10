@@ -85,7 +85,7 @@ class AdminHomeView extends StatelessWidget {
                   children: [
                     SimpleSectionCard(
                       img: 'food',
-                      title: 'Catas',
+                      title: 'Eventos',
                       subtitle: 'Ver más',
                       destinationScreen: AdminEventListView(
                         isAdmin: true,
@@ -105,8 +105,8 @@ class AdminHomeView extends StatelessWidget {
                     ),
                     SimpleSectionCard(
                       img: 'clientes',
-                      title: 'Clientes',
-                      subtitle: 'Ver clientes',
+                      title: 'Anfitriones',
+                      subtitle: 'Ver anfitriones',
                       destinationScreen: ClientListView(),
                     ),
                   ],

@@ -14,7 +14,7 @@ class AdminEventListView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Eventos de Cata'),
+        title: const Text('Eventos'),
         backgroundColor: Theme.of(context).primaryColor,
         centerTitle: true,
         leading: IconButton(

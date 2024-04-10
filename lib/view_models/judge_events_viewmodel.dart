@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:catas_univalle/models/event.dart';
-import 'package:catas_univalle/models/event_judge.dart';
 import 'package:catas_univalle/services/event_service.dart';
 
 class JudgeEventsViewModel extends ChangeNotifier {

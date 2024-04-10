@@ -127,7 +127,7 @@ class _AddEventViewState extends State<AddEventView> {
                       );
                     }).toList(),
                     decoration: const InputDecoration(
-                      labelText: 'Cliente',
+                      labelText: 'Anfitrión',
                       border: OutlineInputBorder(),
                     ),
                   ),

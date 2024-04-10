@@ -41,6 +41,7 @@ class UserService {
         'sugarInDrinks': judge.sugarInDrinks,
         'allergies': judge.allergies,
         'comment': judge.comment,
+        'reliability': judge.reliability
       });
       return true;
     } catch (e) {
