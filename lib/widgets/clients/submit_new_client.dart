@@ -20,37 +20,40 @@ class SubmitNewClient extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton(
-      onPressed: () {
-        if (_formKey.currentState!.validate()) {
-          _formKey.currentState!.save();
-    
-          if (_logo != null) {
-            viewModel.addClient(viewModel.name, viewModel.email, _logo);
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                content: Text('Cliente añadido correctamente.'),
-                backgroundColor: Colors.green,
-              ),
-            );
-            Future.delayed(const Duration(seconds: 2), () {
-              Navigator.of(context).pop();
-            });
-          } else {
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                content: Text('Error al crear el cliente.'),
-                backgroundColor: Colors.red,
-              ),
-            );
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 15),
+      child: ElevatedButton(
+        onPressed: () {
+          if (_formKey.currentState!.validate()) {
+            _formKey.currentState!.save();
+      
+            if (_logo != null) {
+              viewModel.addClient(viewModel.name, viewModel.email, _logo);
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                  content: Text('Cliente añadido correctamente.'),
+                  backgroundColor: Colors.green,
+                ),
+              );
+              Future.delayed(const Duration(seconds: 2), () {
+                Navigator.of(context).pop();
+              });
+            } else {
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                  content: Text('Error al crear el cliente.'),
+                  backgroundColor: Colors.red,
+                ),
+              );
+            }
           }
-        }
-      },
-      style: ElevatedButton.styleFrom(
-        backgroundColor: Theme.of(context).primaryColor,
-        foregroundColor: Colors.white,
+        },
+        style: ElevatedButton.styleFrom(
+          backgroundColor: Theme.of(context).primaryColor,
+          foregroundColor: Colors.white,
+        ),
+        child: const Text('Guardar'),
       ),
-      child: const Text('Guardar'),
     );
   }
 }
