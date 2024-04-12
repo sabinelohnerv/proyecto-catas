@@ -27,7 +27,6 @@ class _InvitationsViewState extends State<InvitationsView> {
     final profileViewModel =
         Provider.of<ProfileViewModel>(context, listen: false);
     setState(() {
-      // Aplicar filtro aquí si es necesario
       _futureEvents =
           EventService().fetchEventsForJudge(profileViewModel.currentUser!.uid);
     });
@@ -36,7 +35,7 @@ class _InvitationsViewState extends State<InvitationsView> {
   void _changeFilter(String newFilter) {
     setState(() {
       _filter = newFilter;
-      _loadEvents(); // Recargar eventos con el nuevo filtro
+      _loadEvents();
     });
   }
 

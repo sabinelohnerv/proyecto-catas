@@ -359,7 +359,7 @@ class RegisterViewModel with ChangeNotifier {
     int maxHasTime = 2;
     int maxCigarettesPerDay = 5;
     int maxCoffeeCupsPerDay = 3;
-    int maxAgeReliability = 4;
+    int maxAgeReliability = 5;
 
     !smokes ? addUpReliabilty += maxSmokes : addUpReliabilty += 1;
     hasTime ? addUpReliabilty += maxHasTime : addUpReliabilty += 1;
@@ -367,12 +367,14 @@ class RegisterViewModel with ChangeNotifier {
     if (cigarettesPerDay == 0) {
       addUpReliabilty += maxCigarettesPerDay;
     } else if (cigarettesPerDay > 0 && cigarettesPerDay <= 2) {
-      addUpReliabilty += maxCigarettesPerDay - 3;
+      addUpReliabilty += 3;
+    } else if (cigarettesPerDay > 2 && cigarettesPerDay <= 5) {
+      addUpReliabilty += 1;
     }
 
     if (coffeeCupsPerDay == 0) {
       addUpReliabilty += maxCoffeeCupsPerDay;
-    } else if (coffeeCupsPerDay > 0 && coffeeCupsPerDay <= 3) {
+    } else if (coffeeCupsPerDay > 0 && coffeeCupsPerDay <= 2) {
       addUpReliabilty += maxCoffeeCupsPerDay - 1;
     } else {
       addUpReliabilty += maxCoffeeCupsPerDay - 2;
@@ -383,7 +385,7 @@ class RegisterViewModel with ChangeNotifier {
       addUpReliabilty += predefinedSeasonings.length - 1;
     } else {
       addUpReliabilty +=
-          predefinedSeasonings.length - selectedSeasonings.length ~/ 2 - 1;
+          predefinedSeasonings.length- selectedSeasonings.length ~/ 2 - 1;
     }
 
     if (selectedAllergies.length == 1 &&
@@ -404,8 +406,7 @@ class RegisterViewModel with ChangeNotifier {
     addUpReliabilty =
         calculateAgeAndAdjustReliability(addUpReliabilty, maxAgeReliability);
 
-    int maxValue = 2 +
-        maxSmokes +
+    int maxValue = maxSmokes +
         maxHasTime +
         maxAgeReliability +
         maxCigarettesPerDay +
@@ -437,9 +438,9 @@ class RegisterViewModel with ChangeNotifier {
     if (age >= 18 && age <= 35) {
       addUpReliability += maxAgeReliability;
     } else if (age > 35 && age <= 50) {
-      addUpReliability += maxAgeReliability - 1;
+      addUpReliability += 3;
     } else {
-      addUpReliability += maxAgeReliability - 2;
+      addUpReliability += 1;
     }
 
     return addUpReliability;

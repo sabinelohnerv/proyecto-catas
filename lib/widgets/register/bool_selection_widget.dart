@@ -25,9 +25,9 @@ class _BoolSelectionWidgetState extends State<BoolSelectionWidget> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
-          Visibility(
-            visible: widget.labelText != '',
-            child: Expanded(
+          if (widget.labelText.isNotEmpty)
+            Flexible(
+              flex: 3,
               child: Text(
                 widget.labelText,
                 style: const TextStyle(fontSize: 16),
@@ -36,27 +36,32 @@ class _BoolSelectionWidgetState extends State<BoolSelectionWidget> {
                 softWrap: true,
               ),
             ),
-          ),
-          Expanded(
+          Flexible(
             child: ListTile(
-              title: const Text('✓'),
+              contentPadding: EdgeInsets.zero,
+              title: const Text('Sí'),
               leading: Radio<bool>(
                 value: true,
                 groupValue: widget.changingValue,
                 onChanged: (bool? value) {
-                  widget.onChanged(value!);
+                  if (value != null) { 
+                    widget.onChanged(value);
+                  }
                 },
               ),
             ),
           ),
-          Expanded(
+          Flexible(
             child: ListTile(
-              title: const Text('✗'),
+              contentPadding: EdgeInsets.zero, 
+              title: const Text('No'),
               leading: Radio<bool>(
                 value: false,
                 groupValue: widget.changingValue,
                 onChanged: (bool? value) {
-                  widget.onChanged(value!);
+                  if (value != null) { 
+                    widget.onChanged(value);
+                  }
                 },
               ),
             ),

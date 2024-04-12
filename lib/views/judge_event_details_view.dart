@@ -7,30 +7,21 @@ class JudgeEventDetailsView extends StatelessWidget {
   final Event event;
   final String judgeId;
 
-  const JudgeEventDetailsView(
-      {Key? key, required this.event, required this.judgeId})
+  const JudgeEventDetailsView({Key? key, required this.event, required this.judgeId})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final Color seedColor = theme.colorScheme.primary;
+    final Color primaryColor = theme.colorScheme.primary;
 
     void acceptInvitation() async {
       try {
         final eventService = Provider.of<EventService>(context, listen: false);
         await eventService.updateJudgeStatus(event.id, judgeId, 'accepted');
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-              content: Text('Invitación aceptada'),
-              backgroundColor: Colors.green),
-        );
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Invitación aceptada'), backgroundColor: Colors.green));
       } catch (e) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-              content: Text('Error al aceptar la invitación: $e'),
-              backgroundColor: Colors.red),
-        );
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Error al aceptar la invitación: $e'), backgroundColor: Colors.red));
       }
     }
 
@@ -38,134 +29,139 @@ class JudgeEventDetailsView extends StatelessWidget {
       try {
         final eventService = Provider.of<EventService>(context, listen: false);
         await eventService.updateJudgeStatus(event.id, judgeId, 'rejected');
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-              content: Text('Invitación rechazada'),
-              backgroundColor: Colors.red),
-        );
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Invitación rechazada'), backgroundColor: Colors.red));
       } catch (e) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-              content: Text('Error al rechazar la invitación: $e'),
-              backgroundColor: Colors.red),
-        );
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Error al rechazar la invitación: $e'), backgroundColor: Colors.red));
       }
     }
 
     Widget infoSection(String title, String content) {
       return Padding(
-        padding: const EdgeInsets.symmetric(vertical: 10.0),
+        padding: const EdgeInsets.symmetric(vertical: 8.0),
         child: Row(
           children: [
-            Text("$title: ",
-                style: theme.textTheme.subtitle1
-                    ?.copyWith(fontWeight: FontWeight.bold)),
-            Expanded(child: Text(content, style: theme.textTheme.subtitle1)),
+            Expanded(
+              child: Text(
+                "$title: ",
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: primaryColor,
+                ),
+              ),
+            ),
+            Expanded(
+              flex: 2,
+              child: Text(
+                content,
+                style: TextStyle(fontSize: 16),
+              ),
+            ),
           ],
         ),
       );
     }
 
     List<Widget> buildRestrictions(List<String> restrictions, String title) {
-      if (restrictions.isEmpty) return [];
+      if (restrictions.isEmpty) {
+        return [];
+      }
       return [
         Padding(
-          padding: const EdgeInsets.only(top: 20.0),
-          child: Text(title,
-              style: theme.textTheme.headline6
-                  ?.copyWith(fontWeight: FontWeight.bold)),
+          padding: const EdgeInsets.only(top: 8.0),
+          child: Text(
+            title,
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18, color: primaryColor),
+          ),
         ),
-        ...restrictions
-            .map((restriction) =>
-                Text(restriction, style: theme.textTheme.bodyText2))
-            .toList(),
+        ...restrictions.map(
+          (restriction) => Padding(
+            padding: const EdgeInsets.only(top: 4.0),
+            child: Text(restriction),
+          ),
+        ).toList(),
       ];
     }
 
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Stack(
+      body: Column(
+        children: [
+          Expanded(
+            child: Stack(
               children: [
                 Container(
-                  height: 350,
-                  width: double.infinity,
+                  height: 300, 
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.only(bottomLeft: Radius.circular(25), bottomRight: Radius.circular(25)),
                     image: DecorationImage(
                       image: NetworkImage(event.imageUrl),
                       fit: BoxFit.cover,
+                      colorFilter: ColorFilter.mode(Colors.black.withOpacity(0.5), BlendMode.darken),
                     ),
                   ),
                 ),
-                SafeArea(
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Align(
-                      alignment: Alignment.topLeft,
-                      child: CircleAvatar(
-                        backgroundColor: seedColor,
-                        child: IconButton(
-                          icon: Icon(Icons.arrow_back, color: Colors.white),
-                          onPressed: () => Navigator.of(context).pop(),
-                        ),
-                      ),
+                Positioned(
+                  top: 40,
+                  left: 16,
+                  child: CircleAvatar(
+                    child: IconButton(
+                      icon: Icon(Icons.arrow_back, color: primaryColor),
+                      onPressed: () => Navigator.of(context).pop(),
                     ),
                   ),
                 ),
-              ],
-            ),
-            Padding(
-              padding: const EdgeInsets.all(20.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(event.name,
-                      style: theme.textTheme.headline5
-                          ?.copyWith(fontWeight: FontWeight.bold)),
-                  infoSection("Fecha", event.date),
-                  infoSection("Hora", "${event.start} - ${event.end}"),
-                  infoSection("Ubicación", event.location),
-                  ...buildRestrictions(event.allergyRestrictions, "Alergias"),
-                  ...buildRestrictions(event.symptomRestrictions, "Síntomas"),
-                  SizedBox(height: 30),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                Padding(
+                  padding: const EdgeInsets.only(top: 320),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      ElevatedButton(
-                        onPressed: acceptInvitation,
-                        child: Text('Aceptar',
-                            style:
-                                TextStyle(color: Colors.white, fontSize: 18)),
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: seedColor,
-                          padding: EdgeInsets.symmetric(
-                              horizontal: 32, vertical: 12),
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20)),
-                        ),
-                      ),
-                      ElevatedButton(
-                        onPressed: rejectInvitation,
-                        child: Text('Rechazar',
-                            style:
-                                TextStyle(color: Colors.white, fontSize: 18)),
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: seedColor,
-                          padding: EdgeInsets.symmetric(
-                              horizontal: 32, vertical: 12),
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20)),
+                      Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              event.name,
+                              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24, color: primaryColor),
+                            ),
+                            infoSection("Fecha", event.date),
+                            infoSection("Hora", "${event.start} - ${event.end}"),
+                            infoSection("Ubicación", event.location),
+                            ...buildRestrictions(event.allergyRestrictions, "Alergias"),
+                            ...buildRestrictions(event.symptomRestrictions, "Síntomas"),
+                          ],
                         ),
                       ),
                     ],
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
-          ],
-        ),
+          ),
+          Container(
+            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 26), 
+            decoration: BoxDecoration(
+              color: primaryColor,
+              boxShadow: [
+                BoxShadow(
+                  blurRadius: 4,
+                  color: Colors.black12,
+                ),
+              ],
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                IconButton(
+                  icon: Icon(Icons.check, color: Colors.white, size: 30),
+                  onPressed: acceptInvitation,
+                ),
+                IconButton(
+                  icon: Icon(Icons.close, color: Colors.white, size: 30),
+                  onPressed: rejectInvitation,
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }

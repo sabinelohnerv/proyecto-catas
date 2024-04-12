@@ -3,6 +3,7 @@ import 'package:catas_univalle/views/admin_event_list_view.dart';
 import 'package:catas_univalle/views/client_list_view.dart';
 import 'package:catas_univalle/views/judge_list_view.dart';
 import 'package:catas_univalle/views/login_view.dart';
+import 'package:catas_univalle/views/training_event_list_view.dart';
 import 'package:catas_univalle/widgets/profile/profile_card.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -108,6 +109,14 @@ class AdminHomeView extends StatelessWidget {
                       title: 'Anfitriones',
                       subtitle: 'Ver anfitriones',
                       destinationScreen: ClientListView(),
+                    ),
+                    SimpleSectionCard(
+                      img: 'capacitacion',
+                      title: 'Capacitaciones',
+                      subtitle: 'Aprende ahora',
+                      destinationScreen: TrainingEventListView(
+                        isAdmin: true,
+                      ),
                     ),
                   ],
                 ),
