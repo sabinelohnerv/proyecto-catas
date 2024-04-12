@@ -99,12 +99,6 @@ class UserHomeView extends StatelessWidget {
                       },
                     ),
                     const SimpleSectionCard(
-                      img: 'cocinero',
-                      title: 'Perfil',
-                      subtitle: 'Ver perfil',
-                      destinationScreen: ProfileView(),
-                    ),
-                    const SimpleSectionCard(
                       img: 'invitacion',
                       title: 'Invitaciones',
                       subtitle: 'Ver Más',

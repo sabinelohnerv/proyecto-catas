@@ -10,6 +10,7 @@ import 'package:provider/provider.dart';
 
 import '../view_models/admin_event_list_viewmodel.dart';
 import '../widgets/events/event_carousel.dart';
+import '../widgets/home/drawer.dart';
 import 'admin_profile_view.dart';
 
 class AdminHomeView extends StatelessWidget {
@@ -38,12 +39,12 @@ class AdminHomeView extends StatelessWidget {
         ),
         foregroundColor: Theme.of(context).colorScheme.primary,
         centerTitle: true,
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.logout),
-            onPressed: () => _handleSignOut(context),
-          ),
-        ],
+      ),
+      drawer: CustomDrawer(
+        fullName: userViewModel.fullName,
+        email: userViewModel.email,
+        imageUrl: userViewModel.imageUrl,
+        onSignOut: () => _handleSignOut(context),
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -70,10 +71,11 @@ class AdminHomeView extends StatelessWidget {
               padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
               child: Text(
                 'Bienvenido, ${userViewModel.fullName}',
+                textAlign: TextAlign.center,
                 style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 18,
-                ),
+                    color: Colors.white,
+                    fontSize: 22,
+                    fontWeight: FontWeight.w400),
               ),
             ),
             const Padding(
@@ -93,12 +95,6 @@ class AdminHomeView extends StatelessWidget {
                       ),
                     ),
                     SimpleSectionCard(
-                      img: 'cocinero',
-                      title: 'Perfil',
-                      subtitle: 'Ver perfil',
-                      destinationScreen: AdminProfileView(),
-                    ),
-                    SimpleSectionCard(
                       img: 'jueces',
                       title: 'Jueces',
                       subtitle: 'Lista de jueces',
@@ -111,7 +107,7 @@ class AdminHomeView extends StatelessWidget {
                       destinationScreen: ClientListView(),
                     ),
                     SimpleSectionCard(
-                      img: 'capacitacion',
+                      img: 'book',
                       title: 'Capacitaciones',
                       subtitle: 'Aprende ahora',
                       destinationScreen: TrainingEventListView(

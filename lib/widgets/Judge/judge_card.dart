@@ -56,13 +56,26 @@ class JudgeCard extends StatelessWidget {
         child: Stack(
           children: [
             Positioned(
-              top: 8, 
-              right: 8, 
+              top: 30,
+              left: 0,
+              right: 0,
               child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                height: 500,
+                decoration: BoxDecoration(
+                  color: Theme.of(context).colorScheme.primary,
+                  shape: BoxShape.circle,
+                ),
+              ),
+            ),
+            Positioned(
+              top: 8,
+              right: 8,
+              child: Container(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                 decoration: BoxDecoration(
                   color: reliabilityColor,
-                  borderRadius: BorderRadius.circular(20), 
+                  borderRadius: BorderRadius.circular(20),
                 ),
                 child: Text(
                   '${judge.reliability.toString()}%',
@@ -77,17 +90,20 @@ class JudgeCard extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const SizedBox(height: 25), 
+                  const SizedBox(height: 25),
                   judge.profileImgUrl.isNotEmpty
                       ? CircleAvatar(
                           radius: 30.0,
-                          backgroundColor: Theme.of(context).colorScheme.primary,
+                          backgroundColor:
+                              Theme.of(context).colorScheme.primary,
                           backgroundImage: NetworkImage(judge.profileImgUrl),
                         )
                       : CircleAvatar(
                           radius: 30.0,
-                          backgroundColor: Theme.of(context).colorScheme.primary,
-                          child: const Icon(Icons.person, size: 50, color: Colors.white),
+                          backgroundColor:
+                              Theme.of(context).colorScheme.primary,
+                          child: const Icon(Icons.person,
+                              size: 50, color: Colors.white),
                         ),
                   const SizedBox(height: 10),
                   Text(
