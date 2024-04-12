@@ -48,8 +48,8 @@ class SimpleSectionCard extends StatelessWidget {
           children: [
             Image.asset(
               'assets/images/$img.png',
-              width: 50,
-              height: 50,
+              width: 60,
+              height: 60,
               fit: BoxFit.cover,
             ),
             const SizedBox(height: 8),
