@@ -39,3 +39,11 @@ String formatDateToWrittenDate(String inputDate) {
 
   return formattedDate.toUpperCase();
 }
+
+bool isOlderThan18(String birthDateString) {
+  DateTime birthDate = DateFormat('dd-MM-yyyy').parse(birthDateString);
+  DateTime today = DateTime.now();
+  DateTime eighteenYearsAgo = DateTime(today.year - 18, today.month, today.day);
+
+  return birthDate.isBefore(eighteenYearsAgo) || birthDate.isAtSameMomentAs(eighteenYearsAgo);
+}

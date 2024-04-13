@@ -39,7 +39,10 @@ class _RegisterViewState extends State<RegisterView> {
                     bottomRight: Radius.circular(40))),
             leading: IconButton(
               icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
-              onPressed: () => Navigator.of(context).pop(),
+              onPressed: () {
+                viewModel.resetAllData();
+                Navigator.of(context).pop();
+              },
             ),
             backgroundColor: Theme.of(context).colorScheme.primary,
             title: const Text(
@@ -83,12 +86,14 @@ class _RegisterViewState extends State<RegisterView> {
                     CustomTextFormField(
                       labelText: 'Nombre Completo',
                       onSaved: (value) => viewModel.fullName = value ?? '',
+                      prefixIcon: const Icon(Icons.person_2),
                       validator: (value) =>
                           value!.isEmpty ? 'Este campo es obligatorio.' : null,
                     ),
                     CustomTextFormField(
                       labelText: 'Email',
                       onSaved: (value) => viewModel.email = value ?? '',
+                      prefixIcon: const Icon(Icons.email),
                       validator: (value) {
                         if ((value == null ||
                             value.trim().isEmpty ||
@@ -102,11 +107,12 @@ class _RegisterViewState extends State<RegisterView> {
                       labelText: 'Contraseña',
                       obscureText: true,
                       onSaved: (value) => viewModel.password = value ?? '',
+                      prefixIcon: const Icon(Icons.password),
                       validator: (value) {
                         if ((value == null ||
                             value.trim().isEmpty ||
                             !isValidPassword(value))) {
-                          return 'La contraseña debe tener al menos 6 caracteres.';
+                          return 'La contraseña debe tener: \n- Al menos 6 caracteres.';
                         }
                         return null;
                       },
@@ -115,9 +121,16 @@ class _RegisterViewState extends State<RegisterView> {
                       labelText: 'Fecha de Nacimiento',
                       readOnly: true,
                       controller: viewModel.birthDateController,
+                      prefixIcon: const Icon(Icons.calendar_month),
                       onTap: () => viewModel.selectBirthDate(context),
-                      validator: (value) =>
-                          value!.isEmpty ? 'Este campo es obligatorio.' : null,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Este campo es obligatorio.';
+                        } else if (!isOlderThan18(value)) {
+                          return 'Debes tener al menos 18 años de edad.';
+                        }
+                        return null;
+                      },
                     ),
                     GenderSelectionWidget(
                       groupValue: viewModel.gender,
@@ -128,14 +141,17 @@ class _RegisterViewState extends State<RegisterView> {
                       value: viewModel.roleAsJudge,
                       items: viewModel.roleOptions,
                       labelText: 'Rol en la institución',
+                      prefixIcon: const Icon(Icons.assignment_ind),
                       onChanged: (value) => viewModel.roleAsJudge = value!,
                       itemLabelBuilder: (value) => value,
                     ),
                     const Padding(
-                      padding: EdgeInsets.symmetric(vertical: 8, horizontal: 15),
+                      padding:
+                          EdgeInsets.symmetric(vertical: 8, horizontal: 15),
                       child: Text(
                         '¿Tiene tiempo para realizar capacitaciones de 1 hora semanalmente?',
-                        style: TextStyle(fontSize: 16),
+                        style: TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.w500),
                         overflow: TextOverflow.clip,
                         maxLines: 3,
                         softWrap: true,
@@ -150,27 +166,43 @@ class _RegisterViewState extends State<RegisterView> {
                     ),
                     CustomTextFormField(
                       labelText: 'Alimentos que le disgustan',
+                      prefixIcon: const Icon(Icons.no_food),
                       onSaved: (value) => viewModel.dislikes = value ?? '',
+                      validator: (value) =>
+                          value!.isEmpty ? 'Este campo es obligatorio.' : null,
                     ),
                     CustomSelectionField(
                       labelText: 'Padecimientos y/o Tratamientos',
                       controller: viewModel.symptomsController,
+                      prefixIcon: const Icon(Icons.medical_services),
                       onTap: () => viewModel.showSymptomsDialog(context),
                     ),
                     CustomSelectionField(
                       labelText: 'Alergias',
                       controller: viewModel.allergiesController,
+                      prefixIcon: const Icon(Icons.warning),
                       onTap: () => viewModel.showAllergiesDialog(context),
+                    ),
+                    const Padding(
+                      padding: EdgeInsets.fromLTRB(7.5, 8, 7.5, 0),
+                      child: Text(
+                        '¿Fuma?',
+                        style: TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.w500),
+                        softWrap: true,
+                        textAlign: TextAlign.center,
+                      ),
                     ),
                     BoolSelectionWidget(
                       changingValue: viewModel.smokes,
-                      labelText: '¿Fuma?:',
+                      labelText: '',
                       onChanged: (value) =>
                           setState(() => viewModel.smokes = value),
                     ),
                     CustomNumberInput(
                       labelText: 'Cigarrillos por día',
                       controller: viewModel.cigarettesPerDayController,
+                      prefixIcon: const Icon(Icons.smoking_rooms),
                       onSaved: (value) {
                         int cigarettes = int.tryParse(value) ?? 0;
                         viewModel.updateCigarettesPerDay(cigarettes);
@@ -180,12 +212,14 @@ class _RegisterViewState extends State<RegisterView> {
                       value: viewModel.coffee,
                       items: viewModel.consumptionOptions,
                       labelText: 'Consumo de café',
+                      prefixIcon: const Icon(Icons.coffee),
                       onChanged: (value) => viewModel.coffee = value!,
                       itemLabelBuilder: (value) => value,
                     ),
                     CustomNumberInput(
                       labelText: 'Tazas de café por día',
                       controller: viewModel.coffeeCupsPerDayController,
+                      prefixIcon: const Icon(Icons.local_cafe),
                       onSaved: (value) {
                         int coffeeCups = int.tryParse(value) ?? 0;
                         viewModel.updateCoffeeCupsPerDay(coffeeCups);
@@ -195,12 +229,14 @@ class _RegisterViewState extends State<RegisterView> {
                       value: viewModel.llajua,
                       items: viewModel.consumptionOptions,
                       labelText: 'Consumo de picante o llajua',
+                      prefixIcon: const Icon(Icons.local_fire_department),
                       onChanged: (value) => viewModel.llajua = value!,
                       itemLabelBuilder: (value) => value,
                     ),
                     CustomNumberInput(
                       labelText: 'Cucharillas de azúcar en bebidas (200 ml)',
                       controller: viewModel.sugarInDrinksController,
+                      prefixIcon: const Icon(Icons.local_drink),
                       onSaved: (value) {
                         int sugar = int.tryParse(value) ?? 0;
                         viewModel.updateSugarInDrinks(sugar);
@@ -209,12 +245,16 @@ class _RegisterViewState extends State<RegisterView> {
                     CustomSelectionField(
                       labelText: 'Condimentos que utiliza',
                       controller: viewModel.seasoningsController,
+                      prefixIcon: const Icon(Icons.grain),
                       onTap: () => viewModel.showSeasoningsDialog(context),
                     ),
                     CustomTextFormField(
                       labelText: 'Comentarios adicionales',
+                      prefixIcon: const Icon(Icons.info),
                       onSaved: (value) => viewModel.comment = value ?? '',
                       maxLines: 3,
+                      validator: (value) =>
+                          value!.isEmpty ? 'Este campo es obligatorio.' : null,
                     ),
                     SubmitRegistrationButton(
                       formKey: formKey,

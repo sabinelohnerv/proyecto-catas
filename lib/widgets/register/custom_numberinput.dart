@@ -5,12 +5,14 @@ class CustomNumberInput extends StatelessWidget {
   final String labelText;
   final TextEditingController controller;
   final Function(String)? onSaved;
+  final Widget? prefixIcon;
 
   const CustomNumberInput({
     super.key,
     required this.labelText,
     required this.controller,
     this.onSaved,
+    this.prefixIcon,
   });
 
   @override
@@ -21,6 +23,7 @@ class CustomNumberInput extends StatelessWidget {
         decoration: InputDecoration(
           labelText: labelText,
           border: const OutlineInputBorder(),
+          prefixIcon: prefixIcon
         ),
         controller: controller,
         onSaved: onSaved != null ? (value) => onSaved!(value!) : null,
