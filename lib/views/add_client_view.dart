@@ -63,12 +63,14 @@ class _AddClientViewState extends State<AddClientView> {
                 children: <Widget>[
                   CustomTextFormField(
                     labelText: 'Nombre del Anfitrión',
+                    prefixIcon: const Icon(Icons.assignment_ind),
                     onSaved: (value) => viewModel.name = value ?? '',
                     validator: (value) =>
                         value!.isEmpty ? 'Este campo es obligatorio.' : null,
                   ),
                   CustomTextFormField(
                     labelText: 'Email',
+                    prefixIcon: const Icon(Icons.email),
                     onSaved: (value) => viewModel.email = value ?? '',
                     validator: (value) {
                       if ((value == null ||

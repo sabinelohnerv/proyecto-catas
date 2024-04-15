@@ -74,6 +74,7 @@ class _EditClientViewState extends State<EditClientView> {
                   CustomEditFormField(
                     initialValue: viewModel.name,
                     labelText: "Nombre del Anfitrión",
+                    prefixIcon: const Icon(Icons.assignment_ind),
                     onSaved: (value) => viewModel.name = value ?? "",
                     validator: (value) =>
                         value!.isEmpty ? 'Este campo es obligatorio.' : null,
@@ -81,6 +82,7 @@ class _EditClientViewState extends State<EditClientView> {
                   CustomEditFormField(
                     initialValue: viewModel.email,
                     labelText: "Email",
+                    prefixIcon: const Icon(Icons.email),
                     onSaved: (value) => viewModel.email = value ?? "",
                     validator: (value) =>
                         value!.isEmpty ? 'Este campo es obligatorio.' : null,

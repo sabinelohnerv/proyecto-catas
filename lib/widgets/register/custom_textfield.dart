@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-class CustomTextFormField extends StatelessWidget {
+class CustomTextFormField extends StatefulWidget {
   final String labelText;
   final void Function(String?)? onSaved;
   final String? Function(String?)? validator;
@@ -12,6 +12,7 @@ class CustomTextFormField extends StatelessWidget {
   final void Function()? onTap;
   final List<TextInputFormatter>? inputFormatters;
   final int maxLines;
+  final Widget? prefixIcon;
 
   const CustomTextFormField({
     super.key,
@@ -25,7 +26,21 @@ class CustomTextFormField extends StatelessWidget {
     this.maxLines = 1,
     this.onTap,
     this.inputFormatters,
+    this.prefixIcon,
   });
+
+  @override
+  State<CustomTextFormField> createState() => _CustomTextFormFieldState();
+}
+
+class _CustomTextFormFieldState extends State<CustomTextFormField> {
+  late bool _isObscured;
+
+  @override
+  void initState() {
+    super.initState();
+    _isObscured = widget.obscureText;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,18 +48,30 @@ class CustomTextFormField extends StatelessWidget {
       padding: const EdgeInsets.all(15.0),
       child: TextFormField(
         decoration: InputDecoration(
-          labelText: labelText,
+          labelText: widget.labelText,
           border: const OutlineInputBorder(),
+          prefixIcon: widget.prefixIcon,
+          suffixIcon: widget.obscureText ? IconButton(
+            icon: Icon(_isObscured ? Icons.visibility : Icons.visibility_off),
+            onPressed: _togglePasswordVisibility,
+          ) : null,
         ),
-        onSaved: onSaved,
-        validator: validator,
-        obscureText: obscureText,
-        controller: controller,
-        readOnly: readOnly,
-        onTap: onTap,
-        inputFormatters: inputFormatters,
-        maxLines: maxLines,
+        onSaved: widget.onSaved,
+        validator: widget.validator,
+        obscureText: _isObscured,
+        controller: widget.controller,
+        keyboardType: widget.keyboardType,
+        readOnly: widget.readOnly,
+        onTap: widget.onTap,
+        inputFormatters: widget.inputFormatters,
+        maxLines: widget.maxLines,
       ),
     );
+  }
+
+  void _togglePasswordVisibility() {
+    setState(() {
+      _isObscured = !_isObscured;
+    });
   }
 }

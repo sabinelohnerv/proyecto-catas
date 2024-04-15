@@ -6,6 +6,7 @@ class CustomSelectField<T> extends StatelessWidget {
   final String labelText;
   final void Function(T?) onChanged;
   final String Function(T) itemLabelBuilder;
+  final Widget? prefixIcon;
 
   const CustomSelectField({
     super.key,
@@ -14,6 +15,7 @@ class CustomSelectField<T> extends StatelessWidget {
     required this.labelText,
     required this.onChanged,
     required this.itemLabelBuilder,
+    this.prefixIcon
   });
 
   @override
@@ -24,6 +26,7 @@ class CustomSelectField<T> extends StatelessWidget {
         decoration: InputDecoration(
           labelText: labelText,
           border: const OutlineInputBorder(),
+          prefixIcon: prefixIcon
         ),
         value: value,
         onChanged: onChanged,

@@ -96,4 +96,8 @@ class AuthService {
       return false;
     }
   }
+
+  bool isEmailVerified() {
+    return _firebaseAuth.currentUser?.emailVerified ?? false;
+  }
 }

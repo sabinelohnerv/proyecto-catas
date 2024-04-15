@@ -123,7 +123,6 @@ class RegisterViewModel with ChangeNotifier {
     coffeeCupsPerDayController.dispose();
     sugarInDrinksController.dispose();
     commentController.dispose();
-
     super.dispose();
   }
 
@@ -133,6 +132,43 @@ class RegisterViewModel with ChangeNotifier {
     coffeeCupsPerDayController.text = '0';
     sugarInDrinksController.text = '0';
     commentController.text = '';
+  }
+
+  void resetAllData() {
+    fullName = '';
+    email = '';
+    password = '';
+    birthDate = '';
+    gender = 'M';
+    dislikes = '';
+    symptoms = [];
+    smokes = true;
+    hasTime = true;
+    cigarettesPerDay = 0;
+    coffeeCupsPerDay = 0;
+    sugarInDrinks = 0;
+    allergies = [];
+    comment = '';
+    reliability = 0;
+    selectedSymptoms = [];
+    selectedAllergies = [];
+    selectedSeasonings = [];
+
+    _roleAsJudge = 'Estudiante';
+    _coffee = 'Nunca';
+    _llajua = 'Nunca';
+
+    birthDateController.clear();
+    symptomsController.clear();
+    allergiesController.clear();
+    seasoningsController.clear();
+    cigarettesPerDayController.text = '0'; 
+    coffeeCupsPerDayController.text = '0'; 
+    sugarInDrinksController.text = '0'; 
+    dislikesController.clear();
+    commentController.clear();
+
+    notifyListeners();
   }
 
   void updateDislikes(String value) {

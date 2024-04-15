@@ -22,7 +22,7 @@ class _GenderSelectionWidgetState extends State<GenderSelectionWidget> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          const Text('Sexo: ', style: TextStyle(fontSize: 16)),
+          const Text('Sexo: ', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
           Expanded(
             child: ListTile(
               title: const Text('M'),

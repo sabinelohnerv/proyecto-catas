@@ -12,6 +12,7 @@ class CustomEditFormField extends StatelessWidget {
   final List<TextInputFormatter>? inputFormatters;
   final int maxLines;
   final String initialValue;
+  final Widget? prefixIcon;
 
   const CustomEditFormField({
     super.key,
@@ -25,6 +26,7 @@ class CustomEditFormField extends StatelessWidget {
     this.onTap,
     this.inputFormatters,
     this.initialValue = '',
+    this.prefixIcon
   });
 
   @override
@@ -35,6 +37,7 @@ class CustomEditFormField extends StatelessWidget {
         decoration: InputDecoration(
           labelText: labelText,
           border: const OutlineInputBorder(),
+          prefixIcon: prefixIcon
         ),
         onSaved: onSaved,
         validator: validator,

@@ -14,4 +14,9 @@ class LoginViewModel {
     }
     return null;
   }
+
+  Future<bool> isEmailVerified() async {
+    return _authService.isEmailVerified();
+  }
 }
+

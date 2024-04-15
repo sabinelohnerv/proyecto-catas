@@ -7,6 +7,7 @@ import 'package:catas_univalle/views/register_view.dart';
 import 'package:catas_univalle/views/user_home_view.dart';
 import 'package:catas_univalle/widgets/login/animations.dart';
 import 'package:catas_univalle/widgets/login/decorative_shape_widget.dart';
+import 'package:catas_univalle/widgets/login/login_button.dart';
 import 'package:flutter/material.dart';
 
 class LoginForm extends StatefulWidget {
@@ -99,68 +100,7 @@ class _LoginFormState extends State<LoginForm> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
-                        ElevatedButton(
-                          onPressed: () async {
-                            final email = _emailController.text;
-                            final password = _passwordController.text;
-                            final success =
-                                await _viewModel.login(email, password);
-
-                            if (success) {
-                              final userRole = await _viewModel
-                                  .getUserRole(); 
-                              switch (userRole) {
-                                case 'admin':
-                                  Navigator.pushReplacement(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              const AdminHomeView())); 
-                                  break;
-                                case 'judge':
-                                  Navigator.pushReplacement(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              const UserHomeView()));
-                                  break;
-                                default:
-                                  Navigator.pushReplacement(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              const LoginView())); 
-                                  break;
-                              }
-                            } else {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                    content: Text('Inicio de sesión fallido')),
-                              );
-                            }
-                          },
-                          style: ElevatedButton.styleFrom(
-                            foregroundColor: Colors.white,
-                            backgroundColor:
-                                Theme.of(context).colorScheme.primary,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20.0),
-                            ),
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 24, vertical: 10),
-                          ),
-                          child: const Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Text(
-                                'Iniciar Sesión',
-                                style: TextStyle(fontSize: 16),
-                              ),
-                              SizedBox(width: 8),
-                              Icon(Icons.arrow_forward, size: 28),
-                            ],
-                          ),
-                        ),
+                        LoginButton(emailController: _emailController, passwordController: _passwordController, viewModel: _viewModel),
                       ],
                     ),
                   ),
