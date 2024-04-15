@@ -123,7 +123,6 @@ class RegisterViewModel with ChangeNotifier {
     coffeeCupsPerDayController.dispose();
     sugarInDrinksController.dispose();
     commentController.dispose();
-
     super.dispose();
   }
 

@@ -42,6 +42,7 @@ class _LoginButtonState extends State<LoginButton> {
             final userRole = await widget.viewModel.getUserRole();
             switch (userRole) {
               case 'admin':
+              case 'admin-2':
                 Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(builder: (context) => const AdminHomeView()));

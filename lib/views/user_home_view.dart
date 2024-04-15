@@ -2,7 +2,6 @@ import 'package:catas_univalle/view_models/profile_viewmodel.dart';
 import 'package:catas_univalle/views/invitations_view.dart';
 import 'package:catas_univalle/views/judge_selected_events_view.dart';
 import 'package:catas_univalle/views/login_view.dart';
-import 'package:catas_univalle/views/profile_view.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../view_models/admin_event_list_viewmodel.dart';
@@ -41,6 +40,7 @@ class UserHomeView extends StatelessWidget {
         fullName: userViewModel.fullName,
         email: userViewModel.email,
         imageUrl: userViewModel.imageUrl,
+        isAdmin: false,
         onSignOut: () => _handleSignOut(context),
       ),
       body: SingleChildScrollView(

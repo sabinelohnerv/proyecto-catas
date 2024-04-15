@@ -1,3 +1,4 @@
+import 'package:catas_univalle/views/admin_profile_view.dart';
 import 'package:catas_univalle/views/profile_view.dart';
 import 'package:catas_univalle/widgets/home/drawer_body.dart';
 import 'package:catas_univalle/widgets/home/drawer_header.dart';
@@ -8,6 +9,7 @@ class CustomDrawer extends StatelessWidget {
   final String email;
   final String imageUrl;
   final VoidCallback onSignOut;
+  final bool isAdmin;
 
   const CustomDrawer({
     super.key,
@@ -15,6 +17,7 @@ class CustomDrawer extends StatelessWidget {
     required this.email,
     required this.imageUrl,
     required this.onSignOut,
+    required this.isAdmin,
   });
 
   @override
@@ -30,7 +33,10 @@ class CustomDrawer extends StatelessWidget {
           DrawerBodyWidget(
             onProfileTap: () => Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => const ProfileView()),
+              MaterialPageRoute(
+                builder: (context) =>
+                    isAdmin ? const AdminProfileView() : const ProfileView(),
+              ),
             ),
             onContactTap: () {
               // Handle contact tap

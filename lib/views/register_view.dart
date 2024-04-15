@@ -27,7 +27,6 @@ class _RegisterViewState extends State<RegisterView> {
   @override
   Widget build(BuildContext context) {
     final viewModel = Provider.of<RegisterViewModel>(context);
-    viewModel.resetFields();
 
     return Scaffold(
       body: NestedScrollView(

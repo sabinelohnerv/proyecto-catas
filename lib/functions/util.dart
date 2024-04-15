@@ -31,6 +31,20 @@ String generateRandomCode() {
   return code;
 }
 
+String generateRandomPassword() {
+  const String allowedCharacters =
+      'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!#?';
+  final Random random = Random();
+  String code = '';
+
+  for (int i = 0; i < 6; i++) {
+    int randomIndex = random.nextInt(allowedCharacters.length);
+    code += allowedCharacters[randomIndex];
+  }
+
+  return code;
+}
+
 String formatDateToWrittenDate(String inputDate) {
   DateTime parsedDate = DateFormat('dd-MM-yyyy').parse(inputDate);
 

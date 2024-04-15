@@ -56,6 +56,7 @@ class ProfileViewModel extends ChangeNotifier {
   int get sugarInDrinks => _userDetails?['sugarInDrinks'] ?? 0;
   List<String> get allergies => List.from(_userDetails?['allergies'] ?? []);
   String get comment => _userDetails?['comment'] ?? '';
+  String get role => _userDetails?['role'] ?? '';
   String get applicationState =>
       _userDetails?['applicationState'] ?? 'Estado no disponible';
 

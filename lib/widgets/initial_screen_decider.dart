@@ -3,6 +3,7 @@ import 'package:catas_univalle/views/admin_home_view.dart';
 import 'package:catas_univalle/views/login_view.dart';
 import 'package:catas_univalle/views/onboarding_view.dart';
 import 'package:catas_univalle/views/user_home_view.dart';
+import 'package:catas_univalle/views/verification_view.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -28,16 +29,19 @@ class _InitialScreenDeciderState extends State<InitialScreenDecider> {
     }
 
     final currentUser = FirebaseAuth.instance.currentUser;
-    if (currentUser != null) {
+    if (currentUser != null && currentUser.emailVerified) {
       final userRole = await _authService.getUserRole(currentUser.uid);
       switch (userRole) {
         case 'admin':
+        case 'admin-2':
           return const AdminHomeView();
         case 'judge':
           return const UserHomeView();
         default:
           return const LoginView();
       }
+    } else if (currentUser != null && !currentUser.emailVerified) {
+      return const VerificationView(); 
     } else {
       return const LoginView();
     }
