@@ -11,7 +11,6 @@ import 'package:provider/provider.dart';
 import '../view_models/admin_event_list_viewmodel.dart';
 import '../widgets/events/event_carousel.dart';
 import '../widgets/home/drawer.dart';
-import 'admin_profile_view.dart';
 
 class AdminHomeView extends StatelessWidget {
   const AdminHomeView({super.key});
@@ -44,6 +43,7 @@ class AdminHomeView extends StatelessWidget {
         fullName: userViewModel.fullName,
         email: userViewModel.email,
         imageUrl: userViewModel.imageUrl,
+        role: true,
         onSignOut: () => _handleSignOut(context),
       ),
       body: SingleChildScrollView(

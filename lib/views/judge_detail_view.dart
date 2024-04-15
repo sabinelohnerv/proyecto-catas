@@ -1,7 +1,10 @@
+import 'package:catas_univalle/widgets/judge/judge_header.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../models/judge.dart';
 import '../view_models/judge_viewmodel.dart';
+import '../widgets/judge/judge_information_group.dart';
+import '../widgets/judge/judge_information_item.dart';
 
 class JudgeDetailScreen extends StatefulWidget {
   final Judge judge;
@@ -47,16 +50,21 @@ class _JudgeDetailScreenState extends State<JudgeDetailScreen> {
   Widget build(BuildContext context) {
     String certificationStatus;
     Color reliabilityColor;
+    Color statusColor;
 
     switch (widget.judge.applicationState) {
       case "aprobado":
         certificationStatus = "Aprobado";
+        statusColor = Colors.green;
         break;
       case "rechazado":
         certificationStatus = "Rechazado";
+        statusColor = Colors.red;
+
         break;
       default:
         certificationStatus = "Pendiente";
+        statusColor = Colors.amber;
     }
 
     if (widget.judge.reliability >= 90) {
@@ -66,7 +74,7 @@ class _JudgeDetailScreenState extends State<JudgeDetailScreen> {
       reliabilityColor = Colors.lightGreen;
     } else if (widget.judge.reliability < 80 &&
         widget.judge.reliability >= 70) {
-      reliabilityColor = Colors.yellow.shade400;
+      reliabilityColor = Colors.amberAccent[100]!;
     } else if (widget.judge.reliability < 70 &&
         widget.judge.reliability >= 60) {
       reliabilityColor = Colors.amber;
@@ -97,112 +105,128 @@ class _JudgeDetailScreenState extends State<JudgeDetailScreen> {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              SizedBox(
-                width: double.infinity,
-                child: Column(
-                  children: [
-                    const SizedBox(height: 20),
-                    widget.judge.profileImgUrl.isNotEmpty
-                        ? CircleAvatar(
-                            radius: 60,
-                            backgroundImage:
-                                NetworkImage(widget.judge.profileImgUrl),
-                          )
-                        : CircleAvatar(
-                            backgroundColor:
-                                Theme.of(context).colorScheme.primary,
-                            radius: 60,
-                            child: const Icon(Icons.person,
-                                size: 120, color: Colors.white),
-                          ),
-                    const SizedBox(height: 20),
-                    Text(widget.judge.fullName,
-                        style: TextStyle(
-                            fontSize: 24.0,
-                            fontWeight: FontWeight.bold,
-                            color: Theme.of(context).colorScheme.onSurface)),
-                    const SizedBox(height: 2),
-                    Text(widget.judge.email,
-                        style: TextStyle(
-                            fontSize: 16.0, color: Colors.grey.shade700)),
-                    const SizedBox(height: 16),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          certificationStatus,
-                          style: TextStyle(
-                              fontSize: 15.0,
-                              fontWeight: FontWeight.bold,
-                              color: certificationStatus == "Aprobado"
-                                  ? Colors.green
-                                  : certificationStatus == "Rechazado"
-                                      ? Colors.red
-                                      : Colors.amber),
-                        ),
-                        const SizedBox(
-                          width: 12,
-                        ),
-                        Container(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 10, vertical: 5),
-                          decoration: BoxDecoration(
-                            color: reliabilityColor,
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                          child: Text(
-                            '${widget.judge.reliability.toString()}%',
-                            style: const TextStyle(
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
+              Padding(
+                padding: const EdgeInsets.all(25.0),
+                child: JudgeHeaderCard(
+                    fullName: widget.judge.fullName,
+                    email: widget.judge.email,
+                    statusLabel: certificationStatus,
+                    statusColor: statusColor,
+                    reliabilityPercentage: widget.judge.reliability.toString(),
+                    reliabilityColor: reliabilityColor,
+                    profileImgUrl: widget.judge.profileImgUrl),
               ),
               Padding(
                 padding: const EdgeInsets.all(20.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    informationRow(
-                        "Fecha de Nacimiento", widget.judge.birthDate),
-                    informationRow("Género",
-                        widget.judge.gender == 'F' ? 'Femenino' : 'Masculino'),
-                    informationRow(
-                        "Rol en la institución", widget.judge.roleAsJudge),
-                    informationRow(
-                        "Tiempo semanal disponible", widget.judge.hasTime ? "Sí" : "No"),
-                    ExpansionTile(
-                      title: Text("Más información",
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              color: Theme.of(context).colorScheme.primary)),
-                      children: <Widget>[
-                        informationRow(
-                            "Fumador", widget.judge.smokes ? "Sí" : "No"),
-                        informationRow("Cigarrillos al día",
-                            widget.judge.cigarettesPerDay.toString()),
-                        informationRow("Café", widget.judge.coffee),
-                        informationRow("Tazas de café al día",
-                            widget.judge.coffeeCupsPerDay.toString()),
-                        informationRow("Picante o Llajua", widget.judge.llajua),
-                        informationRow(
-                            "Azúcar en bebidas",
-                            widget.judge.sugarInDrinks == 1
-                                ? '${widget.judge.sugarInDrinks.toString()} cucharilla'
-                                : '${widget.judge.sugarInDrinks.toString()} cucharillas'),
-                        informationRow(
-                            "Condimentos", widget.judge.seasonings.join(', ')),
-                        informationRow(
-                            "Síntomas", widget.judge.symptoms.join(', ')),
-                        informationRow(
-                            "Alergias", widget.judge.allergies.join(', ')),
-                        informationRow("Le disgusta", widget.judge.dislikes),
-                        informationRow("Comentario", widget.judge.comment),
+                    InformationGroup(
+                      title: 'INFORMACION BASICA',
+                      items: [
+                        InformationItem(
+                          label: 'Nacimiento',
+                          value: widget.judge.birthDate,
+                          leadingIcon: Icons.calendar_today,
+                        ),
+                        InformationItem(
+                          label: 'Género',
+                          value: widget.judge.gender == 'F'
+                              ? 'Femenino'
+                              : 'Masculino',
+                          leadingIcon: Icons.person_sharp,
+                        ),
+                        InformationItem(
+                          label: 'Rol',
+                          value: widget.judge.roleAsJudge,
+                          leadingIcon: Icons.badge,
+                        ),
+                        InformationItem(
+                          label: 'Disponibilidad',
+                          value: widget.judge.hasTime ? "Sí" : "No",
+                          leadingIcon: Icons.timer_rounded,
+                        ),
+                      ],
+                    ),
+                    InformationGroup(
+                      title: 'FUMADOR',
+                      items: [
+                        InformationItem(
+                          label: 'Fumador:',
+                          value: widget.judge.smokes ? "Sí" : "No",
+                          leadingIcon: Icons.smoking_rooms,
+                        ),
+                        InformationItem(
+                          label: 'Cigarrillos al día:',
+                          value: widget.judge.cigarettesPerDay.toString(),
+                          leadingIcon: Icons.smoke_free,
+                        ),
+                      ],
+                    ),
+                    InformationGroup(
+                      title: 'CAFE',
+                      items: [
+                        InformationItem(
+                          label: 'Café:',
+                          value: widget.judge.coffee,
+                          leadingIcon: Icons.coffee_maker,
+                        ),
+                        InformationItem(
+                          label: 'Tazas al día:',
+                          value: widget.judge.coffeeCupsPerDay.toString(),
+                          leadingIcon: Icons.coffee,
+                        ),
+                      ],
+                    ),
+                    InformationGroup(
+                      title: 'CONDIMENTACION',
+                      items: [
+                        InformationItem(
+                          label: 'Picante o Llajua:',
+                          value: widget.judge.llajua,
+                          leadingIcon: Icons.local_fire_department,
+                        ),
+                        InformationItem(
+                          label: 'Azúcar en bebidas:',
+                          value: widget.judge.sugarInDrinks == 1
+                              ? '${widget.judge.sugarInDrinks} cucharilla'
+                              : '${widget.judge.sugarInDrinks} cucharillas',
+                          leadingIcon: Icons.emoji_food_beverage_rounded,
+                        ),
+                        InformationItem(
+                          label: 'Condimentos:',
+                          value: widget.judge.seasonings.join('\n'),
+                          leadingIcon: Icons.flaky,
+                        ),
+                      ],
+                    ),
+                    InformationGroup(
+                      title: 'SALUD',
+                      items: [
+                        InformationItem(
+                          label: 'Síntomas:',
+                          value: widget.judge.symptoms.join('\n'),
+                          leadingIcon: Icons.health_and_safety,
+                        ),
+                        InformationItem(
+                          label: 'Alergias:',
+                          value: widget.judge.allergies.join('\n'),
+                          leadingIcon: Icons.warning_amber_rounded,
+                        ),
+                        InformationItem(
+                          label: 'Le disgusta:',
+                          value: widget.judge.dislikes,
+                          leadingIcon: Icons.thumb_down_off_alt,
+                        ),
+                      ],
+                    ),
+                    InformationGroup(
+                      title: 'COMENTARIOS',
+                      items: [
+                        InformationItem(
+                          label: 'Comentario:',
+                          value: widget.judge.comment,
+                        ),
                       ],
                     ),
                   ],
@@ -219,7 +243,7 @@ class _JudgeDetailScreenState extends State<JudgeDetailScreen> {
             ElevatedButton.icon(
               onPressed: _approveJudge,
               icon: const Icon(Icons.check, color: Colors.white),
-              label: const Text('Aprobar',
+              label: const Text('APROBAR',
                   style: TextStyle(
                       color: Colors.white, fontWeight: FontWeight.bold)),
               style: ElevatedButton.styleFrom(
@@ -234,7 +258,7 @@ class _JudgeDetailScreenState extends State<JudgeDetailScreen> {
             ElevatedButton.icon(
               onPressed: _rejectJudge,
               icon: const Icon(Icons.close, color: Colors.white),
-              label: const Text('Rechazar',
+              label: const Text('RECHAZAR',
                   style: TextStyle(
                       color: Colors.white, fontWeight: FontWeight.bold)),
               style: ElevatedButton.styleFrom(

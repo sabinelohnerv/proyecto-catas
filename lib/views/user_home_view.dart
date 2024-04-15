@@ -2,7 +2,6 @@ import 'package:catas_univalle/view_models/profile_viewmodel.dart';
 import 'package:catas_univalle/views/invitations_view.dart';
 import 'package:catas_univalle/views/judge_selected_events_view.dart';
 import 'package:catas_univalle/views/login_view.dart';
-import 'package:catas_univalle/views/profile_view.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../view_models/admin_event_list_viewmodel.dart';
@@ -42,6 +41,7 @@ class UserHomeView extends StatelessWidget {
         email: userViewModel.email,
         imageUrl: userViewModel.imageUrl,
         onSignOut: () => _handleSignOut(context),
+        role: false,
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -68,18 +68,19 @@ class UserHomeView extends StatelessWidget {
               padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
               child: Text(
                 'Bienvenido, ${userViewModel.fullName}',
+                textAlign: TextAlign.center,
                 style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 18,
-                ),
+                    color: Colors.white,
+                    fontSize: 22,
+                    fontWeight: FontWeight.w400),
               ),
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+              padding: const EdgeInsets.symmetric(vertical: 40, horizontal: 20),
               child: Center(
                 child: Wrap(
-                  spacing: 20,
-                  runSpacing: 20,
+                  spacing: 25,
+                  runSpacing: 25,
                   alignment: WrapAlignment.center,
                   children: [
                     SimpleSectionCard(
