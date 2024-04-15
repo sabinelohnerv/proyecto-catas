@@ -43,9 +43,7 @@ class AdminHomeView extends StatelessWidget {
         fullName: userViewModel.fullName,
         email: userViewModel.email,
         imageUrl: userViewModel.imageUrl,
-
         isAdmin: true,
- main
         onSignOut: () => _handleSignOut(context),
       ),
       body: SingleChildScrollView(
