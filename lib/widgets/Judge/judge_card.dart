@@ -60,7 +60,7 @@ class JudgeCard extends StatelessWidget {
               left: 0,
               right: 0,
               child: Container(
-                height: 500,
+                height: 515,
                 decoration: BoxDecoration(
                   color: Theme.of(context).colorScheme.primary,
                   shape: BoxShape.circle,
@@ -117,7 +117,7 @@ class JudgeCard extends StatelessWidget {
                   ),
                   const SizedBox(height: 5),
                   Text(
-                    statusLabel,
+                    statusLabel.toUpperCase(),
                     style: TextStyle(
                       fontSize: 14.0,
                       fontWeight: FontWeight.bold,
