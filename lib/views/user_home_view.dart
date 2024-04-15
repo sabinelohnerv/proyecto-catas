@@ -42,7 +42,6 @@ class UserHomeView extends StatelessWidget {
         imageUrl: userViewModel.imageUrl,
         isAdmin: false,
         onSignOut: () => _handleSignOut(context),
-        role: false,
       ),
       body: SingleChildScrollView(
         child: Column(
