@@ -1,5 +1,6 @@
 import 'package:catas_univalle/view_models/profile_viewmodel.dart';
 import 'package:catas_univalle/views/admin_event_list_view.dart';
+import 'package:catas_univalle/views/admin_list_view.dart';
 import 'package:catas_univalle/views/client_list_view.dart';
 import 'package:catas_univalle/views/judge_list_view.dart';
 import 'package:catas_univalle/views/login_view.dart';
@@ -7,7 +8,6 @@ import 'package:catas_univalle/views/training_event_list_view.dart';
 import 'package:catas_univalle/widgets/profile/profile_card.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
 import '../view_models/admin_event_list_viewmodel.dart';
 import '../widgets/events/event_carousel.dart';
 import '../widgets/home/drawer.dart';
@@ -43,7 +43,7 @@ class AdminHomeView extends StatelessWidget {
         fullName: userViewModel.fullName,
         email: userViewModel.email,
         imageUrl: userViewModel.imageUrl,
-        role: true,
+        isAdmin: true,
         onSignOut: () => _handleSignOut(context),
       ),
       body: SingleChildScrollView(
@@ -78,42 +78,54 @@ class AdminHomeView extends StatelessWidget {
                     fontWeight: FontWeight.w400),
               ),
             ),
-            const Padding(
-              padding: EdgeInsets.all(20),
+            Padding(
+              padding: const EdgeInsets.all(20),
               child: Center(
                 child: Wrap(
                   alignment: WrapAlignment.spaceEvenly,
                   spacing: 25,
                   runSpacing: 25,
                   children: [
-                    SimpleSectionCard(
+                    const SimpleSectionCard(
                       img: 'food',
                       title: 'Eventos',
                       subtitle: 'Ver más',
+                      width: 160,
                       destinationScreen: AdminEventListView(
                         isAdmin: true,
                       ),
                     ),
-                    SimpleSectionCard(
+                    const SimpleSectionCard(
                       img: 'jueces',
                       title: 'Jueces',
                       subtitle: 'Lista de jueces',
+                      width: 160,
                       destinationScreen: JudgeListView(),
                     ),
-                    SimpleSectionCard(
+                    const SimpleSectionCard(
                       img: 'clientes',
                       title: 'Anfitriones',
                       subtitle: 'Ver anfitriones',
+                      width: 160,
                       destinationScreen: ClientListView(),
                     ),
-                    SimpleSectionCard(
+                    const SimpleSectionCard(
                       img: 'book',
                       title: 'Capacitaciones',
                       subtitle: 'Aprende ahora',
+                      width: 160,
                       destinationScreen: TrainingEventListView(
                         isAdmin: true,
                       ),
                     ),
+                    if (userViewModel.role == 'admin')
+                      const SimpleSectionCard(
+                        img: 'apoyo',
+                        title: 'Administradores',
+                        subtitle: 'Ver administradores',
+                        width: 160,
+                        destinationScreen: AdminListView(),
+                      ),
                   ],
                 ),
               ),

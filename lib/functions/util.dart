@@ -31,6 +31,20 @@ String generateRandomCode() {
   return code;
 }
 
+String generateRandomPassword() {
+  const String allowedCharacters =
+      'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!#?';
+  final Random random = Random();
+  String code = '';
+
+  for (int i = 0; i < 6; i++) {
+    int randomIndex = random.nextInt(allowedCharacters.length);
+    code += allowedCharacters[randomIndex];
+  }
+
+  return code;
+}
+
 String formatDateToWrittenDate(String inputDate) {
   DateTime parsedDate = DateFormat('dd-MM-yyyy').parse(inputDate);
 
@@ -38,4 +52,12 @@ String formatDateToWrittenDate(String inputDate) {
       DateFormat('dd MMMM yyyy', 'es_ES').format(parsedDate);
 
   return formattedDate.toUpperCase();
+}
+
+bool isOlderThan18(String birthDateString) {
+  DateTime birthDate = DateFormat('dd-MM-yyyy').parse(birthDateString);
+  DateTime today = DateTime.now();
+  DateTime eighteenYearsAgo = DateTime(today.year - 18, today.month, today.day);
+
+  return birthDate.isBefore(eighteenYearsAgo) || birthDate.isAtSameMomentAs(eighteenYearsAgo);
 }

@@ -8,8 +8,8 @@ class CustomDrawer extends StatelessWidget {
   final String fullName;
   final String email;
   final String imageUrl;
-  final bool role;
   final VoidCallback onSignOut;
+  final bool isAdmin;
 
   const CustomDrawer({
     super.key,
@@ -17,7 +17,7 @@ class CustomDrawer extends StatelessWidget {
     required this.email,
     required this.imageUrl,
     required this.onSignOut,
-    required this.role,
+    required this.isAdmin,
   });
 
   @override
@@ -34,11 +34,16 @@ class CustomDrawer extends StatelessWidget {
             onProfileTap: () => Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (context) =>
-                      role ? const AdminProfileView() : const ProfileView()),
+                builder: (context) =>
+                    isAdmin ? const AdminProfileView() : const ProfileView(),
+              ),
             ),
-            onContactTap: () {},
-            onInformationTap: () {},
+            onContactTap: () {
+              // Handle contact tap
+            },
+            onInformationTap: () {
+              // Handle information tap
+            },
             onSignOut: onSignOut,
           ),
         ],
