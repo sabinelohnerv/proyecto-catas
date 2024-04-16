@@ -31,7 +31,7 @@ class _JudgeListViewState extends State<JudgeListView> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text("Filtrado de jueces:"),
+          title: const Text("Filtrado de Jueces"),
           content: StatefulBuilder(
             builder: (BuildContext context, StateSetter setDialogState) {
               return SingleChildScrollView(
