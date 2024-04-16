@@ -14,6 +14,8 @@ class JudgeListView extends StatefulWidget {
 class _JudgeListViewState extends State<JudgeListView> {
   String searchQuery = "";
   String filterStatus = "Todos";
+  int ageFilterMin = 18;
+  int ageFilterMax = 65;
 
   @override
   void initState() {
@@ -22,27 +24,109 @@ class _JudgeListViewState extends State<JudgeListView> {
   }
 
   void _showFilterDialog() {
+    int localMinAge = ageFilterMin;
+    int localMaxAge = ageFilterMax;
+
     showDialog(
       context: context,
-      builder: (context) {
+      builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text("Filtrar por Estado"),
-          content: DropdownButton<String>(
-            value: filterStatus,
-            onChanged: (value) {
-              setState(() {
-                filterStatus = value!;
-                Navigator.pop(context);
-              });
-            },
-            items: <String>["Todos", "Pendiente", "Aprobado", "Rechazado"]
-                .map<DropdownMenuItem<String>>((String value) {
-              return DropdownMenuItem<String>(
-                value: value,
-                child: Text(value),
+          title: const Text("Filtrado de jueces:"),
+          content: StatefulBuilder(
+            builder: (BuildContext context, StateSetter setDialogState) {
+              return SingleChildScrollView(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const Text("Estado del Juez"),
+                    SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: ToggleButtons(
+                        children: <Widget>[
+                          Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 16),
+                              child: Text("Todos")),
+                          Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 16),
+                              child: Text("Pendiente")),
+                          Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 16),
+                              child: Text("Aprobado")),
+                          Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 16),
+                              child: Text("Rechazado")),
+                        ],
+                        isSelected: [
+                          filterStatus == "Todos",
+                          filterStatus == "Pendiente",
+                          filterStatus == "Aprobado",
+                          filterStatus == "Rechazado",
+                        ],
+                        onPressed: (int index) {
+                          setDialogState(() {
+                            switch (index) {
+                              case 0:
+                                filterStatus = "Todos";
+                                break;
+                              case 1:
+                                filterStatus = "Pendiente";
+                                break;
+                              case 2:
+                                filterStatus = "Aprobado";
+                                break;
+                              case 3:
+                                filterStatus = "Rechazado";
+                                break;
+                            }
+                          });
+                        },
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+                    const Text("Rango de Edad"),
+                    RangeSlider(
+                      values: RangeValues(
+                          localMinAge.toDouble(), localMaxAge.toDouble()),
+                      min: 18,
+                      max: 100,
+                      divisions: 82,
+                      labels: RangeLabels(
+                          localMinAge.toString(), localMaxAge.toString()),
+                      onChanged: (RangeValues values) {
+                        setDialogState(() {
+                          localMinAge = values.start.round();
+                          localMaxAge = values.end.round();
+                        });
+                      },
+                    ),
+                  ],
+                ),
               );
-            }).toList(),
+            },
           ),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Resetear'),
+              onPressed: () {
+                setState(() {
+                  filterStatus = "Todos";
+                  ageFilterMin = 18;
+                  ageFilterMax = 65;
+                });
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              child: const Text("OK"),
+              onPressed: () {
+                setState(() {
+                  ageFilterMin = localMinAge;
+                  ageFilterMax = localMaxAge;
+                });
+                Navigator.of(context).pop();
+              },
+            )
+          ],
         );
       },
     );
@@ -75,18 +159,12 @@ class _JudgeListViewState extends State<JudgeListView> {
       body: Consumer<JudgeViewModel>(
         builder: (context, judgeViewModel, child) {
           List<Judge> filteredJudges = judgeViewModel.judges.where((judge) {
-            switch (filterStatus) {
-              case "Pendiente":
-                return judge.applicationState == "" ||
-                    judge.applicationState == "pendiente";
-              case "Aprobado":
-                return judge.applicationState == "aprobado";
-              case "Rechazado":
-                return judge.applicationState == "rechazado";
-              case "Todos":
-              default:
-                return true;
-            }
+            final int age = judge.getAge();
+            return age >= ageFilterMin &&
+                age <= ageFilterMax &&
+                (filterStatus == "Todos" ||
+                    judge.applicationState.toLowerCase() ==
+                        filterStatus.toLowerCase());
           }).toList();
 
           final judges = searchQuery.isEmpty

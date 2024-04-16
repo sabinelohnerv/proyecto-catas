@@ -1,3 +1,6 @@
+import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+
 class Judge {
   String id;
   String fullName;
@@ -44,4 +47,23 @@ class Judge {
     required this.profileImgUrl,
     required this.reliability,
   });
+
+  int getAge() {
+    DateTime birthDate = _parseDate(this.birthDate);
+    DateTime today = DateTime.now();
+    int age = today.year - birthDate.year;
+    if (birthDate.month > today.month || (birthDate.month == today.month && birthDate.day > today.day)) {
+      age--;
+    }
+    return age;
+  }
+
+  DateTime _parseDate(String date) {
+    try {
+      DateFormat format = DateFormat('dd-MM-yyyy');
+      return format.parse(date);
+    } catch (e) {
+      throw FormatException('Fecha inválida. Asegúrate de que esté en el formato "dd-MM-yyyy".');
+    }
+  }
 }
