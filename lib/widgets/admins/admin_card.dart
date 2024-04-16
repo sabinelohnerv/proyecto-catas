@@ -34,7 +34,7 @@ class AdminCard extends StatelessWidget {
             const SizedBox(
               width: 5,
             ),
-            if (admin.role == 'admin')
+            if (isCurrentAdmin)
               const Text('(Tu cuenta)', style: TextStyle(color: Colors.grey, fontSize: 14),)
           ],
         ),
@@ -42,7 +42,7 @@ class AdminCard extends StatelessWidget {
           padding: const EdgeInsets.symmetric(vertical: 4),
           child: Text(admin.email),
         ),
-        trailing: isCurrentAdmin
+        trailing: admin.role == 'admin'
             ? Container(
                 padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 4),
                 decoration: BoxDecoration(
