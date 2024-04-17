@@ -1,6 +1,7 @@
 import 'package:catas_univalle/services/auth_service.dart';
 import 'package:catas_univalle/view_models/admin_list_viewmodel.dart';
 import 'package:catas_univalle/view_models/cata_events_viewmodel.dart';
+import 'package:catas_univalle/view_models/change_password_viewmodel.dart';
 import 'package:catas_univalle/view_models/register_admin_viewmodel.dart';
 import 'package:catas_univalle/view_models/select_judges_viewmodel.dart';
 import 'package:catas_univalle/view_models/selected_judges_viewmodel.dart';
@@ -54,6 +55,7 @@ class MyApp extends StatelessWidget {
             create: (context) => SelectedJudgesViewModel(Event.placeholder())),
         ChangeNotifierProvider(create: (context) => EditClientViewModel()),
         ChangeNotifierProvider(create: (_) => ProfileViewModel()),
+        ChangeNotifierProvider(create: (_) => ChangePasswordViewModel()),
         ChangeNotifierProvider(create: (_) => ClientListViewModel()),
         ChangeNotifierProvider(create: (_) => AddEventViewModel()),
         ChangeNotifierProvider(create: (_) => TrainingEventListViewModel()),
