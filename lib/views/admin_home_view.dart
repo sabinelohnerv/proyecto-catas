@@ -43,7 +43,7 @@ class AdminHomeView extends StatelessWidget {
         fullName: userViewModel.fullName,
         email: userViewModel.email,
         imageUrl: userViewModel.imageUrl,
-        isAdmin: true,
+        role: userViewModel.role,
         onSignOut: () => _handleSignOut(context),
       ),
       body: SingleChildScrollView(
@@ -78,15 +78,15 @@ class AdminHomeView extends StatelessWidget {
                     fontWeight: FontWeight.w400),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.all(20),
+            const Padding(
+              padding: EdgeInsets.all(20),
               child: Center(
                 child: Wrap(
                   alignment: WrapAlignment.spaceEvenly,
                   spacing: 25,
                   runSpacing: 25,
                   children: [
-                    const SimpleSectionCard(
+                    SimpleSectionCard(
                       img: 'food',
                       title: 'Eventos',
                       subtitle: 'Ver más',
@@ -95,21 +95,21 @@ class AdminHomeView extends StatelessWidget {
                         isAdmin: true,
                       ),
                     ),
-                    const SimpleSectionCard(
+                    SimpleSectionCard(
                       img: 'jueces',
                       title: 'Jueces',
                       subtitle: 'Lista de jueces',
                       width: 160,
                       destinationScreen: JudgeListView(),
                     ),
-                    const SimpleSectionCard(
+                    SimpleSectionCard(
                       img: 'clientes',
                       title: 'Anfitriones',
                       subtitle: 'Ver anfitriones',
                       width: 160,
                       destinationScreen: ClientListView(),
                     ),
-                    const SimpleSectionCard(
+                    SimpleSectionCard(
                       img: 'book',
                       title: 'Capacitaciones',
                       subtitle: 'Aprende ahora',
@@ -118,14 +118,6 @@ class AdminHomeView extends StatelessWidget {
                         isAdmin: true,
                       ),
                     ),
-                    if (userViewModel.role == 'admin')
-                      const SimpleSectionCard(
-                        img: 'apoyo',
-                        title: 'Administradores',
-                        subtitle: 'Ver administradores',
-                        width: 160,
-                        destinationScreen: AdminListView(),
-                      ),
                   ],
                 ),
               ),

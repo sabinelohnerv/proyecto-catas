@@ -1,9 +1,11 @@
+import 'package:catas_univalle/services/auth_service.dart';
 import 'package:catas_univalle/view_models/admin_list_viewmodel.dart';
 import 'package:catas_univalle/view_models/cata_events_viewmodel.dart';
 import 'package:catas_univalle/view_models/register_admin_viewmodel.dart';
 import 'package:catas_univalle/view_models/select_judges_viewmodel.dart';
 import 'package:catas_univalle/view_models/selected_judges_viewmodel.dart';
 import 'package:catas_univalle/view_models/training_event_viewmodel.dart';
+import 'package:catas_univalle/view_models/verification_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
@@ -59,7 +61,9 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => AdminEventDetailsViewModel()),
         ChangeNotifierProvider(create: (_) => RegisterAdminViewModel()),
         ChangeNotifierProvider(create: (_) => AdminListViewModel()),
+        ChangeNotifierProvider(create: (_) => VerificationViewModel(() => {},)),
         Provider<EventService>(create: (_) => EventService()),
+        Provider<AuthService>(create: (_) => AuthService()),
       ],
       child: MaterialApp(
         title: 'Catas Univalle',

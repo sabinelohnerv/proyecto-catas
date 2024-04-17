@@ -8,6 +8,8 @@ import 'package:catas_univalle/models/judge.dart';
 class AuthService {
   final _firebaseAuth = FirebaseAuth.instance;
 
+  Stream<User?> get user => _firebaseAuth.authStateChanges();
+
   Future<bool> signIn(String email, String password) async {
     try {
       await _firebaseAuth.signInWithEmailAndPassword(
@@ -16,10 +18,6 @@ class AuthService {
     } catch (e) {
       return false;
     }
-  }
-
-  Future<void> signOut() async {
-    await _firebaseAuth.signOut();
   }
 
   Future<String?> getUserRole(String userId) async {
@@ -97,7 +95,18 @@ class AuthService {
     }
   }
 
-  bool isEmailVerified() {
-    return _firebaseAuth.currentUser?.emailVerified ?? false;
+  Future<bool> isEmailVerified() async {
+    User? user = _firebaseAuth.currentUser;
+    await user?.reload();
+    return user?.emailVerified ?? false;
+  }
+
+  Future<void> sendEmailVerification() async {
+    User? user = _firebaseAuth.currentUser;
+    await user?.sendEmailVerification();
+  }
+
+  Future<void> signOut() async {
+    await _firebaseAuth.signOut();
   }
 }
