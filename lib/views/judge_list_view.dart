@@ -40,7 +40,7 @@ class _JudgeListViewState extends State<JudgeListView> {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    const Text("Estado del Juez"),
+                    const Text("Estado"),
                     SingleChildScrollView(
                       scrollDirection: Axis.horizontal,
                       child: ToggleButtons(
@@ -64,7 +64,7 @@ class _JudgeListViewState extends State<JudgeListView> {
                       ),
                     ),
                     const SizedBox(height: 20),
-                    const Text("Género del Juez"),
+                    const Text("Género"),
                     SingleChildScrollView(
                       scrollDirection: Axis.horizontal,
                       child: ToggleButtons(
