@@ -1,4 +1,3 @@
-
 // ignore_for_file: avoid_print
 
 import 'package:flutter/material.dart';
@@ -25,6 +24,9 @@ import 'package:catas_univalle/view_models/selected_judges_viewmodel.dart';
 import 'package:catas_univalle/view_models/training_event_viewmodel.dart';
 import 'package:catas_univalle/widgets/initial_screen_decider.dart';
 import 'package:intl/date_symbol_data_local.dart';
+import 'services/auth_service.dart';
+import 'view_models/change_password_viewmodel.dart';
+import 'view_models/verification_viewmodel.dart';
 
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
@@ -115,7 +117,6 @@ class MyApp extends StatelessWidget {
             create: (context) => SelectedJudgesViewModel(Event.placeholder())),
         ChangeNotifierProvider(create: (context) => EditClientViewModel()),
         ChangeNotifierProvider(create: (_) => ProfileViewModel()),
-        ChangeNotifierProvider(create: (_) => ChangePasswordViewModel()),
         ChangeNotifierProvider(create: (_) => ClientListViewModel()),
         ChangeNotifierProvider(create: (_) => AddEventViewModel()),
         ChangeNotifierProvider(create: (_) => TrainingEventListViewModel()),
@@ -123,8 +124,12 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => AdminEventDetailsViewModel()),
         ChangeNotifierProvider(create: (_) => RegisterAdminViewModel()),
         ChangeNotifierProvider(create: (_) => AdminListViewModel()),
-        ChangeNotifierProvider(create: (_) => VerificationViewModel(() => {},)),
         Provider<EventService>(create: (_) => EventService()),
+        ChangeNotifierProvider(create: (_) => ChangePasswordViewModel()),
+        ChangeNotifierProvider(
+            create: (_) => VerificationViewModel(
+                  () => {},
+                )),
         Provider<AuthService>(create: (_) => AuthService()),
       ],
       child: MaterialApp(
