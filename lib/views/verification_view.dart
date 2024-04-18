@@ -1,131 +1,82 @@
-// ignore_for_file: use_build_context_synchronously
-
-import 'package:catas_univalle/views/user_home_view.dart';
+import 'package:catas_univalle/widgets/verification/verification_card.dart';
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'dart:async';
+import 'package:provider/provider.dart';
+import 'package:catas_univalle/services/auth_service.dart';
+import 'package:catas_univalle/views/user_home_view.dart';
+import 'package:catas_univalle/views/login_view.dart';
 
-class VerificationView extends StatefulWidget {
+class VerificationView extends StatelessWidget {
   const VerificationView({super.key});
 
-  @override
-  State<StatefulWidget> createState() {
-    return _VerificationViewState();
-  }
-}
-
-class _VerificationViewState extends State<VerificationView> {
-  Timer? _timer;
-
-  @override
-  void initState() {
-    super.initState();
-    _timer = Timer.periodic(const Duration(seconds: 5), (timer) async {
-      var user = FirebaseAuth.instance.currentUser;
-      await user?.reload();
-      if (user?.emailVerified ?? false) {
-        timer.cancel();
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => const UserHomeView()),
-        );
-      }
-    });
+  void _navigateToHome(BuildContext context) {
+    Navigator.of(context).pushReplacement(
+      MaterialPageRoute(builder: (context) => const UserHomeView()),
+    );
   }
 
-  @override
-  void dispose() {
-    _timer?.cancel();
-    super.dispose();
+  void _handleSignOut(BuildContext context, AuthService authService) async {
+    await authService.signOut();
+    Navigator.of(context).pushReplacement(
+      MaterialPageRoute(builder: (context) => const LoginView()),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
+    AuthService authService = Provider.of<AuthService>(context, listen: false);
+
     return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.primary,
       appBar: AppBar(
-        title: const Text(
-          'Verificación',
-          style: TextStyle(color: Colors.white),
-        ),
-        backgroundColor: Theme.of(context).colorScheme.primary,
+        backgroundColor: Colors.transparent,
         elevation: 0,
-        leading: IconButton(
-          icon: const Icon(
-            Icons.arrow_back_ios,
+        leading: null,
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.exit_to_app),
+            onPressed: () => _handleSignOut(context, authService),
             color: Colors.white,
+            iconSize: 30,
           ),
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
+        ],
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Container(
-              width: 64,
-              height: 64,
-              decoration: BoxDecoration(
-                color: Colors.white,
-                shape: BoxShape.circle,
-                boxShadow: [
-                  BoxShadow(
-                    color:
-                        Theme.of(context).colorScheme.primary.withOpacity(0.5),
-                    blurRadius: 10,
-                    offset: const Offset(0, 3),
-                  ),
-                ],
-              ),
-              child: Center(
-                child: CircularProgressIndicator(
-                  valueColor: AlwaysStoppedAnimation<Color>(
-                    Theme.of(context).colorScheme.primary,
-                  ),
-                ),
+      extendBodyBehindAppBar: true,
+      body: Stack(
+        children: <Widget>[
+          Container(
+            decoration: const BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage("assets/images/verification.jpg"),
+                fit: BoxFit.cover,
               ),
             ),
-            const SizedBox(height: 24),
-            const Text(
-              'Verificando tu correo electrónico',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            const SizedBox(height: 24),
-            Container(
-              margin: const EdgeInsets.symmetric(horizontal: 24),
-              padding: const EdgeInsets.all(16),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(12),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.2),
-                    blurRadius: 10,
-                    offset: const Offset(0, 3),
-                  ),
-                ],
-              ),
-              child: const Column(
-                children: [
-                  Text(
-                    'Por favor, revisa tu correo y sigue las instrucciones para confirmar tu cuenta.',
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 16,
+          ),
+          Center(
+            child: FutureBuilder<bool>(
+              future: authService.isEmailVerified(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const CircularProgressIndicator();
+                } else if (snapshot.data == true) {
+                  WidgetsBinding.instance.addPostFrameCallback((_) {
+                    _navigateToHome(context);
+                  });
+                  return const SizedBox();
+                } else {
+                  return const Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Spacer(flex: 4),
+                        VerificationCard(),
+                        Spacer(flex: 1),
+                      ],
                     ),
-                    textAlign: TextAlign.center,
-                  ),
-                ],
-              ),
+                  );
+                }
+              },
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

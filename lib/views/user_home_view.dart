@@ -40,7 +40,7 @@ class UserHomeView extends StatelessWidget {
         fullName: userViewModel.fullName,
         email: userViewModel.email,
         imageUrl: userViewModel.imageUrl,
-        isAdmin: false,
+        role: userViewModel.role,
         onSignOut: () => _handleSignOut(context),
       ),
       body: SingleChildScrollView(

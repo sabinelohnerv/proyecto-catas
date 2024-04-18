@@ -1,3 +1,4 @@
+
 // ignore_for_file: avoid_print
 
 import 'package:flutter/material.dart';
@@ -114,6 +115,7 @@ class MyApp extends StatelessWidget {
             create: (context) => SelectedJudgesViewModel(Event.placeholder())),
         ChangeNotifierProvider(create: (context) => EditClientViewModel()),
         ChangeNotifierProvider(create: (_) => ProfileViewModel()),
+        ChangeNotifierProvider(create: (_) => ChangePasswordViewModel()),
         ChangeNotifierProvider(create: (_) => ClientListViewModel()),
         ChangeNotifierProvider(create: (_) => AddEventViewModel()),
         ChangeNotifierProvider(create: (_) => TrainingEventListViewModel()),
@@ -121,7 +123,9 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => AdminEventDetailsViewModel()),
         ChangeNotifierProvider(create: (_) => RegisterAdminViewModel()),
         ChangeNotifierProvider(create: (_) => AdminListViewModel()),
+        ChangeNotifierProvider(create: (_) => VerificationViewModel(() => {},)),
         Provider<EventService>(create: (_) => EventService()),
+        Provider<AuthService>(create: (_) => AuthService()),
       ],
       child: MaterialApp(
         title: 'Catas Univalle',

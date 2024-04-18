@@ -4,6 +4,8 @@ class DrawerBodyWidget extends StatelessWidget {
   final VoidCallback onProfileTap;
   final VoidCallback onContactTap;
   final VoidCallback onInformationTap;
+  final bool isSuperAdmin;
+  final VoidCallback onAdminTap;
   final VoidCallback onSignOut;
 
   const DrawerBodyWidget({
@@ -11,6 +13,8 @@ class DrawerBodyWidget extends StatelessWidget {
     required this.onProfileTap,
     required this.onContactTap,
     required this.onInformationTap,
+    required this.isSuperAdmin,
+    required this.onAdminTap,
     required this.onSignOut,
   });
 
@@ -25,6 +29,12 @@ class DrawerBodyWidget extends StatelessWidget {
             leading: const Icon(Icons.account_box),
             title: const Text('Perfil'),
             onTap: onProfileTap,
+          ),
+          if(isSuperAdmin)
+          ListTile(
+            leading: const Icon(Icons.admin_panel_settings),
+            title: const Text('Administradores'),
+            onTap: onAdminTap,
           ),
           ListTile(
             leading: const Icon(Icons.info),
