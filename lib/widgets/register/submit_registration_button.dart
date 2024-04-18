@@ -1,5 +1,5 @@
 import 'dart:io';
-
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:catas_univalle/models/judge.dart';
 import 'package:catas_univalle/view_models/register_viewmodel.dart';
 import 'package:catas_univalle/views/verification_view.dart';
@@ -49,10 +49,14 @@ class _SubmitRegistrationButtonState extends State<SubmitRegistrationButton> {
                   });
                   widget.formKey.currentState!.save();
                   widget.viewModel.calculateReliability();
+                  String? fcmToken =
+                      await FirebaseMessaging.instance.getToken();
+
                   Judge newJudge = Judge(
                       id: '',
                       fullName: widget.viewModel.fullName,
                       email: widget.viewModel.email,
+                      fcmToken: fcmToken,
                       birthDate: widget.viewModel.birthDate,
                       gender: widget.viewModel.gender,
                       dislikes: widget.viewModel.dislikes,

@@ -82,6 +82,7 @@ class AuthService {
         'hasTime': judge.hasTime,
         'role': 'judge',
         'reliability': judge.reliability,
+        'fcmToken': judge.fcmToken,
         if (imageUrl != null) 'image_url': imageUrl,
       };
 

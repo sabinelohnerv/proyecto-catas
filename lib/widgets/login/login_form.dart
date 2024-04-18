@@ -1,10 +1,7 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:catas_univalle/view_models/login_viewmodel.dart';
-import 'package:catas_univalle/views/admin_home_view.dart';
-import 'package:catas_univalle/views/login_view.dart';
 import 'package:catas_univalle/views/register_view.dart';
-import 'package:catas_univalle/views/user_home_view.dart';
 import 'package:catas_univalle/widgets/login/animations.dart';
 import 'package:catas_univalle/widgets/login/decorative_shape_widget.dart';
 import 'package:catas_univalle/widgets/login/login_button.dart';
@@ -100,7 +97,10 @@ class _LoginFormState extends State<LoginForm> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
-                        LoginButton(emailController: _emailController, passwordController: _passwordController, viewModel: _viewModel),
+                        LoginButton(
+                            emailController: _emailController,
+                            passwordController: _passwordController,
+                            viewModel: _viewModel),
                       ],
                     ),
                   ),

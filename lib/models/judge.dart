@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class Judge {
@@ -23,6 +22,7 @@ class Judge {
   String applicationState;
   String profileImgUrl;
   double reliability;
+  String? fcmToken;
 
   Judge({
     required this.id,
@@ -46,13 +46,15 @@ class Judge {
     required this.applicationState,
     required this.profileImgUrl,
     required this.reliability,
+    this.fcmToken,
   });
 
   int getAge() {
     DateTime birthDate = _parseDate(this.birthDate);
     DateTime today = DateTime.now();
     int age = today.year - birthDate.year;
-    if (birthDate.month > today.month || (birthDate.month == today.month && birthDate.day > today.day)) {
+    if (birthDate.month > today.month ||
+        (birthDate.month == today.month && birthDate.day > today.day)) {
       age--;
     }
     return age;
@@ -63,7 +65,8 @@ class Judge {
       DateFormat format = DateFormat('dd-MM-yyyy');
       return format.parse(date);
     } catch (e) {
-      throw FormatException('Fecha inválida. Asegúrate de que esté en el formato "dd-MM-yyyy".');
+      throw FormatException(
+          'Fecha inválida. Asegúrate de que esté en el formato "dd-MM-yyyy".');
     }
   }
 }
