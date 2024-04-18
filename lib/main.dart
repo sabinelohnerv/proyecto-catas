@@ -24,6 +24,9 @@ import 'package:catas_univalle/view_models/selected_judges_viewmodel.dart';
 import 'package:catas_univalle/view_models/training_event_viewmodel.dart';
 import 'package:catas_univalle/widgets/initial_screen_decider.dart';
 import 'package:intl/date_symbol_data_local.dart';
+import 'services/auth_service.dart';
+import 'view_models/change_password_viewmodel.dart';
+import 'view_models/verification_viewmodel.dart';
 
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
@@ -122,6 +125,12 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => RegisterAdminViewModel()),
         ChangeNotifierProvider(create: (_) => AdminListViewModel()),
         Provider<EventService>(create: (_) => EventService()),
+        ChangeNotifierProvider(create: (_) => ChangePasswordViewModel()),
+        ChangeNotifierProvider(
+            create: (_) => VerificationViewModel(
+                  () => {},
+                )),
+        Provider<AuthService>(create: (_) => AuthService()),
       ],
       child: MaterialApp(
         title: 'Catas Univalle',
