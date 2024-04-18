@@ -73,7 +73,7 @@ class AdminService {
       await _firestore.collection('users').doc(admin.id).set({
         'fullName': admin.name,
         'email': admin.email,
-        'img_url': admin.profileImgUrl,
+        'image_url': admin.profileImgUrl,
         'role': admin.role,
       });
     } catch (e) {
