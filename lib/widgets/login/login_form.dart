@@ -97,7 +97,10 @@ class _LoginFormState extends State<LoginForm> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
-                        LoginButton(emailController: _emailController, passwordController: _passwordController, viewModel: _viewModel),
+                        LoginButton(
+                            emailController: _emailController,
+                            passwordController: _passwordController,
+                            viewModel: _viewModel),
                       ],
                     ),
                   ),
