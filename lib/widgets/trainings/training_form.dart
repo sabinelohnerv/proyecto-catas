@@ -6,7 +6,7 @@ import 'package:catas_univalle/services/event_service.dart';
 import 'package:catas_univalle/view_models/training_viewmodel.dart';
 
 class TrainingForm extends StatefulWidget {
-  final String eventId; // Se espera que este valor no sea nulo y sea válido.
+  final String eventId;
 
   TrainingForm({Key? key, required this.eventId}) : super(key: key);
 
@@ -18,8 +18,6 @@ class _TrainingFormState extends State<TrainingForm> {
   EventService eventService = EventService();
   List<Event> events = [];
   String? selectedEventId;
-
-  // Controladores para los campos del formulario
   final _nameController = TextEditingController();
   final _descriptionController = TextEditingController();
   final _imageUrlController = TextEditingController();
@@ -38,11 +36,15 @@ class _TrainingFormState extends State<TrainingForm> {
   }
 
   void loadEvents() async {
-    events = await eventService.fetchAllCataEvents();
-    if (events.isNotEmpty && selectedEventId == null) {
-      selectedEventId = events[0].id; // Set default event ID if none provided
-    }
+  events = await eventService.fetchAllCataEvents(); 
+  print("Eventos cargados: ${events.length}"); 
+  if (events.isNotEmpty && selectedEventId == null) {
+    setState(() {
+      selectedEventId = events[0].id;
+    });
+    print("Evento predeterminado seleccionado: $selectedEventId");
   }
+}
 
   Future<void> _selectDate() async {
     final DateTime? picked = await showDatePicker(
@@ -137,9 +139,8 @@ class _TrainingFormState extends State<TrainingForm> {
             ElevatedButton(
               onPressed: () {
                 if (selectedEventId != null) {
-                  // Crear un nuevo objeto Training con todos los campos necesarios
                   Training newTraining = Training(
-                    id: '', // Suponiendo que el ID se genera automáticamente en el backend o no es necesario al crear
+                    id: '',
                     name: _nameController.text,
                     description: _descriptionController.text,
                     imageUrl: _imageUrlController.text,
@@ -150,12 +151,10 @@ class _TrainingFormState extends State<TrainingForm> {
                     locationUrl: _locationUrlController.text,
                     pdfUrl: _pdfUrlController.text,
                   );
-                  // Pasar tanto el eventId como el nuevo objeto Training
                   Provider.of<TrainingViewModel>(context, listen: false)
                       .addTraining(selectedEventId!, newTraining);
                   Navigator.pop(context);
                 } else {
-                  // Manejar el caso en que el eventId no esté seleccionado
                   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                       content: Text(
                           "Por favor, selecciona un evento antes de guardar.")));

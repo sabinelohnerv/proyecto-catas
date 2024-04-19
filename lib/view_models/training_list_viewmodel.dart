@@ -24,7 +24,7 @@ class TrainingListViewModel with ChangeNotifier {
       _trainings = await _trainingService.getTrainings(eventId).first;
     } catch (e) {
       print('Error fetching trainings: $e');
-      throw e; // Lanzar la excepción para que los consumidores puedan manejarla
+      throw e;
     } finally {
       setLoading(false);
     }

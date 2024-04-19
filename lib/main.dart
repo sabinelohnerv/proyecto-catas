@@ -159,8 +159,6 @@ class MyApp extends StatelessWidget {
         home: const InitialScreenDecider(),
         routes: {
           '/addTraining': (context) {
-            // Aquí necesitas obtener el eventId de alguna manera. Ejemplo:
-            // Esta es solo una suposición. Debes adaptarlo según cómo manejes los estados o parámetros en tu app.
             final eventId = ModalRoute.of(context)?.settings.arguments as String? ?? 'defaultEventId';
             return AddTrainingView(eventId: eventId);
           },

@@ -4,34 +4,40 @@ import 'package:catas_univalle/models/training.dart';
 class TrainingService {
   final FirebaseFirestore _db = FirebaseFirestore.instance;
 
-  // Agregar una nueva capacitación
   Future<void> addTraining(String eventId, Training training) async {
-    await _db.collection('events').doc(eventId).collection('trainings').add(training.toJson());
+    try {
+      await _db.collection('events').doc(eventId).collection('trainings').add(training.toJson());
+    } catch (e) {
+      print('Failed to add training: $e');
+      throw Exception('Failed to add training');
+    }
   }
 
-  // Actualizar una capacitación existente
   Future<void> updateTraining(String eventId, Training training) async {
-    await _db.collection('events').doc(eventId).collection('trainings').doc(training.id).set(training.toJson(), SetOptions(merge: true));
+    try {
+      await _db.collection('events').doc(eventId).collection('trainings').doc(training.id)
+        .set(training.toJson(), SetOptions(merge: true));
+    } catch (e) {
+      print('Failed to update training: $e');
+      throw Exception('Failed to update training');
+    }
   }
 
-  // Eliminar una capacitación
   Future<void> deleteTraining(String eventId, String trainingId) async {
-    await _db.collection('events').doc(eventId).collection('trainings').doc(trainingId).delete();
+    try {
+      await _db.collection('events').doc(eventId).collection('trainings').doc(trainingId).delete();
+    } catch (e) {
+      print('Failed to delete training: $e');
+      throw Exception('Failed to delete training');
+    }
   }
 
-  // Obtener todas las capacitaciones de un evento
   Stream<List<Training>> getTrainings(String eventId) {
-  return _db
-      .collection('events')
-      .doc(eventId)
-      .collection('trainings')
-      .snapshots()
-      .map((snapshot) {
-    return snapshot.docs.map((doc) => Training.fromJson({
-      ...doc.data(),
-      'id': doc.id,
-    })).toList();
-  });
-}
-
+    return _db.collection('events').doc(eventId).collection('trainings').snapshots().map((snapshot) {
+      return snapshot.docs.map((doc) => Training.fromJson({
+        ...doc.data() as Map<String, dynamic>,
+        'id': doc.id,
+      })).toList();
+    });
+  }
 }

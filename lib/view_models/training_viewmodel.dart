@@ -3,7 +3,7 @@ import 'package:catas_univalle/models/training.dart';
 import 'package:catas_univalle/services/training_service.dart';
 
 class TrainingViewModel with ChangeNotifier {
-  TrainingService _trainingService; // Hazlo mutable, no final
+  TrainingService _trainingService;
 
   List<Training> _trainings = [];
   bool _isLoading = false;
@@ -68,7 +68,7 @@ class TrainingViewModel with ChangeNotifier {
   Future<void> fetchTrainings(String eventId) async {
     if (eventId.isEmpty) {
       print('Error fetching trainings: eventId is empty');
-      return;  // Salir temprano si no hay un eventId válido
+      return; 
     }
 
     setLoading(true);
@@ -76,7 +76,7 @@ class TrainingViewModel with ChangeNotifier {
       _trainings = await _trainingService.getTrainings(eventId).first;
     } catch (e) {
       print('Error fetching trainings: $e');
-      throw e;  // Lanzar la excepción para que los consumidores puedan manejarla
+      throw e; 
     } finally {
       setLoading(false);
     }
