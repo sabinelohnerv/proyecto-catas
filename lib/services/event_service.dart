@@ -69,6 +69,7 @@ class EventService {
               'email': j.email,
               'state': j.state,
               'imgUrl': j.imgUrl,
+              'fcmToken': j.fcmToken,
             })
         .toList();
 
