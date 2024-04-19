@@ -65,7 +65,7 @@ class Judge {
       DateFormat format = DateFormat('dd-MM-yyyy');
       return format.parse(date);
     } catch (e) {
-      throw FormatException(
+      throw const FormatException(
           'Fecha inválida. Asegúrate de que esté en el formato "dd-MM-yyyy".');
     }
   }
