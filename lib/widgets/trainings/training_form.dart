@@ -18,6 +18,7 @@ class _TrainingFormState extends State<TrainingForm> {
   EventService eventService = EventService();
   List<Event> events = [];
   String? selectedEventId;
+
   final _nameController = TextEditingController();
   final _descriptionController = TextEditingController();
   final _imageUrlController = TextEditingController();
@@ -36,15 +37,19 @@ class _TrainingFormState extends State<TrainingForm> {
   }
 
   void loadEvents() async {
-  events = await eventService.fetchAllCataEvents(); 
-  print("Eventos cargados: ${events.length}"); 
-  if (events.isNotEmpty && selectedEventId == null) {
-    setState(() {
-      selectedEventId = events[0].id;
-    });
-    print("Evento predeterminado seleccionado: $selectedEventId");
+  try {
+    List<Event> loadedEvents = await eventService.fetchAllCataEvents();
+    if (loadedEvents.isNotEmpty) {
+      setState(() {
+        events = loadedEvents;
+        selectedEventId = selectedEventId ?? events[0].id;
+      });
+    }
+  } catch (e) {
+    print('Error loading events: $e');
   }
 }
+
 
   Future<void> _selectDate() async {
     final DateTime? picked = await showDatePicker(
@@ -95,11 +100,11 @@ class _TrainingFormState extends State<TrainingForm> {
                   child: Text(event.name),
                 );
               }).toList(),
+              isExpanded: true,
             ),
             TextField(
               controller: _nameController,
-              decoration:
-                  InputDecoration(labelText: 'Nombre de la capacitación'),
+              decoration: InputDecoration(labelText: 'Nombre de la capacitación'),
             ),
             TextField(
               controller: _descriptionController,
@@ -156,8 +161,7 @@ class _TrainingFormState extends State<TrainingForm> {
                   Navigator.pop(context);
                 } else {
                   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                      content: Text(
-                          "Por favor, selecciona un evento antes de guardar.")));
+                      content: Text("Por favor, selecciona un evento antes de guardar.")));
                 }
               },
               child: Text("Guardar Capacitación"),
