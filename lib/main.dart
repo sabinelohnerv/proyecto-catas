@@ -1,5 +1,9 @@
 // ignore_for_file: avoid_print
 
+import 'package:catas_univalle/services/training_service.dart';
+import 'package:catas_univalle/view_models/training_list_viewmodel.dart';
+import 'package:catas_univalle/view_models/training_viewmodel.dart';
+import 'package:catas_univalle/views/add_training_view.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -21,7 +25,6 @@ import 'package:catas_univalle/view_models/register_admin_viewmodel.dart';
 import 'package:catas_univalle/view_models/register_viewmodel.dart';
 import 'package:catas_univalle/view_models/select_judges_viewmodel.dart';
 import 'package:catas_univalle/view_models/selected_judges_viewmodel.dart';
-import 'package:catas_univalle/view_models/training_event_viewmodel.dart';
 import 'package:catas_univalle/widgets/initial_screen_decider.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'services/auth_service.dart';
@@ -102,6 +105,17 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
+        Provider<TrainingService>(
+          create: (_) => TrainingService(),
+        ),
+        ChangeNotifierProvider<TrainingListViewModel>(
+          create: (context) => TrainingListViewModel(
+              trainingService: Provider.of<TrainingService>(context, listen: false)),
+        ),
+        ChangeNotifierProvider<TrainingViewModel>(
+          create: (context) => TrainingViewModel(
+              trainingService: Provider.of<TrainingService>(context, listen: false)),
+        ),
         ChangeNotifierProvider(create: (_) => RegisterViewModel()),
         ChangeNotifierProvider(create: (_) => JudgeViewModel()),
         ChangeNotifierProvider(create: (context) => ProfileViewModel()),
@@ -119,7 +133,6 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => ProfileViewModel()),
         ChangeNotifierProvider(create: (_) => ClientListViewModel()),
         ChangeNotifierProvider(create: (_) => AddEventViewModel()),
-        ChangeNotifierProvider(create: (_) => TrainingEventListViewModel()),
         ChangeNotifierProvider(create: (_) => AdminEventListViewModel()),
         ChangeNotifierProvider(create: (_) => AdminEventDetailsViewModel()),
         ChangeNotifierProvider(create: (_) => RegisterAdminViewModel()),
@@ -144,6 +157,14 @@ class MyApp extends StatelessWidget {
           useMaterial3: true,
         ),
         home: const InitialScreenDecider(),
+        routes: {
+          '/addTraining': (context) {
+            // Aquí necesitas obtener el eventId de alguna manera. Ejemplo:
+            // Esta es solo una suposición. Debes adaptarlo según cómo manejes los estados o parámetros en tu app.
+            final eventId = ModalRoute.of(context)?.settings.arguments as String? ?? 'defaultEventId';
+            return AddTrainingView(eventId: eventId);
+          },
+        },
       ),
     );
   }

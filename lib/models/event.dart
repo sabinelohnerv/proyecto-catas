@@ -1,5 +1,6 @@
 import 'package:catas_univalle/models/client.dart';
 import 'package:catas_univalle/models/event_judge.dart';
+import 'package:catas_univalle/models/training.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Event {
@@ -19,24 +20,27 @@ class Event {
   Client client;
   int numberOfJudges;
   List<EventJudge> eventJudges;
+  List<Training> trainings;
 
-  Event(
-      {required this.id,
-      required this.name,
-      required this.date,
-      required this.start,
-      required this.end,
-      required this.location,
-      required this.locationUrl,
-      required this.about,
-      required this.imageUrl,
-      required this.code,
-      required this.formUrl,
-      required this.allergyRestrictions,
-      required this.symptomRestrictions,
-      required this.client,
-      required this.numberOfJudges,
-      required this.eventJudges});
+  Event({
+    required this.id,
+    required this.name,
+    required this.date,
+    required this.start,
+    required this.end,
+    required this.location,
+    required this.locationUrl,
+    required this.about,
+    required this.imageUrl,
+    required this.code,
+    required this.formUrl,
+    required this.allergyRestrictions,
+    required this.symptomRestrictions,
+    required this.client,
+    required this.numberOfJudges,
+    required this.eventJudges,
+    required this.trainings,
+  });
 
   factory Event.fromSnapshot(DocumentSnapshot snapshot) {
     Map<String, dynamic> data = snapshot.data() as Map<String, dynamic>;
@@ -61,6 +65,10 @@ class Event {
               ?.map((e) => EventJudge.fromMap(e as Map<String, dynamic>))
               .toList() ??
           [],
+      trainings: (data['trainings'] as List<dynamic>?)
+              ?.map((e) => Training.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          [],
     );
   }
 
@@ -82,6 +90,7 @@ class Event {
       client: Client.placeholder(),
       numberOfJudges: 0,
       eventJudges: [],
+      trainings: [], 
     );
   }
 }
