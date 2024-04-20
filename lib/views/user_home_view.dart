@@ -40,8 +40,8 @@ class UserHomeView extends StatelessWidget {
         fullName: userViewModel.fullName,
         email: userViewModel.email,
         imageUrl: userViewModel.imageUrl,
-        role: userViewModel.role,
-        onSignOut: () => _handleSignOut(context),
+        isAdmin: false,
+        onSignOut: () => _handleSignOut(context), role: 'admin',
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -68,19 +68,18 @@ class UserHomeView extends StatelessWidget {
               padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
               child: Text(
                 'Bienvenido, ${userViewModel.fullName}',
-                textAlign: TextAlign.center,
                 style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 22,
-                    fontWeight: FontWeight.w400),
+                  color: Colors.white,
+                  fontSize: 18,
+                ),
               ),
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(vertical: 40, horizontal: 20),
+              padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
               child: Center(
                 child: Wrap(
-                  spacing: 25,
-                  runSpacing: 25,
+                  spacing: 20,
+                  runSpacing: 20,
                   alignment: WrapAlignment.center,
                   children: [
                     SimpleSectionCard(

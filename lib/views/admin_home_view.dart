@@ -44,6 +44,7 @@ class AdminHomeView extends StatelessWidget {
         imageUrl: userViewModel.imageUrl,
         role: userViewModel.role,
         onSignOut: () => _handleSignOut(context, userViewModel),
+        isAdmin: false,
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -59,11 +60,28 @@ class AdminHomeView extends StatelessWidget {
                         child: Center(child: CircularProgressIndicator()));
                   }
 
-                  String lastEventId = viewModel.events.isNotEmpty ? viewModel.events.last.id : 'defaultEventId';
+                  String lastEventId = viewModel.events.isNotEmpty
+                      ? viewModel.events.last.id
+                      : 'defaultEventId';
 
                   return Column(
                     children: [
-                      HomeEventsCarousel(events: viewModel.events, isAdmin: true),
+                      HomeEventsCarousel(
+                          events: viewModel.events, isAdmin: true),
+                      Container(
+                        color: Theme.of(context).primaryColor,
+                        width: double.infinity,
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 10, horizontal: 20),
+                        child: Text(
+                          'Bienvenido, ${userViewModel.fullName}',
+                          textAlign: TextAlign.center,
+                          style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 22,
+                              fontWeight: FontWeight.w400),
+                        ),
+                      ),
                       Padding(
                         padding: const EdgeInsets.all(20),
                         child: Center(
@@ -77,7 +95,8 @@ class AdminHomeView extends StatelessWidget {
                                 title: 'Eventos',
                                 subtitle: 'Ver más',
                                 width: 160,
-                                destinationScreen: AdminEventListView(isAdmin: true),
+                                destinationScreen:
+                                    AdminEventListView(isAdmin: true),
                               ),
                               SimpleSectionCard(
                                 img: 'jueces',
@@ -117,6 +136,4 @@ class AdminHomeView extends StatelessWidget {
       ),
     );
   }
-
-  
 }
