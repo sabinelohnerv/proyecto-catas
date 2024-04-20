@@ -4,6 +4,7 @@ class EventJudge {
   final String email;
   final String state;
   final String imgUrl;
+  String? fcmToken;
 
   EventJudge({
     required this.id,
@@ -11,6 +12,7 @@ class EventJudge {
     required this.email,
     required this.state,
     required this.imgUrl,
+    this.fcmToken,
   });
 
   factory EventJudge.fromMap(Map<String, dynamic> map) {
@@ -19,6 +21,7 @@ class EventJudge {
         name: map['name'],
         email: map['email'],
         state: map['state'],
+        fcmToken: map['fcmToken'],
         imgUrl: map['imgUrl']);
   }
 }

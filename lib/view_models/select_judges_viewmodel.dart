@@ -101,7 +101,11 @@ class SelectJudgesViewModel with ChangeNotifier {
     if (isSelected) {
       if (_selectedJudges.length < _event!.numberOfJudges) {
         final existingJudge = _event!.eventJudges.firstWhereOrNull(
-          (eJudge) => eJudge.id == judge.id && (eJudge.state == 'invited' || eJudge.state == 'accepted' || eJudge.state == 'rejected'),
+          (eJudge) =>
+              eJudge.id == judge.id &&
+              (eJudge.state == 'invited' ||
+                  eJudge.state == 'accepted' ||
+                  eJudge.state == 'rejected'),
         );
 
         if (existingJudge != null) {
@@ -113,6 +117,7 @@ class SelectJudgesViewModel with ChangeNotifier {
             EventJudge(
                 id: judge.id,
                 email: judge.email,
+                fcmToken: judge.fcmToken,
                 state: 'selected',
                 imgUrl: judge.profileImgUrl,
                 name: judge.fullName),
