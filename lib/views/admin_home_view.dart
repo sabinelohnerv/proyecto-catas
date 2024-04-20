@@ -15,6 +15,15 @@ import '../widgets/home/drawer.dart';
 class AdminHomeView extends StatelessWidget {
   const AdminHomeView({super.key});
 
+  void _handleSignOut(BuildContext context, ProfileViewModel viewModel) async {
+    bool signedOut = await viewModel.signOut();
+    if (signedOut) {
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (context) => const LoginView()),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final userViewModel = Provider.of<ProfileViewModel>(context);
@@ -22,7 +31,10 @@ class AdminHomeView extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('FoodSense'),
+        title: const Text(
+          'FoodSense',
+          style: TextStyle(fontWeight: FontWeight.w700, fontSize: 32),
+        ),
         foregroundColor: Theme.of(context).colorScheme.primary,
         centerTitle: true,
       ),
@@ -106,12 +118,5 @@ class AdminHomeView extends StatelessWidget {
     );
   }
 
-  void _handleSignOut(BuildContext context, ProfileViewModel viewModel) async {
-    bool signedOut = await viewModel.signOut();
-    if (signedOut) {
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (context) => const LoginView()),
-      );
-    }
-  }
+  
 }
