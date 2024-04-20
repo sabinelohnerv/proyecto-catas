@@ -15,6 +15,15 @@ import '../widgets/home/drawer.dart';
 class AdminHomeView extends StatelessWidget {
   const AdminHomeView({super.key});
 
+  void _handleSignOut(BuildContext context, ProfileViewModel viewModel) async {
+    bool signedOut = await viewModel.signOut();
+    if (signedOut) {
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (context) => const LoginView()),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final userViewModel = Provider.of<ProfileViewModel>(context);
@@ -22,7 +31,10 @@ class AdminHomeView extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('FoodSense'),
+        title: const Text(
+          'FoodSense',
+          style: TextStyle(fontWeight: FontWeight.w700, fontSize: 32),
+        ),
         foregroundColor: Theme.of(context).colorScheme.primary,
         centerTitle: true,
       ),
@@ -32,6 +44,7 @@ class AdminHomeView extends StatelessWidget {
         imageUrl: userViewModel.imageUrl,
         role: userViewModel.role,
         onSignOut: () => _handleSignOut(context, userViewModel),
+        isAdmin: false,
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -47,11 +60,28 @@ class AdminHomeView extends StatelessWidget {
                         child: Center(child: CircularProgressIndicator()));
                   }
 
-                  String lastEventId = viewModel.events.isNotEmpty ? viewModel.events.last.id : 'defaultEventId';
+                  String lastEventId = viewModel.events.isNotEmpty
+                      ? viewModel.events.last.id
+                      : 'defaultEventId';
 
                   return Column(
                     children: [
-                      HomeEventsCarousel(events: viewModel.events, isAdmin: true),
+                      HomeEventsCarousel(
+                          events: viewModel.events, isAdmin: true),
+                      Container(
+                        color: Theme.of(context).primaryColor,
+                        width: double.infinity,
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 10, horizontal: 20),
+                        child: Text(
+                          'Bienvenido, ${userViewModel.fullName}',
+                          textAlign: TextAlign.center,
+                          style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 22,
+                              fontWeight: FontWeight.w400),
+                        ),
+                      ),
                       Padding(
                         padding: const EdgeInsets.all(20),
                         child: Center(
@@ -65,7 +95,8 @@ class AdminHomeView extends StatelessWidget {
                                 title: 'Eventos',
                                 subtitle: 'Ver más',
                                 width: 160,
-                                destinationScreen: AdminEventListView(isAdmin: true),
+                                destinationScreen:
+                                    AdminEventListView(isAdmin: true),
                               ),
                               SimpleSectionCard(
                                 img: 'jueces',
@@ -104,14 +135,5 @@ class AdminHomeView extends StatelessWidget {
         ),
       ),
     );
-  }
-
-  void _handleSignOut(BuildContext context, ProfileViewModel viewModel) async {
-    bool signedOut = await viewModel.signOut();
-    if (signedOut) {
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (context) => const LoginView()),
-      );
-    }
   }
 }

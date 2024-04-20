@@ -19,7 +19,7 @@ class CustomDrawer extends StatelessWidget {
       required this.imageUrl,
       required this.onSignOut,
       required this.role,
-      main});
+      main, required bool isAdmin});
 
   @override
   Widget build(BuildContext context) {

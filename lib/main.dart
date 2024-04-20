@@ -110,11 +110,13 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider<TrainingListViewModel>(
           create: (context) => TrainingListViewModel(
-              trainingService: Provider.of<TrainingService>(context, listen: false)),
+              trainingService:
+                  Provider.of<TrainingService>(context, listen: false)),
         ),
         ChangeNotifierProvider<TrainingViewModel>(
           create: (context) => TrainingViewModel(
-              trainingService: Provider.of<TrainingService>(context, listen: false)),
+              trainingService:
+                  Provider.of<TrainingService>(context, listen: false)),
         ),
         ChangeNotifierProvider(create: (_) => RegisterViewModel()),
         ChangeNotifierProvider(create: (_) => JudgeViewModel()),
@@ -159,7 +161,9 @@ class MyApp extends StatelessWidget {
         home: const InitialScreenDecider(),
         routes: {
           '/addTraining': (context) {
-            final eventId = ModalRoute.of(context)?.settings.arguments as String? ?? 'defaultEventId';
+            final eventId =
+                ModalRoute.of(context)?.settings.arguments as String? ??
+                    'defaultEventId';
             return AddTrainingView(eventId: eventId);
           },
         },
