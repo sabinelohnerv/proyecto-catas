@@ -1,9 +1,11 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:catas_univalle/models/event.dart';
 import 'package:catas_univalle/models/training.dart';
 import 'package:catas_univalle/services/event_service.dart';
 import 'package:catas_univalle/view_models/training_viewmodel.dart';
+import 'package:file_picker/file_picker.dart';
 
 class TrainingForm extends StatefulWidget {
   final String eventId;
@@ -21,13 +23,13 @@ class _TrainingFormState extends State<TrainingForm> {
 
   final _nameController = TextEditingController();
   final _descriptionController = TextEditingController();
-  final _imageUrlController = TextEditingController();
   final _locationController = TextEditingController();
   final _locationUrlController = TextEditingController();
-  final _pdfUrlController = TextEditingController();
   DateTime? _selectedDate;
   TimeOfDay? _startTime;
   TimeOfDay? _endTime;
+  File? _selectedImage;
+  File? _selectedPdf;
 
   @override
   void initState() {
@@ -37,19 +39,18 @@ class _TrainingFormState extends State<TrainingForm> {
   }
 
   void loadEvents() async {
-  try {
-    List<Event> loadedEvents = await eventService.fetchAllCataEvents();
-    if (loadedEvents.isNotEmpty) {
-      setState(() {
-        events = loadedEvents;
-        selectedEventId = selectedEventId ?? events[0].id;
-      });
+    try {
+      List<Event> loadedEvents = await eventService.fetchAllCataEvents();
+      if (loadedEvents.isNotEmpty) {
+        setState(() {
+          events = loadedEvents;
+          selectedEventId = selectedEventId ?? events[0].id;
+        });
+      }
+    } catch (e) {
+      print('Error loading events: $e');
     }
-  } catch (e) {
-    print('Error loading events: $e');
   }
-}
-
 
   Future<void> _selectDate() async {
     final DateTime? picked = await showDatePicker(
@@ -81,6 +82,34 @@ class _TrainingFormState extends State<TrainingForm> {
     }
   }
 
+  Future<void> _pickFile(bool isImage) async {
+  FilePickerResult? result;
+  if (isImage) {
+    // Para imágenes, usamos FileType.image que no necesita extensiones adicionales
+    result = await FilePicker.platform.pickFiles(
+      type: FileType.image,
+    );
+  } else {
+    // Para PDFs, usamos FileType.custom y especificamos las extensiones
+    result = await FilePicker.platform.pickFiles(
+      type: FileType.custom,
+      allowedExtensions: ['pdf'],
+    );
+  }
+
+  if (result != null) {
+    File file = File(result.files.single.path!);
+    setState(() {
+      if (isImage) {
+        _selectedImage = file;
+      } else {
+        _selectedPdf = file;
+      }
+    });
+  }
+}
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -110,10 +139,12 @@ class _TrainingFormState extends State<TrainingForm> {
               controller: _descriptionController,
               decoration: InputDecoration(labelText: 'Descripción'),
             ),
-            TextField(
-              controller: _imageUrlController,
-              decoration: InputDecoration(labelText: 'URL de la imagen'),
+            ElevatedButton(
+              onPressed: () => _pickFile(true),
+              child: Text('Seleccionar Imagen'),
             ),
+            // Display selected image file path
+            Text(_selectedImage?.path ?? 'No image selected'),
             TextField(
               controller: _locationController,
               decoration: InputDecoration(labelText: 'Ubicación'),
@@ -122,10 +153,12 @@ class _TrainingFormState extends State<TrainingForm> {
               controller: _locationUrlController,
               decoration: InputDecoration(labelText: 'URL de ubicación'),
             ),
-            TextField(
-              controller: _pdfUrlController,
-              decoration: InputDecoration(labelText: 'URL del PDF'),
+            ElevatedButton(
+              onPressed: () => _pickFile(false),
+              child: Text('Seleccionar PDF'),
             ),
+            // Display selected PDF file path
+            Text(_selectedPdf?.path ?? 'No PDF selected'),
             ListTile(
               title: Text("Seleccionar Fecha"),
               subtitle: Text(_selectedDate?.toString() ?? 'No seleccionada'),
@@ -148,13 +181,13 @@ class _TrainingFormState extends State<TrainingForm> {
                     id: '',
                     name: _nameController.text,
                     description: _descriptionController.text,
-                    imageUrl: _imageUrlController.text,
+                    imageUrl: _selectedImage?.path ?? '',
                     startTime: _startTime?.format(context) ?? '',
                     endTime: _endTime?.format(context) ?? '',
                     date: _selectedDate?.toIso8601String() ?? '',
                     location: _locationController.text,
                     locationUrl: _locationUrlController.text,
-                    pdfUrl: _pdfUrlController.text,
+                    pdfUrl: _selectedPdf?.path ?? '',
                   );
                   Provider.of<TrainingViewModel>(context, listen: false)
                       .addTraining(selectedEventId!, newTraining);
