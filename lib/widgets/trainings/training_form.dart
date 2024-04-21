@@ -83,32 +83,22 @@ class _TrainingFormState extends State<TrainingForm> {
   }
 
   Future<void> _pickFile(bool isImage) async {
-  FilePickerResult? result;
-  if (isImage) {
-    // Para imágenes, usamos FileType.image que no necesita extensiones adicionales
-    result = await FilePicker.platform.pickFiles(
-      type: FileType.image,
+    FilePickerResult? result = await FilePicker.platform.pickFiles(
+      type: isImage ? FileType.image : FileType.custom,
+      allowedExtensions: isImage ? null : ['pdf'],
     );
-  } else {
-    // Para PDFs, usamos FileType.custom y especificamos las extensiones
-    result = await FilePicker.platform.pickFiles(
-      type: FileType.custom,
-      allowedExtensions: ['pdf'],
-    );
-  }
 
-  if (result != null) {
-    File file = File(result.files.single.path!);
-    setState(() {
-      if (isImage) {
-        _selectedImage = file;
-      } else {
-        _selectedPdf = file;
-      }
-    });
+    if (result != null) {
+      File file = File(result.files.single.path!);
+      setState(() {
+        if (isImage) {
+          _selectedImage = file;
+        } else {
+          _selectedPdf = file;
+        }
+      });
+    }
   }
-}
-
 
   @override
   Widget build(BuildContext context) {
@@ -143,8 +133,8 @@ class _TrainingFormState extends State<TrainingForm> {
               onPressed: () => _pickFile(true),
               child: Text('Seleccionar Imagen'),
             ),
-            // Display selected image file path
-            Text(_selectedImage?.path ?? 'No image selected'),
+            if (_selectedImage != null)
+              Image.file(_selectedImage!),  // Muestra la imagen seleccionada
             TextField(
               controller: _locationController,
               decoration: InputDecoration(labelText: 'Ubicación'),
@@ -157,8 +147,8 @@ class _TrainingFormState extends State<TrainingForm> {
               onPressed: () => _pickFile(false),
               child: Text('Seleccionar PDF'),
             ),
-            // Display selected PDF file path
-            Text(_selectedPdf?.path ?? 'No PDF selected'),
+            if (_selectedPdf != null)
+              Icon(Icons.picture_as_pdf, size: 48),  // Simplemente muestra un ícono representativo
             ListTile(
               title: Text("Seleccionar Fecha"),
               subtitle: Text(_selectedDate?.toString() ?? 'No seleccionada'),
