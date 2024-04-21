@@ -1,5 +1,5 @@
 import 'package:catas_univalle/views/edit_profile_view.dart';
-import 'package:catas_univalle/views/change_password_view.dart'; // Importar la vista de cambio de contraseña
+import 'package:catas_univalle/views/change_password_view.dart'; 
 import 'package:catas_univalle/widgets/profile/attributes_container.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -50,7 +50,7 @@ class _ProfileViewState extends State<ProfileView> {
             onPressed: () => Navigator.of(context).push(
               MaterialPageRoute(builder: (context) => const ChangePasswordView()),
             ),
-          ),  // Botón para cambiar la contraseña
+          ),
         ],
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios, color: Colors.white),

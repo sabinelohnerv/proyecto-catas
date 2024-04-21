@@ -4,6 +4,7 @@ import 'package:catas_univalle/services/training_service.dart';
 import 'package:catas_univalle/view_models/training_list_viewmodel.dart';
 import 'package:catas_univalle/view_models/training_viewmodel.dart';
 import 'package:catas_univalle/views/add_training_view.dart';
+import 'package:catas_univalle/views/change_password_view.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -166,6 +167,10 @@ class MyApp extends StatelessWidget {
                     'defaultEventId';
             return AddTrainingView(eventId: eventId);
           },
+          '/changePassword': (context) => ChangeNotifierProvider(
+            create: (_) => ChangePasswordViewModel(),
+            child: const ChangePasswordView(),
+          ),
         },
       ),
     );

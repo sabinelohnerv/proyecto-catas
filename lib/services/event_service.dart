@@ -150,4 +150,14 @@ class EventService {
       return [];
     }
   }
+
+  Stream<List<Event>> streamEventsForJudge(String judgeId) {
+    return _db
+        .collection('events')
+        .where('eventJudges', arrayContains: {'id': judgeId})
+        .snapshots()
+        .map((snapshot) {
+          return snapshot.docs.map((doc) => Event.fromSnapshot(doc)).toList();
+        });
+  }
 }
