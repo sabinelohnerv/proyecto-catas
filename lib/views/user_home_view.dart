@@ -12,7 +12,7 @@ import '../widgets/profile/profile_card.dart';
 class UserHomeView extends StatelessWidget {
   const UserHomeView({super.key});
 
-  void _handleSignOut(BuildContext context) async {
+  void _handleSignOut(BuildContext context, ProfileViewModel userViewModel) async {
     final ProfileViewModel viewModel = ProfileViewModel();
     bool signedOut = await viewModel.signOut();
     if (signedOut) {
@@ -40,8 +40,9 @@ class UserHomeView extends StatelessWidget {
         fullName: userViewModel.fullName,
         email: userViewModel.email,
         imageUrl: userViewModel.imageUrl,
+        role: userViewModel.role,
+        onSignOut: () => _handleSignOut(context, userViewModel),
         isAdmin: false,
-        onSignOut: () => _handleSignOut(context), role: 'admin',
       ),
       body: SingleChildScrollView(
         child: Column(
