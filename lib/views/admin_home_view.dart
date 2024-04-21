@@ -1,6 +1,5 @@
 import 'package:catas_univalle/view_models/profile_viewmodel.dart';
 import 'package:catas_univalle/views/admin_event_list_view.dart';
-import 'package:catas_univalle/views/admin_list_view.dart';
 import 'package:catas_univalle/views/client_list_view.dart';
 import 'package:catas_univalle/views/judge_list_view.dart';
 import 'package:catas_univalle/views/login_view.dart';
@@ -90,7 +89,7 @@ class AdminHomeView extends StatelessWidget {
                             spacing: 25,
                             runSpacing: 25,
                             children: [
-                              SimpleSectionCard(
+                              const SimpleSectionCard(
                                 img: 'food',
                                 title: 'Eventos',
                                 subtitle: 'Ver más',
@@ -98,14 +97,14 @@ class AdminHomeView extends StatelessWidget {
                                 destinationScreen:
                                     AdminEventListView(isAdmin: true),
                               ),
-                              SimpleSectionCard(
+                              const SimpleSectionCard(
                                 img: 'jueces',
                                 title: 'Jueces',
                                 subtitle: 'Lista de jueces',
                                 width: 160,
                                 destinationScreen: JudgeListView(),
                               ),
-                              SimpleSectionCard(
+                              const SimpleSectionCard(
                                 img: 'clientes',
                                 title: 'Anfitriones',
                                 subtitle: 'Ver anfitriones',

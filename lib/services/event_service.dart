@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:catas_univalle/models/event.dart';
 import 'package:catas_univalle/models/event_judge.dart';
+import 'package:catas_univalle/models/training.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:path/path.dart' as Path;
@@ -149,5 +150,26 @@ class EventService {
       print("Error fetching all events: $e");
       return [];
     }
+  }
+
+  Future<int> countTrainingsForEvent(String eventId) async {
+    try {
+      var trainingsSnapshot = await _db.collection('events').doc(eventId).collection('trainings').get();
+      return trainingsSnapshot.docs.length;  
+    } catch (e) {
+      print("Error fetching training count: $e");
+      return 0;  
+    }
+  }
+
+  Stream<List<Training>> streamTrainingsForEvent(String eventId) {
+    return _db
+        .collection('events')
+        .doc(eventId)
+        .collection('trainings')
+        .snapshots()
+        .map((snapshot) {
+      return snapshot.docs.map((doc) => Training.fromJson(doc.data())).toList();
+    });
   }
 }
