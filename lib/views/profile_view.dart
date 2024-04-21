@@ -1,4 +1,5 @@
 import 'package:catas_univalle/views/edit_profile_view.dart';
+import 'package:catas_univalle/views/change_password_view.dart'; 
 import 'package:catas_univalle/widgets/profile/attributes_container.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -39,12 +40,15 @@ class _ProfileViewState extends State<ProfileView> {
       appBar: AppBar(
         actions: [
           IconButton(
-            icon: const Icon(
-              Icons.edit,
-              color: Colors.white,
-            ),
+            icon: const Icon(Icons.edit, color: Colors.white),
             onPressed: () => Navigator.of(context).push(
               MaterialPageRoute(builder: (context) => const EditProfileView()),
+            ),
+          ),
+          IconButton(
+            icon: const Icon(Icons.vpn_key, color: Colors.white),
+            onPressed: () => Navigator.of(context).push(
+              MaterialPageRoute(builder: (context) => const ChangePasswordView()),
             ),
           ),
         ],
@@ -61,8 +65,7 @@ class _ProfileViewState extends State<ProfileView> {
           children: [
             Material(
               elevation: 5,
-              borderRadius:
-                  const BorderRadius.vertical(bottom: Radius.circular(30)),
+              borderRadius: const BorderRadius.vertical(bottom: Radius.circular(30)),
               child: Container(
                 height: 300,
                 width: double.infinity,
@@ -71,17 +74,14 @@ class _ProfileViewState extends State<ProfileView> {
                     image: AssetImage("assets/images/background.png"),
                     fit: BoxFit.cover,
                   ),
-                  borderRadius:
-                      BorderRadius.vertical(bottom: Radius.circular(30)),
+                  borderRadius: BorderRadius.vertical(bottom: Radius.circular(30)),
                 ),
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const SizedBox(
-                        height: 30,
-                      ),
+                      const SizedBox(height: 30),
                       UserImagePicker(
                         initialImage: userViewModel.imageUrl,
                         onPickImage: (pickedImage) async {
