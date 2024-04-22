@@ -1,6 +1,7 @@
 import 'package:catas_univalle/view_models/profile_viewmodel.dart';
 import 'package:catas_univalle/views/invitations_view.dart';
 import 'package:catas_univalle/views/judge_selected_events_view.dart';
+import 'package:catas_univalle/views/judge_training_events_view.dart';
 import 'package:catas_univalle/views/login_view.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -12,7 +13,8 @@ import '../widgets/profile/profile_card.dart';
 class UserHomeView extends StatelessWidget {
   const UserHomeView({super.key});
 
-  void _handleSignOut(BuildContext context, ProfileViewModel userViewModel) async {
+  void _handleSignOut(
+      BuildContext context, ProfileViewModel userViewModel) async {
     final ProfileViewModel viewModel = ProfileViewModel();
     bool signedOut = await viewModel.signOut();
     if (signedOut) {
@@ -69,10 +71,11 @@ class UserHomeView extends StatelessWidget {
               padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
               child: Text(
                 'Bienvenido, ${userViewModel.fullName}',
+                textAlign: TextAlign.center,
                 style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 18,
-                ),
+                    color: Colors.white,
+                    fontSize: 22,
+                    fontWeight: FontWeight.w400),
               ),
             ),
             Padding(
@@ -104,6 +107,22 @@ class UserHomeView extends StatelessWidget {
                       title: 'Invitaciones',
                       subtitle: 'Ver Más',
                       destinationScreen: InvitationsView(),
+                    ),
+                    SimpleSectionCard(
+                      img: 'book',
+                      title: 'Capacitaciones',
+                      subtitle: 'Ver más',
+                      isClickable: true,
+                      onTap: () {
+                        final String judgeId = userViewModel.currentUser!.uid;
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                JudgeTrainingEventsView(judgeId: judgeId),
+                          ),
+                        );
+                      },
                     ),
                   ],
                 ),
