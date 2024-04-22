@@ -45,7 +45,7 @@ class TrainingsListView extends StatelessWidget {
                 final training = viewModel.trainings[index];
                 return TrainingCard(
                   training: training,
-                  onTap: (){},
+                  onTap: () => viewModel.goToTrainingDetailsView(context, training),
                 );
               },
             );

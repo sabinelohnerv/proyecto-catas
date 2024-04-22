@@ -8,10 +8,12 @@ import 'package:catas_univalle/view_models/training_viewmodel.dart';
 class TrainingForm extends StatefulWidget {
   final String eventId;
 
-  TrainingForm({Key? key, required this.eventId}) : super(key: key);
+  const TrainingForm({super.key, required this.eventId});
 
   @override
-  _TrainingFormState createState() => _TrainingFormState();
+  State<StatefulWidget> createState() {
+    return _TrainingFormState();
+  }
 }
 
 class _TrainingFormState extends State<TrainingForm> {
@@ -37,19 +39,18 @@ class _TrainingFormState extends State<TrainingForm> {
   }
 
   void loadEvents() async {
-  try {
-    List<Event> loadedEvents = await eventService.fetchAllCataEvents();
-    if (loadedEvents.isNotEmpty) {
-      setState(() {
-        events = loadedEvents;
-        selectedEventId = selectedEventId ?? events[0].id;
-      });
+    try {
+      List<Event> loadedEvents = await eventService.fetchAllCataEvents();
+      if (loadedEvents.isNotEmpty) {
+        setState(() {
+          events = loadedEvents;
+          selectedEventId = selectedEventId ?? events[0].id;
+        });
+      }
+    } catch (e) {
+      print('Error loading events: $e');
     }
-  } catch (e) {
-    print('Error loading events: $e');
   }
-}
-
 
   Future<void> _selectDate() async {
     final DateTime? picked = await showDatePicker(
@@ -104,7 +105,8 @@ class _TrainingFormState extends State<TrainingForm> {
             ),
             TextField(
               controller: _nameController,
-              decoration: InputDecoration(labelText: 'Nombre de la capacitación'),
+              decoration:
+                  InputDecoration(labelText: 'Nombre de la capacitación'),
             ),
             TextField(
               controller: _descriptionController,
@@ -161,7 +163,8 @@ class _TrainingFormState extends State<TrainingForm> {
                   Navigator.pop(context);
                 } else {
                   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                      content: Text("Por favor, selecciona un evento antes de guardar.")));
+                      content: Text(
+                          "Por favor, selecciona un evento antes de guardar.")));
                 }
               },
               child: Text("Guardar Capacitación"),
