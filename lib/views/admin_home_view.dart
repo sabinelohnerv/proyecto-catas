@@ -1,5 +1,6 @@
 import 'package:catas_univalle/view_models/profile_viewmodel.dart';
 import 'package:catas_univalle/views/admin_event_list_view.dart';
+import 'package:catas_univalle/views/admin_training_events_view.dart';
 import 'package:catas_univalle/views/client_list_view.dart';
 import 'package:catas_univalle/views/judge_list_view.dart';
 import 'package:catas_univalle/views/login_view.dart';
@@ -116,10 +117,7 @@ class AdminHomeView extends StatelessWidget {
                                 title: 'Capacitaciones',
                                 subtitle: 'Aprende ahora',
                                 width: 160,
-                                destinationScreen: TrainingListView(
-                                  isAdmin: true,
-                                  eventId: lastEventId,
-                                ),
+                                destinationScreen: AdminTrainingEventsView(),
                               ),
                             ],
                           ),
