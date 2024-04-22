@@ -43,6 +43,9 @@ class ClientListView extends StatelessWidget {
             if (viewModel.isLoading) {
               return const Center(child: CircularProgressIndicator());
             }
+            if (viewModel.clients.isEmpty) {
+              return const Center(child: Text('No has registrado anfitriones aún.'));
+            }
             return ListView.builder(
               itemCount: viewModel.clients.length,
               itemBuilder: (context, index) {

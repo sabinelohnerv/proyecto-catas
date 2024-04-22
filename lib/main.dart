@@ -1,6 +1,8 @@
 // ignore_for_file: avoid_print
 
 import 'package:catas_univalle/services/training_service.dart';
+import 'package:catas_univalle/view_models/judge_training_events_viewmodel.dart';
+import 'package:catas_univalle/view_models/judge_trainings_list_viewmodel.dart';
 import 'package:catas_univalle/view_models/training_list_viewmodel.dart';
 import 'package:catas_univalle/view_models/training_viewmodel.dart';
 import 'package:catas_univalle/views/add_training_view.dart';
@@ -142,6 +144,8 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => AdminListViewModel()),
         Provider<EventService>(create: (_) => EventService()),
         ChangeNotifierProvider(create: (_) => ChangePasswordViewModel()),
+        ChangeNotifierProvider(create: (_) => JudgeTrainingEventsViewModel('judgeId')),
+        ChangeNotifierProvider(create: (_) => TrainingsListViewModel('eventId')),
         ChangeNotifierProvider(
             create: (_) => VerificationViewModel(
                   () => {},
