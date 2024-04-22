@@ -37,7 +37,8 @@ class SelectedJudgesView extends StatelessWidget {
                 Icons.edit,
                 color: Colors.white,
               ),
-              onPressed: () => SelectedJudgesViewModel(event).navigateToSelectJudges(context),
+              onPressed: () => SelectedJudgesViewModel(event)
+                  .navigateToSelectJudges(context),
             ),
           ],
         ),
@@ -66,6 +67,28 @@ class SelectedJudgesView extends StatelessWidget {
             );
           },
         ),
+        persistentFooterButtons: [
+          Center(
+            child: ElevatedButton.icon(
+              onPressed: () {
+                Provider.of<SelectedJudgesViewModel>(context, listen: false)
+                    .resendInvitations(event);
+              },
+              icon: const Icon(Icons.refresh, color: Colors.white),
+              label: const Text('ENVIAR RECORDATORIO',
+                  style: TextStyle(
+                      color: Colors.white, fontWeight: FontWeight.bold)),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Theme.of(context).primaryColor,
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(30),
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
