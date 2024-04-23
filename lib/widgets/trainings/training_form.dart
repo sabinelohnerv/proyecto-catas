@@ -1,28 +1,22 @@
 import 'dart:io';
+import 'package:catas_univalle/widgets/trainings/custom_elevated_button.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:catas_univalle/models/event.dart';
 import 'package:catas_univalle/models/training.dart';
-import 'package:catas_univalle/services/event_service.dart';
 import 'package:catas_univalle/view_models/training_viewmodel.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:catas_univalle/widgets/register/custom_textfield.dart';
 
 class TrainingForm extends StatefulWidget {
   final String eventId;
 
-  const TrainingForm({super.key, required this.eventId});
+  const TrainingForm({Key? key, required this.eventId}) : super(key: key);
 
   @override
-  State<StatefulWidget> createState() {
-    return _TrainingFormState();
-  }
+  State<StatefulWidget> createState() => _TrainingFormState();
 }
 
 class _TrainingFormState extends State<TrainingForm> {
-  EventService eventService = EventService();
-  List<Event> events = [];
-  String? selectedEventId;
-
   final _nameController = TextEditingController();
   final _descriptionController = TextEditingController();
   final _locationController = TextEditingController();
@@ -36,22 +30,6 @@ class _TrainingFormState extends State<TrainingForm> {
   @override
   void initState() {
     super.initState();
-    loadEvents();
-    selectedEventId = widget.eventId;
-  }
-
-  void loadEvents() async {
-    try {
-      List<Event> loadedEvents = await eventService.fetchAllCataEvents();
-      if (loadedEvents.isNotEmpty) {
-        setState(() {
-          events = loadedEvents;
-          selectedEventId = selectedEventId ?? events[0].id;
-        });
-      }
-    } catch (e) {
-      print('Error loading events: $e');
-    }
   }
 
   Future<void> _selectDate() async {
@@ -108,90 +86,79 @@ class _TrainingFormState extends State<TrainingForm> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            DropdownButton<String>(
-              value: selectedEventId,
-              onChanged: (String? newValue) {
-                setState(() {
-                  selectedEventId = newValue;
-                });
-              },
-              items: events.map<DropdownMenuItem<String>>((Event event) {
-                return DropdownMenuItem<String>(
-                  value: event.id,
-                  child: Text(event.name),
-                );
-              }).toList(),
-              isExpanded: true,
-            ),
-            TextField(
+            CustomTextFormField(
+              labelText: 'Nombre de la capacitación',
               controller: _nameController,
-              decoration:
-                  InputDecoration(labelText: 'Nombre de la capacitación'),
             ),
-            TextField(
+            CustomTextFormField(
+              labelText: 'Descripción',
               controller: _descriptionController,
-              decoration: InputDecoration(labelText: 'Descripción'),
+              maxLines: 3,
             ),
-            ElevatedButton(
+            CustomElevatedButton(
+              text: 'Seleccionar Imagen',
               onPressed: () => _pickFile(true),
-              child: Text('Seleccionar Imagen'),
             ),
             if (_selectedImage != null)
-              Image.file(_selectedImage!),  // Muestra la imagen seleccionada
-            TextField(
+              Image.file(_selectedImage!),
+            CustomTextFormField(
+              labelText: 'Ubicación',
               controller: _locationController,
-              decoration: InputDecoration(labelText: 'Ubicación'),
             ),
-            TextField(
+            CustomTextFormField(
+              labelText: 'URL de ubicación',
               controller: _locationUrlController,
-              decoration: InputDecoration(labelText: 'URL de ubicación'),
             ),
-            ElevatedButton(
+            CustomElevatedButton(
+              text: 'Seleccionar PDF',
               onPressed: () => _pickFile(false),
-              child: Text('Seleccionar PDF'),
             ),
             if (_selectedPdf != null)
-              Icon(Icons.picture_as_pdf, size: 48),  // Simplemente muestra un ícono representativo
-            ListTile(
-              title: Text("Seleccionar Fecha"),
-              subtitle: Text(_selectedDate?.toString() ?? 'No seleccionada'),
-              onTap: _selectDate,
+              Icon(Icons.picture_as_pdf, size: 48),
+            Center(
+              child: ListTile(
+                title: Text("Seleccionar Fecha", textAlign: TextAlign.center),
+                subtitle: Text(_selectedDate?.toString() ?? 'No seleccionada', textAlign: TextAlign.center),
+                onTap: _selectDate,
+              ),
             ),
-            ListTile(
-              title: Text("Hora de Inicio"),
-              subtitle: Text(_startTime?.format(context) ?? 'No seleccionada'),
-              onTap: () => _selectTime(true),
+            Row(
+              children: [
+                Expanded(
+                  child: ListTile(
+                    title: Text("Hora de Inicio"),
+                    subtitle: Text(_startTime?.format(context) ?? 'No seleccionada'),
+                    onTap: () => _selectTime(true),
+                  ),
+                ),
+                Expanded(
+                  child: ListTile(
+                    title: Text("Hora de Fin"),
+                    subtitle: Text(_endTime?.format(context) ?? 'No seleccionada'),
+                    onTap: () => _selectTime(false),
+                  ),
+                ),
+              ],
             ),
-            ListTile(
-              title: Text("Hora de Fin"),
-              subtitle: Text(_endTime?.format(context) ?? 'No seleccionada'),
-              onTap: () => _selectTime(false),
-            ),
-            ElevatedButton(
+            CustomElevatedButton(
+              text: 'Guardar Capacitación',
               onPressed: () {
-                if (selectedEventId != null) {
-                  Training newTraining = Training(
-                    id: '',
-                    name: _nameController.text,
-                    description: _descriptionController.text,
-                    imageUrl: _selectedImage?.path ?? '',
-                    startTime: _startTime?.format(context) ?? '',
-                    endTime: _endTime?.format(context) ?? '',
-                    date: _selectedDate?.toIso8601String() ?? '',
-                    location: _locationController.text,
-                    locationUrl: _locationUrlController.text,
-                    pdfUrl: _selectedPdf?.path ?? '',
-                  );
-                  Provider.of<TrainingViewModel>(context, listen: false)
-                      .addTraining(selectedEventId!, newTraining);
-                  Navigator.pop(context);
-                } else {
-                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                      content: Text(
-                          "Por favor, selecciona un evento antes de guardar.")));
-                }
+                Training newTraining = Training(
+                  id: '',
+                  name: _nameController.text,
+                  description: _descriptionController.text,
+                  imageUrl: _selectedImage?.path ?? '',
+                  startTime: _startTime?.format(context) ?? '',
+                  endTime: _endTime?.format(context) ?? '',
+                  date: _selectedDate?.toIso8601String() ?? '',
+                  location: _locationController.text,
+                  locationUrl: _locationUrlController.text,
+                  pdfUrl: _selectedPdf?.path ?? '',
+                );
+                Provider.of<TrainingViewModel>(context, listen: false)
+                    .addTraining(widget.eventId, newTraining);
+                Navigator.pop(context);
               },
-              child: Text("Guardar Capacitación"),
             )
           ],
         ),

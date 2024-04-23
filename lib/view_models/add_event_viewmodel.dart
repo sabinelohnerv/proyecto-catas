@@ -292,7 +292,7 @@ class AddEventViewModel with ChangeNotifier {
       return true;
     } catch (e) {
       setIsSaving(false);
-      print('Failed to add event: $e');
+      print('Error al agregar evento: $e');
       return false;
     }
   }

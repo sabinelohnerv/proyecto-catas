@@ -7,21 +7,22 @@ class TrainingService {
   final FirebaseFirestore _db = FirebaseFirestore.instance;
 
   Future<Map<Event, int>> fetchAllEventsWithTrainings() async {
-    Map<Event, int> eventTrainingCounts = {};
-    try {
-      var eventSnapshot = await _db.collection('events').get();
-      for (var eventDoc in eventSnapshot.docs) {
-        var event = Event.fromSnapshot(eventDoc);
-        var trainingSnapshot = await _db.collection('events').doc(event.id).collection('trainings').get();
-        int trainingCount = trainingSnapshot.docs.length;
-        eventTrainingCounts[event] = trainingCount;
-      }
-    } catch (e) {
-      print('Failed to fetch events with trainings: $e');
-      throw Exception('Failed to fetch events with trainings');
+  Map<Event, int> eventTrainingCounts = {};
+  try {
+    var eventSnapshot = await _db.collection('events').get();
+    for (var eventDoc in eventSnapshot.docs) {
+      var event = Event.fromSnapshot(eventDoc);
+      var trainingSnapshot = await _db.collection('events').doc(event.id).collection('trainings').get();
+      int trainingCount = trainingSnapshot.docs.length;
+      eventTrainingCounts[event] = trainingCount;
     }
-    return eventTrainingCounts;
+  } catch (e) {
+    print('Failed to fetch events with trainings: $e');
+    throw Exception('Failed to fetch events with trainings');
   }
+  return eventTrainingCounts;
+}
+
 
   Future<void> addTraining(String eventId, Training training) async {
     try {

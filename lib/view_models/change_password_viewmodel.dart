@@ -38,7 +38,7 @@ class ChangePasswordViewModel extends ChangeNotifier {
       await user.updatePassword(newPassword);
       return true;
     } catch (e) {
-      print('Error changing password: $e');
+      print('Error al cambiar contraseña: $e');
       return false;
     }
   }

@@ -19,14 +19,20 @@ class AdminTrainingEventsViewModel with ChangeNotifier {
   bool get isLoading => _isLoading;
 
   Future<void> loadAllTrainings() async {
-    _isLoading = true;
-    notifyListeners();
+  _isLoading = true;
+  notifyListeners();
+  try {
     var results = await TrainingService().fetchAllEventsWithTrainings(); 
     _events = results.keys.toList();
-    _trainingCounts = results.cast<String, int>();
+    _trainingCounts = results.map((event, count) => MapEntry(event.id, count));
+  } catch (e) {
+    print('Error fetching training counts: $e');
+  } finally {
     _isLoading = false;
     notifyListeners();
   }
+}
+
 
   void goToTrainingsListView(BuildContext context, Event event) {
   Navigator.push(

@@ -7,7 +7,7 @@ class TrainingCard extends StatelessWidget {
   final Training training;
   final VoidCallback onTap;
 
-  const TrainingCard({super.key, required this.training, required this.onTap});
+  const TrainingCard({super.key, required this.training, required this.onTap, required Null Function() onDelete});
 
   @override
   Widget build(BuildContext context) {

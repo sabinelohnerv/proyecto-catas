@@ -29,7 +29,7 @@ class AdminListViewModel extends ChangeNotifier {
       notifyListeners();
     },
     onError: (error) {
-      print("Error loading admins: $error");
+      print("Error cargando admins: $error");
       _isLoading = false;
       notifyListeners();
     }

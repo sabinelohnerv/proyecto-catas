@@ -16,7 +16,7 @@ class InvitationsView extends StatefulWidget {
 
 class _InvitationsViewState extends State<InvitationsView> {
   late Future<List<Event>> _futureEvents;
-  String _filter = 'all'; // all, accepted, rejected, pending
+  String _filter = 'all'; // Estados: all, accepted, rejected, pending
 
   @override
   void initState() {
