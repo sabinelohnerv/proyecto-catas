@@ -1,5 +1,6 @@
 import 'package:catas_univalle/models/training.dart';
 import 'package:catas_univalle/view_models/judge_training_details_viewmodel.dart';
+import 'package:catas_univalle/view_models/pdf_viewmodel.dart';
 import 'package:catas_univalle/widgets/trainings/training_details_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -128,7 +129,17 @@ class AdminTrainingDetailsView extends StatelessWidget {
                               foregroundColor: Colors.white,
                             ),
                             icon: const Icon(Icons.picture_as_pdf),
-                            onPressed: () {},
+                            onPressed: () {
+                              PDFViewModel pdfViewModel =
+                                  PDFViewModel();
+                              pdfViewModel.viewPDF(training.pdfUrl).then((_) {
+                              }).catchError((error) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                        content: Text(
+                                            "Failed to open the PDF: $error")));
+                              });
+                            },
                             label: const Text('VISUALIZAR PDF')),
                       )
                     ],

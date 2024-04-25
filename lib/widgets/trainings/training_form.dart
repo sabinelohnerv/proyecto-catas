@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:catas_univalle/widgets/trainings/custom_elevated_button.dart';
+import 'package:catas_univalle/widgets/trainings/file_picker_button.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:catas_univalle/models/training.dart';
@@ -26,6 +27,7 @@ class _TrainingFormState extends State<TrainingForm> {
   TimeOfDay? _endTime;
   File? _selectedImage;
   File? _selectedPdf;
+  String? _selectedPdfUrl;
 
   @override
   void initState() {
@@ -99,8 +101,7 @@ class _TrainingFormState extends State<TrainingForm> {
               text: 'Seleccionar Imagen',
               onPressed: () => _pickFile(true),
             ),
-            if (_selectedImage != null)
-              Image.file(_selectedImage!),
+            if (_selectedImage != null) Image.file(_selectedImage!),
             CustomTextFormField(
               labelText: 'Ubicación',
               controller: _locationController,
@@ -109,16 +110,20 @@ class _TrainingFormState extends State<TrainingForm> {
               labelText: 'URL de ubicación',
               controller: _locationUrlController,
             ),
-            CustomElevatedButton(
-              text: 'Seleccionar PDF',
-              onPressed: () => _pickFile(false),
+            FilePickerButton(
+              onFilePicked: (url) {
+                setState(() {
+                  _selectedPdfUrl =
+                      url;
+                });
+              },
             ),
-            if (_selectedPdf != null)
-              Icon(Icons.picture_as_pdf, size: 48),
+            if (_selectedPdf != null) Icon(Icons.picture_as_pdf, size: 48),
             Center(
               child: ListTile(
                 title: Text("Seleccionar Fecha", textAlign: TextAlign.center),
-                subtitle: Text(_selectedDate?.toString() ?? 'No seleccionada', textAlign: TextAlign.center),
+                subtitle: Text(_selectedDate?.toString() ?? 'No seleccionada',
+                    textAlign: TextAlign.center),
                 onTap: _selectDate,
               ),
             ),
@@ -127,14 +132,16 @@ class _TrainingFormState extends State<TrainingForm> {
                 Expanded(
                   child: ListTile(
                     title: Text("Hora de Inicio"),
-                    subtitle: Text(_startTime?.format(context) ?? 'No seleccionada'),
+                    subtitle:
+                        Text(_startTime?.format(context) ?? 'No seleccionada'),
                     onTap: () => _selectTime(true),
                   ),
                 ),
                 Expanded(
                   child: ListTile(
                     title: Text("Hora de Fin"),
-                    subtitle: Text(_endTime?.format(context) ?? 'No seleccionada'),
+                    subtitle:
+                        Text(_endTime?.format(context) ?? 'No seleccionada'),
                     onTap: () => _selectTime(false),
                   ),
                 ),
@@ -143,6 +150,14 @@ class _TrainingFormState extends State<TrainingForm> {
             CustomElevatedButton(
               text: 'Guardar Capacitación',
               onPressed: () {
+                if (_selectedPdfUrl == null) {
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    content: Text(
+                        "Por favor, selecciona un archivo PDF antes de guardar."),
+                    backgroundColor: Colors.red,
+                  ));
+                  return;
+                }
                 Training newTraining = Training(
                   id: '',
                   name: _nameController.text,
@@ -153,7 +168,8 @@ class _TrainingFormState extends State<TrainingForm> {
                   date: _selectedDate?.toIso8601String() ?? '',
                   location: _locationController.text,
                   locationUrl: _locationUrlController.text,
-                  pdfUrl: _selectedPdf?.path ?? '',
+                  pdfUrl:
+                      _selectedPdfUrl!,
                 );
                 Provider.of<TrainingViewModel>(context, listen: false)
                     .addTraining(widget.eventId, newTraining);

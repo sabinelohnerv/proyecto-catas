@@ -19,7 +19,11 @@ class _TrainingListViewState extends State<TrainingListView> {
   @override
   void initState() {
     super.initState();
-    Provider.of<TrainingListViewModel>(context, listen: false).fetchTrainings(widget.eventId);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) {
+        Provider.of<TrainingListViewModel>(context, listen: false).fetchTrainings(widget.eventId);
+      }
+    });
   }
 
   @override
@@ -62,7 +66,7 @@ class _TrainingListViewState extends State<TrainingListView> {
                   ),
                 ),
                 onDelete: () {
-                  // TODO: Lógica de confirmación y eliminación
+                  // TODO: logica para confirmar y eliminar una capacitación
                 },
               );
             },
