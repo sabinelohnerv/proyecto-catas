@@ -2,7 +2,7 @@ class EventJudge {
   final String id;
   final String name;
   final String email;
-  final String state;
+  String state;
   final String imgUrl;
   final String gender;
   String? fcmToken;

@@ -1,5 +1,4 @@
 import 'package:catas_univalle/view_models/training_judges_viewmodel.dart';
-import 'package:catas_univalle/widgets/select_judges/selected_judge_card.dart';
 import 'package:catas_univalle/widgets/training_assistances/training_judge_card.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -39,7 +38,8 @@ class TrainingJudgesView extends StatelessWidget {
                   Icons.edit,
                   color: Colors.white,
                 ),
-                onPressed: () {}),
+                onPressed: () => TrainingJudgesViewModel(eventId, trainingId)
+                    .goToTrainingJudgeAssistanceView(context)),
           ],
         ),
         body: Consumer<TrainingJudgesViewModel>(
@@ -60,7 +60,7 @@ class TrainingJudgesView extends StatelessWidget {
                     EventJudge judge = snapshot.data![index];
                     return TrainingJudgeCard(
                       judge: judge,
-                      number: index+1,
+                      number: index + 1,
                     );
                   },
                 );

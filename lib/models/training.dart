@@ -1,4 +1,3 @@
-import 'package:catas_univalle/models/event.dart';
 import 'package:catas_univalle/models/event_judge.dart';
 
 class Training {

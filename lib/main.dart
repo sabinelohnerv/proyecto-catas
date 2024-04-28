@@ -6,6 +6,7 @@ import 'package:catas_univalle/view_models/admin_training_details_viewmodel.dart
 import 'package:catas_univalle/view_models/admin_training_events_viewmodel.dart';
 import 'package:catas_univalle/view_models/judge_training_events_viewmodel.dart';
 import 'package:catas_univalle/view_models/judge_trainings_list_viewmodel.dart';
+import 'package:catas_univalle/view_models/training_judge_assistance_viewmodel.dart';
 import 'package:catas_univalle/view_models/training_judges_viewmodel.dart';
 import 'package:catas_univalle/view_models/training_list_viewmodel.dart';
 import 'package:catas_univalle/view_models/training_viewmodel.dart';
@@ -158,6 +159,8 @@ class MyApp extends StatelessWidget {
                 Training.placeholder(), 'eventId')),
         ChangeNotifierProvider(
             create: (_) => TrainingsListViewModel('eventId')),
+        ChangeNotifierProvider(
+            create: (_) => TrainingJudgeAssistanceViewModel('eventId','trainingId')),
         ChangeNotifierProvider(
             create: (_) => VerificationViewModel(
                   () => {},

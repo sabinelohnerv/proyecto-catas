@@ -95,8 +95,35 @@ class TrainingService {
         .doc(trainingId)
         .snapshots()
         .map((snapshot) {
-      var judgesList = snapshot['judges'] as List;
-      return judgesList.map((j) => EventJudge.fromMap(j)).toList();
+      var judgesList = snapshot['judges'] as List<dynamic>;
+      List<EventJudge> judges =
+          judgesList.map((j) => EventJudge.fromMap(j)).toList();
+      judges.sort((a, b) => a.name.compareTo(b.name));
+      return judges;
+    });
+  }
+
+  Future<void> addOrUpdateTrainingJudges(String eventId, String trainingId,
+      List<EventJudge> trainingJudges) async {
+    List<Map<String, dynamic>> judgesMap = trainingJudges
+        .map((j) => {
+              'id': j.id,
+              'name': j.name,
+              'email': j.email,
+              'state': j.state,
+              'imgUrl': j.imgUrl,
+              'fcmToken': j.fcmToken,
+              'gender': j.gender
+            })
+        .toList();
+
+    await _db
+        .collection('events')
+        .doc(eventId)
+        .collection('trainings')
+        .doc(trainingId)
+        .update({
+      'judges': judgesMap,
     });
   }
 }

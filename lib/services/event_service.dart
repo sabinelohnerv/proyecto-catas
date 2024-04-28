@@ -96,8 +96,12 @@ class EventService {
         .doc(eventId)
         .snapshots()
         .map((snapshot) {
-      var judgesList = snapshot['eventJudges'] as List;
-      return judgesList.map((j) => EventJudge.fromMap(j)).toList();
+      var judgesList = snapshot.data()!['eventJudges'] as List<dynamic>;
+      List<EventJudge> judges = judgesList
+          .map((j) => EventJudge.fromMap(j as Map<String, dynamic>))
+          .toList();
+      judges.sort((a, b) => a.name.compareTo(b.name));
+      return judges;
     });
   }
 
@@ -155,11 +159,15 @@ class EventService {
 
   Future<int> countTrainingsForEvent(String eventId) async {
     try {
-      var trainingsSnapshot = await _db.collection('events').doc(eventId).collection('trainings').get();
-      return trainingsSnapshot.docs.length;  
+      var trainingsSnapshot = await _db
+          .collection('events')
+          .doc(eventId)
+          .collection('trainings')
+          .get();
+      return trainingsSnapshot.docs.length;
     } catch (e) {
       print("Error fetching training count: $e");
-      return 0;  
+      return 0;
     }
   }
 
