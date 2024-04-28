@@ -1,4 +1,6 @@
 import 'dart:io';
+import 'package:catas_univalle/models/event_judge.dart';
+
 import '/models/event.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:catas_univalle/models/training.dart';
@@ -7,26 +9,33 @@ class TrainingService {
   final FirebaseFirestore _db = FirebaseFirestore.instance;
 
   Future<Map<Event, int>> fetchAllEventsWithTrainings() async {
-  Map<Event, int> eventTrainingCounts = {};
-  try {
-    var eventSnapshot = await _db.collection('events').get();
-    for (var eventDoc in eventSnapshot.docs) {
-      var event = Event.fromSnapshot(eventDoc);
-      var trainingSnapshot = await _db.collection('events').doc(event.id).collection('trainings').get();
-      int trainingCount = trainingSnapshot.docs.length;
-      eventTrainingCounts[event] = trainingCount;
+    Map<Event, int> eventTrainingCounts = {};
+    try {
+      var eventSnapshot = await _db.collection('events').get();
+      for (var eventDoc in eventSnapshot.docs) {
+        var event = Event.fromSnapshot(eventDoc);
+        var trainingSnapshot = await _db
+            .collection('events')
+            .doc(event.id)
+            .collection('trainings')
+            .get();
+        int trainingCount = trainingSnapshot.docs.length;
+        eventTrainingCounts[event] = trainingCount;
+      }
+    } catch (e) {
+      print('Failed to fetch events with trainings: $e');
+      throw Exception('Failed to fetch events with trainings');
     }
-  } catch (e) {
-    print('Failed to fetch events with trainings: $e');
-    throw Exception('Failed to fetch events with trainings');
+    return eventTrainingCounts;
   }
-  return eventTrainingCounts;
-}
-
 
   Future<void> addTraining(String eventId, Training training) async {
     try {
-      await _db.collection('events').doc(eventId).collection('trainings').add(training.toJson());
+      await _db
+          .collection('events')
+          .doc(eventId)
+          .collection('trainings')
+          .add(training.toJson());
     } catch (e) {
       print('Failed to add training: $e');
       throw Exception('Failed to add training');
@@ -35,8 +44,12 @@ class TrainingService {
 
   Future<void> updateTraining(String eventId, Training training) async {
     try {
-      await _db.collection('events').doc(eventId).collection('trainings').doc(training.id)
-        .set(training.toJson(), SetOptions(merge: true));
+      await _db
+          .collection('events')
+          .doc(eventId)
+          .collection('trainings')
+          .doc(training.id)
+          .set(training.toJson(), SetOptions(merge: true));
     } catch (e) {
       print('Failed to update training: $e');
       throw Exception('Failed to update training');
@@ -45,7 +58,12 @@ class TrainingService {
 
   Future<void> deleteTraining(String eventId, String trainingId) async {
     try {
-      await _db.collection('events').doc(eventId).collection('trainings').doc(trainingId).delete();
+      await _db
+          .collection('events')
+          .doc(eventId)
+          .collection('trainings')
+          .doc(trainingId)
+          .delete();
     } catch (e) {
       print('Failed to delete training: $e');
       throw Exception('Failed to delete training');
@@ -53,11 +71,32 @@ class TrainingService {
   }
 
   Stream<List<Training>> getTrainings(String eventId) {
-    return _db.collection('events').doc(eventId).collection('trainings').snapshots().map((snapshot) {
-      return snapshot.docs.map((doc) => Training.fromJson({
-        ...doc.data() as Map<String, dynamic>,
-        'id': doc.id,
-      })).toList();
+    return _db
+        .collection('events')
+        .doc(eventId)
+        .collection('trainings')
+        .snapshots()
+        .map((snapshot) {
+      return snapshot.docs
+          .map((doc) => Training.fromJson({
+                ...doc.data() as Map<String, dynamic>,
+                'id': doc.id,
+              }))
+          .toList();
+    });
+  }
+
+  Stream<List<EventJudge>> getJudgesAssistanceStream(
+      String eventId, String trainingId) {
+    return FirebaseFirestore.instance
+        .collection('events')
+        .doc(eventId)
+        .collection('trainings')
+        .doc(trainingId)
+        .snapshots()
+        .map((snapshot) {
+      var judgesList = snapshot['judges'] as List;
+      return judgesList.map((j) => EventJudge.fromMap(j)).toList();
     });
   }
 }

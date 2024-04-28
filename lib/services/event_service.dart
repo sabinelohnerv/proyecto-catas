@@ -71,6 +71,7 @@ class EventService {
               'state': j.state,
               'imgUrl': j.imgUrl,
               'fcmToken': j.fcmToken,
+              'gender': j.gender
             })
         .toList();
 

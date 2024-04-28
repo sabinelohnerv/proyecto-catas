@@ -4,6 +4,7 @@ class EventJudge {
   final String email;
   final String state;
   final String imgUrl;
+  final String gender;
   String? fcmToken;
 
   EventJudge({
@@ -12,6 +13,7 @@ class EventJudge {
     required this.email,
     required this.state,
     required this.imgUrl,
+    required this.gender,
     this.fcmToken,
   });
 
@@ -21,6 +23,7 @@ class EventJudge {
         name: map['name'],
         email: map['email'],
         state: map['state'],
+        gender: map['gender'],
         fcmToken: map['fcmToken'],
         imgUrl: map['imgUrl']);
   }
