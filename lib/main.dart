@@ -151,16 +151,21 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => ChangePasswordViewModel()),
         ChangeNotifierProvider(
             create: (_) => JudgeTrainingEventsViewModel('judgeId')),
-            ChangeNotifierProvider(
-            create: (_) => TrainingJudgesViewModel('eventId','trainingId')),
-        ChangeNotifierProvider(create: (_) => AdminTrainingEventsViewModel()),
+        ChangeNotifierProvider(
+            create: (_) => TrainingJudgesViewModel('eventId', 'trainingId')),
+        ChangeNotifierProvider<TrainingListViewModel>(
+          create: (context) => TrainingListViewModel(
+              trainingService:
+                  Provider.of<TrainingService>(context, listen: false)),
+        ),
         ChangeNotifierProvider(
             create: (_) => AdminTrainingDetailsViewModel(
                 Training.placeholder(), 'eventId')),
         ChangeNotifierProvider(
             create: (_) => TrainingsListViewModel('eventId')),
         ChangeNotifierProvider(
-            create: (_) => TrainingJudgeAssistanceViewModel('eventId','trainingId')),
+            create: (_) =>
+                TrainingJudgeAssistanceViewModel('eventId', 'trainingId')),
         ChangeNotifierProvider(
             create: (_) => VerificationViewModel(
                   () => {},
