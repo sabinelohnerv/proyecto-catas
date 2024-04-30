@@ -1,9 +1,9 @@
-import 'package:catas_univalle/views/admin_training_details_view.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:catas_univalle/models/training.dart';
 import 'package:catas_univalle/view_models/training_list_viewmodel.dart';
 import 'package:catas_univalle/widgets/trainings/training_card.dart';
+import 'package:catas_univalle/views/admin_training_details_view.dart';
 
 class TrainingListView extends StatefulWidget {
   final String eventId;
@@ -21,9 +21,15 @@ class _TrainingListViewState extends State<TrainingListView> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (mounted) {
-        Provider.of<TrainingListViewModel>(context, listen: false).fetchTrainings(widget.eventId);
+        Provider.of<TrainingListViewModel>(context, listen: false).subscribeToTrainings(widget.eventId);
       }
     });
+  }
+
+  @override
+  void dispose() {
+    Provider.of<TrainingListViewModel>(context, listen: false).dispose();
+    super.dispose();
   }
 
   @override
@@ -59,14 +65,16 @@ class _TrainingListViewState extends State<TrainingListView> {
               Training training = viewModel.trainings[index];
               return TrainingCard(
                 training: training,
-                onTap: () => Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => AdminTrainingDetailsView(training: training, eventId: widget.eventId,),
-                  ),
-                ),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => AdminTrainingDetailsView(training: training, eventId: widget.eventId),
+                    ),
+                  );
+                },
                 onDelete: () {
-                  // TODO: logica para confirmar y eliminar una capacitación
+                  // TODO: función de delete
                 },
               );
             },

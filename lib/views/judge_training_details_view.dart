@@ -6,7 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:catas_univalle/models/training.dart';
 import 'package:catas_univalle/view_models/judge_training_details_viewmodel.dart';
 import 'package:catas_univalle/widgets/trainings/training_details_card.dart';
-import 'package:catas_univalle/view_models/pdf_viewmodel.dart'; // Asegúrate de tener esta importación
+import 'package:catas_univalle/view_models/pdf_viewmodel.dart';
 
 class JudgeTrainingDetailsView extends StatelessWidget {
   final Training training;

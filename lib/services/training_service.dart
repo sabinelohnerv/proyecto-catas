@@ -1,6 +1,6 @@
 import 'dart:io';
 import 'package:catas_univalle/models/event_judge.dart';
-
+import 'package:rxdart/rxdart.dart';
 import '/models/event.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:catas_univalle/models/training.dart';
@@ -124,6 +124,42 @@ class TrainingService {
         .doc(trainingId)
         .update({
       'judges': judgesMap,
+    });
+  }
+
+  Stream<Map<Event, int>> fetchAllEventsWithTrainingCountsStream() {
+    // Obtenemos el stream de eventos
+    Stream<List<Event>> eventStream = _db.collection('events').snapshots().map(
+        (snapshot) =>
+            snapshot.docs.map((doc) => Event.fromSnapshot(doc)).toList());
+
+    // Combinamos el stream de eventos con los streams de conteos de capacitaciones
+    return eventStream.switchMap((events) {
+      if (events.isEmpty) {
+        return Stream.value({});
+      } else {
+        // Creamos un stream para cada evento que monitorea la cantidad de capacitaciones
+        List<Stream<Map<Event, int>>> trainingCountStreams =
+            events.map((event) {
+          return _db
+              .collection('events')
+              .doc(event.id)
+              .collection('trainings')
+              .snapshots()
+              .map((snapshot) {
+            return {event: snapshot.docs.length};
+          });
+        }).toList();
+
+        // Combinamos todos los streams de conteos en un solo mapa
+        return CombineLatestStream.list(trainingCountStreams)
+            .map((List<Map<Event, int>> counts) {
+          return counts.fold({}, (Map<Event, int> accumulator, map) {
+            accumulator.addAll(map);
+            return accumulator;
+          });
+        });
+      }
     });
   }
 }
