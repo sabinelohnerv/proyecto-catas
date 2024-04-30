@@ -12,7 +12,8 @@ class AdminTrainingDetailsView extends StatelessWidget {
   final Training training;
   final String eventId;
 
-  const AdminTrainingDetailsView({super.key, required this.training, required this.eventId});
+  const AdminTrainingDetailsView(
+      {super.key, required this.training, required this.eventId});
 
   @override
   Widget build(BuildContext context) {
@@ -130,18 +131,20 @@ class AdminTrainingDetailsView extends StatelessWidget {
                               foregroundColor: Colors.white,
                             ),
                             icon: const Icon(Icons.picture_as_pdf),
-                            onPressed: () {
-                              PDFViewModel pdfViewModel = PDFViewModel();
-                              pdfViewModel
-                                  .viewPDF(training.pdfUrl)
-                                  .then((_) {})
-                                  .catchError((error) {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
-                                        content: Text(
-                                            "Failed to open the PDF: $error")));
-                              });
-                            },
+                            onPressed: training.pdfUrl != null
+                                ? () {
+                                    PDFViewModel pdfViewModel = PDFViewModel();
+                                    pdfViewModel
+                                        .viewPDF(training.pdfUrl!)
+                                        .then((_) {})
+                                        .catchError((error) {
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(SnackBar(
+                                              content: Text(
+                                                  "Failed to open the PDF: $error")));
+                                    });
+                                  }
+                                : null, 
                             label: const Text('VISUALIZAR PDF')),
                       ),
                       const SizedBox(height: 10),
@@ -173,7 +176,8 @@ class AdminTrainingDetailsView extends StatelessWidget {
                               foregroundColor: Colors.white,
                             ),
                             icon: const Icon(Icons.contacts),
-                            onPressed: () => viewModel.goToTrainingJudgesView(context),
+                            onPressed: () =>
+                                viewModel.goToTrainingJudgesView(context),
                             label: const Text('VISUALIZAR PARTICIPANTES')),
                       ),
                     ],

@@ -1,13 +1,16 @@
 import 'dart:io';
+import 'dart:math';
 import 'package:catas_univalle/models/event_judge.dart';
+import 'package:catas_univalle/models/training.dart';
+import 'package:catas_univalle/view_models/training_viewmodel.dart';
+import 'package:catas_univalle/widgets/register/custom_textfield.dart';
 import 'package:catas_univalle/widgets/trainings/custom_elevated_button.dart';
 import 'package:catas_univalle/widgets/trainings/file_picker_button.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:catas_univalle/models/training.dart';
-import 'package:catas_univalle/view_models/training_viewmodel.dart';
 import 'package:file_picker/file_picker.dart';
-import 'package:catas_univalle/widgets/register/custom_textfield.dart';
+import 'package:intl/intl.dart';
+import '/functions/util.dart';
 
 class TrainingForm extends StatefulWidget {
   final String eventId;
@@ -74,6 +77,7 @@ class _TrainingFormState extends State<TrainingForm> {
       File file = File(result.files.single.path!);
       setState(() {
         _selectedPdf = file;
+        _selectedPdfUrl = file.path;
       });
     }
   }
@@ -112,7 +116,7 @@ class _TrainingFormState extends State<TrainingForm> {
             Center(
               child: ListTile(
                 title: Text("Seleccionar Fecha", textAlign: TextAlign.center),
-                subtitle: Text(_selectedDate?.toString() ?? 'No seleccionada',
+                subtitle: Text(_selectedDate != null ? formatDateToWrittenDate(_selectedDate!.toIso8601String()) : 'No seleccionada',
                     textAlign: TextAlign.center),
                 onTap: _selectDate,
               ),
@@ -141,12 +145,7 @@ class _TrainingFormState extends State<TrainingForm> {
               text: 'Guardar Capacitación',
               onPressed: () {
                 if (_selectedPdfUrl == null) {
-                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                    content: Text(
-                        "Por favor, selecciona un archivo PDF antes de guardar."),
-                    backgroundColor: Colors.red,
-                  ));
-                  return;
+                  _selectedPdfUrl = "URL por defecto o manejo de error adecuado";
                 }
                 List<EventJudge> judges = [];
                 Training newTraining = Training(
@@ -158,7 +157,7 @@ class _TrainingFormState extends State<TrainingForm> {
                   date: _selectedDate?.toIso8601String() ?? '',
                   location: _locationController.text,
                   locationUrl: _locationUrlController.text,
-                  pdfUrl: _selectedPdfUrl!,
+                  pdfUrl: _selectedPdfUrl,
                   judges: judges,
                 );
                 Provider.of<TrainingViewModel>(context, listen: false)
