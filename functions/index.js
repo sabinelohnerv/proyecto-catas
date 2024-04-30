@@ -1,5 +1,7 @@
 const functions = require("firebase-functions");
 const admin = require("firebase-admin");
+const {parse, isBefore, addDays} = require("date-fns");
+
 admin.initializeApp();
 
 const nodemailer = require("nodemailer");
@@ -10,6 +12,34 @@ const mailTransport = nodemailer.createTransport({
     user: functions.config().email.user,
     pass: functions.config().email.pass,
   },
+});
+
+
+exports.updateEventState = functions.pubsub.schedule("0 0 * * *").onRun(async (context) => {
+  const today = new Date(); // Gets today's date at midnight
+
+  const eventsSnapshot = await admin.firestore().collection("events").get();
+
+  const batch = admin.firestore().batch();
+
+  eventsSnapshot.forEach((doc) => {
+    const event = doc.data();
+    const eventDate = parse(event.date, "dd-MM-yyyy", new Date());
+
+    const archiveDate = addDays(eventDate, 1);
+
+    if (isBefore(archiveDate, today) && event.state !== "archived") {
+      const eventRef = admin.firestore().collection("events").doc(doc.id);
+      batch.update(eventRef, {state: "archived"});
+    }
+  });
+
+  try {
+    await batch.commit();
+    console.log("Event states updated successfully.");
+  } catch (error) {
+    console.error("Error updating event states:", error);
+  }
 });
 
 exports.resendInvitationsOnCommand = functions.firestore

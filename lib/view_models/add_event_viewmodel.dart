@@ -270,23 +270,24 @@ class AddEventViewModel with ChangeNotifier {
             logo!, "Event_${DateTime.now().millisecondsSinceEpoch}");
       }
       final Event newEvent = Event(
-        id: "Event_${DateTime.now().millisecondsSinceEpoch}",
-        name: name!,
-        date: date!,
-        start: start!,
-        end: end!,
-        location: location!,
-        locationUrl: locationUrl!,
-        about: about!,
-        imageUrl: imageUrl,
-        code: code!,
-        formUrl: formUrl!,
-        allergyRestrictions: selectedAllergies,
-        symptomRestrictions: selectedSymptoms,
-        client: client!,
-        numberOfJudges: numberOfJudges!,
-        eventJudges: [], trainings: [],
-      );
+          id: "Event_${DateTime.now().millisecondsSinceEpoch}",
+          name: name!,
+          date: date!,
+          start: start!,
+          end: end!,
+          location: location!,
+          locationUrl: locationUrl!,
+          about: about!,
+          imageUrl: imageUrl,
+          code: code!,
+          formUrl: formUrl!,
+          allergyRestrictions: selectedAllergies,
+          symptomRestrictions: selectedSymptoms,
+          client: client!,
+          numberOfJudges: numberOfJudges!,
+          eventJudges: [],
+          trainings: [],
+          state: 'active');
       await _eventService.addEvent(newEvent);
       setIsSaving(false);
       return true;
