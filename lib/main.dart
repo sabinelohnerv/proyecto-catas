@@ -1,8 +1,13 @@
 // ignore_for_file: avoid_print
 
+import 'package:catas_univalle/models/training.dart';
 import 'package:catas_univalle/services/training_service.dart';
+import 'package:catas_univalle/view_models/admin_training_details_viewmodel.dart';
+import 'package:catas_univalle/view_models/admin_training_events_viewmodel.dart';
 import 'package:catas_univalle/view_models/judge_training_events_viewmodel.dart';
 import 'package:catas_univalle/view_models/judge_trainings_list_viewmodel.dart';
+import 'package:catas_univalle/view_models/training_judge_assistance_viewmodel.dart';
+import 'package:catas_univalle/view_models/training_judges_viewmodel.dart';
 import 'package:catas_univalle/view_models/training_list_viewmodel.dart';
 import 'package:catas_univalle/view_models/training_viewmodel.dart';
 import 'package:catas_univalle/views/add_training_view.dart';
@@ -144,8 +149,18 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => AdminListViewModel()),
         Provider<EventService>(create: (_) => EventService()),
         ChangeNotifierProvider(create: (_) => ChangePasswordViewModel()),
-        ChangeNotifierProvider(create: (_) => JudgeTrainingEventsViewModel('judgeId')),
-        ChangeNotifierProvider(create: (_) => TrainingsListViewModel('eventId')),
+        ChangeNotifierProvider(
+            create: (_) => JudgeTrainingEventsViewModel('judgeId')),
+            ChangeNotifierProvider(
+            create: (_) => TrainingJudgesViewModel('eventId','trainingId')),
+        ChangeNotifierProvider(create: (_) => AdminTrainingEventsViewModel()),
+        ChangeNotifierProvider(
+            create: (_) => AdminTrainingDetailsViewModel(
+                Training.placeholder(), 'eventId')),
+        ChangeNotifierProvider(
+            create: (_) => TrainingsListViewModel('eventId')),
+        ChangeNotifierProvider(
+            create: (_) => TrainingJudgeAssistanceViewModel('eventId','trainingId')),
         ChangeNotifierProvider(
             create: (_) => VerificationViewModel(
                   () => {},
@@ -172,9 +187,9 @@ class MyApp extends StatelessWidget {
             return AddTrainingView(eventId: eventId);
           },
           '/changePassword': (context) => ChangeNotifierProvider(
-            create: (_) => ChangePasswordViewModel(),
-            child: const ChangePasswordView(),
-          ),
+                create: (_) => ChangePasswordViewModel(),
+                child: const ChangePasswordView(),
+              ),
         },
       ),
     );

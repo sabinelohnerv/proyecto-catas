@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math';
 
 import 'package:catas_univalle/services/event_service.dart';
 import 'package:catas_univalle/models/event.dart';
@@ -27,6 +28,9 @@ class SelectJudgesViewModel with ChangeNotifier {
 
   List<EventJudge> _selectedJudges = [];
   List<EventJudge> get selectedJudges => _selectedJudges;
+
+  List<Judge> _missingSelectedJudges = [];
+  List<Judge> get missingSelectedJudges => _missingSelectedJudges;
 
   SelectJudgesViewModel(this._eventId) {
     initialize();
@@ -84,12 +88,34 @@ class SelectJudgesViewModel with ChangeNotifier {
     _judges = filteredJudges;
 
     _selectedJudges.clear();
+
     for (var judge in _judges) {
       if (_event!.eventJudges.any((eJudge) => eJudge.id == judge.id)) {
         _selectedJudges.add(
             _event!.eventJudges.firstWhere((eJudge) => eJudge.id == judge.id));
       }
     }
+
+    _missingSelectedJudges = allJudges.where((judge) {
+      bool isInEventJudges =
+          _event!.eventJudges.any((eJudge) => eJudge.id == judge.id);
+      bool isNotInFilteredJudges =
+          !_judges.any((fJudge) => fJudge.id == judge.id);
+      bool isNotInSelectedJudges =
+          !_selectedJudges.any((sJudge) => sJudge.id == judge.id);
+      return isInEventJudges && isNotInFilteredJudges && isNotInSelectedJudges;
+    }).toList();
+
+    _selectedJudges.addAll(missingSelectedJudges.map((judge) => EventJudge(
+        id: judge.id,
+        email: judge.email,
+        fcmToken: judge.fcmToken,
+        state: 'warning',
+        imgUrl: judge.profileImgUrl,
+        name: judge.fullName,
+        gender: judge.gender)));
+
+    _judges.addAll(missingSelectedJudges);
 
     _selectedJudgesController.sink.add(_selectedJudges);
 
@@ -120,7 +146,8 @@ class SelectJudgesViewModel with ChangeNotifier {
                 fcmToken: judge.fcmToken,
                 state: 'selected',
                 imgUrl: judge.profileImgUrl,
-                name: judge.fullName),
+                name: judge.fullName,
+                gender: judge.gender),
           );
         }
 
@@ -155,7 +182,6 @@ class SelectJudgesViewModel with ChangeNotifier {
 
   Future<void> saveSelectedJudges() async {
     if (_event == null) return;
-
     try {
       await _eventService.addOrUpdateSelectedJudges(
           _event!.id, _selectedJudges);
@@ -171,5 +197,87 @@ class SelectJudgesViewModel with ChangeNotifier {
         child: JudgeDetailCard(judge: judge),
       ),
     );
+  }
+
+  Future<void> randomSelectJudges(int numJudges) async {
+    if (_event == null || numJudges > _judges.length || numJudges <= 0) {
+      return;
+    }
+
+    final alreadySelectedJudges =
+        _selectedJudges.map((eJudge) => eJudge.id).toList();
+
+    final maleSelectedCount =
+        _selectedJudges.where((j) => j.gender == 'M').length;
+    final femaleSelectedCount =
+        _selectedJudges.where((j) => j.gender == 'F').length;
+
+    final maleJudges = _judges
+        .where((judge) =>
+            judge.gender == 'M' && !alreadySelectedJudges.contains(judge.id))
+        .toList();
+    final femaleJudges = _judges
+        .where((judge) =>
+            judge.gender == 'F' && !alreadySelectedJudges.contains(judge.id))
+        .toList();
+
+    final targetMaleJudges = (numJudges / 2).ceil() - maleSelectedCount;
+    final targetFemaleJudges =
+        numJudges - targetMaleJudges - femaleSelectedCount;
+
+    final selectedJudges = [..._selectedJudges];
+
+    while (selectedJudges.length < _event!.numberOfJudges) {
+      Judge? selectedJudge;
+      if (selectedJudges.length - _selectedJudges.length < targetMaleJudges) {
+        selectedJudge = _getRandomJudge(maleJudges, sortByReliability: true);
+      } else if (selectedJudges.length - _selectedJudges.length < numJudges) {
+        selectedJudge = _getRandomJudge(femaleJudges, sortByReliability: true);
+      }
+
+      if (selectedJudge != null) {
+        selectedJudges.add(EventJudge(
+            id: selectedJudge.id,
+            email: selectedJudge.email,
+            fcmToken: selectedJudge.fcmToken,
+            state: 'selected',
+            imgUrl: selectedJudge.profileImgUrl,
+            name: selectedJudge.fullName,
+            gender: selectedJudge.gender));
+      } else {
+        break;
+      }
+    }
+
+    _selectedJudges = selectedJudges;
+    _selectedJudgesController.sink.add(_selectedJudges);
+    notifyListeners();
+  }
+
+  Judge? _getRandomJudge(List<Judge> judges, {bool sortByReliability = false}) {
+    if (judges.isEmpty) return null;
+
+    if (sortByReliability) {
+      judges.sort((a, b) => b.reliability.compareTo(a.reliability));
+    }
+
+    final weights = judges.map((judge) => judge.reliability).toList();
+    final totalWeight = weights.reduce((a, b) => a + b);
+
+    final randomValue = Random().nextDouble() * totalWeight;
+    var currentWeight = 0.0;
+    for (var i = 0; i < judges.length; i++) {
+      currentWeight += weights[i];
+      if (randomValue <= currentWeight) {
+        return judges[i];
+      }
+    }
+    return judges.last;
+  }
+
+  void deselectAllJudges() {
+    _selectedJudges.clear();
+    _selectedJudgesController.sink.add(_selectedJudges);
+    notifyListeners();
   }
 }

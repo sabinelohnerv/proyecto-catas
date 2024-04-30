@@ -50,8 +50,13 @@ class SelectJudgeCard extends StatelessWidget {
         ),
         title: Row(
           children: [
-            Text(judge.fullName, style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 16),),
-            const SizedBox(width: 10,),
+            Text(
+              judge.fullName,
+              style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
+            ),
+            const SizedBox(
+              width: 10,
+            ),
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 1),
               decoration: BoxDecoration(
@@ -66,6 +71,18 @@ class SelectJudgeCard extends StatelessWidget {
                 ),
               ),
             ),
+            if (viewModel.missingSelectedJudges.any((j) => j.id == judge.id))
+              GestureDetector(
+                onTap: () => _showWarningDialog(context),
+                child: const Padding(
+                  padding: EdgeInsets.only(left: 10.0),
+                  child: Icon(
+                    Icons.warning_amber_outlined,
+                    color: Colors.amber,
+                    size: 18,
+                  ),
+                ),
+              ),
           ],
         ),
         subtitle: Padding(
@@ -81,6 +98,39 @@ class SelectJudgeCard extends StatelessWidget {
           },
         ),
         onTap: () => viewModel.showJudgeDetails(context, judge),
+      ),
+    );
+  }
+
+  void _showWarningDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text(
+          "Juez No Cumple con Criterios",
+          style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+        ),
+        content: const Text(
+          "Este juez ha sido rechazado o ya no cumple con los criterios de alergias o síntomas para participar en este evento. \n\n¿Desea mantenerlo seleccionado?",
+        ),
+        actions: <Widget>[
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              TextButton(
+                child: const Text("Retirar Selección"),
+                onPressed: () {
+                  viewModel.toggleJudgeSelection(judge, false, context);
+                  Navigator.of(context).pop();
+                },
+              ),
+              TextButton(
+                child: const Text("OK"),
+                onPressed: () => Navigator.of(context).pop(),
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }

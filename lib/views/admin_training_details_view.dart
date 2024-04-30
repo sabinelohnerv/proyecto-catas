@@ -1,17 +1,18 @@
 import 'package:catas_univalle/models/training.dart';
+import 'package:catas_univalle/view_models/admin_training_details_viewmodel.dart';
 import 'package:catas_univalle/view_models/judge_training_details_viewmodel.dart';
 import 'package:catas_univalle/view_models/pdf_viewmodel.dart';
 import 'package:catas_univalle/widgets/trainings/training_details_card.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class AdminTrainingDetailsView extends StatelessWidget {
   final Training training;
+  final String eventId;
 
-  const AdminTrainingDetailsView({super.key, required this.training});
+  const AdminTrainingDetailsView({super.key, required this.training, required this.eventId});
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +24,7 @@ class AdminTrainingDetailsView extends StatelessWidget {
         DateFormat('MMM', 'es_ES').format(date).toUpperCase();
 
     return ChangeNotifierProvider(
-      create: (_) => JudgeTrainingDetailsViewModel(training),
+      create: (_) => AdminTrainingDetailsViewModel(training, eventId),
       child: Scaffold(
         extendBodyBehindAppBar: true,
         appBar: AppBar(
@@ -38,7 +39,7 @@ class AdminTrainingDetailsView extends StatelessWidget {
             },
           ),
         ),
-        body: Consumer<JudgeTrainingDetailsViewModel>(
+        body: Consumer<AdminTrainingDetailsViewModel>(
           builder: (context, viewModel, child) {
             return Stack(
               children: <Widget>[
@@ -117,7 +118,7 @@ class AdminTrainingDetailsView extends StatelessWidget {
                         padding:
                             EdgeInsets.symmetric(vertical: 10, horizontal: 20),
                         child: Text(
-                            'Para facilitar su comprensión y seguimiento en la capacitación, se le ha proporcionado un PDF con la información más relevante.',
+                            'Para facilitar la comprensión y seguimiento de los jueces en la capacitación, se les ha proporcionado un PDF con la información más relevante.',
                             style: TextStyle(fontSize: 14)),
                       ),
                       Padding(
@@ -130,10 +131,11 @@ class AdminTrainingDetailsView extends StatelessWidget {
                             ),
                             icon: const Icon(Icons.picture_as_pdf),
                             onPressed: () {
-                              PDFViewModel pdfViewModel =
-                                  PDFViewModel();
-                              pdfViewModel.viewPDF(training.pdfUrl).then((_) {
-                              }).catchError((error) {
+                              PDFViewModel pdfViewModel = PDFViewModel();
+                              pdfViewModel
+                                  .viewPDF(training.pdfUrl)
+                                  .then((_) {})
+                                  .catchError((error) {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(
                                         content: Text(
@@ -141,7 +143,39 @@ class AdminTrainingDetailsView extends StatelessWidget {
                               });
                             },
                             label: const Text('VISUALIZAR PDF')),
-                      )
+                      ),
+                      const SizedBox(height: 10),
+                      Divider(
+                        thickness: 2,
+                        color: Colors.grey.shade300,
+                      ),
+                      const SizedBox(height: 20),
+                      const Padding(
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 20, vertical: 0),
+                        child: Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            'Asistencia de Jueces',
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 20, horizontal: 26),
+                        child: ElevatedButton.icon(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Theme.of(context).primaryColor,
+                              foregroundColor: Colors.white,
+                            ),
+                            icon: const Icon(Icons.contacts),
+                            onPressed: () => viewModel.goToTrainingJudgesView(context),
+                            label: const Text('VISUALIZAR PARTICIPANTES')),
+                      ),
                     ],
                   ),
                 ),

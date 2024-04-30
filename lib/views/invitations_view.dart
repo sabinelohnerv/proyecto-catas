@@ -88,7 +88,7 @@ class _InvitationsViewState extends State<InvitationsView> {
               final judgeState = event.eventJudges
                   .firstWhere(
                     (judge) => judge.id == Provider.of<ProfileViewModel>(context, listen: false).currentUser!.uid,
-                    orElse: () => EventJudge(id: '', name: '', email: '', state: 'pending', imgUrl: ''),
+                    orElse: () => EventJudge(id: '', name: '', email: '', state: 'pending', imgUrl: '', gender: ''),
                   )
                   .state;
               return _filter == 'all' || _mapStateToText(judgeState) == _mapStateToText(_filter);
@@ -100,7 +100,7 @@ class _InvitationsViewState extends State<InvitationsView> {
                 final judgeState = event.eventJudges
                     .firstWhere(
                       (judge) => judge.id == Provider.of<ProfileViewModel>(context, listen: false).currentUser!.uid,
-                      orElse: () => EventJudge(id: '', name: '', email: '', state: 'pending', imgUrl: ''),
+                      orElse: () => EventJudge(id: '', name: '', email: '', state: 'pending', imgUrl: '', gender: ''),
                     )
                     .state;
                 final stateText = _mapStateToText(judgeState);

@@ -62,7 +62,7 @@ class _TrainingListViewState extends State<TrainingListView> {
                 onTap: () => Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => AdminTrainingDetailsView(training: training),
+                    builder: (context) => AdminTrainingDetailsView(training: training, eventId: widget.eventId,),
                   ),
                 ),
                 onDelete: () {

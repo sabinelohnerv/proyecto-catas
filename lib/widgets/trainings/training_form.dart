@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:catas_univalle/models/event_judge.dart';
 import 'package:catas_univalle/widgets/trainings/custom_elevated_button.dart';
 import 'package:catas_univalle/widgets/trainings/file_picker_button.dart';
 import 'package:flutter/material.dart';
@@ -25,7 +26,6 @@ class _TrainingFormState extends State<TrainingForm> {
   DateTime? _selectedDate;
   TimeOfDay? _startTime;
   TimeOfDay? _endTime;
-  File? _selectedImage;
   File? _selectedPdf;
   String? _selectedPdfUrl;
 
@@ -73,11 +73,7 @@ class _TrainingFormState extends State<TrainingForm> {
     if (result != null) {
       File file = File(result.files.single.path!);
       setState(() {
-        if (isImage) {
-          _selectedImage = file;
-        } else {
-          _selectedPdf = file;
-        }
+        _selectedPdf = file;
       });
     }
   }
@@ -97,11 +93,6 @@ class _TrainingFormState extends State<TrainingForm> {
               controller: _descriptionController,
               maxLines: 3,
             ),
-            CustomElevatedButton(
-              text: 'Seleccionar Imagen',
-              onPressed: () => _pickFile(true),
-            ),
-            if (_selectedImage != null) Image.file(_selectedImage!),
             CustomTextFormField(
               labelText: 'Ubicación',
               controller: _locationController,
@@ -113,8 +104,7 @@ class _TrainingFormState extends State<TrainingForm> {
             FilePickerButton(
               onFilePicked: (url) {
                 setState(() {
-                  _selectedPdfUrl =
-                      url;
+                  _selectedPdfUrl = url;
                 });
               },
             ),
@@ -158,18 +148,18 @@ class _TrainingFormState extends State<TrainingForm> {
                   ));
                   return;
                 }
+                List<EventJudge> judges = [];
                 Training newTraining = Training(
                   id: '',
                   name: _nameController.text,
                   description: _descriptionController.text,
-                  imageUrl: _selectedImage?.path ?? '',
                   startTime: _startTime?.format(context) ?? '',
                   endTime: _endTime?.format(context) ?? '',
                   date: _selectedDate?.toIso8601String() ?? '',
                   location: _locationController.text,
                   locationUrl: _locationUrlController.text,
-                  pdfUrl:
-                      _selectedPdfUrl!,
+                  pdfUrl: _selectedPdfUrl!,
+                  judges: judges,
                 );
                 Provider.of<TrainingViewModel>(context, listen: false)
                     .addTraining(widget.eventId, newTraining);
