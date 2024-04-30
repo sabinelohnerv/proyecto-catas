@@ -21,6 +21,7 @@ class Event {
   int numberOfJudges;
   List<EventJudge> eventJudges;
   List<Training> trainings;
+  String state;
 
   Event({
     required this.id,
@@ -40,6 +41,7 @@ class Event {
     required this.numberOfJudges,
     required this.eventJudges,
     required this.trainings,
+    required this.state,
   });
 
   factory Event.fromSnapshot(DocumentSnapshot snapshot) {
@@ -48,6 +50,7 @@ class Event {
     return Event(
       id: snapshot.id,
       name: data['name'],
+      state: data['state'] ?? 'active',
       date: data['date'],
       start: data['start'],
       end: data['end'],
@@ -90,7 +93,8 @@ class Event {
       client: Client.placeholder(),
       numberOfJudges: 0,
       eventJudges: [],
-      trainings: [], 
+      trainings: [],
+      state: 'active',
     );
   }
 }
