@@ -16,8 +16,7 @@ const mailTransport = nodemailer.createTransport({
 
 
 exports.updateEventState = functions.pubsub.schedule("0 0 * * *").onRun(async (context) => {
-  const today = new Date(); // Gets today's date at midnight
-
+  const today = new Date(); 
   const eventsSnapshot = await admin.firestore().collection("events").get();
 
   const batch = admin.firestore().batch();
