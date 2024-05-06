@@ -9,7 +9,7 @@ class Training {
   String date;
   String location;
   String locationUrl;
-  String pdfUrl;
+  String? pdfUrl;
   List<EventJudge> judges;
 
   Training({
@@ -21,7 +21,7 @@ class Training {
     required this.date,
     required this.location,
     required this.locationUrl,
-    required this.pdfUrl,
+    this.pdfUrl,
     required this.judges,
   });
 

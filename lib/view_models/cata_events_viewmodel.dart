@@ -13,8 +13,7 @@ class CataEventsViewModel with ChangeNotifier {
   }
 
   Future<void> loadCataEvents() async {
-    // Implementa la lógica para cargar los eventos de cata desde Firestore
-    _cataEvents = await _eventService.fetchAllCataEvents(); // Asume este método en tu EventService
+    _cataEvents = await _eventService.fetchAllCataEvents();
     notifyListeners();
   }
 }
