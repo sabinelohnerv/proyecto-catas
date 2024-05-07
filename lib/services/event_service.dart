@@ -20,6 +20,47 @@ class EventService {
     return url;
   }
 
+  Future<void> updateEvent(Event event) async {
+    try {
+      await _db.collection('events').doc(event.id).update({
+        'name': event.name,
+        'date': event.date,
+        'start': event.start,
+        'end': event.end,
+        'location': event.location,
+        'locationUrl': event.locationUrl,
+        'about': event.about,
+        'imageUrl': event.imageUrl,
+        'code': event.code,
+        'formUrl': event.formUrl,
+        'allergyRestrictions': event.allergyRestrictions,
+        'symptomRestrictions': event.symptomRestrictions,
+        'client': {
+          'id': event.client.id,
+          'name': event.client.name,
+          'email': event.client.email,
+          'logoImgUrl': event.client.logoImgUrl
+        },
+        'numberOfJudges': event.numberOfJudges,
+        'eventJudges': event.eventJudges
+            .map((j) => {
+                  'id': j.id,
+                  'name': j.name,
+                  'email': j.email,
+                  'state': j.state,
+                  'imgUrl': j.imgUrl,
+                  'fcmToken': j.fcmToken,
+                  'gender': j.gender
+                })
+            .toList(),
+      });
+      print("Event updated successfully.");
+    } catch (e) {
+      print("Failed to update event: $e");
+      throw Exception("Error updating event: $e");
+    }
+  }
+
   Future<void> addEvent(Event event) async {
     await _db.collection('events').doc(event.id).set({
       'name': event.name,

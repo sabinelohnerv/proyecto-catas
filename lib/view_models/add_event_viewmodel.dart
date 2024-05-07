@@ -1,6 +1,8 @@
 import 'dart:io';
 import 'package:catas_univalle/functions/util.dart';
 import 'package:catas_univalle/models/client.dart';
+import 'package:catas_univalle/models/event_judge.dart';
+import 'package:catas_univalle/models/training.dart';
 import 'package:catas_univalle/services/client_service.dart';
 import 'package:catas_univalle/models/event.dart';
 import 'package:catas_univalle/services/event_service.dart';
@@ -12,6 +14,7 @@ class AddEventViewModel with ChangeNotifier {
   final ClientService _clientService = ClientService();
 
   String? name;
+  String? state;
   String? date;
   String? start;
   String? end;
@@ -54,17 +57,108 @@ class AddEventViewModel with ChangeNotifier {
   List<String> selectedSymptoms = [];
   List<String> selectedAllergies = [];
   List<Client> clients = [];
+  List<EventJudge> eventJudges = [];
+  List<Training> trainings = [];
 
   TimeOfDay? startTime;
   TimeOfDay? endTime;
 
+  TextEditingController locationController = TextEditingController();
+  TextEditingController locationUrlController = TextEditingController();
   TextEditingController dateController = TextEditingController();
+  TextEditingController nameController = TextEditingController();
+  TextEditingController descriptionController = TextEditingController();
+  TextEditingController linkController = TextEditingController();
   TextEditingController startTimeController = TextEditingController();
   TextEditingController endTimeController = TextEditingController();
   TextEditingController codeController = TextEditingController();
   TextEditingController numberOfJudgesController = TextEditingController();
   TextEditingController symptomsController = TextEditingController();
   TextEditingController allergiesController = TextEditingController();
+
+  Future<bool> updateEvent(String eventId) async {
+    if (!validateInputs()) {
+      print('Input validation failed');
+      return false;
+    }
+    setIsSaving(true);
+    try {
+      String imageUrl = '';
+      if (logo != null) {
+        imageUrl = await _eventService.uploadEventLogo(
+            logo!, "Event_${DateTime.now().millisecondsSinceEpoch}");
+      }
+      final Event updatedEvent = Event(
+        id: eventId,
+        name: name!,
+        date: date!,
+        start: start!,
+        end: end!,
+        location: location!,
+        locationUrl: locationUrl!,
+        about: about!,
+        imageUrl: imageUrl,
+        code: code!,
+        formUrl: formUrl!,
+        allergyRestrictions: selectedAllergies,
+        symptomRestrictions: selectedSymptoms,
+        client: client!,
+        numberOfJudges: numberOfJudges!,
+        eventJudges: eventJudges,
+        trainings: trainings,
+        state: state!,
+      );
+      await _eventService.updateEvent(updatedEvent);
+      resetData();
+      setIsSaving(false);
+      return true;
+    } catch (e) {
+      print('Error updating event: $e');
+      setIsSaving(false);
+      return false;
+    }
+  }
+
+  Future<void> loadEvent(String eventId) async {
+    try {
+      Event event = await _eventService.fetchEventById(eventId).first;
+      fetchClients();
+      name = event.name;
+      date = event.date;
+      start = event.start;
+      end = event.end;
+      location = event.location;
+      locationUrl = event.locationUrl;
+      about = event.about;
+      formUrl = event.formUrl;
+      allergyRestrictions = event.allergyRestrictions;
+      symptomRestrictions = event.symptomRestrictions;
+      numberOfJudges = event.numberOfJudges;
+      state = event.state;
+      code = event.code;
+
+      eventJudges = event.eventJudges;
+      trainings = event.trainings;
+
+      dateController.text = date ?? '';
+      startTimeController.text = start ?? '';
+      endTimeController.text = end ?? '';
+      codeController.text = code ?? '';
+      nameController.text = name ?? '';
+      descriptionController.text = about ?? '';
+      numberOfJudgesController.text = numberOfJudges?.toString() ?? '';
+      linkController.text = formUrl ?? '';
+      locationController.text = location ?? '';
+      locationUrlController.text = locationUrl ?? '';
+
+      updateAllergies(allergyRestrictions!);
+      updateSymptoms(symptomRestrictions!);
+
+      notifyListeners();
+    } catch (e) {
+      print('Error loading event: $e');
+    }
+  }
 
   void setIsSaving(bool value) {
     _isSaving = value;
@@ -332,6 +426,7 @@ class AddEventViewModel with ChangeNotifier {
 
     startTime = null;
     endTime = null;
+    client = null;
 
     dateController.clear();
     startTimeController.clear();
@@ -345,6 +440,7 @@ class AddEventViewModel with ChangeNotifier {
 
   @override
   void dispose() {
+    client = null;
     dateController.dispose();
     startTimeController.dispose();
     endTimeController.dispose();
