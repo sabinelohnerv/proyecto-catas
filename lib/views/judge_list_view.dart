@@ -12,7 +12,7 @@ class JudgeListView extends StatefulWidget {
 }
 
 class _JudgeListViewState extends State<JudgeListView> {
-  String searchQuery = "";
+  final TextEditingController _searchController = TextEditingController();
   String filterStatus = "Todos";
   String filterGender = "Todos";
   int ageFilterMin = 18;
@@ -22,6 +22,12 @@ class _JudgeListViewState extends State<JudgeListView> {
   void initState() {
     super.initState();
     Provider.of<JudgeViewModel>(context, listen: false).fetchJudges();
+  }
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
   }
 
   void _showFilterDialog() {
@@ -144,13 +150,8 @@ class _JudgeListViewState extends State<JudgeListView> {
         iconTheme: const IconThemeData(color: Colors.white),
         centerTitle: true,
         leading: IconButton(
-          icon: const Icon(
-            Icons.arrow_back_ios,
-            color: Colors.white,
-          ),
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
+          icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
+          onPressed: () => Navigator.of(context).pop(),
         ),
         actions: [
           IconButton(
@@ -159,41 +160,62 @@ class _JudgeListViewState extends State<JudgeListView> {
           ),
         ],
       ),
-      body: Consumer<JudgeViewModel>(
-        builder: (context, judgeViewModel, child) {
-          List<Judge> filteredJudges = judgeViewModel.judges.where((judge) {
-            final int age = judge.getAge();
-            bool matchesAge = age >= ageFilterMin && age <= ageFilterMax;
-            bool matchesStatus = filterStatus == "Todos" || judge.applicationState.toLowerCase() == filterStatus.toLowerCase();
-            bool matchesGender = filterGender == "Todos" || judge.gender == filterGender;
+      body: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: TextField(
+              controller: _searchController,
+              decoration: InputDecoration(
+                labelText: "Buscar",
+                hintText: "Escribe para buscar jueces",
+                prefixIcon: const Icon(Icons.search),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(8),
+                  borderSide: BorderSide(color: Colors.grey.shade300),
+                ),
+              ),
+              onChanged: (value) {
+                setState(() {
+                  // Triggering state update on text change
+                });
+              },
+            ),
+          ),
+          Expanded(
+            child: Consumer<JudgeViewModel>(
+              builder: (context, judgeViewModel, child) {
+                List<Judge> filteredJudges = judgeViewModel.judges.where((judge) {
+                  final int age = judge.getAge();
+                  bool matchesAge = age >= ageFilterMin && age <= ageFilterMax;
+                  bool matchesStatus = filterStatus == "Todos" || judge.applicationState.toLowerCase() == filterStatus.toLowerCase();
+                  bool matchesGender = filterGender == "Todos" || judge.gender == filterGender;
+                  bool matchesQuery = judge.fullName.toLowerCase().contains(_searchController.text.toLowerCase()) ||
+                                      judge.email.toLowerCase().contains(_searchController.text.toLowerCase());
 
-            return matchesAge && matchesStatus && matchesGender;
-          }).toList();
-
-          final judges = searchQuery.isEmpty
-              ? filteredJudges
-              : filteredJudges.where((judge) {
-                  return judge.fullName.toLowerCase().contains(searchQuery) ||
-                      judge.email.toLowerCase().contains(searchQuery);
+                  return matchesAge && matchesStatus && matchesGender && matchesQuery;
                 }).toList();
 
-          return judges.isNotEmpty
-              ? GridView.builder(
-                  padding: const EdgeInsets.all(15),
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    crossAxisSpacing: 10,
-                    mainAxisSpacing: 10,
-                    childAspectRatio: (1 / 1.2),
-                  ),
-                  itemCount: judges.length,
-                  itemBuilder: (context, index) {
-                    final judge = judges[index];
-                    return JudgeCard(judge: judge);
-                  },
-                )
-              : const Center(child: Text('No se encontraron datos.'));
-        },
+                return filteredJudges.isNotEmpty
+                    ? GridView.builder(
+                        padding: const EdgeInsets.all(15),
+                        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                          crossAxisSpacing: 10,
+                          mainAxisSpacing: 10,
+                          childAspectRatio: (1 / 1.2),
+                        ),
+                        itemCount: filteredJudges.length,
+                        itemBuilder: (context, index) {
+                          final judge = filteredJudges[index];
+                          return JudgeCard(judge: judge);
+                        },
+                      )
+                    : const Center(child: Text('No se encontraron datos.'));
+              },
+            ),
+          ),
+        ],
       ),
     );
   }
