@@ -1,7 +1,6 @@
 import 'package:catas_univalle/view_models/training_judge_assistance_viewmodel.dart';
 import 'package:catas_univalle/widgets/training_assistances/training_assistance_card.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 
 class TrainingJudgeAssistanceView extends StatelessWidget {

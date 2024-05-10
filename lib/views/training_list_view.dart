@@ -1,3 +1,4 @@
+import 'package:catas_univalle/views/all_training_assistances_view.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:catas_univalle/models/training.dart';
@@ -9,7 +10,9 @@ class TrainingListView extends StatefulWidget {
   final String eventId;
   final bool isAdmin;
 
-  const TrainingListView({Key? key, required this.eventId, required this.isAdmin}) : super(key: key);
+  const TrainingListView(
+      {Key? key, required this.eventId, required this.isAdmin})
+      : super(key: key);
 
   @override
   _TrainingListViewState createState() => _TrainingListViewState();
@@ -21,7 +24,8 @@ class _TrainingListViewState extends State<TrainingListView> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (mounted) {
-        Provider.of<TrainingListViewModel>(context, listen: false).subscribeToTrainings(widget.eventId);
+        Provider.of<TrainingListViewModel>(context, listen: false)
+            .subscribeToTrainings(widget.eventId);
       }
     });
   }
@@ -36,7 +40,8 @@ class _TrainingListViewState extends State<TrainingListView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Capacitaciones', style: TextStyle(color: Colors.white)),
+        title:
+            const Text('Capacitaciones', style: TextStyle(color: Colors.white)),
         backgroundColor: Theme.of(context).colorScheme.primary,
         centerTitle: true,
         leading: IconButton(
@@ -47,7 +52,8 @@ class _TrainingListViewState extends State<TrainingListView> {
           if (widget.isAdmin)
             IconButton(
               icon: const Icon(Icons.add, color: Colors.white),
-              onPressed: () => Navigator.pushNamed(context, '/addTraining', arguments: widget.eventId),
+              onPressed: () => Navigator.pushNamed(context, '/addTraining',
+                  arguments: widget.eventId),
             )
         ],
       ),
@@ -57,7 +63,8 @@ class _TrainingListViewState extends State<TrainingListView> {
             return const Center(child: CircularProgressIndicator());
           }
           if (viewModel.trainings.isEmpty) {
-            return const Center(child: Text('No hay capacitaciones disponibles.'));
+            return const Center(
+                child: Text('No hay capacitaciones disponibles.'));
           }
           return ListView.builder(
             itemCount: viewModel.trainings.length,
@@ -69,7 +76,8 @@ class _TrainingListViewState extends State<TrainingListView> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => AdminTrainingDetailsView(training: training, eventId: widget.eventId),
+                      builder: (context) => AdminTrainingDetailsView(
+                          training: training, eventId: widget.eventId),
                     ),
                   );
                 },
@@ -81,6 +89,27 @@ class _TrainingListViewState extends State<TrainingListView> {
           );
         },
       ),
+      persistentFooterButtons: [
+        Center(
+            child: ElevatedButton.icon(
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => AllTrainingsJudgeAttendanceView(
+                  eventId: widget.eventId,
+                ),
+              ),
+            );
+          },
+          label: const Text('ASISTENCIAS'),
+          icon: const Icon(Icons.contacts),
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Theme.of(context).primaryColor,
+            foregroundColor: Colors.white,
+          ),
+        ))
+      ],
     );
   }
 }

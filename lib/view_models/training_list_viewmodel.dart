@@ -12,7 +12,6 @@ class TrainingListViewModel with ChangeNotifier {
 
   TrainingListViewModel({required TrainingService trainingService}) {
     _trainingService = trainingService;
-    // Si deseas comenzar a escuchar inmediatamente, podrías llamar a subscribeToTrainings aquí
   }
 
   List<Training> get trainings => _trainings;
@@ -20,17 +19,15 @@ class TrainingListViewModel with ChangeNotifier {
 
   void subscribeToTrainings(String eventId) {
     setLoading(true);
-    _trainingsSubscription?.cancel(); // Cancela cualquier subscripción existente
-    _trainingsSubscription = _trainingService.getTrainings(eventId).listen(
-      (trainingsList) {
-        _trainings = trainingsList;
-        setLoading(false);
-      },
-      onError: (error) {
-        print('Error listening to trainings: $error');
-        setLoading(false);
-      }
-    );
+    _trainingsSubscription?.cancel();
+    _trainingsSubscription =
+        _trainingService.getTrainings(eventId).listen((trainingsList) {
+      _trainings = trainingsList;
+      setLoading(false);
+    }, onError: (error) {
+      print('Error listening to trainings: $error');
+      setLoading(false);
+    });
   }
 
   void setLoading(bool loading) {
@@ -40,7 +37,7 @@ class TrainingListViewModel with ChangeNotifier {
 
   @override
   void dispose() {
-    _trainingsSubscription?.cancel(); // Limpieza al deshacerse del ViewModel
+    _trainingsSubscription?.cancel();
     super.dispose();
   }
 }
