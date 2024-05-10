@@ -2,6 +2,8 @@ import 'package:catas_univalle/view_models/admin_event_details_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../views/edit_event_view.dart';
+
 class EventActionButtons extends StatelessWidget {
   const EventActionButtons({
     super.key,
@@ -19,7 +21,12 @@ class EventActionButtons extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 6.0),
           child: ElevatedButton(
             onPressed: () {
-              // TODO: Implement edit functionality
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                    builder: (context) => EditEventView(
+                          eventId: eventId,
+                        )),
+              );
             },
             child: const Icon(Icons.edit),
           ),
