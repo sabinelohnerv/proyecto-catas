@@ -98,27 +98,11 @@ class _TrainingListViewState extends State<TrainingListView> {
             itemCount: viewModel.trainings.length,
             itemBuilder: (context, index) {
               Training training = viewModel.trainings[index];
-<<<<<<< HEAD
-              return TrainingCard(
-                training: training,
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => AdminTrainingDetailsView(
-                          training: training, eventId: widget.eventId),
-                    ),
-                  );
-                },
-                onDelete: () {
-                  // TODO: función de delete
-=======
               return Dismissible(
                 key: Key(training.id),
                 direction: DismissDirection.endToStart,
                 onDismissed: (direction) {
                   _confirmDeletion(training);
->>>>>>> Pablo
                 },
                 background: Container(
                   color: Colors.red,
