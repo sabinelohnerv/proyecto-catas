@@ -141,8 +141,7 @@ class AddEventViewModel with ChangeNotifier {
       trainings = event.trainings;
 
       dateController.text = date ?? '';
-      startTimeController.text = start ?? '';
-      endTimeController.text = end ?? '';
+
       codeController.text = code ?? '';
       nameController.text = name ?? '';
       descriptionController.text = about ?? '';
