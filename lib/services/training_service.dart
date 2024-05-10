@@ -37,8 +37,8 @@ class TrainingService {
           .collection('trainings')
           .add(training.toJson());
     } catch (e) {
-      print('Failed to add training: $e');
-      throw Exception('Failed to add training');
+      print('Error al agregar una capacitación: $e');
+      throw Exception('Error al agregar una capacitación');
     }
   }
 
@@ -51,8 +51,8 @@ class TrainingService {
           .doc(training.id)
           .set(training.toJson(), SetOptions(merge: true));
     } catch (e) {
-      print('Failed to update training: $e');
-      throw Exception('Failed to update training');
+      print('Error al actualizar una capacitación: $e');
+      throw Exception('Error al actualizar una capacitación');
     }
   }
 
@@ -65,8 +65,8 @@ class TrainingService {
           .doc(trainingId)
           .delete();
     } catch (e) {
-      print('Failed to delete training: $e');
-      throw Exception('Failed to delete training');
+      print('Error al eliminar una capacitación: $e');
+      throw Exception('Error al eliminar una capacitación');
     }
   }
 

@@ -1,7 +1,8 @@
 import 'package:catas_univalle/models/training.dart';
 import 'package:catas_univalle/view_models/admin_training_details_viewmodel.dart';
-import 'package:catas_univalle/view_models/judge_training_details_viewmodel.dart';
+import 'package:catas_univalle/view_models/admin_training_edit_viewmodel.dart';
 import 'package:catas_univalle/view_models/pdf_viewmodel.dart';
+import 'package:catas_univalle/views/admin_training_edit_details_view.dart';
 import 'package:catas_univalle/widgets/trainings/training_details_card.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/date_symbol_data_local.dart';
@@ -30,15 +31,29 @@ class AdminTrainingDetailsView extends StatelessWidget {
         extendBodyBehindAppBar: true,
         appBar: AppBar(
           backgroundColor: Colors.transparent,
+          elevation: 0,
           leading: IconButton(
-            icon: const Icon(
-              Icons.arrow_back_ios,
-              color: Colors.white,
-            ),
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
+            icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
+            onPressed: () => Navigator.of(context).pop(),
           ),
+          actions: [
+            IconButton(
+              icon: const Icon(Icons.edit, color: Colors.white),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) =>
+                        ChangeNotifierProvider<AdminTrainingEditViewModel>(
+                      create: (_) => AdminTrainingEditViewModel(),
+                      child: AdminTrainingEditDetailsView(
+                          training: training, eventId: eventId),
+                    ),
+                  ),
+                );
+              },
+            ),
+          ],
         ),
         body: Consumer<AdminTrainingDetailsViewModel>(
           builder: (context, viewModel, child) {
@@ -144,7 +159,7 @@ class AdminTrainingDetailsView extends StatelessWidget {
                                                   "Failed to open the PDF: $error")));
                                     });
                                   }
-                                : null, 
+                                : null,
                             label: const Text('VISUALIZAR PDF')),
                       ),
                       const SizedBox(height: 10),

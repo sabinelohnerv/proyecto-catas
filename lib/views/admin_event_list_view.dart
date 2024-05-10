@@ -1,14 +1,45 @@
-import 'package:catas_univalle/widgets/events/admin_event_card.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:catas_univalle/models/event.dart';
 import 'package:catas_univalle/view_models/admin_event_list_viewmodel.dart';
+import 'package:catas_univalle/widgets/events/admin_event_card.dart';
 import 'package:catas_univalle/views/admin_event_details_view.dart';
 
-class AdminEventListView extends StatelessWidget {
+class AdminEventListView extends StatefulWidget {
   final bool isAdmin;
 
   const AdminEventListView({super.key, required this.isAdmin});
+
+  @override
+  State<AdminEventListView> createState() => _AdminEventListViewState();
+}
+
+class _AdminEventListViewState extends State<AdminEventListView> {
+  final TextEditingController _searchController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    _searchController.addListener(_onSearchChanged);
+    Provider.of<AdminEventListViewModel>(context, listen: false).listenToEvents();
+  }
+
+  void _onSearchChanged() {
+    Provider.of<AdminEventListViewModel>(context, listen: false)
+        .setSearchQuery(_searchController.text);
+  }
+
+  @override
+  void dispose() {
+    _searchController.removeListener(_onSearchChanged);
+    _searchController.dispose();
+    super.dispose();
+  }
+
+  void _goBack(BuildContext context) {
+    _searchController.text = '';
+    Navigator.of(context).pop();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -19,10 +50,10 @@ class AdminEventListView extends StatelessWidget {
         centerTitle: true,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
-          onPressed: () => Navigator.of(context).pop(),
+          onPressed: () => _goBack(context),
         ),
         foregroundColor: Colors.white,
-        actions: isAdmin
+        actions: widget.isAdmin
             ? [
                 IconButton(
                   icon: const Icon(
@@ -31,39 +62,57 @@ class AdminEventListView extends StatelessWidget {
                     size: 30,
                   ),
                   onPressed: () =>
-                      AdminEventListViewModel().navigateToAddEvent(context),
+                      Provider.of<AdminEventListViewModel>(context, listen: false).navigateToAddEvent(context),
                 ),
               ]
             : [],
       ),
-      body: ChangeNotifierProvider<AdminEventListViewModel>(
-        create: (context) => AdminEventListViewModel(),
-        child: Consumer<AdminEventListViewModel>(
-          builder: (context, viewModel, child) {
-            if (viewModel.isLoading) {
-              return const Center(child: CircularProgressIndicator());
-            }
+      body: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: TextField(
+              controller: _searchController,
+              decoration: InputDecoration(
+                labelText: "Buscar",
+                hintText: "Escribe para buscar eventos",
+                prefixIcon: Icon(Icons.search),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(8),
+                  borderSide: BorderSide(color: Colors.grey.shade300),
+                ),
+              ),
+            ),
+          ),
+          Expanded(
+            child: Consumer<AdminEventListViewModel>(
+              builder: (context, viewModel, child) {
+                if (viewModel.isLoading) {
+                  return const Center(child: CircularProgressIndicator());
+                }
 
-            return ListView.builder(
-              itemCount: viewModel.events.length,
-              itemBuilder: (context, index) {
-                Event event = viewModel.events[index];
-                return AdminEventCard(
-                  event: event,
-                  onTap: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => AdminEventDetailsView(
-                        event: event,
-                        isAdmin: isAdmin,
+                return ListView.builder(
+                  itemCount: viewModel.events.length,
+                  itemBuilder: (context, index) {
+                    Event event = viewModel.events[index];
+                    return AdminEventCard(
+                      event: event,
+                      onTap: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => AdminEventDetailsView(
+                            event: event,
+                            isAdmin: widget.isAdmin,
+                          ),
+                        ),
                       ),
-                    ),
-                  ),
+                    );
+                  },
                 );
               },
-            );
-          },
-        ),
+            ),
+          ),
+        ],
       ),
     );
   }

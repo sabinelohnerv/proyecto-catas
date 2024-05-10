@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:catas_univalle/models/training.dart';
 import 'package:catas_univalle/services/training_service.dart';
@@ -20,6 +19,7 @@ class TrainingListViewModel with ChangeNotifier {
   void subscribeToTrainings(String eventId) {
     setLoading(true);
     _trainingsSubscription?.cancel();
+<<<<<<< HEAD
     _trainingsSubscription =
         _trainingService.getTrainings(eventId).listen((trainingsList) {
       _trainings = trainingsList;
@@ -28,6 +28,18 @@ class TrainingListViewModel with ChangeNotifier {
       print('Error listening to trainings: $error');
       setLoading(false);
     });
+=======
+    _trainingsSubscription = _trainingService.getTrainings(eventId).listen(
+      (trainingsList) {
+        _trainings = trainingsList;
+        setLoading(false);
+      },
+      onError: (error) {
+        print('Error listening to trainings: $error');
+        setLoading(false);
+      }
+    );
+>>>>>>> Pablo
   }
 
   void setLoading(bool loading) {
@@ -35,9 +47,22 @@ class TrainingListViewModel with ChangeNotifier {
     notifyListeners();
   }
 
+  void deleteTraining(String eventId, String trainingId) {
+    _trainingService.deleteTraining(eventId, trainingId).then((_) {
+      _trainings.removeWhere((training) => training.id == trainingId);
+      notifyListeners();
+    }).catchError((error) {
+      print("Error deleting training: $error");
+    });
+  }
+
   @override
   void dispose() {
+<<<<<<< HEAD
     _trainingsSubscription?.cancel();
+=======
+    _trainingsSubscription?.cancel(); 
+>>>>>>> Pablo
     super.dispose();
   }
 }

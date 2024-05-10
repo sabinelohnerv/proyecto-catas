@@ -36,6 +36,34 @@ class _TrainingListViewState extends State<TrainingListView> {
     super.dispose();
   }
 
+  void _confirmDeletion(Training training) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text("Eliminar Capacitación"),
+          content: const Text("¿Estás seguro de querer eliminar esta capacitación?"),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text("Cancelar"),
+            ),
+            TextButton(
+              onPressed: () {
+                Provider.of<TrainingListViewModel>(context, listen: false).deleteTraining(widget.eventId, training.id);
+                Navigator.of(context).pop();
+              },
+              child: const Text("Eliminar"),
+              style: TextButton.styleFrom(foregroundColor: Colors.red),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -70,6 +98,7 @@ class _TrainingListViewState extends State<TrainingListView> {
             itemCount: viewModel.trainings.length,
             itemBuilder: (context, index) {
               Training training = viewModel.trainings[index];
+<<<<<<< HEAD
               return TrainingCard(
                 training: training,
                 onTap: () {
@@ -83,7 +112,31 @@ class _TrainingListViewState extends State<TrainingListView> {
                 },
                 onDelete: () {
                   // TODO: función de delete
+=======
+              return Dismissible(
+                key: Key(training.id),
+                direction: DismissDirection.endToStart,
+                onDismissed: (direction) {
+                  _confirmDeletion(training);
+>>>>>>> Pablo
                 },
+                background: Container(
+                  color: Colors.red,
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  alignment: Alignment.centerRight,
+                  child: const Icon(Icons.delete, color: Colors.white),
+                ),
+                child: TrainingCard(
+                  training: training,
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => AdminTrainingDetailsView(training: training, eventId: widget.eventId),
+                      ),
+                    );
+                  }, onDelete: () {  },
+                ),
               );
             },
           );
