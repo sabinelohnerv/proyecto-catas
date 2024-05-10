@@ -19,11 +19,17 @@ class AdminEventListViewModel with ChangeNotifier {
 
   void setSearchQuery(String query) {
     _searchQuery = query;
+    filterEvents();
+  }
+
+  void filterEvents() {
     _filteredEvents = _events.where((event) {
-      return event.name.toLowerCase().contains(query.toLowerCase()) ||
-             event.about.toLowerCase().contains(query.toLowerCase());
+      return event.name.toLowerCase().contains(_searchQuery.toLowerCase()) ||
+             event.about.toLowerCase().contains(_searchQuery.toLowerCase());
     }).toList();
-    notifyListeners();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      notifyListeners();
+    });
   }
 
   void setIsLoading(bool loading) {
@@ -35,12 +41,21 @@ class AdminEventListViewModel with ChangeNotifier {
     _isLoading = true;
     notifyListeners();
     _eventService.eventsStream().listen((eventData) {
-      _events = eventData;
-      if (!_searchQuery.isEmpty) {
-        setSearchQuery(_searchQuery);
-      }
-      _isLoading = false;
-      notifyListeners();
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        _events = eventData;
+        if (!_searchQuery.isEmpty) {
+          filterEvents();
+        } else {
+          _isLoading = false;
+          notifyListeners();
+        }
+      });
+    }, onError: (error) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        _isLoading = false;
+        notifyListeners();
+      });
+      print("Error loading events: $error");
     });
   }
 
