@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:catas_univalle/models/training.dart';
 import 'package:catas_univalle/services/training_service.dart';
@@ -12,7 +11,6 @@ class TrainingListViewModel with ChangeNotifier {
 
   TrainingListViewModel({required TrainingService trainingService}) {
     _trainingService = trainingService;
-    // Si deseas comenzar a escuchar inmediatamente, podrías llamar a subscribeToTrainings aquí
   }
 
   List<Training> get trainings => _trainings;
@@ -20,7 +18,7 @@ class TrainingListViewModel with ChangeNotifier {
 
   void subscribeToTrainings(String eventId) {
     setLoading(true);
-    _trainingsSubscription?.cancel(); // Cancela cualquier subscripción existente
+    _trainingsSubscription?.cancel();
     _trainingsSubscription = _trainingService.getTrainings(eventId).listen(
       (trainingsList) {
         _trainings = trainingsList;
@@ -38,9 +36,18 @@ class TrainingListViewModel with ChangeNotifier {
     notifyListeners();
   }
 
+  void deleteTraining(String eventId, String trainingId) {
+    _trainingService.deleteTraining(eventId, trainingId).then((_) {
+      _trainings.removeWhere((training) => training.id == trainingId);
+      notifyListeners();
+    }).catchError((error) {
+      print("Error deleting training: $error");
+    });
+  }
+
   @override
   void dispose() {
-    _trainingsSubscription?.cancel(); // Limpieza al deshacerse del ViewModel
+    _trainingsSubscription?.cancel(); 
     super.dispose();
   }
 }
