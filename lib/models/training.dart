@@ -36,7 +36,7 @@ class Training {
       'location': location,
       'locationUrl': locationUrl,
       'pdfUrl': pdfUrl,
-      'judges': judges,
+      'judges': judges.map((judge) => judge.toJson()).toList(),
     };
   }
 

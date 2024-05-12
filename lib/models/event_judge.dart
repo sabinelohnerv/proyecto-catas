@@ -27,4 +27,16 @@ class EventJudge {
         fcmToken: map['fcmToken'],
         imgUrl: map['imgUrl']);
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'name': name,
+      'email': email,
+      'state': state,
+      'imgUrl': imgUrl,
+      'gender': gender,
+      'fcmToken': fcmToken, 
+    };
+  }
 }

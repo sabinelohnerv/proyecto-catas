@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:open_filex/open_filex.dart';
 
 class AdminTrainingDetailsViewModel extends ChangeNotifier {
-  final Training training;
+  Training training;
   final String eventId;
 
   AdminTrainingDetailsViewModel(this.training, this.eventId);
@@ -31,5 +31,10 @@ class AdminTrainingDetailsViewModel extends ChangeNotifier {
             TrainingJudgesView(eventId: eventId, trainingId: training.id),
       ),
     );
+  }
+
+  void updateTrainingDetails(Training updatedTraining) {
+    training = updatedTraining;
+    notifyListeners();
   }
 }

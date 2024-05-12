@@ -39,8 +39,8 @@ class AdminTrainingDetailsView extends StatelessWidget {
           actions: [
             IconButton(
               icon: const Icon(Icons.edit, color: Colors.white),
-              onPressed: () {
-                Navigator.push(
+              onPressed: () async {
+                final updatedTraining = await Navigator.push<Training>(
                   context,
                   MaterialPageRoute(
                     builder: (context) =>
@@ -51,6 +51,12 @@ class AdminTrainingDetailsView extends StatelessWidget {
                     ),
                   ),
                 );
+
+                if (updatedTraining != null) {
+                  Provider.of<AdminTrainingDetailsViewModel>(context,
+                          listen: false)
+                      .updateTrainingDetails(updatedTraining);
+                }
               },
             ),
           ],

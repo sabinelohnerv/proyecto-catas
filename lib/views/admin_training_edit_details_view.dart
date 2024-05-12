@@ -5,6 +5,7 @@ import 'package:catas_univalle/view_models/admin_training_edit_viewmodel.dart';
 import 'package:file_picker/file_picker.dart';
 import 'dart:io';
 import 'package:intl/intl.dart';
+import 'package:catas_univalle/widgets/register/custom_textfield.dart';
 
 class AdminTrainingEditDetailsView extends StatefulWidget {
   final Training training;
@@ -59,11 +60,10 @@ class _AdminTrainingEditDetailsViewState
 
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
-      context: context,
-      initialDate: _selectedDate,
-      firstDate: DateTime(2000),
-      lastDate: DateTime(2100),
-    );
+        context: context,
+        initialDate: _selectedDate,
+        firstDate: DateTime(2000),
+        lastDate: DateTime(2100));
     if (picked != null && picked != _selectedDate) {
       setState(() {
         _selectedDate = picked;
@@ -73,9 +73,7 @@ class _AdminTrainingEditDetailsViewState
 
   Future<void> _selectTime(BuildContext context, bool isStartTime) async {
     final TimeOfDay? picked = await showTimePicker(
-      context: context,
-      initialTime: isStartTime ? _startTime : _endTime,
-    );
+        context: context, initialTime: isStartTime ? _startTime : _endTime);
     if (picked != null && picked != (isStartTime ? _startTime : _endTime)) {
       setState(() {
         if (isStartTime) {
@@ -91,9 +89,9 @@ class _AdminTrainingEditDetailsViewState
     FilePickerResult? result = await FilePicker.platform
         .pickFiles(type: FileType.custom, allowedExtensions: ['pdf']);
     if (result != null) {
-      setState(() {
-        _selectedPdf = File(result.files.single.path!);
-      });
+      _selectedPdf = File(result.files.single.path!);
+      await Provider.of<AdminTrainingEditViewModel>(context, listen: false)
+          .uploadPDF(_selectedPdf!);
     }
   }
 
@@ -102,20 +100,18 @@ class _AdminTrainingEditDetailsViewState
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Color.fromARGB(255, 232, 137, 158),
-        iconTheme: IconThemeData(color: Colors.white), 
-        title: Text(
-          'Editar Capacitación',
-          style: TextStyle(color: Colors.white),
-        ),
+        iconTheme: IconThemeData(color: Colors.white),
+        title:
+            Text('Editar Capacitación', style: TextStyle(color: Colors.white)),
         actions: [
           IconButton(
             icon: Icon(Icons.save),
             onPressed: () async {
+              final viewModel = Provider.of<AdminTrainingEditViewModel>(context,
+                  listen: false);
               if (_selectedPdf != null) {
-                await Provider.of<AdminTrainingEditViewModel>(context,
-                        listen: false)
-                    .uploadPDF(
-                        _selectedPdf!); 
+                await viewModel.uploadPDF(
+                    _selectedPdf!);
               }
               widget.training.name = _nameController.text;
               widget.training.description = _descriptionController.text;
@@ -125,64 +121,62 @@ class _AdminTrainingEditDetailsViewState
                   DateFormat('yyyy-MM-dd').format(_selectedDate);
               widget.training.startTime = _startTime.format(context);
               widget.training.endTime = _endTime.format(context);
-              widget.training.pdfUrl = Provider.of<AdminTrainingEditViewModel>(
-                      context,
-                      listen: false)
+              widget.training.pdfUrl = viewModel
                   .pdfUrl;
-
-              Provider.of<AdminTrainingEditViewModel>(context, listen: false)
-                  .updateTraining(widget.eventId, widget.training);
-              Navigator.pop(context);
+              await viewModel.updateTraining(widget.eventId, widget.training);
+              Navigator.pop(context, widget.training);
             },
           )
         ],
       ),
-      body: Padding(
+      body: ListView(
         padding: const EdgeInsets.all(20.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            TextFormField(
-              controller: _nameController,
-              decoration: InputDecoration(labelText: 'Nombre de la Capacitación'),
-            ),
-            SizedBox(height: 20),
-            TextFormField(
-              controller: _descriptionController,
-              decoration: InputDecoration(labelText: 'Descripción'),
-              maxLines: 3,
-            ),
-            SizedBox(height: 20),
-            TextFormField(
-              controller: _locationController,
-              decoration: InputDecoration(labelText: 'Ubicación'),
-            ),
-            SizedBox(height: 20),
-            TextFormField(
-              controller: _locationUrlController,
-              decoration: InputDecoration(labelText: 'URL de Ubicación'),
-            ),
-            SizedBox(height: 20),
-            ListTile(
-              title: Text(
-                  'Fecha de la Capacitación: ${DateFormat('yyyy-MM-dd').format(_selectedDate)}'),
-              trailing: Icon(Icons.calendar_today),
-              onTap: () => _selectDate(context),
-            ),
-            SizedBox(height: 20),
-            ListTile(
-              title: Text('Hora de inicio: ${_startTime.format(context)}'),
-              trailing: Icon(Icons.timer),
-              onTap: () => _selectTime(context, true),
-            ),
-            SizedBox(height: 20),
-            ListTile(
-              title: Text('Hora de fin: ${_endTime.format(context)}'),
-              trailing: Icon(Icons.timer),
-              onTap: () => _selectTime(context, false),
-            ),
-          ],
-        ),
+        children: [
+          CustomTextFormField(
+            labelText: 'Nombre de la Capacitación',
+            controller: _nameController,
+          ),
+          SizedBox(height: 20),
+          CustomTextFormField(
+            labelText: 'Descripción',
+            controller: _descriptionController,
+            maxLines: 3,
+          ),
+          SizedBox(height: 20),
+          CustomTextFormField(
+            labelText: 'Ubicación',
+            controller: _locationController,
+          ),
+          SizedBox(height: 20),
+          CustomTextFormField(
+            labelText: 'URL de Ubicación',
+            controller: _locationUrlController,
+          ),
+          SizedBox(height: 20),
+          ListTile(
+            title: Text(
+                'Fecha de la Capacitación: ${DateFormat('yyyy-MM-dd').format(_selectedDate)}'),
+            trailing: Icon(Icons.calendar_today),
+            onTap: () => _selectDate(context),
+          ),
+          SizedBox(height: 20),
+          ListTile(
+            title: Text('Hora de inicio: ${_startTime.format(context)}'),
+            trailing: Icon(Icons.timer),
+            onTap: () => _selectTime(context, true),
+          ),
+          SizedBox(height: 20),
+          ListTile(
+            title: Text('Hora de fin: ${_endTime.format(context)}'),
+            trailing: Icon(Icons.timer),
+            onTap: () => _selectTime(context, false),
+          ),
+          SizedBox(height: 20),
+          ElevatedButton(
+            onPressed: _uploadPdf,
+            child: Text('Editar PDF'),
+          ),
+        ],
       ),
     );
   }
