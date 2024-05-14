@@ -26,7 +26,6 @@ class _AdminTrainingEventsViewState extends State<AdminTrainingEventsView> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    // Guardar la referencia al viewModel cuando el árbol de dependencias esté disponible
     viewModel = Provider.of<AdminTrainingEventsViewModel>(context, listen: false);
   }
 
@@ -39,7 +38,6 @@ class _AdminTrainingEventsViewState extends State<AdminTrainingEventsView> {
 
   @override
   void dispose() {
-    // Reinicia el filtro de búsqueda cuando salgas de la pantalla
     viewModel?.setSearchQuery('');
     _searchController.removeListener(_onSearchChanged);
     _searchController.dispose();
