@@ -15,6 +15,7 @@ class AdminTrainingEventsView extends StatefulWidget {
 class _AdminTrainingEventsViewState extends State<AdminTrainingEventsView> {
   final TextEditingController _searchController = TextEditingController();
   Timer? _debounce;
+  AdminTrainingEventsViewModel? viewModel;
 
   @override
   void initState() {
@@ -22,11 +23,17 @@ class _AdminTrainingEventsViewState extends State<AdminTrainingEventsView> {
     _searchController.addListener(_onSearchChanged);
   }
 
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    // Guardar la referencia al viewModel cuando el árbol de dependencias esté disponible
+    viewModel = Provider.of<AdminTrainingEventsViewModel>(context, listen: false);
+  }
+
   void _onSearchChanged() {
     if (_debounce?.isActive ?? false) _debounce!.cancel();
     _debounce = Timer(const Duration(milliseconds: 500), () {
-      Provider.of<AdminTrainingEventsViewModel>(context, listen: false)
-          .setSearchQuery(_searchController.text);
+      viewModel?.setSearchQuery(_searchController.text);
     });
   }
 
