@@ -39,6 +39,8 @@ class _AdminTrainingEventsViewState extends State<AdminTrainingEventsView> {
 
   @override
   void dispose() {
+    // Reinicia el filtro de búsqueda cuando salgas de la pantalla
+    viewModel?.setSearchQuery('');
     _searchController.removeListener(_onSearchChanged);
     _searchController.dispose();
     _debounce?.cancel();
