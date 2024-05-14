@@ -30,22 +30,12 @@ class DrawerBodyWidget extends StatelessWidget {
             title: const Text('Perfil'),
             onTap: onProfileTap,
           ),
-          if(isSuperAdmin)
-          ListTile(
-            leading: const Icon(Icons.admin_panel_settings),
-            title: const Text('Administradores'),
-            onTap: onAdminTap,
-          ),
-          ListTile(
-            leading: const Icon(Icons.info),
-            title: const Text('Información'),
-            onTap: onInformationTap,
-          ),
-          ListTile(
-            leading: const Icon(Icons.mail),
-            title: const Text('Contacto'),
-            onTap: onContactTap,
-          ),
+          if (isSuperAdmin)
+            ListTile(
+              leading: const Icon(Icons.admin_panel_settings),
+              title: const Text('Administradores'),
+              onTap: onAdminTap,
+            ),
           ListTile(
             leading: const Icon(Icons.logout),
             title: const Text('Cerrar Sesión'),

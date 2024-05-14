@@ -4,7 +4,6 @@ import 'package:catas_univalle/models/event_judge.dart';
 import 'package:catas_univalle/models/training.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:path/path.dart' as Path;
 
 class EventService {
   final FirebaseFirestore _db = FirebaseFirestore.instance;
@@ -13,7 +12,7 @@ class EventService {
     firebase_storage.Reference storageReference = firebase_storage
         .FirebaseStorage.instance
         .ref()
-        .child('event_images/${Path.basename(logo.path)}');
+        .child('event_images/$eventId.jpg');
     firebase_storage.UploadTask uploadTask = storageReference.putFile(logo);
     await uploadTask;
     String url = await storageReference.getDownloadURL();

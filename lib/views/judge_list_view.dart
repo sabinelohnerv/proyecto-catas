@@ -50,12 +50,6 @@ class _JudgeListViewState extends State<JudgeListView> {
                     SingleChildScrollView(
                       scrollDirection: Axis.horizontal,
                       child: ToggleButtons(
-                        children: const <Widget>[
-                          Padding(padding: EdgeInsets.symmetric(horizontal: 16), child: Text("Todos")),
-                          Padding(padding: EdgeInsets.symmetric(horizontal: 16), child: Text("Pendiente")),
-                          Padding(padding: EdgeInsets.symmetric(horizontal: 16), child: Text("Aprobado")),
-                          Padding(padding: EdgeInsets.symmetric(horizontal: 16), child: Text("Rechazado")),
-                        ],
                         isSelected: [
                           filterStatus == "Todos",
                           filterStatus == "Pendiente",
@@ -64,9 +58,28 @@ class _JudgeListViewState extends State<JudgeListView> {
                         ],
                         onPressed: (int index) {
                           setDialogState(() {
-                            filterStatus = ["Todos", "Pendiente", "Aprobado", "Rechazado"][index];
+                            filterStatus = [
+                              "Todos",
+                              "Pendiente",
+                              "Aprobado",
+                              "Rechazado"
+                            ][index];
                           });
                         },
+                        children: const <Widget>[
+                          Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 16),
+                              child: Text("Todos")),
+                          Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 16),
+                              child: Text("Pendiente")),
+                          Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 16),
+                              child: Text("Aprobado")),
+                          Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 16),
+                              child: Text("Rechazado")),
+                        ],
                       ),
                     ),
                     const SizedBox(height: 20),
@@ -74,11 +87,6 @@ class _JudgeListViewState extends State<JudgeListView> {
                     SingleChildScrollView(
                       scrollDirection: Axis.horizontal,
                       child: ToggleButtons(
-                        children: const <Widget>[
-                          Padding(padding: EdgeInsets.symmetric(horizontal: 16), child: Text("Todos")),
-                          Padding(padding: EdgeInsets.symmetric(horizontal: 16), child: Text("Masculino")),
-                          Padding(padding: EdgeInsets.symmetric(horizontal: 16), child: Text("Femenino")),
-                        ],
                         isSelected: [
                           localFilterGender == "Todos",
                           localFilterGender == "M",
@@ -89,16 +97,29 @@ class _JudgeListViewState extends State<JudgeListView> {
                             localFilterGender = ["Todos", "M", "F"][index];
                           });
                         },
+                        children: const <Widget>[
+                          Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 16),
+                              child: Text("Todos")),
+                          Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 16),
+                              child: Text("Masculino")),
+                          Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 16),
+                              child: Text("Femenino")),
+                        ],
                       ),
                     ),
                     const SizedBox(height: 20),
                     const Text("Rango de Edad"),
                     RangeSlider(
-                      values: RangeValues(localMinAge.toDouble(), localMaxAge.toDouble()),
+                      values: RangeValues(
+                          localMinAge.toDouble(), localMaxAge.toDouble()),
                       min: 18,
                       max: 100,
                       divisions: 82,
-                      labels: RangeLabels(localMinAge.toString(), localMaxAge.toString()),
+                      labels: RangeLabels(
+                          localMinAge.toString(), localMaxAge.toString()),
                       onChanged: (RangeValues values) {
                         setDialogState(() {
                           localMinAge = values.start.round();
@@ -163,15 +184,22 @@ class _JudgeListViewState extends State<JudgeListView> {
       body: Column(
         children: [
           Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.fromLTRB(25, 15, 20, 0),
             child: TextField(
               controller: _searchController,
               decoration: InputDecoration(
-                labelText: "Buscar",
-                hintText: "Escribe para buscar jueces",
-                prefixIcon: const Icon(Icons.search),
+                hintText: "Buscar jueces",
+                prefixIcon: const Padding(
+                  padding: EdgeInsets.only(left: 8),
+                  child: Icon(
+                    Icons.search,
+                    size: 22,
+                  ),
+                ),
+                isDense: true,
+                contentPadding: const EdgeInsets.symmetric(vertical: 3),
                 border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8),
+                  borderRadius: BorderRadius.circular(30),
                   borderSide: BorderSide(color: Colors.grey.shade300),
                 ),
               ),
@@ -185,21 +213,33 @@ class _JudgeListViewState extends State<JudgeListView> {
           Expanded(
             child: Consumer<JudgeViewModel>(
               builder: (context, judgeViewModel, child) {
-                List<Judge> filteredJudges = judgeViewModel.judges.where((judge) {
+                List<Judge> filteredJudges =
+                    judgeViewModel.judges.where((judge) {
                   final int age = judge.getAge();
                   bool matchesAge = age >= ageFilterMin && age <= ageFilterMax;
-                  bool matchesStatus = filterStatus == "Todos" || judge.applicationState.toLowerCase() == filterStatus.toLowerCase();
-                  bool matchesGender = filterGender == "Todos" || judge.gender == filterGender;
-                  bool matchesQuery = judge.fullName.toLowerCase().contains(_searchController.text.toLowerCase()) ||
-                                      judge.email.toLowerCase().contains(_searchController.text.toLowerCase());
+                  bool matchesStatus = filterStatus == "Todos" ||
+                      judge.applicationState.toLowerCase() ==
+                          filterStatus.toLowerCase();
+                  bool matchesGender =
+                      filterGender == "Todos" || judge.gender == filterGender;
+                  bool matchesQuery = judge.fullName
+                          .toLowerCase()
+                          .contains(_searchController.text.toLowerCase()) ||
+                      judge.email
+                          .toLowerCase()
+                          .contains(_searchController.text.toLowerCase());
 
-                  return matchesAge && matchesStatus && matchesGender && matchesQuery;
+                  return matchesAge &&
+                      matchesStatus &&
+                      matchesGender &&
+                      matchesQuery;
                 }).toList();
 
                 return filteredJudges.isNotEmpty
                     ? GridView.builder(
-                        padding: const EdgeInsets.all(15),
-                        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                        padding: const EdgeInsets.fromLTRB(15, 10, 15, 10),
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 2,
                           crossAxisSpacing: 10,
                           mainAxisSpacing: 10,

@@ -21,7 +21,8 @@ class _AdminEventListViewState extends State<AdminEventListView> {
   void initState() {
     super.initState();
     _searchController.addListener(_onSearchChanged);
-    Provider.of<AdminEventListViewModel>(context, listen: false).listenToEvents();
+    Provider.of<AdminEventListViewModel>(context, listen: false)
+        .listenToEvents();
   }
 
   void _onSearchChanged() {
@@ -61,8 +62,9 @@ class _AdminEventListViewState extends State<AdminEventListView> {
                     color: Colors.white,
                     size: 30,
                   ),
-                  onPressed: () =>
-                      Provider.of<AdminEventListViewModel>(context, listen: false).navigateToAddEvent(context),
+                  onPressed: () => Provider.of<AdminEventListViewModel>(context,
+                          listen: false)
+                      .navigateToAddEvent(context),
                 ),
               ]
             : [],
@@ -70,15 +72,22 @@ class _AdminEventListViewState extends State<AdminEventListView> {
       body: Column(
         children: [
           Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 8),
             child: TextField(
               controller: _searchController,
               decoration: InputDecoration(
-                labelText: "Buscar",
-                hintText: "Escribe para buscar eventos",
-                prefixIcon: Icon(Icons.search),
+                hintText: "Buscar eventos",
+                prefixIcon: const Padding(
+                  padding: EdgeInsets.only(left: 8),
+                  child: Icon(
+                    Icons.search,
+                    size: 22,
+                  ),
+                ),
+                isDense: true,
+                contentPadding: const EdgeInsets.symmetric(vertical: 3),
                 border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8),
+                  borderRadius: BorderRadius.circular(30),
                   borderSide: BorderSide(color: Colors.grey.shade300),
                 ),
               ),
