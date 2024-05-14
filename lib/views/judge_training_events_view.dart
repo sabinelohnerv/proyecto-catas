@@ -1,17 +1,50 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 import 'package:catas_univalle/models/event.dart';
 import 'package:catas_univalle/view_models/judge_training_events_viewmodel.dart';
 import 'package:catas_univalle/widgets/trainings/training_event_card.dart';
 
-class JudgeTrainingEventsView extends StatelessWidget {
+class JudgeTrainingEventsView extends StatefulWidget {
   final String judgeId;
   const JudgeTrainingEventsView({super.key, required this.judgeId});
 
   @override
+  State<JudgeTrainingEventsView> createState() =>
+      _JudgeTrainingEventsViewState();
+}
+
+class _JudgeTrainingEventsViewState extends State<JudgeTrainingEventsView> {
+  final TextEditingController _searchController = TextEditingController();
+  @override
+  void initState() {
+    super.initState();
+    _searchController.addListener(_onSearchChanged);
+    Provider.of<JudgeTrainingEventsViewModel>(context, listen: false)
+        .loadTrainingEventsForJudge();
+  }
+
+  void _onSearchChanged() {
+    Provider.of<JudgeTrainingEventsViewModel>(context, listen: false)
+        .setSearchQuery(_searchController.text);
+  }
+
+  @override
+  void dispose() {
+    _searchController.removeListener(_onSearchChanged);
+    _searchController.dispose();
+    super.dispose();
+  }
+
+  void _goBack(BuildContext context) {
+    _searchController.text = '';
+    Navigator.of(context).pop();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (context) => JudgeTrainingEventsViewModel(judgeId),
+      create: (context) => JudgeTrainingEventsViewModel(widget.judgeId),
       child: Scaffold(
         appBar: AppBar(
           title: const Text(
@@ -25,9 +58,7 @@ class JudgeTrainingEventsView extends StatelessWidget {
               Icons.arrow_back_ios,
               color: Colors.white,
             ),
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
+            onPressed: () => _goBack(context),
           ),
         ),
         body: Consumer<JudgeTrainingEventsViewModel>(
@@ -38,17 +69,48 @@ class JudgeTrainingEventsView extends StatelessWidget {
             if (viewModel.events.isEmpty) {
               return const Center(child: Text('No has aceptado eventos aún.'));
             }
-            return ListView.builder(
-              itemCount: viewModel.events.length,
-              itemBuilder: (context, index) {
-                Event event = viewModel.events[index];
-                int numberOfTrainings = viewModel.trainingCounts[event.id] ?? 0;
-                return TrainingEventCard(
-                  event: event,
-                  numberOfTrainings: numberOfTrainings,
-                  onTap: () => viewModel.goToTrainingsListView(context, event),
-                );
-              },
+            return Column(
+              children: [
+                Padding(
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 10, horizontal: 8),
+                  child: TextField(
+                    controller: _searchController,
+                    decoration: InputDecoration(
+                      hintText: "Buscar eventos",
+                      prefixIcon: const Padding(
+                        padding: EdgeInsets.only(left: 8),
+                        child: Icon(
+                          Icons.search,
+                          size: 22,
+                        ),
+                      ),
+                      isDense: true,
+                      contentPadding: const EdgeInsets.symmetric(vertical: 3),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(30),
+                        borderSide: BorderSide(color: Colors.grey.shade300),
+                      ),
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: ListView.builder(
+                    itemCount: viewModel.events.length,
+                    itemBuilder: (context, index) {
+                      Event event = viewModel.events[index];
+                      int numberOfTrainings =
+                          viewModel.trainingCounts[event.id] ?? 0;
+                      return TrainingEventCard(
+                        event: event,
+                        numberOfTrainings: numberOfTrainings,
+                        onTap: () =>
+                            viewModel.goToTrainingsListView(context, event),
+                      );
+                    },
+                  ),
+                ),
+              ],
             );
           },
         ),

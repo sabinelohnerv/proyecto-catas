@@ -52,6 +52,11 @@ class _JudgeDetailScreenState extends State<JudgeDetailScreen> {
     Color reliabilityColor;
     Color statusColor;
 
+    final appBarHeight = AppBar().preferredSize.height;
+    final statusBarHeight = MediaQuery.of(context).padding.top;
+
+    final fixedHeaderHeight = 275.0;
+
     switch (widget.judge.applicationState) {
       case "aprobado":
         certificationStatus = "Aprobado";
@@ -100,23 +105,31 @@ class _JudgeDetailScreenState extends State<JudgeDetailScreen> {
           },
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.only(top: 90),
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(25.0),
-                child: JudgeHeaderCard(
-                    fullName: widget.judge.fullName,
-                    email: widget.judge.email,
-                    statusLabel: certificationStatus,
-                    statusColor: statusColor,
-                    reliabilityPercentage: widget.judge.reliability.toString(),
-                    reliabilityColor: reliabilityColor,
-                    profileImgUrl: widget.judge.profileImgUrl),
+      body: Stack(
+        children: [
+          Positioned(
+            top: statusBarHeight + appBarHeight,
+            left: 0,
+            right: 0,
+            height: fixedHeaderHeight,
+            child: Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: JudgeHeaderCard(
+                fullName: widget.judge.fullName,
+                email: widget.judge.email,
+                statusLabel: certificationStatus,
+                statusColor: statusColor,
+                reliabilityPercentage: widget.judge.reliability.toString(),
+                reliabilityColor: reliabilityColor,
+                profileImgUrl: widget.judge.profileImgUrl,
               ),
-              Padding(
+            ),
+          ),
+          Padding(
+            padding: EdgeInsets.only(
+                top: statusBarHeight + appBarHeight + fixedHeaderHeight),
+            child: SingleChildScrollView(
+              child: Padding(
                 padding: const EdgeInsets.all(20.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -232,44 +245,45 @@ class _JudgeDetailScreenState extends State<JudgeDetailScreen> {
                   ],
                 ),
               ),
-            ],
+            ),
           ),
-        ),
+        ],
       ),
       persistentFooterButtons: [
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            ElevatedButton.icon(
-              onPressed: _approveJudge,
-              icon: const Icon(Icons.check, color: Colors.white),
-              label: const Text('APROBAR',
-                  style: TextStyle(
-                      color: Colors.white, fontWeight: FontWeight.bold)),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.green,
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(30),
+            if (widget.judge.applicationState == 'rechazado')
+              ElevatedButton.icon(
+                onPressed: _approveJudge,
+                icon: const Icon(Icons.check, color: Colors.white),
+                label: const Text('APROBAR',
+                    style: TextStyle(
+                        color: Colors.white, fontWeight: FontWeight.bold)),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.green,
+                  padding: const EdgeInsets.symmetric(horizontal: 40),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30),
+                  ),
                 ),
               ),
-            ),
-            ElevatedButton.icon(
-              onPressed: _rejectJudge,
-              icon: const Icon(Icons.close, color: Colors.white),
-              label: const Text('RECHAZAR',
-                  style: TextStyle(
-                      color: Colors.white, fontWeight: FontWeight.bold)),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.red,
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(30),
+            if (widget.judge.applicationState == 'aprobado')
+              ElevatedButton.icon(
+                onPressed: _rejectJudge,
+                icon: const Icon(Icons.close, color: Colors.white),
+                label: const Text('RECHAZAR',
+                    style: TextStyle(
+                        color: Colors.white, fontWeight: FontWeight.bold)),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.red,
+                  padding: const EdgeInsets.symmetric(horizontal: 40),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30),
+                  ),
                 ),
               ),
-            ),
           ],
         ),
       ],

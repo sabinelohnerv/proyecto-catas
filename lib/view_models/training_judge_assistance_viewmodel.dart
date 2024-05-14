@@ -34,7 +34,9 @@ class TrainingJudgeAssistanceViewModel extends ChangeNotifier {
     notifyListeners();
 
     _eventService.getSelectedJudgesStream(eventId).listen((selectedJudgesData) {
-      _selectedJudges = selectedJudgesData;
+      _selectedJudges = selectedJudgesData
+          .where((judge) => judge.state.toLowerCase() == "accepted")
+          .toList();
       _updateCombinedJudges();
       _isLoadingEvent = false;
       notifyListeners();

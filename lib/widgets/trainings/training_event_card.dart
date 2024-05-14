@@ -67,13 +67,15 @@ class TrainingEventCard extends StatelessWidget {
               width: MediaQuery.of(context).size.width * 0.07,
               height: MediaQuery.of(context).size.width * 0.07,
               decoration: BoxDecoration(
-                color: Colors.green,
+                color: Theme.of(context).colorScheme.primaryContainer,
                 borderRadius: BorderRadius.circular(20),
               ),
               child: Center(
                 child: Text(
                   numberOfTrainings.toString(),
-                  style: const TextStyle(color: Colors.white),
+                  style: TextStyle(
+                      color: Theme.of(context).colorScheme.onPrimaryContainer,
+                      fontWeight: FontWeight.w500),
                 ),
               ),
             ),

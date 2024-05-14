@@ -5,6 +5,7 @@ import 'package:catas_univalle/services/training_service.dart';
 import 'package:catas_univalle/view_models/admin_training_details_viewmodel.dart';
 import 'package:catas_univalle/view_models/admin_training_events_viewmodel.dart';
 import 'package:catas_univalle/view_models/all_training_assistances_viewmodel.dart';
+import 'package:catas_univalle/view_models/judge_events_viewmodel.dart';
 import 'package:catas_univalle/view_models/judge_training_events_viewmodel.dart';
 import 'package:catas_univalle/view_models/judge_trainings_list_viewmodel.dart';
 import 'package:catas_univalle/view_models/training_judge_assistance_viewmodel.dart';
@@ -134,6 +135,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => AddEventViewModel()),
         ChangeNotifierProvider(create: (_) => CataEventsViewModel()),
         ChangeNotifierProvider(create: (context) => AdminEventListViewModel()),
+        ChangeNotifierProvider(create: (context) => JudgeEventsViewModel('judgeId')),
         ChangeNotifierProvider(
             create: (context) => SelectJudgesViewModel('eventId')),
         ChangeNotifierProvider(
@@ -169,6 +171,10 @@ class MyApp extends StatelessWidget {
                 TrainingJudgeAssistanceViewModel('eventId', 'trainingId')),
         ChangeNotifierProvider(
             create: (_) => AllTrainingJudgeAssistanceViewModel('eventId')),
+        ChangeNotifierProvider(
+            create: (_) => AdminTrainingEventsViewModel(
+                trainingService: TrainingService())),
+        ChangeNotifierProvider(create: (_) => JudgeTrainingEventsViewModel('judgeId')),
         ChangeNotifierProvider(
             create: (_) => VerificationViewModel(
                   () => {},
