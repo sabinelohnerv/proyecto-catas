@@ -5,6 +5,9 @@ import '../../view_models/add_event_viewmodel.dart';
 
 class UpdateEventButton extends StatelessWidget {
   final String eventId;
+  final GlobalKey<FormState> _formKey;
+  final AddEventViewModel viewModel;
+
   const UpdateEventButton({
     super.key,
     required GlobalKey<FormState> formKey,
@@ -12,15 +15,13 @@ class UpdateEventButton extends StatelessWidget {
     required this.eventId,
   }) : _formKey = formKey;
 
-  final GlobalKey<FormState> _formKey;
-  final AddEventViewModel viewModel;
-
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 6),
       child: ElevatedButton(
         onPressed: () async {
+          viewModel.validateAndConvertTimes();
           if (_formKey.currentState!.validate()) {
             if (!viewModel.validateTime()) {
               ScaffoldMessenger.of(context).showSnackBar(
@@ -58,7 +59,9 @@ class UpdateEventButton extends StatelessWidget {
           foregroundColor: Colors.white,
         ),
         child: viewModel.isSaving
-            ? const CircularProgressIndicator()
+            ? const CircularProgressIndicator(
+                color: Colors.white,
+              )
             : const Text('Actualizar Evento'),
       ),
     );

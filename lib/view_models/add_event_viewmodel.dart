@@ -29,6 +29,7 @@ class AddEventViewModel with ChangeNotifier {
   Client? client;
   int? numberOfJudges;
   List<String>? judgesEmails;
+  String? currentImageUrl;
 
   bool _isSaving = false;
   bool get isSaving => _isSaving;
@@ -76,6 +77,19 @@ class AddEventViewModel with ChangeNotifier {
   TextEditingController symptomsController = TextEditingController();
   TextEditingController allergiesController = TextEditingController();
 
+  Future<void> updateEventImage(File newImage, String eventId) async {
+    setIsSaving(true);
+    try {
+      currentImageUrl = await _eventService.uploadEventLogo(newImage, eventId);
+      logo = newImage;
+      notifyListeners();
+      setIsSaving(false);
+    } catch (e) {
+      print('Error updating event image: $e');
+      setIsSaving(false);
+    }
+  }
+
   Future<bool> updateEvent(String eventId) async {
     if (!validateInputs()) {
       print('Input validation failed');
@@ -83,10 +97,9 @@ class AddEventViewModel with ChangeNotifier {
     }
     setIsSaving(true);
     try {
-      String imageUrl = '';
-      if (logo != null) {
-        imageUrl = await _eventService.uploadEventLogo(
-            logo!, "Event_${DateTime.now().millisecondsSinceEpoch}");
+      String imageUrl = currentImageUrl ?? '';
+      if (logo != null && imageUrl.isNotEmpty) {
+        imageUrl = await _eventService.uploadEventLogo(logo!, eventId);
       }
       final Event updatedEvent = Event(
         id: eventId,
@@ -122,7 +135,7 @@ class AddEventViewModel with ChangeNotifier {
   Future<void> loadEvent(String eventId) async {
     try {
       Event event = await _eventService.fetchEventById(eventId).first;
-      fetchClients();
+      await fetchClients();
       name = event.name;
       date = event.date;
       start = event.start;
@@ -136,11 +149,16 @@ class AddEventViewModel with ChangeNotifier {
       numberOfJudges = event.numberOfJudges;
       state = event.state;
       code = event.code;
+      currentImageUrl = event.imageUrl;
+      client = clients.firstWhere((c) => c.id == event.client.id,
+          orElse: () => event.client);
 
       eventJudges = event.eventJudges;
       trainings = event.trainings;
 
       dateController.text = date ?? '';
+      startTimeController.text = start ?? '';
+      endTimeController.text = end ?? '';
 
       codeController.text = code ?? '';
       nameController.text = name ?? '';
@@ -210,6 +228,21 @@ class AddEventViewModel with ChangeNotifier {
     final dt = DateTime(now.year, now.month, now.day, tod.hour, tod.minute);
     final format = DateFormat.Hm();
     return format.format(dt);
+  }
+
+  TimeOfDay _getTimeOfDayFromString(String formattedTime) {
+    final timeParts = formattedTime.split(':');
+    return TimeOfDay(
+        hour: int.parse(timeParts[0]), minute: int.parse(timeParts[1]));
+  }
+
+  void validateAndConvertTimes() {
+    if (startTime == null && startTimeController.text.isNotEmpty) {
+      startTime = _getTimeOfDayFromString(startTimeController.text);
+    }
+    if (endTime == null && endTimeController.text.isNotEmpty) {
+      endTime = _getTimeOfDayFromString(endTimeController.text);
+    }
   }
 
   bool validateTime() {
@@ -415,17 +448,15 @@ class AddEventViewModel with ChangeNotifier {
     formUrl = null;
     allergyRestrictions = null;
     symptomRestrictions = null;
-    client = null;
     numberOfJudges = null;
     judgesEmails = null;
+    client = null;
+    startTime = null;
+    endTime = null;
 
     selectedSymptoms.clear();
     selectedAllergies.clear();
     clients.clear();
-
-    startTime = null;
-    endTime = null;
-    client = null;
 
     dateController.clear();
     startTimeController.clear();

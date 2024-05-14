@@ -5,10 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:catas_univalle/view_models/add_event_viewmodel.dart';
-import 'package:catas_univalle/widgets/register/custom_numberinput.dart';
 import 'package:catas_univalle/widgets/register/custom_selectionfield.dart';
 import 'package:catas_univalle/widgets/register/custom_textfield.dart';
-import 'package:catas_univalle/widgets/events/submit_new_event_button.dart';
 
 class EditEventView extends StatefulWidget {
   final String eventId;
@@ -24,14 +22,12 @@ class EditEventView extends StatefulWidget {
 class _EditEventViewState extends State<EditEventView> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final ImagePicker _picker = ImagePicker();
-  XFile? _image;
 
   @override
   void initState() {
     super.initState();
     Future.microtask(() => {
           Provider.of<AddEventViewModel>(context, listen: false)
-            ..fetchClients()
             ..loadEvent(widget.eventId)
         });
   }
@@ -137,33 +133,41 @@ class _EditEventViewState extends State<EditEventView> {
                   ),
                 ),
               ),
-              if (_image == null)
+              if (viewModel.currentImageUrl != null)
                 Padding(
                   padding: const EdgeInsets.all(15.0),
-                  child: Container(
-                    height: 200,
-                    color: Colors.grey.shade200,
-                    child: IconButton(
-                      icon: const Icon(Icons.camera_alt),
-                      onPressed: () async {
-                        final XFile? pickedFile = await _picker.pickImage(
-                            source: ImageSource.gallery);
-                        if (pickedFile != null) {
-                          setState(() {
-                            _image = pickedFile;
-                            viewModel.logo = File(pickedFile.path);
-                          });
-                        }
-                      },
-                    ),
-                  ),
+                  child: Image.network(viewModel.currentImageUrl!,
+                      height: 200, fit: BoxFit.cover),
                 )
               else
-                Padding(
-                  padding: const EdgeInsets.all(15.0),
-                  child: Image.file(File(_image!.path),
-                      height: 200, fit: BoxFit.cover),
+                Container(
+                  height: 200,
+                  decoration: BoxDecoration(
+                    color: Colors.grey[300],
+                    borderRadius: BorderRadius.circular(4),
+                  ),
+                  alignment: Alignment.center,
+                  child: Icon(
+                    Icons.photo_size_select_actual,
+                    color: Colors.grey[600],
+                    size: 60,
+                  ),
                 ),
+              Padding(
+                padding: const EdgeInsets.only(bottom: 10),
+                child: TextButton.icon(
+                  icon: const Icon(Icons.image),
+                  label: const Text('Elegir Imagen'),
+                  onPressed: () async {
+                    final XFile? newImage =
+                        await _picker.pickImage(source: ImageSource.gallery);
+                    if (newImage != null) {
+                      await viewModel.updateEventImage(
+                          File(newImage.path), widget.eventId);
+                    }
+                  },
+                ),
+              ),
               CustomTextFormField(
                 labelText: 'Descripción del Evento',
                 controller: viewModel.descriptionController,
