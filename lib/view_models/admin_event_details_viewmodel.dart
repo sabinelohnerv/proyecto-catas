@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import '../views/webview_screen.dart';
 
 class AdminEventDetailsViewModel extends ChangeNotifier {
-  EventService _eventService = EventService();
+  final EventService _eventService = EventService();
   Event? _event;
   late String formUrl;
 
