@@ -1,7 +1,7 @@
+import 'package:flutter/material.dart';
 import 'package:catas_univalle/models/event.dart';
 import 'package:catas_univalle/services/event_service.dart';
 import 'package:catas_univalle/views/judge_trainings_list_view.dart';
-import 'package:flutter/material.dart';
 
 class JudgeTrainingEventsViewModel extends ChangeNotifier {
   final String judgeId;
@@ -12,7 +12,8 @@ class JudgeTrainingEventsViewModel extends ChangeNotifier {
   Map<String, int> _trainingCounts = {};
   String _searchQuery = '';
 
-  List<Event> get events => _searchQuery.isEmpty ? _events : _filteredEvents;
+  List<Event> get events => _events;
+  List<Event> get filteredEvents => _searchQuery.isEmpty ? _events : _filteredEvents;
   bool get isLoading => _isLoading;
   Map<String, int> get trainingCounts => _trainingCounts;
 
@@ -29,6 +30,7 @@ class JudgeTrainingEventsViewModel extends ChangeNotifier {
             .any((judge) => judge.id == judgeId && judge.state == 'accepted'))
         .toList();
     _isLoading = false;
+    filterEvents(); // Update filtered events after loading
     notifyListeners();
     await _fetchTrainingCounts();
   }
@@ -50,9 +52,8 @@ class JudgeTrainingEventsViewModel extends ChangeNotifier {
     _filteredEvents = _events.where((event) {
       return event.name.toLowerCase().contains(_searchQuery.toLowerCase());
     }).toList();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      notifyListeners();
-    });
+    print("Contador de eventos filtrados: ${_filteredEvents.length}");
+    notifyListeners();
   }
 
   void goToTrainingsListView(BuildContext context, Event event) {

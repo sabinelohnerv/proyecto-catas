@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 import 'package:catas_univalle/models/event.dart';
 import 'package:catas_univalle/view_models/judge_training_events_viewmodel.dart';
@@ -10,18 +9,20 @@ class JudgeTrainingEventsView extends StatefulWidget {
   const JudgeTrainingEventsView({super.key, required this.judgeId});
 
   @override
-  State<JudgeTrainingEventsView> createState() =>
-      _JudgeTrainingEventsViewState();
+  State<JudgeTrainingEventsView> createState() => _JudgeTrainingEventsViewState();
 }
 
 class _JudgeTrainingEventsViewState extends State<JudgeTrainingEventsView> {
   final TextEditingController _searchController = TextEditingController();
+
   @override
   void initState() {
     super.initState();
     _searchController.addListener(_onSearchChanged);
-    Provider.of<JudgeTrainingEventsViewModel>(context, listen: false)
-        .loadTrainingEventsForJudge();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Provider.of<JudgeTrainingEventsViewModel>(context, listen: false)
+          .loadTrainingEventsForJudge();
+    });
   }
 
   void _onSearchChanged() {
@@ -43,7 +44,7 @@ class _JudgeTrainingEventsViewState extends State<JudgeTrainingEventsView> {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
+    return ChangeNotifierProvider<JudgeTrainingEventsViewModel>(
       create: (context) => JudgeTrainingEventsViewModel(widget.judgeId),
       child: Scaffold(
         appBar: AppBar(
@@ -66,24 +67,20 @@ class _JudgeTrainingEventsViewState extends State<JudgeTrainingEventsView> {
             if (viewModel.isLoading) {
               return const Center(child: CircularProgressIndicator());
             }
-            if (viewModel.events.isEmpty) {
+            if (viewModel.filteredEvents.isEmpty) {
               return const Center(child: Text('No has aceptado eventos aún.'));
             }
             return Column(
               children: [
                 Padding(
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 10, horizontal: 8),
+                  padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 8),
                   child: TextField(
                     controller: _searchController,
                     decoration: InputDecoration(
                       hintText: "Buscar eventos",
                       prefixIcon: const Padding(
                         padding: EdgeInsets.only(left: 8),
-                        child: Icon(
-                          Icons.search,
-                          size: 22,
-                        ),
+                        child: Icon(Icons.search, size: 22),
                       ),
                       isDense: true,
                       contentPadding: const EdgeInsets.symmetric(vertical: 3),
@@ -96,16 +93,14 @@ class _JudgeTrainingEventsViewState extends State<JudgeTrainingEventsView> {
                 ),
                 Expanded(
                   child: ListView.builder(
-                    itemCount: viewModel.events.length,
+                    itemCount: viewModel.filteredEvents.length,
                     itemBuilder: (context, index) {
-                      Event event = viewModel.events[index];
-                      int numberOfTrainings =
-                          viewModel.trainingCounts[event.id] ?? 0;
+                      Event event = viewModel.filteredEvents[index];
+                      int numberOfTrainings = viewModel.trainingCounts[event.id] ?? 0;
                       return TrainingEventCard(
                         event: event,
                         numberOfTrainings: numberOfTrainings,
-                        onTap: () =>
-                            viewModel.goToTrainingsListView(context, event),
+                        onTap: () => viewModel.goToTrainingsListView(context, event),
                       );
                     },
                   ),

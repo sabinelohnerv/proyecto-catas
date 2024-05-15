@@ -3,12 +3,13 @@ import 'package:catas_univalle/view_models/select_judges_viewmodel.dart';
 import 'package:flutter/material.dart';
 
 class SelectJudgeCard extends StatelessWidget {
-  const SelectJudgeCard(
-      {super.key,
-      required this.context,
-      required this.judge,
-      required this.isSelected,
-      required this.viewModel});
+  const SelectJudgeCard({
+    super.key,
+    required this.context,
+    required this.judge,
+    required this.isSelected,
+    required this.viewModel,
+  });
 
   final BuildContext context;
   final Judge judge;
@@ -33,6 +34,8 @@ class SelectJudgeCard extends StatelessWidget {
       reliabilityColor = Colors.red;
     }
 
+    final screenWidth = MediaQuery.of(context).size.width;
+
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 4),
       decoration: BoxDecoration(
@@ -40,7 +43,7 @@ class SelectJudgeCard extends StatelessWidget {
       ),
       child: ListTile(
         leading: CircleAvatar(
-          radius: 25,
+          radius: screenWidth * 0.06,
           backgroundImage: judge.profileImgUrl.isNotEmpty
               ? NetworkImage(judge.profileImgUrl)
               : null,
@@ -50,9 +53,15 @@ class SelectJudgeCard extends StatelessWidget {
         ),
         title: Row(
           children: [
-            Text(
-              judge.fullName,
-              style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
+            Expanded(
+              child: Text(
+                judge.fullName,
+                style: TextStyle(
+                  fontWeight: FontWeight.w600,
+                  fontSize: screenWidth * 0.04,
+                ),
+                overflow: TextOverflow.ellipsis,
+              ),
             ),
             const SizedBox(
               width: 10,
@@ -87,7 +96,10 @@ class SelectJudgeCard extends StatelessWidget {
         ),
         subtitle: Padding(
           padding: const EdgeInsets.symmetric(vertical: 4),
-          child: Text(judge.email),
+          child: Text(
+            judge.email,
+            style: TextStyle(fontSize: screenWidth * 0.035),
+          ),
         ),
         trailing: Checkbox(
           value: isSelected,

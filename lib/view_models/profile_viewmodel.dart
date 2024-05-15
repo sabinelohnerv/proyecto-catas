@@ -24,7 +24,9 @@ class ProfileViewModel extends ChangeNotifier {
     if (_currentUser != null) {
       _userDetails = await _userService.getUserDetails(_currentUser!.uid);
     }
-    notifyListeners();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      notifyListeners();
+    });
   }
 
   Future<bool> signOut() async {
