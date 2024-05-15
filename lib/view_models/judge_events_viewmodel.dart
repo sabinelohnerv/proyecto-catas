@@ -10,12 +10,8 @@ class JudgeEventsViewModel extends ChangeNotifier {
   bool _isLoading = false;
   String _searchQuery = '';
 
-  List<Event> get events => _searchQuery.isEmpty
-      ? _events
-          .where((event) => event.eventJudges
-              .any((judge) => judge.id == judgeId && judge.state == 'accepted'))
-          .toList()
-      : _filteredEvents;
+  List<Event> get events => _events;
+  List<Event> get filteredEvents => _filteredEvents;
   bool get isLoading => _isLoading;
 
   JudgeEventsViewModel(this.judgeId) {
@@ -31,22 +27,24 @@ class JudgeEventsViewModel extends ChangeNotifier {
             .any((judge) => judge.id == judgeId && judge.state == 'accepted'))
         .toList();
     _isLoading = false;
+    _filterEvents(); 
     notifyListeners();
   }
 
   void setSearchQuery(String query) {
     _searchQuery = query;
-    filterEvents();
-    notifyListeners();
+    _filterEvents();
   }
 
-  void filterEvents() {
-    _filteredEvents = _events.where((event) {
-      return event.name.toLowerCase().contains(_searchQuery.toLowerCase()) ||
-          event.about.toLowerCase().contains(_searchQuery.toLowerCase());
-    }).toList();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      notifyListeners();
-    });
+  void _filterEvents() {
+    if (_searchQuery.isEmpty) {
+      _filteredEvents = _events;
+    } else {
+      _filteredEvents = _events.where((event) {
+        return event.name.toLowerCase().contains(_searchQuery.toLowerCase()) ||
+            event.about.toLowerCase().contains(_searchQuery.toLowerCase());
+      }).toList();
+    }
+    notifyListeners();
   }
 }

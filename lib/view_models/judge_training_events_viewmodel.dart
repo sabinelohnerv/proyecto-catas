@@ -30,7 +30,7 @@ class JudgeTrainingEventsViewModel extends ChangeNotifier {
             .any((judge) => judge.id == judgeId && judge.state == 'accepted'))
         .toList();
     _isLoading = false;
-    _filterEvents(); // Update filtered events after loading
+    _filterEvents(); 
     notifyListeners();
     await _fetchTrainingCounts();
   }
