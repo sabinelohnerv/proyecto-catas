@@ -13,7 +13,7 @@ class JudgeTrainingEventsViewModel extends ChangeNotifier {
   String _searchQuery = '';
 
   List<Event> get events => _events;
-  List<Event> get filteredEvents => _searchQuery.isEmpty ? _events : _filteredEvents;
+  List<Event> get filteredEvents => _filteredEvents;
   bool get isLoading => _isLoading;
   Map<String, int> get trainingCounts => _trainingCounts;
 
@@ -30,7 +30,7 @@ class JudgeTrainingEventsViewModel extends ChangeNotifier {
             .any((judge) => judge.id == judgeId && judge.state == 'accepted'))
         .toList();
     _isLoading = false;
-    filterEvents(); // Update filtered events after loading
+    _filterEvents(); // Update filtered events after loading
     notifyListeners();
     await _fetchTrainingCounts();
   }
@@ -45,14 +45,17 @@ class JudgeTrainingEventsViewModel extends ChangeNotifier {
 
   void setSearchQuery(String query) {
     _searchQuery = query;
-    filterEvents();
+    _filterEvents();
   }
 
-  void filterEvents() {
-    _filteredEvents = _events.where((event) {
-      return event.name.toLowerCase().contains(_searchQuery.toLowerCase());
-    }).toList();
-    print("Contador de eventos filtrados: ${_filteredEvents.length}");
+  void _filterEvents() {
+    if (_searchQuery.isEmpty) {
+      _filteredEvents = _events;
+    } else {
+      _filteredEvents = _events.where((event) {
+        return event.name.toLowerCase().contains(_searchQuery.toLowerCase());
+      }).toList();
+    }
     notifyListeners();
   }
 

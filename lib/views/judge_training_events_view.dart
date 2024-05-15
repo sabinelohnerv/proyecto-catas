@@ -18,21 +18,14 @@ class _JudgeTrainingEventsViewState extends State<JudgeTrainingEventsView> {
   @override
   void initState() {
     super.initState();
-    _searchController.addListener(_onSearchChanged);
     WidgetsBinding.instance.addPostFrameCallback((_) {
       Provider.of<JudgeTrainingEventsViewModel>(context, listen: false)
           .loadTrainingEventsForJudge();
     });
   }
 
-  void _onSearchChanged() {
-    Provider.of<JudgeTrainingEventsViewModel>(context, listen: false)
-        .setSearchQuery(_searchController.text);
-  }
-
   @override
   void dispose() {
-    _searchController.removeListener(_onSearchChanged);
     _searchController.dispose();
     super.dispose();
   }
@@ -76,6 +69,9 @@ class _JudgeTrainingEventsViewState extends State<JudgeTrainingEventsView> {
                   padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 8),
                   child: TextField(
                     controller: _searchController,
+                    onChanged: (value) {
+                      viewModel.setSearchQuery(value);
+                    },
                     decoration: InputDecoration(
                       hintText: "Buscar eventos",
                       prefixIcon: const Padding(
