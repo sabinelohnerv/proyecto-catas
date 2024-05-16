@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 
-class SmallSectionCard extends StatelessWidget {
+class SmallCard extends StatelessWidget {
   final String img;
   final String title;
-  final String subtitle;
   final Widget? destinationScreen;
   final bool isClickable;
   final VoidCallback? onTap;
@@ -11,62 +10,48 @@ class SmallSectionCard extends StatelessWidget {
   final double height;
   final double fontSize;
 
-  const SmallSectionCard({
+  const SmallCard({
     super.key,
     required this.img,
     required this.title,
-    required this.subtitle,
     this.destinationScreen,
     this.isClickable = true,
     this.onTap,
     this.width = 150,
     this.height = 150,
-    this.fontSize = 12,
+    this.fontSize = 14,
   });
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
+    return InkWell(
       onTap: isClickable ? onTap ?? () => _handleTap(context) : null,
-      child: Container(
-        width: width,
-        height: height,
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(8.0),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey.withOpacity(0.5),
-              spreadRadius: 1,
-              blurRadius: 5,
-              offset: const Offset(0, 2),
+      child: Card(
+        child: SizedBox(
+          width: width,
+          height: height,
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Image.asset(
+                  'assets/images/$img.png',
+                  width: 80,
+                  height: 80,
+                  fit: BoxFit.cover,
+                ),
+                const SizedBox(height: 12),
+                Text(
+                  title.toUpperCase(),
+                  style: TextStyle(
+                    fontSize: fontSize,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ],
             ),
-          ],
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Image.asset(
-              'assets/images/$img.png',
-              width: 60,
-              height: 60,
-              fit: BoxFit.cover,
-            ),
-            const SizedBox(height: 8),
-            Text(
-              title.toUpperCase(),
-              style: TextStyle(
-                fontSize: fontSize,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-            Text(
-              subtitle,
-              style: const TextStyle(
-                fontSize: 12,
-              ),
-            ),
-          ],
+          ),
         ),
       ),
     );

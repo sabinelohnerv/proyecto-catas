@@ -33,7 +33,7 @@ class EventCard extends StatelessWidget {
           Container(
             width: double.infinity,
             padding: const EdgeInsets.all(8),
-            color: Theme.of(context).primaryColor,
+            color: Theme.of(context).colorScheme.secondary,
             child: Text(
               title,
               textAlign: TextAlign.center,

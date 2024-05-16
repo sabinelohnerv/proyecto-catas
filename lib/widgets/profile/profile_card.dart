@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class SimpleSectionCard extends StatelessWidget {
+class ProfileEditCard extends StatelessWidget {
   final String img;
   final String title;
   final String subtitle;
@@ -11,7 +11,7 @@ class SimpleSectionCard extends StatelessWidget {
   final double height;
   final double fontSize;
 
-  const SimpleSectionCard({
+  const ProfileEditCard({
     super.key,
     required this.img,
     required this.title,
