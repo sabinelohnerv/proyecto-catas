@@ -87,7 +87,7 @@ class UserHomeView extends StatelessWidget {
                   alignment: WrapAlignment.center,
                   children: [
                     SimpleSectionCard(
-                      img: 'food',
+                      img: 'comer',
                       title: 'Eventos',
                       subtitle: 'Ver más',
                       isClickable: true,
@@ -103,13 +103,13 @@ class UserHomeView extends StatelessWidget {
                       },
                     ),
                     const SimpleSectionCard(
-                      img: 'invitacion',
+                      img: 'invitacion-2',
                       title: 'Invitaciones',
                       subtitle: 'Ver Más',
                       destinationScreen: InvitationsView(),
                     ),
                     SimpleSectionCard(
-                      img: 'book',
+                      img: 'cuaderno',
                       title: 'Capacitaciones',
                       subtitle: 'Ver más',
                       isClickable: true,

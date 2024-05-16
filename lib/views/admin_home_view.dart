@@ -4,7 +4,6 @@ import 'package:catas_univalle/views/admin_training_events_view.dart';
 import 'package:catas_univalle/views/client_list_view.dart';
 import 'package:catas_univalle/views/judge_list_view.dart';
 import 'package:catas_univalle/views/login_view.dart';
-import 'package:catas_univalle/views/training_list_view.dart';
 import 'package:catas_univalle/widgets/profile/profile_card.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -82,38 +81,38 @@ class AdminHomeView extends StatelessWidget {
                               fontWeight: FontWeight.w400),
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.all(20),
+                      const Padding(
+                        padding: EdgeInsets.all(20),
                         child: Center(
                           child: Wrap(
                             alignment: WrapAlignment.spaceEvenly,
                             spacing: 25,
                             runSpacing: 25,
                             children: [
-                              const SimpleSectionCard(
-                                img: 'food',
+                              SimpleSectionCard(
+                                img: 'comer',
                                 title: 'Eventos',
                                 subtitle: 'Ver más',
                                 width: 160,
                                 destinationScreen:
                                     AdminEventListView(isAdmin: true),
                               ),
-                              const SimpleSectionCard(
-                                img: 'jueces',
+                              SimpleSectionCard(
+                                img: 'mujer',
                                 title: 'Jueces',
                                 subtitle: 'Lista de jueces',
                                 width: 160,
                                 destinationScreen: JudgeListView(),
                               ),
-                              const SimpleSectionCard(
-                                img: 'clientes',
+                              SimpleSectionCard(
+                                img: 'anfitrion',
                                 title: 'Anfitriones',
                                 subtitle: 'Ver anfitriones',
                                 width: 160,
                                 destinationScreen: ClientListView(),
                               ),
                               SimpleSectionCard(
-                                img: 'book',
+                                img: 'cuaderno',
                                 title: 'Capacitaciones',
                                 subtitle: 'Aprende ahora',
                                 width: 160,
