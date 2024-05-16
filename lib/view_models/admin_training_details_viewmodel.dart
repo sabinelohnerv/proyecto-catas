@@ -1,5 +1,4 @@
 import 'package:catas_univalle/models/training.dart';
-import 'package:catas_univalle/view_models/training_judges_viewmodel.dart';
 import 'package:catas_univalle/views/training_judges_view.dart';
 import 'package:flutter/material.dart';
 import 'package:open_filex/open_filex.dart';

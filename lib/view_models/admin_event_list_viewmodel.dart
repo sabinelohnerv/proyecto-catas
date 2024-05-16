@@ -8,9 +8,21 @@ class AdminEventListViewModel with ChangeNotifier {
   List<Event> _events = [];
   List<Event> _filteredEvents = [];
   String _searchQuery = '';
+  String _filterState = 'active';
 
-  List<Event> get events => _searchQuery.isEmpty ? _events : _filteredEvents;
+  List<Event> get events {
+    var eventsToShow = _searchQuery.isEmpty ? _events : _filteredEvents;
+    if (_filterState == 'all') {
+      return eventsToShow;
+    } else {
+      return eventsToShow
+          .where((event) => event.state == _filterState)
+          .toList();
+    }
+  }
+
   bool _isLoading = false;
+
   bool get isLoading => _isLoading;
 
   AdminEventListViewModel() {
@@ -22,10 +34,15 @@ class AdminEventListViewModel with ChangeNotifier {
     filterEvents();
   }
 
+  void setFilterState(String state) {
+    _filterState = state;
+    notifyListeners();
+  }
+
   void filterEvents() {
     _filteredEvents = _events.where((event) {
       return event.name.toLowerCase().contains(_searchQuery.toLowerCase()) ||
-             event.about.toLowerCase().contains(_searchQuery.toLowerCase());
+          event.about.toLowerCase().contains(_searchQuery.toLowerCase());
     }).toList();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       notifyListeners();

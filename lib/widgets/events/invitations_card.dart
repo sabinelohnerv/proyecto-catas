@@ -4,33 +4,33 @@ import 'package:catas_univalle/functions/util.dart';
 
 class InvitationsCard extends StatelessWidget {
   final Event event;
-  final String state; 
+  final String state;
   final VoidCallback onTap;
 
   const InvitationsCard({
     super.key,
     required this.event,
-    required this.state, 
+    required this.state,
     required this.onTap,
   });
 
   @override
   Widget build(BuildContext context) {
     String formattedDate = formatDateToWrittenDate(event.date);
-    Color stateColor = _getStateColor(state); 
+    Color stateColor = _getStateColor(state);
 
     return InkWell(
       onTap: onTap,
       child: Container(
-        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 6),
+        padding: const EdgeInsets.fromLTRB(6, 10, 20, 10),
         decoration: BoxDecoration(
           border: Border.all(color: Colors.grey.shade200),
         ),
         child: Row(
           children: [
             Container(
-              width: MediaQuery.of(context).size.width * 0.25, 
-              height: MediaQuery.of(context).size.width * 0.25, 
+              width: MediaQuery.of(context).size.width * 0.20,
+              height: MediaQuery.of(context).size.width * 0.20,
               decoration: BoxDecoration(
                 image: event.imageUrl.isNotEmpty
                     ? DecorationImage(
@@ -38,7 +38,9 @@ class InvitationsCard extends StatelessWidget {
                         fit: BoxFit.cover,
                       )
                     : null,
-                color: event.imageUrl.isNotEmpty ? Colors.transparent : Colors.grey.shade200,
+                color: event.imageUrl.isNotEmpty
+                    ? Colors.transparent
+                    : Colors.grey.shade200,
                 borderRadius: BorderRadius.circular(4),
               ),
               child: event.imageUrl.isEmpty
@@ -54,7 +56,8 @@ class InvitationsCard extends StatelessWidget {
                   children: [
                     Text(
                       event.name,
-                      style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                      style: const TextStyle(
+                          fontSize: 18, fontWeight: FontWeight.bold),
                       overflow: TextOverflow.ellipsis,
                     ),
                     const SizedBox(height: 5),
@@ -65,16 +68,30 @@ class InvitationsCard extends StatelessWidget {
                     ),
                     const SizedBox(height: 5),
                     Text(
-                      '$formattedDate, ${event.start} - ${event.end}',
+                      formattedDate,
                       style: const TextStyle(fontSize: 14, color: Colors.grey),
                       overflow: TextOverflow.ellipsis,
                     ),
                     const SizedBox(height: 5),
-                    Text(
-                      state,  // Mostrar estado
-                      style: TextStyle(fontSize: 14, color: stateColor, fontWeight: FontWeight.bold),
-                    ),
                   ],
+                ),
+              ),
+            ),
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 1),
+              width: MediaQuery.of(context).size.width * 0.26,
+              height: MediaQuery.of(context).size.width * 0.07,
+              decoration: BoxDecoration(
+                color: stateColor,
+                borderRadius: BorderRadius.circular(20),
+              ),
+              child: Center(
+                child: Text(
+                  state.toUpperCase(),
+                  style: const TextStyle(
+                      fontSize: 12,
+                      color: Colors.white,
+                      fontWeight: FontWeight.w500),
                 ),
               ),
             ),

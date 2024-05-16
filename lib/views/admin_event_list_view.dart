@@ -30,6 +30,11 @@ class _AdminEventListViewState extends State<AdminEventListView> {
         .setSearchQuery(_searchController.text);
   }
 
+  void _changeFilter(String value) {
+    Provider.of<AdminEventListViewModel>(context, listen: false)
+        .setFilterState(value);
+  }
+
   @override
   void dispose() {
     _searchController.removeListener(_onSearchChanged);
@@ -79,9 +84,25 @@ class _AdminEventListViewState extends State<AdminEventListView> {
                 hintText: "Buscar eventos",
                 prefixIcon: const Padding(
                   padding: EdgeInsets.only(left: 8),
-                  child: Icon(
-                    Icons.search,
-                    size: 22,
+                  child: Icon(Icons.search, size: 22),
+                ),
+                suffixIcon: Padding(
+                  padding: const EdgeInsets.only(right: 5),
+                  child: PopupMenuButton<String>(
+                    onSelected: _changeFilter,
+                    icon: const Icon(
+                      Icons.tune,
+                      size: 20,
+                    ),
+                    itemBuilder: (BuildContext context) =>
+                        <PopupMenuEntry<String>>[
+                      const PopupMenuItem<String>(
+                          value: 'active', child: Text('Activos')),
+                      const PopupMenuItem<String>(
+                          value: 'archived', child: Text('Archivados')),
+                      const PopupMenuItem<String>(
+                          value: 'all', child: Text('Todos')),
+                    ],
                   ),
                 ),
                 isDense: true,
@@ -99,7 +120,11 @@ class _AdminEventListViewState extends State<AdminEventListView> {
                 if (viewModel.isLoading) {
                   return const Center(child: CircularProgressIndicator());
                 }
-
+                if (viewModel.events.isEmpty) {
+                  return const Center(
+                    child: Text('No se encontraron eventos.'),
+                  );
+                }
                 return ListView.builder(
                   itemCount: viewModel.events.length,
                   itemBuilder: (context, index) {
