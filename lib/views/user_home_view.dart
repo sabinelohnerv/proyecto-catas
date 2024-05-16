@@ -36,7 +36,8 @@ class UserHomeView extends StatelessWidget {
           'FoodSense',
           style: TextStyle(fontWeight: FontWeight.w700, fontSize: 32),
         ),
-        foregroundColor: Theme.of(context).colorScheme.primary,
+        backgroundColor: Theme.of(context).colorScheme.primary,
+        foregroundColor: Colors.white,
         centerTitle: true,
       ),
       drawer: CustomDrawer(
@@ -48,97 +49,87 @@ class UserHomeView extends StatelessWidget {
         isAdmin: false,
       ),
       body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            ChangeNotifierProvider<AdminEventListViewModel>(
-              create: (_) => AdminEventListViewModel(),
-              child: Consumer<AdminEventListViewModel>(
-                builder: (context, viewModel, child) {
-                  if (viewModel.isLoading) {
-                    return const SizedBox(
-                        height: 350,
-                        child: Center(child: CircularProgressIndicator()));
-                  }
-
-                  return HomeEventsCarousel(
-                      events: viewModel.events, isAdmin: false);
-                },
+        child: Padding(
+          padding: const EdgeInsets.only(top: 18.5),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              ChangeNotifierProvider<AdminEventListViewModel>(
+                create: (_) => AdminEventListViewModel(),
+                child: Consumer<AdminEventListViewModel>(
+                  builder: (context, viewModel, child) {
+                    if (viewModel.isLoading) {
+                      return const SizedBox(
+                          height: 350,
+                          child: Center(child: CircularProgressIndicator()));
+                    }
+          
+                    return HomeEventsCarousel(
+                        events: viewModel.events, isAdmin: false);
+                  },
+                ),
               ),
-            ),
-            Container(
-              color: Theme.of(context).colorScheme.primary,
-              width: double.infinity,
-              padding: const EdgeInsets.symmetric(vertical: 18),
-              child: Text(
-                'Bienvenido/a ${userViewModel.fullName}',
-                textAlign: TextAlign.center,
-                style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 22,
-                    fontWeight: FontWeight.w700),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 25, horizontal: 20),
+                child: Column(
+                  children: [
+                    Row(
+                      children: [
+                        const Expanded(
+                          child: SmallCard(
+                            img: 'invitacion-2',
+                            title: 'Invitaciones',
+                            destinationScreen: InvitationsView(),
+                            width: double.infinity,
+                            height: 150,
+                            fontSize: 14,
+                          ),
+                        ),
+                        const SizedBox(width: 20),
+                        Expanded(
+                          child: SmallCard(
+                            img: 'cuaderno',
+                            title: 'Capacitaciones',
+                            isClickable: true,
+                            onTap: () {
+                              final String judgeId =
+                                  userViewModel.currentUser!.uid;
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      JudgeTrainingEventsView(judgeId: judgeId),
+                                ),
+                              );
+                            },
+                            width: double.infinity,
+                            height: 150,
+                            fontSize: 14,
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 20),
+                    LargeCard(
+                      img: 'comer',
+                      title: 'Eventos',
+                      isClickable: true,
+                      onTap: () {
+                        final String judgeId = userViewModel.currentUser!.uid;
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                JudgeSelectedEventsView(judgeId: judgeId),
+                          ),
+                        );
+                      },
+                    ),
+                  ],
+                ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
-              child: Column(
-                children: [
-                  Row(
-                    children: [
-                      const Expanded(
-                        child: SmallCard(
-                          img: 'invitacion',
-                          title: 'Invitaciones',
-                          destinationScreen: InvitationsView(),
-                          width: double.infinity,
-                          height: 150,
-                          fontSize: 14,
-                        ),
-                      ),
-                      const SizedBox(width: 20),
-                      Expanded(
-                        child: SmallCard(
-                          img: 'book',
-                          title: 'Capacitaciones',
-                          isClickable: true,
-                          onTap: () {
-                            final String judgeId =
-                                userViewModel.currentUser!.uid;
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) =>
-                                    JudgeTrainingEventsView(judgeId: judgeId),
-                              ),
-                            );
-                          },
-                          width: double.infinity,
-                          height: 150,
-                          fontSize: 14,
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 20),
-                  LargeCard(
-                    img: 'food',
-                    title: 'Eventos',
-                    isClickable: true,
-                    onTap: () {
-                      final String judgeId = userViewModel.currentUser!.uid;
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) =>
-                              JudgeSelectedEventsView(judgeId: judgeId),
-                        ),
-                      );
-                    },
-                  ),
-                ],
-              ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

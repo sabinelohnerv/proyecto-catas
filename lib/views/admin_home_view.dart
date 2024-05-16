@@ -34,8 +34,8 @@ class AdminHomeView extends StatelessWidget {
           'FoodSense',
           style: TextStyle(fontWeight: FontWeight.w700, fontSize: 32),
         ),
-        foregroundColor: Colors.white,
         backgroundColor: Theme.of(context).colorScheme.primary,
+        foregroundColor: Colors.white,
         centerTitle: true,
       ),
       drawer: CustomDrawer(
@@ -59,7 +59,6 @@ class AdminHomeView extends StatelessWidget {
                         height: 350,
                         child: Center(child: CircularProgressIndicator()));
                   }
-
                   return Column(
                     children: [
                       Padding(
@@ -68,7 +67,7 @@ class AdminHomeView extends StatelessWidget {
                             events: viewModel.events, isAdmin: true),
                       ),
                       const Padding(
-                        padding: EdgeInsets.all(20),
+                        padding: EdgeInsets.symmetric(vertical: 25, horizontal: 20),
                         child: Center(
                           child: Wrap(
                             alignment: WrapAlignment.spaceEvenly,
@@ -76,26 +75,26 @@ class AdminHomeView extends StatelessWidget {
                             runSpacing: 25,
                             children: [
                               SmallCard(
-                                img: 'food',
+                                img: 'comer',
                                 title: 'Eventos',
                                 width: 150,
                                 destinationScreen:
                                     AdminEventListView(isAdmin: true),
                               ),
                               SmallCard(
-                                img: 'jueces',
+                                img: 'mujer',
                                 title: 'Jueces',
-                                width: 160,
+                                width: 150,
                                 destinationScreen: JudgeListView(),
                               ),
                               SmallCard(
-                                img: 'clientes',
+                                img: 'anfitrion',
                                 title: 'Anfitriones',
                                 width: 150,
                                 destinationScreen: ClientListView(),
                               ),
                               SmallCard(
-                                img: 'book',
+                                img: 'cuaderno',
                                 title: 'Capacitacion',
                                 width: 150,
                                 destinationScreen: AdminTrainingEventsView(),
