@@ -21,7 +21,7 @@ class LargeCard extends StatelessWidget {
       child: Card(
         child: SizedBox(
           width: double.infinity,
-          height: 150,
+          height: 170,
           child: Padding(
             padding: const EdgeInsets.all(16.0),
             child: Row(

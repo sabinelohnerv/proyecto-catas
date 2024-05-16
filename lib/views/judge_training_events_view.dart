@@ -9,7 +9,8 @@ class JudgeTrainingEventsView extends StatefulWidget {
   const JudgeTrainingEventsView({super.key, required this.judgeId});
 
   @override
-  State<JudgeTrainingEventsView> createState() => _JudgeTrainingEventsViewState();
+  State<JudgeTrainingEventsView> createState() =>
+      _JudgeTrainingEventsViewState();
 }
 
 class _JudgeTrainingEventsViewState extends State<JudgeTrainingEventsView> {
@@ -57,16 +58,11 @@ class _JudgeTrainingEventsViewState extends State<JudgeTrainingEventsView> {
         ),
         body: Consumer<JudgeTrainingEventsViewModel>(
           builder: (context, viewModel, child) {
-            if (viewModel.isLoading) {
-              return const Center(child: CircularProgressIndicator());
-            }
-            if (viewModel.filteredEvents.isEmpty) {
-              return const Center(child: Text('No has aceptado eventos aún.'));
-            }
             return Column(
               children: [
                 Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 8),
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 10, horizontal: 8),
                   child: TextField(
                     controller: _searchController,
                     onChanged: (value) {
@@ -88,18 +84,25 @@ class _JudgeTrainingEventsViewState extends State<JudgeTrainingEventsView> {
                   ),
                 ),
                 Expanded(
-                  child: ListView.builder(
-                    itemCount: viewModel.filteredEvents.length,
-                    itemBuilder: (context, index) {
-                      Event event = viewModel.filteredEvents[index];
-                      int numberOfTrainings = viewModel.trainingCounts[event.id] ?? 0;
-                      return TrainingEventCard(
-                        event: event,
-                        numberOfTrainings: numberOfTrainings,
-                        onTap: () => viewModel.goToTrainingsListView(context, event),
-                      );
-                    },
-                  ),
+                  child: viewModel.isLoading
+                      ? const Center(child: CircularProgressIndicator())
+                      : viewModel.filteredEvents.isEmpty
+                          ? const Center(
+                              child: Text('No se encontraron eventos.'))
+                          : ListView.builder(
+                              itemCount: viewModel.filteredEvents.length,
+                              itemBuilder: (context, index) {
+                                Event event = viewModel.filteredEvents[index];
+                                int numberOfTrainings =
+                                    viewModel.trainingCounts[event.id] ?? 0;
+                                return TrainingEventCard(
+                                  event: event,
+                                  numberOfTrainings: numberOfTrainings,
+                                  onTap: () => viewModel.goToTrainingsListView(
+                                      context, event),
+                                );
+                              },
+                            ),
                 ),
               ],
             );
