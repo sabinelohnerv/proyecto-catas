@@ -10,17 +10,21 @@ class JudgeSelectedEventsView extends StatefulWidget {
   const JudgeSelectedEventsView({super.key, required this.judgeId});
 
   @override
-  State<JudgeSelectedEventsView> createState() => _JudgeSelectedEventsViewState();
+  State<JudgeSelectedEventsView> createState() =>
+      _JudgeSelectedEventsViewState();
 }
 
 class _JudgeSelectedEventsViewState extends State<JudgeSelectedEventsView> {
   final TextEditingController _searchController = TextEditingController();
+  String _searchQuery = '';
+  String _filterState = 'active';
 
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      Provider.of<JudgeEventsViewModel>(context, listen: false).loadEventsForJudge();
+      Provider.of<JudgeEventsViewModel>(context, listen: false)
+          .loadEventsForJudge();
     });
   }
 
@@ -33,6 +37,12 @@ class _JudgeSelectedEventsViewState extends State<JudgeSelectedEventsView> {
   void _goBack(BuildContext context) {
     _searchController.text = '';
     Navigator.of(context).pop();
+  }
+
+  void _changeFilter(String choice) {
+    setState(() {
+      _filterState = choice;
+    });
   }
 
   @override
@@ -57,26 +67,47 @@ class _JudgeSelectedEventsViewState extends State<JudgeSelectedEventsView> {
         ),
         body: Consumer<JudgeEventsViewModel>(
           builder: (context, viewModel, child) {
-            if (viewModel.isLoading) {
-              return const Center(child: CircularProgressIndicator());
-            }
-            if (viewModel.filteredEvents.isEmpty) {
-              return const Center(child: Text('No has aceptado eventos aún.'));
-            }
+            List<Event> filteredEvents = viewModel.events.where((event) {
+              final matchesSearch = event.name.toLowerCase().contains(_searchQuery.toLowerCase()) ||
+                  event.about.toLowerCase().contains(_searchQuery.toLowerCase());
+              final matchesFilter = _filterState == 'all' ||
+                  event.state.trim().toLowerCase() == _filterState.toLowerCase();
+              return matchesSearch && matchesFilter;
+            }).toList();
+
             return Column(
               children: [
                 Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 8),
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 10, horizontal: 8),
                   child: TextField(
                     controller: _searchController,
                     onChanged: (value) {
-                      viewModel.setSearchQuery(value);
+                      setState(() {
+                        _searchQuery = value;
+                      });
                     },
                     decoration: InputDecoration(
                       hintText: "Buscar eventos",
                       prefixIcon: const Padding(
                         padding: EdgeInsets.only(left: 8),
                         child: Icon(Icons.search, size: 22),
+                      ),
+                      suffixIcon: Padding(
+                        padding: const EdgeInsets.only(right: 5),
+                        child: PopupMenuButton<String>(
+                          onSelected: _changeFilter,
+                          icon: const Icon(Icons.tune, size: 20),
+                          itemBuilder: (BuildContext context) =>
+                              <PopupMenuEntry<String>>[
+                            const PopupMenuItem<String>(
+                                value: 'active', child: Text('Activos')),
+                            const PopupMenuItem<String>(
+                                value: 'archived', child: Text('Pasados')),
+                            const PopupMenuItem<String>(
+                                value: 'all', child: Text('Todos')),
+                          ],
+                        ),
                       ),
                       isDense: true,
                       contentPadding: const EdgeInsets.symmetric(vertical: 3),
@@ -88,25 +119,29 @@ class _JudgeSelectedEventsViewState extends State<JudgeSelectedEventsView> {
                   ),
                 ),
                 Expanded(
-                  child: ListView.builder(
-                    itemCount: viewModel.filteredEvents.length,
-                    itemBuilder: (context, index) {
-                      Event event = viewModel.filteredEvents[index];
-                      return AdminEventCard(
-                        event: event,
-                        onTap: () {
-                          Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (context) => AdminEventDetailsView(
-                                event: event,
-                                isAdmin: false,
-                              ),
+                  child: viewModel.isLoading
+                      ? const Center(child: CircularProgressIndicator())
+                      : filteredEvents.isEmpty
+                          ? const Center(
+                              child: Text('No se encontraron eventos.'))
+                          : ListView.builder(
+                              itemCount: filteredEvents.length,
+                              itemBuilder: (context, index) {
+                                Event event = filteredEvents[index];
+                                return AdminEventCard(
+                                  event: event,
+                                  onTap: () => Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          AdminEventDetailsView(
+                                        event: event,
+                                        isAdmin: false,
+                                      ),
+                                    ),
+                                  ),
+                                );
+                              },
                             ),
-                          );
-                        },
-                      );
-                    },
-                  ),
                 ),
               ],
             );

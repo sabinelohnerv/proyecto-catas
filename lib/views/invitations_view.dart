@@ -8,15 +8,17 @@ import 'package:catas_univalle/views/judge_event_details_view.dart';
 import 'package:catas_univalle/widgets/events/invitations_card.dart';
 
 class InvitationsView extends StatefulWidget {
-  const InvitationsView({Key? key}) : super(key: key);
+  const InvitationsView({super.key});
 
   @override
-  _InvitationsViewState createState() => _InvitationsViewState();
+  State<StatefulWidget> createState() {
+    return _InvitationsViewState();
+  }
 }
 
 class _InvitationsViewState extends State<InvitationsView> {
   late Future<List<Event>> _futureEvents;
-  String _filter = 'all'; // Estados: all, accepted, rejected, pending
+  String _filter = 'all';
 
   @override
   void initState() {
@@ -25,9 +27,11 @@ class _InvitationsViewState extends State<InvitationsView> {
   }
 
   void _loadEvents() {
-    final profileViewModel = Provider.of<ProfileViewModel>(context, listen: false);
+    final profileViewModel =
+        Provider.of<ProfileViewModel>(context, listen: false);
     setState(() {
-      _futureEvents = EventService().fetchEventsForJudge(profileViewModel.currentUser!.uid);
+      _futureEvents =
+          EventService().fetchEventsForJudge(profileViewModel.currentUser!.uid);
     });
   }
 
@@ -55,7 +59,8 @@ class _InvitationsViewState extends State<InvitationsView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Mis Invitaciones', style: TextStyle(color: Colors.white)),
+        title: const Text('Mis Invitaciones',
+            style: TextStyle(color: Colors.white)),
         centerTitle: true,
         backgroundColor: Theme.of(context).colorScheme.primary,
         iconTheme: const IconThemeData(color: Colors.white),
@@ -69,9 +74,12 @@ class _InvitationsViewState extends State<InvitationsView> {
             icon: const Icon(Icons.tune),
             itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
               const PopupMenuItem<String>(value: 'all', child: Text('Todos')),
-              const PopupMenuItem<String>(value: 'accepted', child: Text('Aceptados')),
-              const PopupMenuItem<String>(value: 'rejected', child: Text('Rechazados')),
-              const PopupMenuItem<String>(value: 'pending', child: Text('Pendientes')),
+              const PopupMenuItem<String>(
+                  value: 'accepted', child: Text('Aceptados')),
+              const PopupMenuItem<String>(
+                  value: 'rejected', child: Text('Rechazados')),
+              const PopupMenuItem<String>(
+                  value: 'pending', child: Text('Pendientes')),
             ],
           ),
         ],
@@ -87,11 +95,22 @@ class _InvitationsViewState extends State<InvitationsView> {
             var filteredEvents = snapshot.data!.where((event) {
               final judgeState = event.eventJudges
                   .firstWhere(
-                    (judge) => judge.id == Provider.of<ProfileViewModel>(context, listen: false).currentUser!.uid,
-                    orElse: () => EventJudge(id: '', name: '', email: '', state: 'pending', imgUrl: '', gender: ''),
+                    (judge) =>
+                        judge.id ==
+                        Provider.of<ProfileViewModel>(context, listen: false)
+                            .currentUser!
+                            .uid,
+                    orElse: () => EventJudge(
+                        id: '',
+                        name: '',
+                        email: '',
+                        state: 'pending',
+                        imgUrl: '',
+                        gender: ''),
                   )
                   .state;
-              return _filter == 'all' || _mapStateToText(judgeState) == _mapStateToText(_filter);
+              return _filter == 'all' ||
+                  _mapStateToText(judgeState) == _mapStateToText(_filter);
             }).toList();
             return ListView.builder(
               itemCount: filteredEvents.length,
@@ -99,8 +118,18 @@ class _InvitationsViewState extends State<InvitationsView> {
                 Event event = filteredEvents[index];
                 final judgeState = event.eventJudges
                     .firstWhere(
-                      (judge) => judge.id == Provider.of<ProfileViewModel>(context, listen: false).currentUser!.uid,
-                      orElse: () => EventJudge(id: '', name: '', email: '', state: 'pending', imgUrl: '', gender: ''),
+                      (judge) =>
+                          judge.id ==
+                          Provider.of<ProfileViewModel>(context, listen: false)
+                              .currentUser!
+                              .uid,
+                      orElse: () => EventJudge(
+                          id: '',
+                          name: '',
+                          email: '',
+                          state: 'pending',
+                          imgUrl: '',
+                          gender: ''),
                     )
                     .state;
                 final stateText = _mapStateToText(judgeState);
@@ -110,7 +139,12 @@ class _InvitationsViewState extends State<InvitationsView> {
                   onTap: () => Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => JudgeEventDetailsView(event: event, judgeId: Provider.of<ProfileViewModel>(context, listen: false).currentUser!.uid),
+                      builder: (context) => JudgeEventDetailsView(
+                          event: event,
+                          judgeId: Provider.of<ProfileViewModel>(context,
+                                  listen: false)
+                              .currentUser!
+                              .uid),
                     ),
                   ).then((_) => _loadEvents()),
                 );
