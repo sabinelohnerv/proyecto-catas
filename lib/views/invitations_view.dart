@@ -55,6 +55,19 @@ class _InvitationsViewState extends State<InvitationsView> {
     }
   }
 
+  String _stateToMessage(String state) {
+    switch (state.toLowerCase()) {
+      case 'accepted':
+        return 'No tienes invitaciones aceptadas a eventos activos.';
+      case 'rejected':
+        return 'No tienes invitaciones rechazadas a eventos activos.';
+      case 'pending':
+        return 'No tienes invitaciones pendientes a eventos activos.';
+      default:
+        return 'No se encontraron invitaciones.';
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -112,6 +125,13 @@ class _InvitationsViewState extends State<InvitationsView> {
               return _filter == 'all' ||
                   _mapStateToText(judgeState) == _mapStateToText(_filter);
             }).toList();
+
+            if (filteredEvents.isEmpty) {
+              return Center(
+                child: Text(_stateToMessage(_filter)),
+              );
+            }
+
             return ListView.builder(
               itemCount: filteredEvents.length,
               itemBuilder: (context, index) {
