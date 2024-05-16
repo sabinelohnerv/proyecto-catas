@@ -76,7 +76,7 @@ class _EditProfileViewState extends State<EditProfileView> {
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         Expanded(
-                          child: SimpleSectionCard(
+                          child: ProfileEditCard(
                             img: 'sintomas',
                             title: 'Síntomas',
                             subtitle: 'Editar',
@@ -90,7 +90,7 @@ class _EditProfileViewState extends State<EditProfileView> {
                         ),
                         const SizedBox(width: 10),
                         Expanded(
-                          child: SimpleSectionCard(
+                          child: ProfileEditCard(
                             img: 'alergias',
                             title: 'Alergias',
                             subtitle: 'Editar',
@@ -104,7 +104,7 @@ class _EditProfileViewState extends State<EditProfileView> {
                         ),
                         const SizedBox(width: 10),
                         Expanded(
-                          child: SimpleSectionCard(
+                          child: ProfileEditCard(
                             img: 'condimentos',
                             title: 'Condimento',
                             subtitle: 'Editar',

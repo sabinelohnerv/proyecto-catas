@@ -3,12 +3,13 @@ import 'package:catas_univalle/views/invitations_view.dart';
 import 'package:catas_univalle/views/judge_selected_events_view.dart';
 import 'package:catas_univalle/views/judge_training_events_view.dart';
 import 'package:catas_univalle/views/login_view.dart';
+import 'package:catas_univalle/widgets/home/large_card.dart';
+import 'package:catas_univalle/widgets/home/small_card.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../view_models/admin_event_list_viewmodel.dart';
 import '../widgets/events/event_carousel.dart';
 import '../widgets/home/drawer.dart';
-import '../widgets/profile/profile_card.dart';
 
 class UserHomeView extends StatelessWidget {
   const UserHomeView({super.key});
@@ -66,66 +67,75 @@ class UserHomeView extends StatelessWidget {
               ),
             ),
             Container(
-              color: Theme.of(context).primaryColor,
+              color: Theme.of(context).colorScheme.primary,
               width: double.infinity,
-              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+              padding: const EdgeInsets.symmetric(vertical: 18),
               child: Text(
-                'Bienvenido, ${userViewModel.fullName}',
+                'Bienvenido/a ${userViewModel.fullName}',
                 textAlign: TextAlign.center,
                 style: const TextStyle(
                     color: Colors.white,
                     fontSize: 22,
-                    fontWeight: FontWeight.w400),
+                    fontWeight: FontWeight.w700),
               ),
             ),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
-              child: Center(
-                child: Wrap(
-                  spacing: 20,
-                  runSpacing: 20,
-                  alignment: WrapAlignment.center,
-                  children: [
-                    SimpleSectionCard(
-                      img: 'food',
-                      title: 'Eventos',
-                      subtitle: 'Ver más',
-                      isClickable: true,
-                      onTap: () {
-                        final String judgeId = userViewModel.currentUser!.uid;
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) =>
-                                JudgeSelectedEventsView(judgeId: judgeId),
-                          ),
-                        );
-                      },
-                    ),
-                    const SimpleSectionCard(
-                      img: 'invitacion',
-                      title: 'Invitaciones',
-                      subtitle: 'Ver Más',
-                      destinationScreen: InvitationsView(),
-                    ),
-                    SimpleSectionCard(
-                      img: 'book',
-                      title: 'Capacitaciones',
-                      subtitle: 'Ver más',
-                      isClickable: true,
-                      onTap: () {
-                        final String judgeId = userViewModel.currentUser!.uid;
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) =>
-                                JudgeTrainingEventsView(judgeId: judgeId),
-                          ),
-                        );
-                      },
-                    ),
-                  ],
-                ),
+              child: Column(
+                children: [
+                  Row(
+                    children: [
+                      const Expanded(
+                        child: SmallCard(
+                          img: 'invitacion',
+                          title: 'Invitaciones',
+                          destinationScreen: InvitationsView(),
+                          width: double.infinity,
+                          height: 150,
+                          fontSize: 14,
+                        ),
+                      ),
+                      const SizedBox(width: 20),
+                      Expanded(
+                        child: SmallCard(
+                          img: 'book',
+                          title: 'Capacitaciones',
+                          isClickable: true,
+                          onTap: () {
+                            final String judgeId =
+                                userViewModel.currentUser!.uid;
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    JudgeTrainingEventsView(judgeId: judgeId),
+                              ),
+                            );
+                          },
+                          width: double.infinity,
+                          height: 150,
+                          fontSize: 14,
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 20),
+                  LargeCard(
+                    img: 'food',
+                    title: 'Eventos',
+                    isClickable: true,
+                    onTap: () {
+                      final String judgeId = userViewModel.currentUser!.uid;
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              JudgeSelectedEventsView(judgeId: judgeId),
+                        ),
+                      );
+                    },
+                  ),
+                ],
               ),
             ),
           ],

@@ -4,8 +4,7 @@ import 'package:catas_univalle/views/admin_training_events_view.dart';
 import 'package:catas_univalle/views/client_list_view.dart';
 import 'package:catas_univalle/views/judge_list_view.dart';
 import 'package:catas_univalle/views/login_view.dart';
-import 'package:catas_univalle/views/training_list_view.dart';
-import 'package:catas_univalle/widgets/profile/profile_card.dart';
+import 'package:catas_univalle/widgets/home/small_card.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../view_models/admin_event_list_viewmodel.dart';
@@ -35,7 +34,8 @@ class AdminHomeView extends StatelessWidget {
           'FoodSense',
           style: TextStyle(fontWeight: FontWeight.w700, fontSize: 32),
         ),
-        foregroundColor: Theme.of(context).colorScheme.primary,
+        foregroundColor: Colors.white,
+        backgroundColor: Theme.of(context).colorScheme.primary,
         centerTitle: true,
       ),
       drawer: CustomDrawer(
@@ -60,63 +60,44 @@ class AdminHomeView extends StatelessWidget {
                         child: Center(child: CircularProgressIndicator()));
                   }
 
-                  String lastEventId = viewModel.events.isNotEmpty
-                      ? viewModel.events.last.id
-                      : 'defaultEventId';
-
                   return Column(
                     children: [
-                      HomeEventsCarousel(
-                          events: viewModel.events, isAdmin: true),
-                      Container(
-                        color: Theme.of(context).primaryColor,
-                        width: double.infinity,
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 10, horizontal: 20),
-                        child: Text(
-                          'Bienvenido, ${userViewModel.fullName}',
-                          textAlign: TextAlign.center,
-                          style: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 22,
-                              fontWeight: FontWeight.w400),
-                        ),
-                      ),
                       Padding(
-                        padding: const EdgeInsets.all(20),
+                        padding: const EdgeInsets.only(top: 20.0),
+                        child: HomeEventsCarousel(
+                            events: viewModel.events, isAdmin: true),
+                      ),
+                      const Padding(
+                        padding: EdgeInsets.all(20),
                         child: Center(
                           child: Wrap(
                             alignment: WrapAlignment.spaceEvenly,
                             spacing: 25,
                             runSpacing: 25,
                             children: [
-                              const SimpleSectionCard(
+                              SmallCard(
                                 img: 'food',
                                 title: 'Eventos',
-                                subtitle: 'Ver más',
-                                width: 160,
+                                width: 150,
                                 destinationScreen:
                                     AdminEventListView(isAdmin: true),
                               ),
-                              const SimpleSectionCard(
+                              SmallCard(
                                 img: 'jueces',
                                 title: 'Jueces',
-                                subtitle: 'Lista de jueces',
                                 width: 160,
                                 destinationScreen: JudgeListView(),
                               ),
-                              const SimpleSectionCard(
+                              SmallCard(
                                 img: 'clientes',
                                 title: 'Anfitriones',
-                                subtitle: 'Ver anfitriones',
-                                width: 160,
+                                width: 150,
                                 destinationScreen: ClientListView(),
                               ),
-                              SimpleSectionCard(
+                              SmallCard(
                                 img: 'book',
-                                title: 'Capacitaciones',
-                                subtitle: 'Aprende ahora',
-                                width: 160,
+                                title: 'Capacitacion',
+                                width: 150,
                                 destinationScreen: AdminTrainingEventsView(),
                               ),
                             ],

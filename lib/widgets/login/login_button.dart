@@ -52,6 +52,8 @@ class _LoginButtonState extends State<LoginButton> {
               }
             },
       style: ElevatedButton.styleFrom(
+        fixedSize: const Size(350, 10),
+        elevation: 5,
         foregroundColor: Colors.white,
         backgroundColor: Theme.of(context).colorScheme.primary,
         shape: RoundedRectangleBorder(
@@ -63,7 +65,10 @@ class _LoginButtonState extends State<LoginButton> {
           ? const CircularProgressIndicator(
               valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
             )
-          : const Text('Iniciar Sesión'),
+          : const Text(
+              'INICIAR SESION',
+              style: TextStyle(fontWeight: FontWeight.w700),
+            ),
     );
   }
 
