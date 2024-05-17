@@ -12,10 +12,10 @@ class JudgeEventDetailsView extends StatelessWidget {
   final String judgeId;
 
   const JudgeEventDetailsView({
-    Key? key,
+    super.key,
     required this.event,
     required this.judgeId,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +28,7 @@ class JudgeEventDetailsView extends StatelessWidget {
         final eventService = Provider.of<EventService>(context, listen: false);
         await eventService.updateJudgeStatus(event.id, judgeId, 'accepted');
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
+          const SnackBar(
             content: Text('Invitación aceptada'),
             backgroundColor: Colors.green,
           ),
@@ -48,7 +48,7 @@ class JudgeEventDetailsView extends StatelessWidget {
         final eventService = Provider.of<EventService>(context, listen: false);
         await eventService.updateJudgeStatus(event.id, judgeId, 'rejected');
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
+          const SnackBar(
             content: Text('Invitación rechazada'),
             backgroundColor: Colors.red,
           ),
@@ -94,7 +94,9 @@ class JudgeEventDetailsView extends StatelessWidget {
                     ),
                   ),
                   EventDetail(icon: Icons.calendar_today, text: event.date),
-                  EventDetail(icon: Icons.access_time, text: "${event.start} - ${event.end}"),
+                  EventDetail(
+                      icon: Icons.access_time,
+                      text: "${event.start} - ${event.end}"),
                   EventDetail(icon: Icons.location_on, text: event.location),
                   if (event.allergyRestrictions.isNotEmpty)
                     RestrictionsSection(
@@ -115,7 +117,8 @@ class JudgeEventDetailsView extends StatelessWidget {
       ),
       bottomNavigationBar: Container(
         color: Colors.white,
-        padding: EdgeInsets.symmetric(vertical: size.height * 0.02, horizontal: size.width * 0.05),
+        padding: EdgeInsets.symmetric(
+            vertical: size.height * 0.02, horizontal: size.width * 0.05),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
@@ -124,11 +127,14 @@ class JudgeEventDetailsView extends StatelessWidget {
               icon: const Icon(Icons.check, color: Colors.white),
               label: const Text(
                 'ACEPTAR',
-                style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                style:
+                    TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
               ),
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.green,
-                padding: EdgeInsets.symmetric(horizontal: size.width * 0.05, vertical: size.height * 0.015),
+                padding: EdgeInsets.symmetric(
+                    horizontal: size.width * 0.05,
+                    vertical: size.height * 0.015),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(30),
                 ),
@@ -139,11 +145,14 @@ class JudgeEventDetailsView extends StatelessWidget {
               icon: const Icon(Icons.close, color: Colors.white),
               label: const Text(
                 'RECHAZAR',
-                style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                style:
+                    TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
               ),
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.red,
-                padding: EdgeInsets.symmetric(horizontal: size.width * 0.05, vertical: size.height * 0.015),
+                padding: EdgeInsets.symmetric(
+                    horizontal: size.width * 0.05,
+                    vertical: size.height * 0.015),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(30),
                 ),
