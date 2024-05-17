@@ -35,13 +35,6 @@ class _AdminEventListViewState extends State<AdminEventListView> {
         .setFilterState(value);
   }
 
-  @override
-  void dispose() {
-    _searchController.removeListener(_onSearchChanged);
-    _searchController.dispose();
-    super.dispose();
-  }
-
   void _goBack(BuildContext context) {
     _searchController.text = '';
     Navigator.of(context).pop();

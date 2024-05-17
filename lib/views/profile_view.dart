@@ -1,9 +1,12 @@
 import 'package:catas_univalle/views/edit_profile_view.dart';
-import 'package:catas_univalle/views/change_password_view.dart'; 
+import 'package:catas_univalle/views/change_password_view.dart';
 import 'package:catas_univalle/widgets/profile/attributes_container.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
+import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import '../view_models/profile_viewmodel.dart';
+import '../widgets/profile/stamp_container.dart';
 import '../widgets/register/user_image_picker.dart';
 
 class ProfileView extends StatefulWidget {
@@ -16,6 +19,8 @@ class ProfileView extends StatefulWidget {
 }
 
 class _ProfileViewState extends State<ProfileView> {
+  final PageController _pageController = PageController();
+
   @override
   void initState() {
     super.initState();
@@ -24,16 +29,22 @@ class _ProfileViewState extends State<ProfileView> {
   }
 
   @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
+  }
+
+  String listToMultilineString(List<String> list) {
+    return list.join('\n');
+  }
+
+  String commasToLineBreaks(String input) {
+    return input.replaceAll(',', '\n');
+  }
+
+  @override
   Widget build(BuildContext context) {
     final userViewModel = Provider.of<ProfileViewModel>(context);
-
-    String listToMultilineString(List<String> list) {
-      return list.join('\n');
-    }
-
-    String commasToLineBreaks(String input) {
-      return input.replaceAll(',', '\n');
-    }
 
     return Scaffold(
       extendBodyBehindAppBar: true,
@@ -48,7 +59,8 @@ class _ProfileViewState extends State<ProfileView> {
           IconButton(
             icon: const Icon(Icons.vpn_key, color: Colors.white),
             onPressed: () => Navigator.of(context).push(
-              MaterialPageRoute(builder: (context) => const ChangePasswordView()),
+              MaterialPageRoute(
+                  builder: (context) => const ChangePasswordView()),
             ),
           ),
         ],
@@ -65,7 +77,8 @@ class _ProfileViewState extends State<ProfileView> {
           children: [
             Material(
               elevation: 5,
-              borderRadius: const BorderRadius.vertical(bottom: Radius.circular(30)),
+              borderRadius:
+                  const BorderRadius.vertical(bottom: Radius.circular(30)),
               child: Container(
                 height: 300,
                 width: double.infinity,
@@ -74,7 +87,8 @@ class _ProfileViewState extends State<ProfileView> {
                     image: AssetImage("assets/images/background.png"),
                     fit: BoxFit.cover,
                   ),
-                  borderRadius: BorderRadius.vertical(bottom: Radius.circular(30)),
+                  borderRadius:
+                      BorderRadius.vertical(bottom: Radius.circular(30)),
                 ),
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -110,26 +124,66 @@ class _ProfileViewState extends State<ProfileView> {
                 ),
               ),
             ),
+            const SizedBox(height: 30),
             Padding(
-              padding: const EdgeInsets.all(25),
+              padding: const EdgeInsets.symmetric(horizontal: 30),
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  AttributeContainer(
-                    title: 'Alergias e Intolerancias',
-                    content: listToMultilineString(userViewModel.allergies),
+                  StampContainer(
+                    status: userViewModel.applicationState,
                   ),
-                  AttributeContainer(
-                    title: 'Condiciones y Síntomas ',
-                    content: listToMultilineString(userViewModel.symptoms),
+                  const SizedBox(
+                    height: 30,
                   ),
-                  AttributeContainer(
-                    title: 'Condimentos',
-                    content: listToMultilineString(userViewModel.seasonings),
+                  Container(
+                    height: 200,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(10),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(0.5),
+                          spreadRadius: 1,
+                          blurRadius: 5,
+                          offset: const Offset(0, 2),
+                        ),
+                      ],
+                    ),
+                    child: PageView(
+                      controller: _pageController,
+                      children: [
+                        AttributeContainer(
+                          title: 'Alergias e Intolerancias',
+                          content:
+                              listToMultilineString(userViewModel.allergies),
+                        ),
+                        AttributeContainer(
+                          title: 'Condiciones y Síntomas',
+                          content:
+                              listToMultilineString(userViewModel.symptoms),
+                        ),
+                        AttributeContainer(
+                          title: 'Condimentos',
+                          content:
+                              listToMultilineString(userViewModel.seasonings),
+                        ),
+                        AttributeContainer(
+                          title: 'Comentarios',
+                          content: commasToLineBreaks(userViewModel.comment),
+                        ),
+                      ],
+                    ),
                   ),
-                  AttributeContainer(
-                    title: 'Comentarios',
-                    content: commasToLineBreaks(userViewModel.comment),
+                  const SizedBox(height: 20),
+                  SmoothPageIndicator(
+                    controller: _pageController,
+                    count: 4,
+                    effect: ExpandingDotsEffect(
+                      dotHeight: 8,
+                      dotWidth: 8,
+                      activeDotColor: Theme.of(context).colorScheme.primary,
+                      dotColor: Colors.grey,
+                    ),
                   ),
                 ],
               ),
