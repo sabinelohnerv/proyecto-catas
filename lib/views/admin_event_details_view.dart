@@ -63,7 +63,7 @@ class _AdminEventDetailsViewState extends State<AdminEventDetailsView> {
           leading: IconButton(
             icon: CircleAvatar(
                 backgroundColor: Theme.of(context).colorScheme.primary,
-                child: const Icon(Icons.arrow_back, color: Colors.white)),
+                child: const Icon(Icons.arrow_back_ios, color: Colors.white)),
             onPressed: () => Navigator.of(context).pop(),
           ),
         ),

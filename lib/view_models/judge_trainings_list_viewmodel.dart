@@ -31,7 +31,7 @@ class TrainingsListViewModel extends ChangeNotifier {
 
   void goToTrainingDetailsView(BuildContext context, Training training) {
     Navigator.of(context).push(MaterialPageRoute(
-      builder: (context) => JudgeTrainingDetailsView(training: training),
+      builder: (context) => JudgeTrainingDetailsView(training: training,),
     ));
   }
 }
