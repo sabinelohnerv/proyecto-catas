@@ -1,10 +1,16 @@
 import 'package:flutter/material.dart';
 
 class EventDetail extends StatelessWidget {
-  final IconData icon;
+  final IconData? icon;
   final String text;
+  final String? imageUrl;
 
-  const EventDetail({super.key, required this.icon, required this.text});
+  const EventDetail({
+    super.key,
+    this.icon,
+    required this.text,
+    this.imageUrl,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -12,12 +18,21 @@ class EventDetail extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 8.0),
       child: Row(
         children: [
-          Icon(icon, color: Theme.of(context).primaryColor),
+          if (imageUrl != null)
+            CircleAvatar(
+              backgroundImage: NetworkImage(imageUrl!),
+              radius: 16,
+            )
+          else if (icon != null)
+            CircleAvatar(
+                radius: 16,
+                backgroundColor: Theme.of(context).colorScheme.onInverseSurface,
+                child: Icon(icon, color: Theme.of(context).primaryColor)),
           const SizedBox(width: 8),
           Expanded(
             child: Text(
               text.toUpperCase(),
-              style: const TextStyle(fontWeight: FontWeight.w500, fontSize: 16),
+              style: const TextStyle(fontWeight: FontWeight.w400, fontSize: 16),
             ),
           ),
         ],

@@ -1,3 +1,4 @@
+import 'package:catas_univalle/widgets/login/animations.dart';
 import 'package:flutter/material.dart';
 
 import 'pointed_border.dart';
@@ -31,6 +32,7 @@ class StampContainer extends StatelessWidget {
     }
 
     return Container(
+      height: 200,
       margin: const EdgeInsets.symmetric(vertical: 20),
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
@@ -51,30 +53,36 @@ class StampContainer extends StatelessWidget {
           Text(
             'ESTADO DE APLICACIÓN',
             style: TextStyle(
-                fontSize: 20, fontWeight: FontWeight.w600, color: statusColor),
+                fontSize: 20,
+                fontWeight: FontWeight.w700,
+                color: Theme.of(context).colorScheme.primary),
           ),
           const Divider(),
           Padding(
             padding: const EdgeInsets.all(8.0),
-            child: CustomPaint(
-              size: const Size(double.infinity, 100),
-              painter: DottedBorderPainter(color: statusColor),
-              child: Padding(
-                padding: const EdgeInsets.all(15.0),
-                child: Container(
-                    decoration: BoxDecoration(
-                        color: statusColor,
-                        borderRadius: BorderRadius.circular(30)),
-                    child: Padding(
-                      padding: const EdgeInsets.all(15.0),
-                      child: Text(
-                        certificationStatus.toUpperCase(),
-                        style: const TextStyle(
-                            fontSize: 32,
-                            fontWeight: FontWeight.w700,
-                            color: Colors.white),
-                      ),
-                    )),
+            child: FadeInAnimation(
+              delay: 400,
+              child: CustomPaint(
+                size: const Size(double.infinity, 50),
+                painter: DottedBorderPainter(color: statusColor),
+                child: Padding(
+                  padding: const EdgeInsets.all(15.0),
+                  child: Container(
+                      color: statusColor,
+                      width: 300,
+                      child: Padding(
+                        padding: const EdgeInsets.all(15.0),
+                        child: Center(
+                          child: Text(
+                            certificationStatus.toUpperCase(),
+                            style: const TextStyle(
+                                fontSize: 24,
+                                fontWeight: FontWeight.w700,
+                                color: Colors.white),
+                          ),
+                        ),
+                      )),
+                ),
               ),
             ),
           ),

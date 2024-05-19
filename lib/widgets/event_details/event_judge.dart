@@ -11,7 +11,7 @@ class SelectJudgesButton extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 15),
         child: FilledButton(
-            onPressed: onPressed, child: const Text('VER JUECES SELECCIONADOS')),
+            onPressed: onPressed, child: const Text('SELECCION DE JUECES')),
       ),
     );
   }

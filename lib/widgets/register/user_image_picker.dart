@@ -6,11 +6,13 @@ import 'package:image_picker/image_picker.dart';
 class UserImagePicker extends StatefulWidget {
   final void Function(File pickedImage) onPickImage;
   final String? initialImage;
+  final Color? initialColor;
 
   const UserImagePicker({
     required this.onPickImage,
     this.initialImage,
     super.key,
+    this.initialColor,
   });
 
   @override
@@ -60,10 +62,16 @@ class _UserImagePickerState extends State<UserImagePicker> {
         ),
         TextButton.icon(
           onPressed: _pickImage,
-          icon: const Icon(Icons.image),
+          icon: Icon(
+            Icons.image,
+            color: widget.initialColor ?? Theme.of(context).colorScheme.primary,
+          ),
           label: Text(
             'Elegir imagen',
-            style: TextStyle(color: Theme.of(context).colorScheme.primary),
+            style: TextStyle(
+              color:
+                  widget.initialColor ?? Theme.of(context).colorScheme.primary,
+            ),
           ),
         ),
       ],

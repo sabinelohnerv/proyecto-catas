@@ -1,6 +1,4 @@
-import 'package:catas_univalle/views/admin_event_list_view.dart';
 import 'package:flutter/material.dart';
-
 import '../../view_models/add_event_viewmodel.dart';
 
 class UpdateEventButton extends StatelessWidget {
@@ -41,9 +39,7 @@ class UpdateEventButton extends StatelessWidget {
                   backgroundColor: Colors.green,
                 ),
               );
-              Navigator.of(context).pushReplacement(MaterialPageRoute(
-                  builder: (context) =>
-                      const AdminEventListView(isAdmin: true)));
+              Navigator.of(context).pop();
             } else {
               ScaffoldMessenger.of(context).showSnackBar(
                 const SnackBar(
@@ -51,6 +47,7 @@ class UpdateEventButton extends StatelessWidget {
                   backgroundColor: Colors.red,
                 ),
               );
+              Navigator.of(context).pop(false);
             }
           }
         },

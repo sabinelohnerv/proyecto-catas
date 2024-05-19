@@ -8,20 +8,15 @@ class EventImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ClipRRect(
-      borderRadius: const BorderRadius.only(
-        bottomLeft: Radius.circular(25.0),
-        bottomRight: Radius.circular(25.0),
-      ),
-      child: Image.network(
-        imageUrl,
+      borderRadius: const BorderRadius.vertical(bottom: Radius.circular(30)),
+      child: Container(
+        height: 320,
         width: double.infinity,
-        height: 265,
-        fit: BoxFit.cover,
-        errorBuilder: (context, error, stackTrace) => Container(
-          color: Colors.grey,
-          height: 275,
-          width: double.infinity,
-          child: const Icon(Icons.error, color: Colors.red),
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: NetworkImage(imageUrl),
+            fit: BoxFit.cover,
+          ),
         ),
       ),
     );

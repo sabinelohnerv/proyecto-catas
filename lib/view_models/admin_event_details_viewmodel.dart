@@ -1,6 +1,7 @@
 import 'package:catas_univalle/models/event.dart';
 import 'package:catas_univalle/services/event_service.dart';
 import 'package:catas_univalle/views/selected_judges_view.dart';
+import 'package:catas_univalle/views/edit_event_view.dart';
 import 'package:flutter/material.dart';
 
 import '../views/webview_screen.dart';
@@ -12,9 +13,8 @@ class AdminEventDetailsViewModel extends ChangeNotifier {
 
   Event? get event => _event;
 
-  void loadEventDetails(Event event) {
-    _event = event;
-    notifyListeners();
+  Stream<Event> getEventStream(String eventId) {
+    return _eventService.fetchEventById(eventId);
   }
 
   void navigateToSelectedJudges(BuildContext context, Event event) {
@@ -39,9 +39,19 @@ class AdminEventDetailsViewModel extends ChangeNotifier {
     );
   }
 
+  Future<void> navigateToEditEvent(BuildContext context, String eventId) async {
+    await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => EditEventView(eventId: eventId),
+      ),
+    );
+  }
+
   Future<bool> deleteCurrentEvent(BuildContext context, String eventId) async {
     try {
       await _eventService.deleteEvent(eventId);
+      Navigator.of(context).pop();
       return true;
     } catch (e) {
       print("Error deleting event: $e");
