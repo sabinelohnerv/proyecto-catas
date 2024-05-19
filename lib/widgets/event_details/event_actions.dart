@@ -2,8 +2,6 @@ import 'package:catas_univalle/view_models/admin_event_details_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../views/edit_event_view.dart';
-
 class EventActionButtons extends StatelessWidget {
   const EventActionButtons({
     super.key,
@@ -14,19 +12,20 @@ class EventActionButtons extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final viewModel =
+        Provider.of<AdminEventDetailsViewModel>(context, listen: false);
+
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 6.0),
           child: ElevatedButton(
-            onPressed: () {
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                    builder: (context) => EditEventView(
-                          eventId: eventId,
-                        )),
-              );
+            style: ElevatedButton.styleFrom(
+                backgroundColor:
+                    Theme.of(context).colorScheme.onInverseSurface),
+            onPressed: () async {
+              await viewModel.navigateToEditEvent(context, eventId);
             },
             child: const Icon(Icons.edit),
           ),
@@ -34,6 +33,9 @@ class EventActionButtons extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 6.0),
           child: ElevatedButton(
+            style: ElevatedButton.styleFrom(
+                backgroundColor:
+                    Theme.of(context).colorScheme.onInverseSurface),
             onPressed: () async {
               bool confirmDeletion = await showDialog(
                     context: context,

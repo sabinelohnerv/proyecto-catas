@@ -54,7 +54,7 @@ class _LoginFormState extends State<LoginView> {
           ),
           Expanded(
             child: Container(
-              padding: const EdgeInsets.fromLTRB(40, 0, 40, 0),
+              padding: const EdgeInsets.fromLTRB(50, 0, 50, 0),
               child: SingleChildScrollView(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -66,7 +66,7 @@ class _LoginFormState extends State<LoginView> {
                         child: Column(
                           children: [
                             SizedBox(
-                              height: 20,
+                              height: 10,
                             ),
                             Text(
                               'Bienvenido de nuevo',
@@ -86,7 +86,7 @@ class _LoginFormState extends State<LoginView> {
                         ),
                       ),
                     ),
-                    const SizedBox(height: 32),
+                    const SizedBox(height: 50),
                     FadeInAnimation(
                       delay: 300,
                       child: TextField(
@@ -99,7 +99,7 @@ class _LoginFormState extends State<LoginView> {
                         ),
                       ),
                     ),
-                    const SizedBox(height: 16),
+                    const SizedBox(height: 20),
                     FadeInAnimation(
                       delay: 400,
                       child: TextField(
@@ -126,7 +126,7 @@ class _LoginFormState extends State<LoginView> {
                         ),
                       ),
                     ),
-                    const SizedBox(height: 32),
+                    const SizedBox(height: 50),
                     FadeInAnimation(
                       delay: 500,
                       child: Center(

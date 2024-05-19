@@ -82,13 +82,10 @@ class _ProfileViewState extends State<ProfileView> {
               child: Container(
                 height: 300,
                 width: double.infinity,
-                decoration: const BoxDecoration(
-                  image: DecorationImage(
-                    image: AssetImage("assets/images/background.png"),
-                    fit: BoxFit.cover,
-                  ),
+                decoration: BoxDecoration(
+                  color: Theme.of(context).colorScheme.primary,
                   borderRadius:
-                      BorderRadius.vertical(bottom: Radius.circular(30)),
+                      const BorderRadius.vertical(bottom: Radius.circular(30)),
                 ),
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -97,6 +94,7 @@ class _ProfileViewState extends State<ProfileView> {
                     children: [
                       const SizedBox(height: 30),
                       UserImagePicker(
+                        initialColor: Colors.white,
                         initialImage: userViewModel.imageUrl,
                         onPickImage: (pickedImage) async {
                           await userViewModel.updateProfileImage(
