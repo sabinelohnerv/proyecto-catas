@@ -1,10 +1,10 @@
+import 'package:catas_univalle/functions/util.dart';
 import 'package:catas_univalle/widgets/event_details/event_actions.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:catas_univalle/models/event.dart';
 import 'package:catas_univalle/view_models/admin_event_details_viewmodel.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
-import '../functions/util.dart';
 import '../widgets/event_details/event_about.dart';
 import '../widgets/event_details/event_details.dart';
 import '../widgets/event_details/event_form_button.dart';
@@ -51,6 +51,63 @@ class _AdminEventDetailsViewState extends State<AdminEventDetailsView> {
     }
   }
 
+  void _showCodeDialog(BuildContext context) {
+    final TextEditingController _codeController = TextEditingController();
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Ingrese el código del evento'),
+          content: TextField(
+            controller: _codeController,
+            decoration: const InputDecoration(hintText: 'Código del evento'),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Cancelar'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              child: const Text('Confirmar'),
+              onPressed: () {
+                if (_codeController.text == widget.event.code) {
+                  Navigator.of(context).pop();
+                  AdminEventDetailsViewModel().navigateToForm(context, widget.event.formUrl);
+                } else {
+                  Navigator.of(context).pop();
+                  _showErrorDialog(context);
+                }
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _showErrorDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Código incorrecto'),
+          content: const Text('El código ingresado es incorrecto. Por favor, intente nuevamente.'),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('OK'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<AdminEventDetailsViewModel>(
@@ -84,8 +141,7 @@ class _AdminEventDetailsViewState extends State<AdminEventDetailsView> {
               ]
             : [
                 TakeFormButton(
-                  onPressed: () => AdminEventDetailsViewModel()
-                      .navigateToForm(context, widget.event.formUrl),
+                  onPressed: () => _showCodeDialog(context),
                 ),
               ],
         body: SingleChildScrollView(
