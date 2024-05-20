@@ -13,28 +13,25 @@ class StampContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String certificationStatus;
-    Color statusColor;
+    String imagePath = 'assets/images/pending-stamp.png';
 
     switch (status) {
       case "aprobado":
-        certificationStatus = "Aprobado";
-        statusColor = Colors.green;
+        imagePath = 'assets/images/accepted-stamp.png';
+
         break;
       case "rechazado":
-        certificationStatus = "Rechazado";
-        statusColor = Colors.red;
+        imagePath = 'assets/images/rejected-stamp.png';
 
         break;
       default:
-        certificationStatus = "Pendiente";
-        statusColor = Colors.amber;
+        imagePath = 'assets/images/pending-stamp.png';
     }
 
     return Container(
-      height: 200,
-      margin: const EdgeInsets.symmetric(vertical: 20),
+      height: 230,
       padding: const EdgeInsets.all(20),
+      margin: const EdgeInsets.all(10),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(10),
@@ -49,6 +46,7 @@ class StampContainer extends StatelessWidget {
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
             'ESTADO DE APLICACIÓN',
@@ -58,32 +56,13 @@ class StampContainer extends StatelessWidget {
                 color: Theme.of(context).colorScheme.primary),
           ),
           const Divider(),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: FadeInAnimation(
-              delay: 400,
-              child: CustomPaint(
-                size: const Size(double.infinity, 50),
-                painter: DottedBorderPainter(color: statusColor),
-                child: Padding(
-                  padding: const EdgeInsets.all(15.0),
-                  child: Container(
-                      color: statusColor,
-                      width: 300,
-                      child: Padding(
-                        padding: const EdgeInsets.all(15.0),
-                        child: Center(
-                          child: Text(
-                            certificationStatus.toUpperCase(),
-                            style: const TextStyle(
-                                fontSize: 24,
-                                fontWeight: FontWeight.w700,
-                                color: Colors.white),
-                          ),
-                        ),
-                      )),
-                ),
-              ),
+          FadeInAnimation(
+            delay: 400,
+            child: Image.asset(
+              imagePath,
+              width: 135,
+              height: 135,
+              fit: BoxFit.cover,
             ),
           ),
         ],

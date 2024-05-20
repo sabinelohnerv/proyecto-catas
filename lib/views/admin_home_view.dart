@@ -77,26 +77,26 @@ class AdminHomeView extends StatelessWidget {
                               SmallCard(
                                 img: 'comer',
                                 title: 'Eventos',
-                                width: 150,
+                                width: 160,
                                 destinationScreen:
                                     AdminEventListView(isAdmin: true),
                               ),
                               SmallCard(
                                 img: 'mujer',
                                 title: 'Jueces',
-                                width: 150,
+                                width: 160,
                                 destinationScreen: JudgeListView(),
                               ),
                               SmallCard(
                                 img: 'anfitrion',
                                 title: 'Anfitriones',
-                                width: 150,
+                                width: 160,
                                 destinationScreen: ClientListView(),
                               ),
                               SmallCard(
                                 img: 'cuaderno',
                                 title: 'Capacitacion',
-                                width: 150,
+                                width: 160,
                                 destinationScreen: AdminTrainingEventsView(),
                               ),
                             ],
