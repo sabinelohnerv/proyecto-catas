@@ -36,167 +36,200 @@ class _EditEventViewState extends State<EditEventView> {
   Widget build(BuildContext context) {
     final viewModel = Provider.of<AddEventViewModel>(context);
     return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          'Editar Evento',
-          style: TextStyle(color: Colors.white),
-        ),
-        centerTitle: true,
-        backgroundColor: Theme.of(context).primaryColor,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
-          onPressed: () {
-            viewModel.resetData();
-            Navigator.of(context).pop();
-          },
-        ),
-      ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(8.0),
-        child: Form(
-          key: _formKey,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              CustomTextFormField(
-                labelText: 'Nombre del Evento',
-                controller: viewModel.nameController,
-                onSaved: (value) => viewModel.name = value,
-                validator: (value) =>
-                    value!.isEmpty ? 'Este campo es obligatorio.' : null,
-              ),
-              CustomTextFormField(
-                controller: viewModel.dateController,
-                labelText: 'Fecha del Evento',
-                readOnly: true,
-                onTap: () => viewModel.selectDate(context),
-                validator: (value) =>
-                    value!.isEmpty ? 'Este campo es obligatorio.' : null,
-              ),
-              Row(
-                children: [
-                  Expanded(
-                    child: CustomTextFormField(
-                      controller: viewModel.startTimeController,
-                      labelText: 'Hora de Inicio',
-                      readOnly: true,
-                      onTap: () => viewModel.selectStartTime(context),
-                      validator: (value) =>
-                          value!.isEmpty ? 'Este campo es obligatorio.' : null,
-                    ),
-                  ),
-                  Expanded(
-                    child: CustomTextFormField(
-                      controller: viewModel.endTimeController,
-                      labelText: 'Hora de Finalización',
-                      readOnly: true,
-                      onTap: () => viewModel.selectEndTime(context),
-                      validator: (value) =>
-                          value!.isEmpty ? 'Este campo es obligatorio.' : null,
-                    ),
+      body: NestedScrollView(
+        headerSliverBuilder: (context, innerBoxIsScrolled) => [
+          SliverAppBar(
+            shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.only(
+                    bottomLeft: Radius.circular(40),
+                    bottomRight: Radius.circular(40))),
+            leading: IconButton(
+              icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
+              onPressed: () {
+                viewModel.resetData();
+                Navigator.of(context).pop();
+              },
+            ),
+            backgroundColor: Theme.of(context).colorScheme.primary,
+            title: const Text(
+              "Editar Evento",
+              style:
+                  TextStyle(fontWeight: FontWeight.w600, color: Colors.white),
+            ),
+            centerTitle: true,
+          ),
+        ],
+        body: SingleChildScrollView(
+          padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 30.0),
+          child: Form(
+            key: _formKey,
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 30),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(15),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.2),
+                    spreadRadius: 5,
+                    blurRadius: 7,
+                    offset: const Offset(0, 3),
                   ),
                 ],
               ),
-              CustomTextFormField(
-                controller: viewModel.locationController,
-                labelText: 'Lugar del Evento',
-                onSaved: (value) => viewModel.location = value ?? '',
-                validator: (value) =>
-                    value!.isEmpty ? 'Este campo es obligatorio.' : null,
-              ),
-              CustomTextFormField(
-                controller: viewModel.locationUrlController,
-                labelText: 'Link de Lugar del Evento',
-                onSaved: (value) => viewModel.locationUrl = value ?? '',
-                validator: (value) =>
-                    value!.isEmpty ? 'Este campo es obligatorio.' : null,
-              ),
-              Padding(
-                padding: const EdgeInsets.all(12.0),
-                child: DropdownButtonFormField<Client>(
-                  value: viewModel.client,
-                  onChanged: (Client? newValue) {
-                    if (newValue != null) {
-                      viewModel.selectClient(newValue);
-                    }
-                  },
-                  items: viewModel.clients
-                      .map<DropdownMenuItem<Client>>((Client client) {
-                    return DropdownMenuItem<Client>(
-                      value: client,
-                      child: Text(client.name),
-                    );
-                  }).toList(),
-                  decoration: const InputDecoration(
-                    labelText: 'Cliente',
-                    border: OutlineInputBorder(),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  CustomTextFormField(
+                    labelText: 'Nombre del Evento',
+                    prefixIcon: const Icon(Icons.event),
+                    controller: viewModel.nameController,
+                    onSaved: (value) => viewModel.name = value,
+                    validator: (value) =>
+                        value!.isEmpty ? 'Este campo es obligatorio.' : null,
                   ),
-                ),
-              ),
-              if (viewModel.currentImageUrl != null)
-                Padding(
-                  padding: const EdgeInsets.all(15.0),
-                  child: Image.network(viewModel.currentImageUrl!,
-                      height: 200, fit: BoxFit.cover),
-                )
-              else
-                Container(
-                  height: 200,
-                  decoration: BoxDecoration(
-                    color: Colors.grey[300],
-                    borderRadius: BorderRadius.circular(4),
+                  CustomTextFormField(
+                    controller: viewModel.dateController,
+                    labelText: 'Fecha del Evento',
+                    prefixIcon: const Icon(Icons.calendar_today),
+                    readOnly: true,
+                    onTap: () => viewModel.selectDate(context),
+                    validator: (value) =>
+                        value!.isEmpty ? 'Este campo es obligatorio.' : null,
                   ),
-                  alignment: Alignment.center,
-                  child: Icon(
-                    Icons.photo_size_select_actual,
-                    color: Colors.grey[600],
-                    size: 60,
+                  Row(
+                    children: [
+                      Expanded(
+                        child: CustomTextFormField(
+                          controller: viewModel.startTimeController,
+                          labelText: 'Hora de Inicio',
+                          prefixIcon: const Icon(Icons.timer),
+                          readOnly: true,
+                          onTap: () => viewModel.selectStartTime(context),
+                          validator: (value) => value!.isEmpty
+                              ? 'Este campo es obligatorio.'
+                              : null,
+                        ),
+                      ),
+                      Expanded(
+                        child: CustomTextFormField(
+                          controller: viewModel.endTimeController,
+                          labelText: 'Hora de Finalización',
+                          prefixIcon: const Icon(Icons.timer_off),
+                          readOnly: true,
+                          onTap: () => viewModel.selectEndTime(context),
+                          validator: (value) => value!.isEmpty
+                              ? 'Este campo es obligatorio.'
+                              : null,
+                        ),
+                      ),
+                    ],
                   ),
-                ),
-              Padding(
-                padding: const EdgeInsets.only(bottom: 10),
-                child: TextButton.icon(
-                  icon: const Icon(Icons.image),
-                  label: const Text('Elegir Imagen'),
-                  onPressed: () async {
-                    final XFile? newImage =
-                        await _picker.pickImage(source: ImageSource.gallery);
-                    if (newImage != null) {
-                      await viewModel.updateEventImage(
-                          File(newImage.path), widget.eventId);
-                    }
-                  },
-                ),
+                  CustomTextFormField(
+                    controller: viewModel.locationController,
+                    labelText: 'Lugar del Evento',
+                    prefixIcon: const Icon(Icons.place),
+                    onSaved: (value) => viewModel.location = value ?? '',
+                    validator: (value) =>
+                        value!.isEmpty ? 'Este campo es obligatorio.' : null,
+                  ),
+                  CustomTextFormField(
+                    controller: viewModel.locationUrlController,
+                    labelText: 'Link de Lugar del Evento',
+                    prefixIcon: const Icon(Icons.link),
+                    onSaved: (value) => viewModel.locationUrl = value ?? '',
+                    validator: (value) =>
+                        value!.isEmpty ? 'Este campo es obligatorio.' : null,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(12.0),
+                    child: DropdownButtonFormField<Client>(
+                      value: viewModel.client,
+                      onChanged: (Client? newValue) {
+                        if (newValue != null) {
+                          viewModel.selectClient(newValue);
+                        }
+                      },
+                      items: viewModel.clients
+                          .map<DropdownMenuItem<Client>>((Client client) {
+                        return DropdownMenuItem<Client>(
+                          value: client,
+                          child: Text(client.name),
+                        );
+                      }).toList(),
+                      decoration: const InputDecoration(
+                        labelText: 'Cliente',
+                        border: OutlineInputBorder(),
+                      ),
+                    ),
+                  ),
+                  if (viewModel.currentImageUrl != null)
+                    Padding(
+                      padding: const EdgeInsets.all(15.0),
+                      child: Image.network(viewModel.currentImageUrl!,
+                          height: 200, fit: BoxFit.cover),
+                    )
+                  else
+                    Container(
+                      height: 200,
+                      decoration: BoxDecoration(
+                        color: Colors.grey[300],
+                        borderRadius: BorderRadius.circular(4),
+                      ),
+                      alignment: Alignment.center,
+                      child: const Icon(
+                        Icons.photo_size_select_actual,
+                        color: Colors.grey,
+                        size: 60,
+                      ),
+                    ),
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 10),
+                    child: TextButton.icon(
+                      icon: const Icon(Icons.image),
+                      label: const Text('Elegir Imagen'),
+                      onPressed: () async {
+                        final XFile? newImage = await _picker.pickImage(
+                            source: ImageSource.gallery);
+                        if (newImage != null) {
+                          await viewModel.updateEventImage(
+                              File(newImage.path), widget.eventId);
+                        }
+                      },
+                    ),
+                  ),
+                  CustomTextFormField(
+                    labelText: 'Descripción del Evento',
+                    controller: viewModel.descriptionController,
+                    onSaved: (value) => viewModel.about = value,
+                    maxLines: 4,
+                  ),
+                  CustomTextFormField(
+                    labelText: 'Link del Formulario',
+                    prefixIcon: const Icon(Icons.link),
+                    controller: viewModel.linkController,
+                    onSaved: (value) => viewModel.formUrl = value,
+                    validator: (value) =>
+                        value!.isEmpty ? 'Este campo es obligatorio.' : null,
+                  ),
+                  CustomSelectionField(
+                    labelText: 'Restricción de Alergias',
+                    controller: viewModel.allergiesController,
+                    onTap: () => viewModel.showAllergiesDialog(context),
+                  ),
+                  CustomSelectionField(
+                    labelText: 'Restricción de Padecimientos',
+                    controller: viewModel.symptomsController,
+                    onTap: () => viewModel.showSymptomsDialog(context),
+                  ),
+                  UpdateEventButton(
+                    formKey: _formKey,
+                    viewModel: viewModel,
+                    eventId: widget.eventId,
+                  ),
+                ],
               ),
-              CustomTextFormField(
-                labelText: 'Descripción del Evento',
-                controller: viewModel.descriptionController,
-                onSaved: (value) => viewModel.about = value,
-                maxLines: 4,
-              ),
-              CustomTextFormField(
-                labelText: 'Link del Formulario',
-                controller: viewModel.linkController,
-                onSaved: (value) => viewModel.formUrl = value,
-                validator: (value) =>
-                    value!.isEmpty ? 'Este campo es obligatorio.' : null,
-              ),
-              CustomSelectionField(
-                labelText: 'Restricción de Alergias',
-                controller: viewModel.allergiesController,
-                onTap: () => viewModel.showAllergiesDialog(context),
-              ),
-              CustomSelectionField(
-                labelText: 'Restricción de Padecimientos',
-                controller: viewModel.symptomsController,
-                onTap: () => viewModel.showSymptomsDialog(context),
-              ),
-              UpdateEventButton(
-                formKey: _formKey,
-                viewModel: viewModel,
-                eventId: widget.eventId,
-              ),
-            ],
+            ),
           ),
         ),
       ),
