@@ -59,7 +59,7 @@ class UpdateEventButton extends StatelessWidget {
             ? const CircularProgressIndicator(
                 color: Colors.white,
               )
-            : const Text('Actualizar Evento'),
+            : const Text('ACTUALIZAR EVENTO'),
       ),
     );
   }
