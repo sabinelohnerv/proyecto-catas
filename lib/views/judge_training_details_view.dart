@@ -2,6 +2,7 @@ import 'package:catas_univalle/models/training.dart';
 import 'package:catas_univalle/view_models/judge_training_details_viewmodel.dart';
 import 'package:catas_univalle/widgets/event_details/event_about.dart';
 import 'package:catas_univalle/widgets/event_details/event_details.dart';
+import 'package:catas_univalle/widgets/training_assistances/attendance_stamp.dart';
 import 'package:catas_univalle/widgets/trainings/pdf_section_judge.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/date_symbol_data_local.dart';
@@ -12,8 +13,7 @@ import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 class JudgeTrainingDetailsView extends StatefulWidget {
   final Training training;
 
-  const JudgeTrainingDetailsView(
-      {super.key, required this.training});
+  const JudgeTrainingDetailsView({super.key, required this.training});
 
   @override
   State<JudgeTrainingDetailsView> createState() =>
@@ -191,6 +191,11 @@ class _JudgeTrainingDetailsViewState extends State<JudgeTrainingDetailsView> {
                                 SingleChildScrollView(
                                     child: Expanded(
                                         child: PdfSection(widget: widget))),
+                                SingleChildScrollView(
+                                  child: AttendanceStamp(
+                                      attendanceStatus:
+                                          viewModel.attendanceStatus),
+                                )
                               ],
                               onPageChanged: (int page) {
                                 setState(() {
@@ -204,7 +209,7 @@ class _JudgeTrainingDetailsViewState extends State<JudgeTrainingDetailsView> {
                   Center(
                     child: SmoothPageIndicator(
                       controller: _pageController,
-                      count: 2,
+                      count: 3,
                       effect: ExpandingDotsEffect(
                         dotHeight: 8,
                         dotWidth: 8,

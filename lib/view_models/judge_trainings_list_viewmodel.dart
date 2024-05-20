@@ -1,6 +1,5 @@
 import 'package:catas_univalle/models/training.dart';
 import 'package:catas_univalle/services/event_service.dart';
-import 'package:catas_univalle/view_models/judge_training_details_viewmodel.dart';
 import 'package:catas_univalle/views/judge_training_details_view.dart';
 import 'package:flutter/material.dart';
 
