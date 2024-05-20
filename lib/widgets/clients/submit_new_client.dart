@@ -10,7 +10,10 @@ class SubmitNewClient extends StatelessWidget {
     required this.viewModel,
     required String name,
     required String email,
-  }) : _formKey = formKey, _logo = logo, _name = name, _email = email;
+  })  : _formKey = formKey,
+        _logo = logo,
+        _name = name,
+        _email = email;
 
   final GlobalKey<FormState> _formKey;
   final File? _logo;
@@ -26,7 +29,7 @@ class SubmitNewClient extends StatelessWidget {
         onPressed: () {
           if (_formKey.currentState!.validate()) {
             _formKey.currentState!.save();
-      
+
             if (_logo != null) {
               viewModel.addClient(viewModel.name, viewModel.email, _logo);
               ScaffoldMessenger.of(context).showSnackBar(
@@ -52,7 +55,7 @@ class SubmitNewClient extends StatelessWidget {
           backgroundColor: Theme.of(context).primaryColor,
           foregroundColor: Colors.white,
         ),
-        child: const Text('Guardar'),
+        child: const Text('GUARDAR'),
       ),
     );
   }

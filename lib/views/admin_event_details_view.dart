@@ -29,11 +29,15 @@ class AdminEventDetailsView extends StatefulWidget {
 class _AdminEventDetailsViewState extends State<AdminEventDetailsView> {
   final PageController _pageController = PageController();
   int _currentPage = 0;
+  late Stream<Event> _eventStream;
 
   @override
   void initState() {
     super.initState();
     _pageController.addListener(_updatePageIndex);
+    final viewModel =
+        Provider.of<AdminEventDetailsViewModel>(context, listen: false);
+    _eventStream = viewModel.getEventStream(widget.event.id);
   }
 
   @override
@@ -62,8 +66,9 @@ class _AdminEventDetailsViewState extends State<AdminEventDetailsView> {
           centerTitle: true,
           leading: IconButton(
             icon: CircleAvatar(
-                backgroundColor: Theme.of(context).colorScheme.primary,
-                child: const Icon(Icons.arrow_back, color: Colors.white)),
+              backgroundColor: Theme.of(context).colorScheme.primary,
+              child: const Icon(Icons.arrow_back, color: Colors.white),
+            ),
             onPressed: () => Navigator.of(context).pop(),
           ),
         ),
@@ -88,107 +93,138 @@ class _AdminEventDetailsViewState extends State<AdminEventDetailsView> {
                       .navigateToForm(context, widget.event.formUrl),
                 ),
               ],
-        body: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              EventImage(imageUrl: widget.event.imageUrl),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(30.0, 20.0, 30.0, 0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      widget.event.name,
-                      style: const TextStyle(
-                        fontSize: 26,
-                        fontWeight: FontWeight.w800,
-                      ),
-                    ),
-                    const Text(
-                      'Evento',
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w300,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(30.0, 10.0, 30.0, 20.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Divider(),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        Expanded(
-                          child: EventDetail(
-                              icon: Icons.calendar_today,
-                              text: formatDateToWrittenDate(widget.event.date)),
-                        ),
-                        Expanded(
-                          child: EventDetail(
-                              icon: Icons.timer_sharp,
-                              text:
-                                  '${widget.event.start} - ${widget.event.end}'),
-                        ),
-                      ],
-                    ),
-                    EventDetail(
-                        icon: Icons.location_on, text: widget.event.location),
-                    EventDetail(
-                        imageUrl: widget.event.client.logoImgUrl,
-                        text: widget.event.client.name),
-                    const Divider(),
-                    SizedBox(
-                      height: 180,
-                      child: PageView(
-                          controller: _pageController,
-                          children: [
-                            SingleChildScrollView(
-                              child: AboutSection(about: widget.event.about),
-                            ),
-                            SingleChildScrollView(
-                              child: RestrictionsSection(
-                                title: 'ALERGIAS',
-                                restrictions: widget.event.allergyRestrictions,
-                              ),
-                            ),
-                            SingleChildScrollView(
-                              child: RestrictionsSection(
-                                title: 'SINTOMAS',
-                                restrictions: widget.event.symptomRestrictions,
-                              ),
-                            ),
-                          ],
-                          onPageChanged: (int page) {
-                            setState(() {
-                              _currentPage = page;
-                            });
-                          }),
-                    ),
-                    Center(
-                      child: SmoothPageIndicator(
-                        controller: _pageController,
-                        count: 3,
-                        effect: ExpandingDotsEffect(
-                          dotHeight: 8,
-                          dotWidth: 8,
-                          activeDotColor: Theme.of(context).colorScheme.primary,
-                          dotColor: Colors.grey,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
+        body: StreamBuilder<Event>(
+          stream: _eventStream,
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(child: CircularProgressIndicator());
+            }
+
+            if (snapshot.hasError || !snapshot.hasData) {
+              return const Center(child: Text('Error loading event data'));
+            }
+
+            final event = snapshot.data!;
+            return EventDetailsContent(
+              event: event,
+              isAdmin: widget.isAdmin,
+              pageController: _pageController,
+            );
+          },
         ),
+      ),
+    );
+  }
+}
+
+class EventDetailsContent extends StatelessWidget {
+  final Event event;
+  final bool isAdmin;
+  final PageController pageController;
+
+  const EventDetailsContent({
+    super.key,
+    required this.event,
+    required this.isAdmin,
+    required this.pageController,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          EventImage(imageUrl: event.imageUrl),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(30.0, 20.0, 30.0, 0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  event.name,
+                  style: const TextStyle(
+                    fontSize: 26,
+                    fontWeight: FontWeight.w800,
+                  ),
+                ),
+                const Text(
+                  'Evento',
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w300,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(30.0, 10.0, 30.0, 20.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Divider(),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    Expanded(
+                      child: EventDetail(
+                        icon: Icons.calendar_today,
+                        text: formatDateToWrittenDate(event.date),
+                      ),
+                    ),
+                    Expanded(
+                      child: EventDetail(
+                        icon: Icons.timer_sharp,
+                        text: '${event.start} - ${event.end}',
+                      ),
+                    ),
+                  ],
+                ),
+                EventDetail(icon: Icons.location_on, text: event.location),
+                EventDetail(
+                    imageUrl: event.client.logoImgUrl, text: event.client.name),
+                const Divider(),
+                SizedBox(
+                  height: 180,
+                  child: PageView(
+                    controller: pageController,
+                    children: [
+                      SingleChildScrollView(
+                        child: AboutSection(about: event.about),
+                      ),
+                      SingleChildScrollView(
+                        child: RestrictionsSection(
+                          title: 'ALERGIAS',
+                          restrictions: event.allergyRestrictions,
+                        ),
+                      ),
+                      SingleChildScrollView(
+                        child: RestrictionsSection(
+                          title: 'SINTOMAS',
+                          restrictions: event.symptomRestrictions,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Center(
+                  child: SmoothPageIndicator(
+                    controller: pageController,
+                    count: 3,
+                    effect: ExpandingDotsEffect(
+                      dotHeight: 8,
+                      dotWidth: 8,
+                      activeDotColor: Theme.of(context).colorScheme.primary,
+                      dotColor: Colors.grey,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }

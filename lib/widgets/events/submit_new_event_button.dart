@@ -58,7 +58,7 @@ class SubmitNewEventButton extends StatelessWidget {
         ),
         child: viewModel.isSaving
             ? const CircularProgressIndicator()
-            : const Text('Registrar Evento'),
+            : const Text('REGISTRAR EVENTO'),
       ),
     );
   }

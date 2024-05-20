@@ -57,74 +57,95 @@ class _AddClientViewState extends State<AddClientView> {
           child: Form(
             key: _formKey,
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 54.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: <Widget>[
-                  CustomTextFormField(
-                    labelText: 'Nombre del Anfitrión',
-                    prefixIcon: const Icon(Icons.assignment_ind),
-                    onSaved: (value) => viewModel.name = value ?? '',
-                    validator: (value) =>
-                        value!.isEmpty ? 'Este campo es obligatorio.' : null,
-                  ),
-                  CustomTextFormField(
-                    labelText: 'Email',
-                    prefixIcon: const Icon(Icons.email),
-                    onSaved: (value) => viewModel.email = value ?? '',
-                    validator: (value) {
-                      if ((value == null ||
-                          value.trim().isEmpty ||
-                          !isValidEmail(value))) {
-                        return 'Ingresa un email válido.';
-                      }
-                      return null;
-                    },
-                  ),
-                  const SizedBox(height: 4,),
-                  const Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 15, vertical: 6),
-                    child: Text(
-                      'Logo del Anfitrión',
-                      style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 20, vertical: 40.0),
+              child: Container(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 15, vertical: 30),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(15),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.2),
+                      spreadRadius: 5,
+                      blurRadius: 7,
+                      offset: const Offset(0, 3),
                     ),
-                  ),
-                  const SizedBox(height: 10),
-                  _logo == null
-                      ? Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 15),
-                          child: Container(
+                  ],
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: <Widget>[
+                    CustomTextFormField(
+                      labelText: 'Nombre del Anfitrión',
+                      prefixIcon: const Icon(Icons.assignment_ind),
+                      onSaved: (value) => viewModel.name = value ?? '',
+                      validator: (value) =>
+                          value!.isEmpty ? 'Este campo es obligatorio.' : null,
+                    ),
+                    CustomTextFormField(
+                      labelText: 'Email',
+                      prefixIcon: const Icon(Icons.email),
+                      onSaved: (value) => viewModel.email = value ?? '',
+                      validator: (value) {
+                        if ((value == null ||
+                            value.trim().isEmpty ||
+                            !isValidEmail(value))) {
+                          return 'Ingresa un email válido.';
+                        }
+                        return null;
+                      },
+                    ),
+                    const SizedBox(height: 4),
+                    const Padding(
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 15, vertical: 6),
+                      child: Text(
+                        'Logo del Anfitrión',
+                        style: TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.w500),
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+                    _logo == null
+                        ? Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 15),
+                            child: Container(
                               height: 220,
                               color: Colors.grey.shade200,
                               child: const Center(
-                                  child: Text(
-                                      'No has seleccionado un logo aún.'))),
-                        )
-                      : Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 15),
-                        child: SizedBox(
-                            height: 220,
-                            width: MediaQuery.sizeOf(context).width,
-                            child: Image.file(
-                              _logo!,
-                              fit: BoxFit.cover,
-                            )),
-                      ),
-                  TextButton.icon(
-                    onPressed: getImage,
-                    icon: const Icon(Icons.image),
-                    label: const Text('Elegir logo'),
-                  ),
-                  const SizedBox(
-                    height: 36,
-                  ),
-                  SubmitNewClient(
+                                child: Icon(Icons.no_photography_rounded,
+                                    size: 50, color: Colors.grey),
+                              ),
+                            ),
+                          )
+                        : Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 15),
+                            child: SizedBox(
+                              height: 220,
+                              width: MediaQuery.sizeOf(context).width,
+                              child: Image.file(
+                                _logo!,
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          ),
+                    TextButton.icon(
+                      onPressed: getImage,
+                      icon: const Icon(Icons.image),
+                      label: const Text('Elegir logo'),
+                    ),
+                    const SizedBox(height: 36),
+                    SubmitNewClient(
                       formKey: _formKey,
                       logo: _logo,
                       viewModel: viewModel,
                       name: viewModel.name,
-                      email: viewModel.email),
-                ],
+                      email: viewModel.email,
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
