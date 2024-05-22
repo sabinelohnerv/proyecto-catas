@@ -7,7 +7,7 @@ import 'package:open_filex/open_filex.dart';
 class FilePickerButton extends StatefulWidget {
   final ValueChanged<String?> onFilePicked;
 
-  const FilePickerButton({Key? key, required this.onFilePicked}) : super(key: key);
+  const FilePickerButton({super.key, required this.onFilePicked});
 
   @override
   _FilePickerButtonState createState() => _FilePickerButtonState();

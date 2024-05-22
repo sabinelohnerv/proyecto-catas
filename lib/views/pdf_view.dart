@@ -4,7 +4,7 @@ import 'package:flutter_pdfview/flutter_pdfview.dart';
 class PDFViewPage extends StatefulWidget {
   final String pdfPath;
 
-  const PDFViewPage({Key? key, required this.pdfPath}) : super(key: key);
+  const PDFViewPage({super.key, required this.pdfPath});
 
   @override
   _PDFViewPageState createState() => _PDFViewPageState();

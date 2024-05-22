@@ -7,11 +7,11 @@ class EventDropdown extends StatefulWidget {
   final ValueChanged<String?> onChanged;
 
   const EventDropdown({
-    Key? key,
+    super.key,
     required this.events,
     this.selectedEventId,
     required this.onChanged,
-  }) : super(key: key);
+  });
 
   @override
   _EventDropdownState createState() => _EventDropdownState();

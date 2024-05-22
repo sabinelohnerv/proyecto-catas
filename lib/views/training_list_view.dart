@@ -11,8 +11,7 @@ class TrainingListView extends StatefulWidget {
   final bool isAdmin;
 
   const TrainingListView(
-      {Key? key, required this.eventId, required this.isAdmin})
-      : super(key: key);
+      {super.key, required this.eventId, required this.isAdmin});
 
   @override
   _TrainingListViewState createState() => _TrainingListViewState();

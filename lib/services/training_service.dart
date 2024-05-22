@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'package:catas_univalle/models/event_judge.dart';
 import 'package:rxdart/rxdart.dart';
 import '/models/event.dart';

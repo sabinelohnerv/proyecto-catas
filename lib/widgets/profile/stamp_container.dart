@@ -1,7 +1,6 @@
 import 'package:catas_univalle/widgets/login/animations.dart';
 import 'package:flutter/material.dart';
 
-import 'pointed_border.dart';
 
 class StampContainer extends StatelessWidget {
   final String status;

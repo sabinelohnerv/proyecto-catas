@@ -5,7 +5,7 @@ import 'package:file_picker/file_picker.dart';
 class ImagePickerButton extends StatefulWidget {
   final ValueChanged<File?> onFilePicked;
 
-  const ImagePickerButton({Key? key, required this.onFilePicked}) : super(key: key);
+  const ImagePickerButton({super.key, required this.onFilePicked});
 
   @override
   _ImagePickerButtonState createState() => _ImagePickerButtonState();
@@ -31,9 +31,9 @@ class _ImagePickerButtonState extends State<ImagePickerButton> {
       children: [
         ElevatedButton(
           onPressed: _pickImage,
-          child: Text('Seleccionar Imagen'),
+          child: const Text('Seleccionar Imagen'),
         ),
-        SizedBox(height: 8),
+        const SizedBox(height: 8),
         Text(_selectedImage?.path ?? 'No image selected'),
       ],
     );

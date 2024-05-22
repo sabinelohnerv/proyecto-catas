@@ -18,7 +18,7 @@ class PDFViewModel extends ChangeNotifier {
   Future<File> downloadFile(String url) async {
     var response = await http.get(Uri.parse(url));
     var documentDirectory = await getApplicationDocumentsDirectory();
-    var filePathAndName = documentDirectory.path + '/downloaded_file.pdf';
+    var filePathAndName = '${documentDirectory.path}/downloaded_file.pdf';
     File file = File(filePathAndName);
     file.writeAsBytesSync(response.bodyBytes);
     return file;

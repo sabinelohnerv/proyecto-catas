@@ -15,7 +15,7 @@ class TrainingEventCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String formattedDate = formatDateToWrittenDate(event.date);
+    formatDateToWrittenDate(event.date);
 
     return InkWell(
       onTap: onTap,
