@@ -22,7 +22,7 @@ class AttributeContainer extends StatelessWidget {
               title.toUpperCase(),
               style: TextStyle(
                   fontSize: 20,
-                  fontWeight: FontWeight.bold,
+                  fontWeight: FontWeight.w800,
                   color: Theme.of(context).colorScheme.primary),
             ),
             const Divider(height: 8),
