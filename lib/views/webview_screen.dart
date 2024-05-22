@@ -14,7 +14,7 @@ class WebViewScreen extends StatelessWidget {
       appBar: AppBar(
         title: const Text(
           'Formulario',
-          style: TextStyle(color: Colors.white), 
+          style: TextStyle(color: Colors.white, fontWeight: FontWeight.w500), 
         ),
         centerTitle: true,
         backgroundColor: colorScheme.primary,

@@ -75,10 +75,15 @@ class TrainingEventCard extends StatelessWidget {
                   numberOfTrainings.toString(),
                   style: TextStyle(
                       color: Theme.of(context).colorScheme.onPrimaryContainer,
-                      fontWeight: FontWeight.w500),
+                      fontWeight: FontWeight.w600),
                 ),
               ),
             ),
+            Icon(
+              Icons.chevron_right,
+              size: 30,
+              color: Colors.grey.shade600,
+            )
           ],
         ),
       ),

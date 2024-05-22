@@ -13,7 +13,7 @@ class EventFormView extends StatelessWidget {
       appBar: AppBar(
         title: const Text(
           'Información del Evento',
-          style: TextStyle(color: Colors.white),
+          style: TextStyle(color: Colors.white, fontWeight: FontWeight.w500),
         ),
         backgroundColor: colorScheme.primary,
         iconTheme: const IconThemeData(color: Colors.white),

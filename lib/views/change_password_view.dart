@@ -38,7 +38,7 @@ class ChangePasswordView extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Cambiar Contraseña", style: TextStyle(color: Colors.white)),
+        title: const Text("Cambiar Contraseña", style: TextStyle(color: Colors.white, fontWeight: FontWeight.w500)),
         iconTheme: const IconThemeData(color: Colors.white),
         backgroundColor: colorScheme.primary,
         elevation: 0,

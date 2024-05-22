@@ -10,11 +10,10 @@ class AdminListView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          'Administradores',
-          style: TextStyle(color: Colors.white),
-        ),
+        title: const Text('Administradores',
+            style: TextStyle(fontWeight: FontWeight.w500)),
         backgroundColor: Theme.of(context).primaryColor,
+        foregroundColor: Colors.white,
         centerTitle: true,
         leading: IconButton(
           icon: const Icon(

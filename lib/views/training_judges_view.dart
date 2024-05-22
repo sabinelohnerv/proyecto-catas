@@ -19,7 +19,7 @@ class TrainingJudgesView extends StatelessWidget {
         appBar: AppBar(
           title: const Text(
             'Asistencia',
-            style: TextStyle(color: Colors.white),
+            style: TextStyle(color: Colors.white, fontWeight: FontWeight.w500),
           ),
           backgroundColor: Theme.of(context).primaryColor,
           centerTitle: true,

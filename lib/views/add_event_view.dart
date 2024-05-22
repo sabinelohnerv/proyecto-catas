@@ -47,7 +47,7 @@ class _AddEventViewState extends State<AddEventView> {
             ),
             backgroundColor: Theme.of(context).colorScheme.primary,
             title: const Text(
-              "Añadir Evento de Cata",
+              "Agregar Evento de Cata",
               style:
                   TextStyle(fontWeight: FontWeight.w600, color: Colors.white),
             ),

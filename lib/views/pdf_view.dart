@@ -15,7 +15,7 @@ class _PDFViewPageState extends State<PDFViewPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Documento'),
+        title: const Text('Documento'),
         backgroundColor: Theme.of(context).primaryColor,
       ),
       body: PDFView(

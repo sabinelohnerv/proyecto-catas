@@ -53,7 +53,7 @@ class _JudgeSelectedEventsViewState extends State<JudgeSelectedEventsView> {
         appBar: AppBar(
           title: const Text(
             'Eventos Aceptados',
-            style: TextStyle(color: Colors.white),
+            style: TextStyle(color: Colors.white, fontWeight: FontWeight.w500),
           ),
           backgroundColor: Theme.of(context).primaryColor,
           centerTitle: true,

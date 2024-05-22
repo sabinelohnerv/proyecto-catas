@@ -13,7 +13,7 @@ class AllTrainingsJudgeAttendanceView extends StatelessWidget {
       appBar: AppBar(
         title: const Text(
           'Porcentaje de Asistencias',
-          style: TextStyle(color: Colors.white),
+          style: TextStyle(color: Colors.white, fontWeight: FontWeight.w500),
         ),
         backgroundColor: Theme.of(context).primaryColor,
         centerTitle: true,

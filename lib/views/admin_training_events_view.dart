@@ -54,7 +54,7 @@ class _AdminTrainingEventsViewState extends State<AdminTrainingEventsView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Todas las Capacitaciones', style: TextStyle(color: Colors.white)),
+        title: const Text('Todas las Capacitaciones', style: TextStyle(color: Colors.white, fontWeight: FontWeight.w500),),
         backgroundColor: Theme.of(context).primaryColor,
         centerTitle: true,
         leading: IconButton(

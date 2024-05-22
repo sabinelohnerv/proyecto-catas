@@ -71,32 +71,32 @@ class AdminHomeView extends StatelessWidget {
                         child: Center(
                           child: Wrap(
                             alignment: WrapAlignment.spaceEvenly,
-                            spacing: 25,
-                            runSpacing: 25,
+                            spacing: 15,
+                            runSpacing: 15,
                             children: [
                               SmallCard(
                                 img: 'comer',
                                 title: 'Eventos',
-                                width: 160,
+                                width: 165,
                                 destinationScreen:
                                     AdminEventListView(isAdmin: true),
                               ),
                               SmallCard(
                                 img: 'mujer',
                                 title: 'Jueces',
-                                width: 160,
+                                width: 165,
                                 destinationScreen: JudgeListView(),
                               ),
                               SmallCard(
                                 img: 'anfitrion',
                                 title: 'Anfitriones',
-                                width: 160,
+                                width: 165,
                                 destinationScreen: ClientListView(),
                               ),
                               SmallCard(
                                 img: 'cuaderno',
                                 title: 'Capacitacion',
-                                width: 160,
+                                width: 165,
                                 destinationScreen: AdminTrainingEventsView(),
                               ),
                             ],

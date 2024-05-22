@@ -44,7 +44,7 @@ class _JudgeTrainingEventsViewState extends State<JudgeTrainingEventsView> {
         appBar: AppBar(
           title: const Text(
             'Capacitaciones Por Evento',
-            style: TextStyle(color: Colors.white),
+            style: TextStyle(color: Colors.white, fontWeight: FontWeight.w500),
           ),
           backgroundColor: Theme.of(context).primaryColor,
           centerTitle: true,

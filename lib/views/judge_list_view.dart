@@ -166,7 +166,7 @@ class _JudgeListViewState extends State<JudgeListView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Jueces', style: TextStyle(color: Colors.white)),
+        title: const Text('Jueces', style: TextStyle(color: Colors.white, fontWeight: FontWeight.w500)),
         backgroundColor: Theme.of(context).colorScheme.primary,
         iconTheme: const IconThemeData(color: Colors.white),
         centerTitle: true,
@@ -176,7 +176,7 @@ class _JudgeListViewState extends State<JudgeListView> {
         ),
         actions: [
           IconButton(
-            icon: const Icon(Icons.tune, color: Colors.white),
+            icon: const Icon(Icons.filter_list, color: Colors.white),
             onPressed: _showFilterDialog,
           ),
         ],
