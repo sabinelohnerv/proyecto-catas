@@ -79,7 +79,8 @@ class _AdminEventDetailsViewState extends State<AdminEventDetailsView> {
               onPressed: () {
                 if (_codeController.text == widget.event.code) {
                   Navigator.of(context).pop();
-                  AdminEventDetailsViewModel().navigateToForm(context, widget.event.formUrl);
+                  AdminEventDetailsViewModel()
+                      .navigateToForm(context, widget.event.formUrl);
                 } else {
                   Navigator.of(context).pop();
                   _showErrorDialog(context);
@@ -98,7 +99,8 @@ class _AdminEventDetailsViewState extends State<AdminEventDetailsView> {
       builder: (BuildContext context) {
         return AlertDialog(
           title: const Text('Código incorrecto'),
-          content: const Text('El código ingresado es incorrecto. Por favor, intente nuevamente.'),
+          content: const Text(
+              'El código ingresado es incorrecto. Por favor, intente nuevamente.'),
           actions: <Widget>[
             TextButton(
               child: const Text('OK'),
@@ -124,7 +126,7 @@ class _AdminEventDetailsViewState extends State<AdminEventDetailsView> {
           leading: IconButton(
             icon: CircleAvatar(
               backgroundColor: Theme.of(context).colorScheme.primary,
-              child: const Icon(Icons.arrow_back, color: Colors.white),
+              child: const Icon(Icons.arrow_back_ios, color: Colors.white),
             ),
             onPressed: () => Navigator.of(context).pop(),
           ),
@@ -134,11 +136,13 @@ class _AdminEventDetailsViewState extends State<AdminEventDetailsView> {
                 SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
                   child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       SelectJudgesButton(
                         onPressed: () => AdminEventDetailsViewModel()
                             .navigateToSelectedJudges(context, widget.event),
                       ),
+                      const SizedBox(width: 4),
                       EventActionButtons(eventId: widget.event.id),
                     ],
                   ),

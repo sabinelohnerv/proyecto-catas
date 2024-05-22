@@ -267,7 +267,7 @@ class _AdminTrainingDetailsViewState extends State<AdminTrainingDetailsView> {
                     ),
                   );
                 },
-                label: const Text('VISUALIZAR PARTICIPANTES')),
+                label: const Text('Visualizar Participantes', style: TextStyle(fontSize: 16),)),
           ),
         ],
       ),

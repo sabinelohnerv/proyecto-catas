@@ -57,7 +57,7 @@ class _AddClientViewState extends State<AddClientView> {
           child: Form(
             key: _formKey,
             child: Padding(
-              padding: const EdgeInsets.fromLTRB(20, 50, 20, 40),
+              padding: const EdgeInsets.fromLTRB(20, 60, 20, 40),
               child: Container(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 15, vertical: 30),
@@ -76,6 +76,15 @@ class _AddClientViewState extends State<AddClientView> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: <Widget>[
+                    const Padding(
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 15, vertical: 6),
+                      child: Text(
+                        'Datos del Anfitrión',
+                        style: TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.w500),
+                      ),
+                    ),
                     CustomTextFormField(
                       labelText: 'Nombre del Anfitrión',
                       prefixIcon: const Icon(Icons.assignment_ind),
@@ -84,7 +93,7 @@ class _AddClientViewState extends State<AddClientView> {
                           value!.isEmpty ? 'Este campo es obligatorio.' : null,
                     ),
                     CustomTextFormField(
-                      labelText: 'Email',
+                      labelText: 'Email de Contacto',
                       prefixIcon: const Icon(Icons.email),
                       onSaved: (value) => viewModel.email = value ?? '',
                       validator: (value) {
@@ -135,7 +144,6 @@ class _AddClientViewState extends State<AddClientView> {
                       icon: const Icon(Icons.image),
                       label: const Text('Elegir logo'),
                     ),
-                    const SizedBox(height: 36),
                     SubmitNewClient(
                       formKey: _formKey,
                       logo: _logo,
