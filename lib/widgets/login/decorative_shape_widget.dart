@@ -7,9 +7,9 @@ class HeaderShapePainter extends CustomPainter {
     Path path = Path()
       ..moveTo(0, size.height * 0.8)
       ..quadraticBezierTo(
-        size.width / 4,
-        size.height,
         size.width / 2,
+        size.height,
+        size.width / 1,
         size.height * 0.8,
       )
       ..quadraticBezierTo(
