@@ -1,8 +1,6 @@
 import 'package:catas_univalle/view_models/select_judges_viewmodel.dart';
 import 'package:catas_univalle/widgets/select_judges/select_judge_card.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 
 class SelectJudgesView extends StatelessWidget {
@@ -28,7 +26,7 @@ class SelectJudgesView extends StatelessWidget {
                 children: [
                   const Text(
                     'Seleccionar Jueces',
-                    style: TextStyle(fontSize: 22),
+                    style: TextStyle(fontSize: 22, fontWeight: FontWeight.w500),
                   ),
                   const SizedBox(
                     height: 2,

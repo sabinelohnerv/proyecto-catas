@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:catas_univalle/models/training.dart';
 import 'package:catas_univalle/views/training_judges_view.dart';
 import 'package:flutter/material.dart';
@@ -18,7 +20,7 @@ class AdminTrainingDetailsViewModel extends ChangeNotifier {
       }
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('No hay un documento PDF disponible.')));
+          const SnackBar(content: Text('No hay un documento PDF disponible.')));
     }
   }
 

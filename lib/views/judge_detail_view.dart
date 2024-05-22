@@ -55,7 +55,7 @@ class _JudgeDetailScreenState extends State<JudgeDetailScreen> {
     final appBarHeight = AppBar().preferredSize.height;
     final statusBarHeight = MediaQuery.of(context).padding.top;
 
-    final fixedHeaderHeight = 275.0;
+    const fixedHeaderHeight = 275.0;
 
     switch (widget.judge.applicationState) {
       case "aprobado":

@@ -45,7 +45,7 @@ class _EditProfileViewState extends State<EditProfileView> {
             title: const Text(
               "EDITAR PERFIL",
               style:
-                  TextStyle(fontWeight: FontWeight.w600, color: Colors.white),
+                  TextStyle(fontWeight: FontWeight.w500, color: Colors.white),
             ),
             centerTitle: true,
           ),

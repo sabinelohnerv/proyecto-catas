@@ -44,7 +44,7 @@ class _AdminEventListViewState extends State<AdminEventListView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Eventos'),
+        title: const Text('Eventos', style: TextStyle(fontWeight: FontWeight.w500)),
         backgroundColor: Theme.of(context).primaryColor,
         centerTitle: true,
         leading: IconButton(
@@ -84,7 +84,7 @@ class _AdminEventListViewState extends State<AdminEventListView> {
                   child: PopupMenuButton<String>(
                     onSelected: _changeFilter,
                     icon: const Icon(
-                      Icons.tune,
+                      Icons.filter_list,
                       size: 20,
                     ),
                     itemBuilder: (BuildContext context) =>

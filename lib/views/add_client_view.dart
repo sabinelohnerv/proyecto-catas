@@ -48,7 +48,7 @@ class _AddClientViewState extends State<AddClientView> {
             title: const Text(
               "Agregar Anfitrión",
               style:
-                  TextStyle(fontWeight: FontWeight.w600, color: Colors.white),
+                  TextStyle(fontWeight: FontWeight.w500, color: Colors.white),
             ),
             centerTitle: true,
           ),
@@ -57,8 +57,7 @@ class _AddClientViewState extends State<AddClientView> {
           child: Form(
             key: _formKey,
             child: Padding(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 20, vertical: 40.0),
+              padding: const EdgeInsets.fromLTRB(20, 50, 20, 40),
               child: Container(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 15, vertical: 30),

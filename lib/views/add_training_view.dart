@@ -102,7 +102,7 @@ class _AddTrainingViewState extends State<AddTrainingView> {
             title: const Text(
               "Agregar Capacitación",
               style:
-                  TextStyle(fontWeight: FontWeight.w600, color: Colors.white),
+                  TextStyle(fontWeight: FontWeight.w500, color: Colors.white),
             ),
             centerTitle: true,
           ),

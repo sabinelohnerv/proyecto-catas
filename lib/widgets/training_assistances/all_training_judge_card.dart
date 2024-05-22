@@ -1,4 +1,3 @@
-import 'package:catas_univalle/models/event_judge.dart';
 import 'package:flutter/material.dart';
 
 class AllTrainingJudgeCard extends StatelessWidget {

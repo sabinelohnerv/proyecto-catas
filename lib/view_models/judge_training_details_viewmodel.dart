@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:catas_univalle/models/training.dart';
 import 'package:catas_univalle/services/auth_service.dart';
 import 'package:flutter/material.dart';

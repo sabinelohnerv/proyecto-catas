@@ -12,7 +12,7 @@ class ClientListView extends StatelessWidget {
       appBar: AppBar(
         title: const Text(
           'Anfitriones',
-          style: TextStyle(color: Colors.white),
+          style: TextStyle(color: Colors.white, fontWeight: FontWeight.w500),
         ),
         backgroundColor: Theme.of(context).primaryColor,
         centerTitle: true,

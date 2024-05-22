@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:catas_univalle/models/event.dart';
 import 'package:catas_univalle/services/event_service.dart';
 import 'package:catas_univalle/views/selected_judges_view.dart';

@@ -1,5 +1,4 @@
 import 'package:catas_univalle/services/event_service.dart';
-import 'package:catas_univalle/widgets/event_details/event_actions.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:catas_univalle/models/event.dart';
@@ -8,9 +7,7 @@ import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import '../functions/util.dart';
 import '../widgets/event_details/event_about.dart';
 import '../widgets/event_details/event_details.dart';
-import '../widgets/event_details/event_form_button.dart';
 import '../widgets/event_details/event_header.dart';
-import '../widgets/event_details/event_judge.dart';
 import '../widgets/event_details/event_restrictions.dart';
 
 class JudgeEventDetailsView extends StatefulWidget {

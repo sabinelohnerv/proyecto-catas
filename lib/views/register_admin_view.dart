@@ -43,7 +43,7 @@ class _RegisterAdminViewState extends State<RegisterAdminView> {
             title: const Text(
               "Registrar Administrador",
               style:
-                  TextStyle(fontWeight: FontWeight.w400, color: Colors.white),
+                  TextStyle(fontWeight: FontWeight.w500, color: Colors.white),
             ),
             centerTitle: true,
           ),

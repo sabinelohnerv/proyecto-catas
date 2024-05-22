@@ -73,7 +73,7 @@ class _InvitationsViewState extends State<InvitationsView> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Mis Invitaciones',
-            style: TextStyle(color: Colors.white)),
+            style: TextStyle(color: Colors.white, fontWeight: FontWeight.w500)),
         centerTitle: true,
         backgroundColor: Theme.of(context).colorScheme.primary,
         iconTheme: const IconThemeData(color: Colors.white),

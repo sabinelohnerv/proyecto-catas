@@ -6,11 +6,11 @@ class DateTimePicker extends StatefulWidget {
   final bool isStartTime;
 
   const DateTimePicker({
-    Key? key,
+    super.key,
     required this.onDateSelected,
     required this.onTimeSelected,
     this.isStartTime = true,
-  }) : super(key: key);
+  });
 
   @override
   _DateTimePickerState createState() => _DateTimePickerState();
@@ -58,7 +58,7 @@ class _DateTimePickerState extends State<DateTimePicker> {
           onTap: _selectTime,
         ),
         ListTile(
-          title: Text("Seleccionar Fecha"),
+          title: const Text("Seleccionar Fecha"),
           subtitle: Text(_selectedDate?.toString() ?? 'No seleccionada'),
           onTap: _selectDate,
         ),

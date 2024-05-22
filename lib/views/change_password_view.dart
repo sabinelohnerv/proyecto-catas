@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import '../view_models/change_password_viewmodel.dart';
 
 class ChangePasswordView extends StatelessWidget {
-  const ChangePasswordView({Key? key}) : super(key: key);
+  const ChangePasswordView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -24,11 +24,11 @@ class ChangePasswordView extends StatelessWidget {
           borderRadius: BorderRadius.circular(8.0),
         ),
         errorBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.redAccent),
+          borderSide: const BorderSide(color: Colors.redAccent),
           borderRadius: BorderRadius.circular(8.0),
         ),
         focusedErrorBorder: OutlineInputBorder(
-          borderSide: BorderSide(width: 2, color: Colors.red),
+          borderSide: const BorderSide(width: 2, color: Colors.red),
           borderRadius: BorderRadius.circular(8.0),
         ),
         filled: true,
@@ -38,7 +38,7 @@ class ChangePasswordView extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Cambiar Contraseña", style: TextStyle(color: Colors.white)),
+        title: const Text("Cambiar Contraseña", style: TextStyle(color: Colors.white, fontWeight: FontWeight.w500)),
         iconTheme: const IconThemeData(color: Colors.white),
         backgroundColor: colorScheme.primary,
         elevation: 0,

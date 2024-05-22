@@ -54,7 +54,7 @@ class _EditEventViewState extends State<EditEventView> {
             title: const Text(
               "Editar Evento",
               style:
-                  TextStyle(fontWeight: FontWeight.w600, color: Colors.white),
+                  TextStyle(fontWeight: FontWeight.w500, color: Colors.white),
             ),
             centerTitle: true,
           ),

@@ -58,7 +58,7 @@ class _EditClientViewState extends State<EditClientView> {
             title: const Text(
               "Editar Anfitrión",
               style:
-                  TextStyle(fontWeight: FontWeight.w600, color: Colors.white),
+                  TextStyle(fontWeight: FontWeight.w500, color: Colors.white),
             ),
             centerTitle: true,
           ),

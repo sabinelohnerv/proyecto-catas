@@ -11,8 +11,7 @@ class TrainingListView extends StatefulWidget {
   final bool isAdmin;
 
   const TrainingListView(
-      {Key? key, required this.eventId, required this.isAdmin})
-      : super(key: key);
+      {super.key, required this.eventId, required this.isAdmin});
 
   @override
   _TrainingListViewState createState() => _TrainingListViewState();
@@ -55,8 +54,8 @@ class _TrainingListViewState extends State<TrainingListView> {
                 Provider.of<TrainingListViewModel>(context, listen: false).deleteTraining(widget.eventId, training.id);
                 Navigator.of(context).pop();
               },
-              child: const Text("Eliminar"),
               style: TextButton.styleFrom(foregroundColor: Colors.red),
+              child: const Text("Eliminar"),
             ),
           ],
         );
@@ -69,7 +68,7 @@ class _TrainingListViewState extends State<TrainingListView> {
     return Scaffold(
       appBar: AppBar(
         title:
-            const Text('Capacitaciones', style: TextStyle(color: Colors.white)),
+            const Text('Capacitaciones', style: TextStyle(color: Colors.white, fontWeight: FontWeight.w500)),
         backgroundColor: Theme.of(context).colorScheme.primary,
         centerTitle: true,
         leading: IconButton(
@@ -79,7 +78,7 @@ class _TrainingListViewState extends State<TrainingListView> {
         actions: [
           if (widget.isAdmin)
             IconButton(
-              icon: const Icon(Icons.add, color: Colors.white),
+              icon: const Icon(Icons.add, color: Colors.white, size: 30,),
               onPressed: () => Navigator.pushNamed(context, '/addTraining',
                   arguments: widget.eventId),
             )

@@ -14,7 +14,7 @@ class TrainingsListView extends StatelessWidget {
       appBar: AppBar(
         title: Text(
           event.name,
-          style: const TextStyle(color: Colors.white),
+          style: const TextStyle(color: Colors.white, fontWeight: FontWeight.w500),
           overflow: TextOverflow.ellipsis,
         ),
         backgroundColor: Theme.of(context).primaryColor,

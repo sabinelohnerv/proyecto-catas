@@ -45,16 +45,23 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(15.0),
+      padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
       child: TextFormField(
         decoration: InputDecoration(
           labelText: widget.labelText,
-          border: const OutlineInputBorder(),
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(8),
+          ),
           prefixIcon: widget.prefixIcon,
-          suffixIcon: widget.obscureText ? IconButton(
-            icon: Icon(_isObscured ? Icons.visibility : Icons.visibility_off),
-            onPressed: _togglePasswordVisibility,
-          ) : null,
+          suffixIcon: widget.obscureText
+              ? IconButton(
+                  icon: Icon(
+                      _isObscured ? Icons.visibility : Icons.visibility_off),
+                  onPressed: _togglePasswordVisibility,
+                )
+              : null,
+          isDense: true,
+          contentPadding: const EdgeInsets.symmetric(vertical: 15),
         ),
         onSaved: widget.onSaved,
         validator: widget.validator,
