@@ -16,7 +16,7 @@ class SubmitNewEventButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 6),
+      padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 10),
       child: ElevatedButton(
         onPressed: () async {
           if (_formKey.currentState!.validate()) {
@@ -58,7 +58,7 @@ class SubmitNewEventButton extends StatelessWidget {
         ),
         child: viewModel.isSaving
             ? const CircularProgressIndicator()
-            : const Text('REGISTRAR EVENTO'),
+            : const Text('Registrar Evento', style: TextStyle(fontSize: 16),),
       ),
     );
   }

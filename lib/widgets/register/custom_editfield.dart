@@ -14,30 +14,33 @@ class CustomEditFormField extends StatelessWidget {
   final String initialValue;
   final Widget? prefixIcon;
 
-  const CustomEditFormField({
-    super.key,
-    required this.labelText,
-    this.onSaved,
-    this.validator,
-    this.obscureText = false,
-    this.keyboardType = TextInputType.text,
-    this.readOnly = false,
-    this.maxLines = 1,
-    this.onTap,
-    this.inputFormatters,
-    this.initialValue = '',
-    this.prefixIcon
-  });
+  const CustomEditFormField(
+      {super.key,
+      required this.labelText,
+      this.onSaved,
+      this.validator,
+      this.obscureText = false,
+      this.keyboardType = TextInputType.text,
+      this.readOnly = false,
+      this.maxLines = 1,
+      this.onTap,
+      this.inputFormatters,
+      this.initialValue = '',
+      this.prefixIcon});
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(15.0),
+      padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
       child: TextFormField(
         decoration: InputDecoration(
           labelText: labelText,
-          border: const OutlineInputBorder(),
-          prefixIcon: prefixIcon
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(8),
+          ),
+          prefixIcon: prefixIcon,
+          isDense: true,
+          contentPadding: const EdgeInsets.symmetric(vertical: 15),
         ),
         onSaved: onSaved,
         validator: validator,

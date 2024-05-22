@@ -55,7 +55,7 @@ class SubmitNewClient extends StatelessWidget {
           backgroundColor: Theme.of(context).primaryColor,
           foregroundColor: Colors.white,
         ),
-        child: const Text('GUARDAR'),
+        child: const Text('Guardar'),
       ),
     );
   }

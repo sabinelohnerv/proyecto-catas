@@ -18,12 +18,16 @@ class CustomNumberInput extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(15.0),
+      padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 10),
       child: TextFormField(
         decoration: InputDecoration(
           labelText: labelText,
-          border: const OutlineInputBorder(),
-          prefixIcon: prefixIcon
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(8),
+          ),
+          prefixIcon: prefixIcon,
+          isDense: true,
+          contentPadding: const EdgeInsets.symmetric(vertical: 15),
         ),
         controller: controller,
         onSaved: onSaved != null ? (value) => onSaved!(value!) : null,
