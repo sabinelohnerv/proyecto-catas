@@ -1,13 +1,12 @@
-import 'package:catas_univalle/views/edit_profile_view.dart';
-import 'package:catas_univalle/views/change_password_view.dart';
-import 'package:catas_univalle/widgets/profile/attributes_container.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import '../view_models/profile_viewmodel.dart';
-import '../widgets/profile/stamp_container.dart';
+import '../widgets/profile/attributes_container.dart';
+import '../widgets/profile/state_card.dart';
 import '../widgets/register/user_image_picker.dart';
+import 'edit_profile_view.dart';
+import 'change_password_view.dart';
 
 class ProfileView extends StatefulWidget {
   const ProfileView({super.key});
@@ -76,7 +75,7 @@ class _ProfileViewState extends State<ProfileView> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Material(
-              elevation: 5,
+              elevation: 1,
               borderRadius:
                   const BorderRadius.vertical(bottom: Radius.circular(30)),
               child: Container(
@@ -122,54 +121,49 @@ class _ProfileViewState extends State<ProfileView> {
                 ),
               ),
             ),
-            const SizedBox(height: 30),
+            const SizedBox(height: 50),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 30),
               child: Column(
                 children: [
-                  StampContainer(
+                  StateCard(
                     status: userViewModel.applicationState,
+                    title: 'Estado de Certificación',
                   ),
-                  const SizedBox(
-                    height: 30,
-                  ),
-                  Container(
-                    height: 200,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(10),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey.withOpacity(0.5),
-                          spreadRadius: 1,
-                          blurRadius: 5,
-                          offset: const Offset(0, 2),
-                        ),
-                      ],
-                    ),
-                    child: PageView(
-                      controller: _pageController,
-                      children: [
-                        AttributeContainer(
-                          title: 'Alergias e Intolerancias',
-                          content:
-                              listToMultilineString(userViewModel.allergies),
-                        ),
-                        AttributeContainer(
-                          title: 'Condiciones y Síntomas',
-                          content:
-                              listToMultilineString(userViewModel.symptoms),
-                        ),
-                        AttributeContainer(
-                          title: 'Condimentos',
-                          content:
-                              listToMultilineString(userViewModel.seasonings),
-                        ),
-                        AttributeContainer(
-                          title: 'Comentarios',
-                          content: commasToLineBreaks(userViewModel.comment),
-                        ),
-                      ],
+                  const SizedBox(height: 30),
+                  Card(
+                    elevation: 1,
+                    margin: const EdgeInsets.all(5),
+                    child: Container(
+                      height: 200,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        color: Theme.of(context).colorScheme.onInverseSurface,
+                      ),
+                      child: PageView(
+                        controller: _pageController,
+                        children: [
+                          AttributeContainer(
+                            title: 'Alergias',
+                            content:
+                                listToMultilineString(userViewModel.allergies),
+                          ),
+                          AttributeContainer(
+                            title: 'Condiciones y Síntomas',
+                            content:
+                                listToMultilineString(userViewModel.symptoms),
+                          ),
+                          AttributeContainer(
+                            title: 'Condimentos',
+                            content:
+                                listToMultilineString(userViewModel.seasonings),
+                          ),
+                          AttributeContainer(
+                            title: 'Comentarios',
+                            content: commasToLineBreaks(userViewModel.comment),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                   const SizedBox(height: 20),
