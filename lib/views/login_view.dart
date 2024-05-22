@@ -2,6 +2,7 @@ import 'package:catas_univalle/view_models/login_viewmodel.dart';
 import 'package:catas_univalle/views/register_view.dart';
 import 'package:catas_univalle/widgets/login/animations.dart';
 import 'package:catas_univalle/widgets/login/login_button.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
 import '../widgets/login/decorative_shape_widget.dart';
@@ -136,41 +137,42 @@ class _LoginFormState extends State<LoginView> {
                             viewModel: _viewModel),
                       ),
                     ),
-                    const SizedBox(height: 15),
+                    const SizedBox(height: 40),
                     FadeInAnimation(
                       delay: 600,
                       child: Center(
-                        child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            fixedSize: const Size(350, 10),
-                            elevation: 5,
-                            foregroundColor: Colors.white,
-                            backgroundColor:
-                                Theme.of(context).colorScheme.onInverseSurface,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20.0),
+                        child: RichText(
+                          text: TextSpan(
+                            text: '¿No tienes una cuenta? ',
+                            style: const TextStyle(
+                              fontSize: 16,
+                              color: Colors.black,
+                              fontWeight: FontWeight.w500,
+                              fontFamily: 'Montserrat',
                             ),
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 24, vertical: 10),
-                          ),
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const RegisterView()),
-                            );
-                          },
-                          child: Text(
-                            'REGISTRARSE',
-                            style: TextStyle(
-                              color: Theme.of(context).colorScheme.primary,
-                              fontWeight: FontWeight.bold,
-                            ),
+                            children: [
+                              TextSpan(
+                                text: 'Regístrate',
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  color: Theme.of(context).colorScheme.primary,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                                recognizer: TapGestureRecognizer()
+                                  ..onTap = () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              const RegisterView()),
+                                    );
+                                  },
+                              ),
+                            ],
                           ),
                         ),
                       ),
                     ),
-                    const SizedBox(height: 32),
                   ],
                 ),
               ),
