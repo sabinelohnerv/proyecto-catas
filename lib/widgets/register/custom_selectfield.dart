@@ -29,7 +29,8 @@ class CustomSelectField<T> extends StatelessWidget {
           ),
           prefixIcon: prefixIcon,
           isDense: true,
-          contentPadding: const EdgeInsets.symmetric(vertical: 15),
+          contentPadding:
+                            const EdgeInsets.fromLTRB(0, 15, 10, 15),
         ),
         value: value,
         onChanged: onChanged,

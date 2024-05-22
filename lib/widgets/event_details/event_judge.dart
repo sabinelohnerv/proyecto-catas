@@ -10,8 +10,11 @@ class SelectJudgesButton extends StatelessWidget {
     return Center(
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 15),
-        child: FilledButton(
-            onPressed: onPressed, child: const Text('SELECCION DE JUECES')),
+        child: FilledButton.icon(
+          onPressed: onPressed,
+          label: const Text('Selección de Jueces', style: TextStyle(fontSize: 16),),
+          icon: const Icon(Icons.contacts),
+        ),
       ),
     );
   }

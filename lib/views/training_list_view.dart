@@ -138,7 +138,7 @@ class _TrainingListViewState extends State<TrainingListView> {
               ),
             );
           },
-          label: const Text('ASISTENCIAS'),
+          label: const Text('Porcentaje de Asistencias', style: TextStyle(fontSize: 16),),
           icon: const Icon(Icons.contacts),
           style: ElevatedButton.styleFrom(
             backgroundColor: Theme.of(context).primaryColor,

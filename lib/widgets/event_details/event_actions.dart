@@ -21,7 +21,7 @@ class EventActionButtons extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 6.0),
+          padding: const EdgeInsets.symmetric(horizontal: 4.0),
           child: ElevatedButton(
             style: ElevatedButton.styleFrom(
                 backgroundColor:
@@ -33,7 +33,7 @@ class EventActionButtons extends StatelessWidget {
           ),
         ),
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 6.0),
+          padding: const EdgeInsets.symmetric(horizontal: 4.0),
           child: ElevatedButton(
             style: ElevatedButton.styleFrom(
                 backgroundColor:

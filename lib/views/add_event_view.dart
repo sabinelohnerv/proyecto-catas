@@ -197,20 +197,6 @@ class _AddEventViewState extends State<AddEventView> {
                       validator: (value) =>
                           value!.isEmpty ? 'Este campo es obligatorio.' : null,
                     ),
-                    CustomTextFormField(
-                      labelText: 'Lugar del Evento',
-                      prefixIcon: const Icon(Icons.location_on),
-                      onSaved: (value) => viewModel.location = value ?? '',
-                      validator: (value) =>
-                          value!.isEmpty ? 'Este campo es obligatorio.' : null,
-                    ),
-                    CustomTextFormField(
-                      labelText: 'Link de Lugar del Evento',
-                      prefixIcon: const Icon(Icons.link),
-                      onSaved: (value) => viewModel.locationUrl = value ?? '',
-                      validator: (value) =>
-                          value!.isEmpty ? 'Este campo es obligatorio.' : null,
-                    ),
                     Row(
                       children: [
                         Expanded(
@@ -228,7 +214,7 @@ class _AddEventViewState extends State<AddEventView> {
                         Expanded(
                           child: CustomTextFormField(
                             labelText: 'Fin',
-                            prefixIcon: const Icon(Icons.access_time),
+                            prefixIcon: const Icon(Icons.timer_off),
                             readOnly: true,
                             onTap: () => viewModel.selectEndTime(context),
                             controller: viewModel.endTimeController,
@@ -238,6 +224,20 @@ class _AddEventViewState extends State<AddEventView> {
                           ),
                         ),
                       ],
+                    ),
+                    CustomTextFormField(
+                      labelText: 'Lugar del Evento',
+                      prefixIcon: const Icon(Icons.location_on),
+                      onSaved: (value) => viewModel.location = value ?? '',
+                      validator: (value) =>
+                          value!.isEmpty ? 'Este campo es obligatorio.' : null,
+                    ),
+                    CustomTextFormField(
+                      labelText: 'Link de Lugar del Evento',
+                      prefixIcon: const Icon(Icons.link),
+                      onSaved: (value) => viewModel.locationUrl = value ?? '',
+                      validator: (value) =>
+                          value!.isEmpty ? 'Este campo es obligatorio.' : null,
                     ),
                     const Padding(
                       padding: EdgeInsets.fromLTRB(15, 15, 15, 0),
