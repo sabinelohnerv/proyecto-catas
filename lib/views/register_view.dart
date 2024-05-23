@@ -45,9 +45,9 @@ class _RegisterViewState extends State<RegisterView> {
             ),
             backgroundColor: Theme.of(context).colorScheme.primary,
             title: const Text(
-              "REGISTRO",
+              "Registro de Usuario",
               style:
-                  TextStyle(fontWeight: FontWeight.w600, color: Colors.white),
+                  TextStyle(fontWeight: FontWeight.w500, color: Colors.white),
             ),
             centerTitle: true,
           ),
@@ -81,6 +81,14 @@ class _RegisterViewState extends State<RegisterView> {
                           selectedImage = pickedImage;
                         });
                       },
+                    ),
+                    const Padding(
+                      padding: EdgeInsets.fromLTRB(15, 15, 15, 0),
+                      child: Text(
+                        'Datos Generales',
+                        style: TextStyle(
+                            fontWeight: FontWeight.w500, fontSize: 16),
+                      ),
                     ),
                     CustomTextFormField(
                       labelText: 'Nombre Completo',
@@ -145,8 +153,7 @@ class _RegisterViewState extends State<RegisterView> {
                       itemLabelBuilder: (value) => value,
                     ),
                     const Padding(
-                      padding:
-                          EdgeInsets.symmetric(vertical: 8, horizontal: 15),
+                      padding: EdgeInsets.fromLTRB(15, 10, 15, 0),
                       child: Text(
                         '¿Tiene tiempo para realizar capacitaciones de 1 hora semanalmente?',
                         style: TextStyle(
@@ -163,12 +170,13 @@ class _RegisterViewState extends State<RegisterView> {
                       onChanged: (value) =>
                           setState(() => viewModel.hasTime = value),
                     ),
-                    CustomTextFormField(
-                      labelText: 'Alimentos que le disgustan',
-                      prefixIcon: const Icon(Icons.no_food),
-                      onSaved: (value) => viewModel.dislikes = value ?? '',
-                      validator: (value) =>
-                          value!.isEmpty ? 'Este campo es obligatorio.' : null,
+                    const Padding(
+                      padding: EdgeInsets.fromLTRB(15, 15, 15, 0),
+                      child: Text(
+                        'Restricciones',
+                        style: TextStyle(
+                            fontWeight: FontWeight.w500, fontSize: 16),
+                      ),
                     ),
                     CustomSelectionField(
                       labelText: 'Padecimientos y/o Tratamientos',
@@ -183,7 +191,32 @@ class _RegisterViewState extends State<RegisterView> {
                       onTap: () => viewModel.showAllergiesDialog(context),
                     ),
                     const Padding(
-                      padding: EdgeInsets.fromLTRB(7.5, 8, 7.5, 0),
+                      padding: EdgeInsets.fromLTRB(15, 15, 15, 0),
+                      child: Text(
+                        'Hábitos',
+                        style: TextStyle(
+                            fontWeight: FontWeight.w500, fontSize: 16),
+                      ),
+                    ),
+                    CustomSelectField<String>(
+                      value: viewModel.coffee,
+                      items: viewModel.consumptionOptions,
+                      labelText: 'Consumo de café',
+                      prefixIcon: const Icon(Icons.coffee),
+                      onChanged: (value) => viewModel.coffee = value!,
+                      itemLabelBuilder: (value) => value,
+                    ),
+                    CustomNumberInput(
+                      labelText: 'Tazas de café por día',
+                      controller: viewModel.coffeeCupsPerDayController,
+                      prefixIcon: const Icon(Icons.local_cafe),
+                      onSaved: (value) {
+                        int coffeeCups = int.tryParse(value) ?? 0;
+                        viewModel.updateCoffeeCupsPerDay(coffeeCups);
+                      },
+                    ),
+                    const Padding(
+                      padding: EdgeInsets.fromLTRB(15, 10, 15, 0),
                       child: Text(
                         '¿Fuma?',
                         style: TextStyle(
@@ -207,22 +240,13 @@ class _RegisterViewState extends State<RegisterView> {
                         viewModel.updateCigarettesPerDay(cigarettes);
                       },
                     ),
-                    CustomSelectField<String>(
-                      value: viewModel.coffee,
-                      items: viewModel.consumptionOptions,
-                      labelText: 'Consumo de café',
-                      prefixIcon: const Icon(Icons.coffee),
-                      onChanged: (value) => viewModel.coffee = value!,
-                      itemLabelBuilder: (value) => value,
-                    ),
-                    CustomNumberInput(
-                      labelText: 'Tazas de café por día',
-                      controller: viewModel.coffeeCupsPerDayController,
-                      prefixIcon: const Icon(Icons.local_cafe),
-                      onSaved: (value) {
-                        int coffeeCups = int.tryParse(value) ?? 0;
-                        viewModel.updateCoffeeCupsPerDay(coffeeCups);
-                      },
+                    const Padding(
+                      padding: EdgeInsets.fromLTRB(15, 15, 15, 0),
+                      child: Text(
+                        'Preferencias',
+                        style: TextStyle(
+                            fontWeight: FontWeight.w500, fontSize: 16),
+                      ),
                     ),
                     CustomSelectField<String>(
                       value: viewModel.llajua,
@@ -248,6 +272,21 @@ class _RegisterViewState extends State<RegisterView> {
                       onTap: () => viewModel.showSeasoningsDialog(context),
                     ),
                     CustomTextFormField(
+                      labelText: 'Alimentos que le disgustan',
+                      prefixIcon: const Icon(Icons.no_food),
+                      onSaved: (value) => viewModel.dislikes = value ?? '',
+                      validator: (value) =>
+                          value!.isEmpty ? 'Este campo es obligatorio.' : null,
+                    ),
+                    const Padding(
+                      padding: EdgeInsets.fromLTRB(15, 15, 15, 0),
+                      child: Text(
+                        'Información Adicional',
+                        style: TextStyle(
+                            fontWeight: FontWeight.w500, fontSize: 16),
+                      ),
+                    ),
+                    CustomTextFormField(
                       labelText: 'Comentarios adicionales',
                       prefixIcon: const Icon(Icons.info),
                       onSaved: (value) => viewModel.comment = value ?? '',
@@ -261,6 +300,7 @@ class _RegisterViewState extends State<RegisterView> {
                       viewModel: viewModel,
                     ),
                     const HaveAnAccount(),
+                    const SizedBox(height: 4),
                   ],
                 ),
               ),

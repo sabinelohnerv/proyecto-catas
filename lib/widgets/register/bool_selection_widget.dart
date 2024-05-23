@@ -20,7 +20,7 @@ class _BoolSelectionWidgetState extends State<BoolSelectionWidget> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 35),
+      padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 35),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[

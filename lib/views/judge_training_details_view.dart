@@ -78,7 +78,7 @@ class _JudgeTrainingDetailsViewState extends State<JudgeTrainingDetailsView> {
                     borderRadius: const BorderRadius.vertical(
                         bottom: Radius.circular(30)),
                     child: Container(
-                      height: 320,
+                      height: 330,
                       width: double.infinity,
                       decoration: const BoxDecoration(
                         image: DecorationImage(
@@ -123,13 +123,14 @@ class _JudgeTrainingDetailsViewState extends State<JudgeTrainingDetailsView> {
                           children: [
                             Container(
                               decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(8),
                                 color: Theme.of(context)
                                     .colorScheme
                                     .primaryContainer,
                               ),
                               padding: const EdgeInsets.all(8),
                               width: 60,
-                              height: 70,
+                              height: 80,
                               child: Center(
                                 child: RichText(
                                   text: TextSpan(
@@ -180,7 +181,7 @@ class _JudgeTrainingDetailsViewState extends State<JudgeTrainingDetailsView> {
                         ),
                         const Divider(),
                         SizedBox(
-                          height: 250,
+                          height: 260,
                           child: PageView(
                               controller: _pageController,
                               children: [

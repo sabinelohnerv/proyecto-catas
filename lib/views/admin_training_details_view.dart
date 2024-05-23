@@ -154,13 +154,14 @@ class _AdminTrainingDetailsViewState extends State<AdminTrainingDetailsView> {
                           children: [
                             Container(
                               decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(8),
                                 color: Theme.of(context)
                                     .colorScheme
                                     .primaryContainer,
                               ),
                               padding: const EdgeInsets.all(8),
                               width: 60,
-                              height: 70,
+                              height: 80,
                               child: Center(
                                 child: RichText(
                                   text: TextSpan(
@@ -267,7 +268,10 @@ class _AdminTrainingDetailsViewState extends State<AdminTrainingDetailsView> {
                     ),
                   );
                 },
-                label: const Text('Visualizar Participantes', style: TextStyle(fontSize: 16),)),
+                label: const Text(
+                  'Visualizar Participantes',
+                  style: TextStyle(fontSize: 16),
+                )),
           ),
         ],
       ),

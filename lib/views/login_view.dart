@@ -67,7 +67,7 @@ class _LoginFormState extends State<LoginView> {
                         child: Column(
                           children: [
                             SizedBox(
-                              height: 10,
+                              height: 15,
                             ),
                             Text(
                               'Bienvenido de nuevo',
@@ -93,10 +93,16 @@ class _LoginFormState extends State<LoginView> {
                       child: TextField(
                         controller: _emailController,
                         keyboardType: TextInputType.emailAddress,
-                        decoration: const InputDecoration(
-                          border: OutlineInputBorder(),
+                        decoration: InputDecoration(
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8),
+                          ),
                           labelText: 'Correo',
-                          prefixIcon: Icon(Icons.email, color: Colors.grey),
+                          prefixIcon:
+                              const Icon(Icons.email, color: Colors.grey),
+                          isDense: true,
+                          contentPadding:
+                              const EdgeInsets.symmetric(vertical: 18),
                         ),
                       ),
                     ),
@@ -107,10 +113,15 @@ class _LoginFormState extends State<LoginView> {
                         controller: _passwordController,
                         obscureText: _obscureText,
                         decoration: InputDecoration(
-                          border: const OutlineInputBorder(),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8),
+                          ),
                           labelText: 'Contraseña',
                           prefixIcon:
                               const Icon(Icons.lock, color: Colors.grey),
+                          isDense: true,
+                          contentPadding:
+                              const EdgeInsets.symmetric(vertical: 18),
                           suffixIcon: IconButton(
                             icon: Icon(
                               _obscureText

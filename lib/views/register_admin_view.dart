@@ -52,8 +52,7 @@ class _RegisterAdminViewState extends State<RegisterAdminView> {
           child: Form(
             key: _formKey,
             child: Padding(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 20, vertical: 40.0),
+              padding: const EdgeInsets.fromLTRB(20, 80, 20, 40),
               child: Container(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 15, vertical: 30),
@@ -114,7 +113,15 @@ class _RegisterAdminViewState extends State<RegisterAdminView> {
                       validator: (value) =>
                           value!.isEmpty ? 'Este campo es obligatorio.' : null,
                     ),
-                    const SizedBox(height: 36),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                      child: Text(
+                        '*Guarda la contraseña para compartirla con el administrador',
+                        style: TextStyle(
+                            color: Colors.grey.shade900, fontSize: 13),
+                      ),
+                    ),
+                    const SizedBox(height: 8),
                     Padding(
                       padding: const EdgeInsets.all(15.0),
                       child: ElevatedButton(
@@ -146,11 +153,11 @@ class _RegisterAdminViewState extends State<RegisterAdminView> {
                           backgroundColor:
                               Theme.of(context).colorScheme.primary,
                           foregroundColor: Colors.white,
-                          padding: const EdgeInsets.symmetric(vertical: 12),
                         ),
                         child: const Text(
-                          'REGISTRAR',
-                          style: TextStyle(fontWeight: FontWeight.w600),
+                          'Registrar Cuenta',
+                          style: TextStyle(
+                              fontWeight: FontWeight.w600, fontSize: 16),
                         ),
                       ),
                     ),
