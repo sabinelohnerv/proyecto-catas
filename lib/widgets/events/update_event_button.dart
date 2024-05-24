@@ -18,7 +18,7 @@ class UpdateEventButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 6),
+      padding: const EdgeInsets.fromLTRB(18, 20, 18, 10),
       child: ElevatedButton(
         onPressed: () async {
           viewModel.validateAndConvertTimes();
@@ -61,7 +61,7 @@ class UpdateEventButton extends StatelessWidget {
             ? const CircularProgressIndicator(
                 color: Colors.white,
               )
-            : const Text('ACTUALIZAR EVENTO'),
+            : const Text('Actualizar Evento', style: TextStyle(fontSize: 16),),
       ),
     );
   }

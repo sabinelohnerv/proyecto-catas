@@ -24,7 +24,7 @@ class SubmitNewClient extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 15),
+      padding: const EdgeInsets.fromLTRB(28, 20, 28, 10),
       child: ElevatedButton(
         onPressed: () {
           if (_formKey.currentState!.validate()) {
@@ -55,7 +55,10 @@ class SubmitNewClient extends StatelessWidget {
           backgroundColor: Theme.of(context).primaryColor,
           foregroundColor: Colors.white,
         ),
-        child: const Text('Guardar'),
+        child: const Text(
+          'Guardar Anfitrión',
+          style: TextStyle(fontSize: 16),
+        ),
       ),
     );
   }

@@ -54,7 +54,7 @@ class PdfSection extends StatelessWidget {
                           });
                         }
                       : null,
-                  label: const Text('VISUALIZAR PDF')),
+                  label: const Text('Visualizar PDF', style: TextStyle(fontSize: 16),)),
             ),
           ),
         ],
