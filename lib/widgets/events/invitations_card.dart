@@ -1,6 +1,8 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:catas_univalle/models/event.dart';
 import 'package:catas_univalle/functions/util.dart';
+import 'package:flutter/widgets.dart';
 
 class InvitationsCard extends StatelessWidget {
   final Event event;
@@ -60,19 +62,42 @@ class InvitationsCard extends StatelessWidget {
                           fontSize: 18, fontWeight: FontWeight.bold),
                       overflow: TextOverflow.ellipsis,
                     ),
-                    const SizedBox(height: 5),
-                    Text(
-                      event.location,
-                      style: const TextStyle(fontSize: 14, color: Colors.grey),
-                      overflow: TextOverflow.ellipsis,
+                    const SizedBox(height: 7),
+                    Row(
+                      children: [
+                        Icon(Icons.location_on,
+                            size: 15, color: Colors.grey.shade600),
+                        const SizedBox(width: 2),
+                        Flexible(
+                          child: Text(
+                            event.location,
+                            style: TextStyle(
+                                fontSize: 14,
+                                color: Colors.grey.shade600,
+                                fontWeight: FontWeight.w500),
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                      ],
                     ),
-                    const SizedBox(height: 5),
-                    Text(
-                      formattedDate,
-                      style: const TextStyle(fontSize: 14, color: Colors.grey),
-                      overflow: TextOverflow.ellipsis,
+                    const SizedBox(height: 3),
+                    Row(
+                      children: [
+                        Icon(Icons.calendar_month,
+                            size: 15, color: Colors.grey.shade600),
+                        const SizedBox(width: 2),
+                        Flexible(
+                          child: Text(
+                            formattedDate,
+                            style: TextStyle(
+                                fontSize: 14,
+                                color: Colors.grey.shade600,
+                                fontWeight: FontWeight.w500),
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                      ],
                     ),
-                    const SizedBox(height: 5),
                   ],
                 ),
               ),
@@ -91,7 +116,7 @@ class InvitationsCard extends StatelessWidget {
                   style: const TextStyle(
                       fontSize: 12,
                       color: Colors.white,
-                      fontWeight: FontWeight.w500),
+                      fontWeight: FontWeight.w500, overflow: TextOverflow.ellipsis),
                 ),
               ),
             ),

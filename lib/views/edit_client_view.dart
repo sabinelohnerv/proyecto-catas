@@ -42,7 +42,6 @@ class _EditClientViewState extends State<EditClientView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      
       body: NestedScrollView(
         headerSliverBuilder: (context, innerBoxisScrolled) => [
           SliverAppBar(
@@ -67,98 +66,128 @@ class _EditClientViewState extends State<EditClientView> {
           child: Form(
             key: _formKey,
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 54.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  CustomEditFormField(
-                    initialValue: viewModel.name,
-                    labelText: "Nombre del Anfitrión",
-                    prefixIcon: const Icon(Icons.assignment_ind),
-                    onSaved: (value) => viewModel.name = value ?? "",
-                    validator: (value) =>
-                        value!.isEmpty ? 'Este campo es obligatorio.' : null,
-                  ),
-                  CustomEditFormField(
-                    initialValue: viewModel.email,
-                    labelText: "Email",
-                    prefixIcon: const Icon(Icons.email),
-                    onSaved: (value) => viewModel.email = value ?? "",
-                    validator: (value) =>
-                        value!.isEmpty ? 'Este campo es obligatorio.' : null,
-                  ),
-                  const SizedBox(height: 4),
-                  const Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 15, vertical: 6),
-                    child: Text(
-                      'Logo del Anfitrión',
-                      style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+              padding: const EdgeInsets.fromLTRB(20, 60, 20, 40),
+              child: Container(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 15, vertical: 30),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(15),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.2),
+                      spreadRadius: 5,
+                      blurRadius: 7,
+                      offset: const Offset(0, 3),
                     ),
-                  ),
-                  const SizedBox(height: 10),
-                  _logo == null
-                      ? (viewModel.logoImgUrl != null &&
-                              viewModel.logoImgUrl!.isNotEmpty
-                          ? Padding(
+                  ],
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    const Padding(
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 15, vertical: 6),
+                      child: Text(
+                        'Datos del Anfitrión',
+                        style: TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.w500),
+                      ),
+                    ),
+                    CustomEditFormField(
+                      initialValue: viewModel.name,
+                      labelText: "Nombre del Anfitrión",
+                      prefixIcon: const Icon(Icons.assignment_ind),
+                      onSaved: (value) => viewModel.name = value ?? "",
+                      validator: (value) =>
+                          value!.isEmpty ? 'Este campo es obligatorio.' : null,
+                    ),
+                    CustomEditFormField(
+                      initialValue: viewModel.email,
+                      labelText: "Email",
+                      prefixIcon: const Icon(Icons.email),
+                      onSaved: (value) => viewModel.email = value ?? "",
+                      validator: (value) =>
+                          value!.isEmpty ? 'Este campo es obligatorio.' : null,
+                    ),
+                    const SizedBox(height: 4),
+                    const Padding(
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 15, vertical: 6),
+                      child: Text(
+                        'Logo del Anfitrión',
+                        style: TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.w500),
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+                    _logo == null
+                        ? (viewModel.logoImgUrl != null &&
+                                viewModel.logoImgUrl!.isNotEmpty
+                            ? Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 15),
+                                child: SizedBox(
+                                    height: 220,
+                                    width: MediaQuery.sizeOf(context).width,
+                                    child: Image.network(
+                                      viewModel.logoImgUrl!,
+                                      fit: BoxFit.cover,
+                                    )),
+                              )
+                            : Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 15),
+                                child: Container(
+                                    height: 220,
+                                    color: Colors.grey.shade100,
+                                    child: const Center(
+                                      child: Text(
+                                          'No has seleccionado un logo aún.'),
+                                    )),
+                              ))
+                        : Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 15),
                             child: SizedBox(
                                 height: 220,
                                 width: MediaQuery.sizeOf(context).width,
-                                child: Image.network(
-                                  viewModel.logoImgUrl!,
+                                child: Image.file(
+                                  _logo!,
                                   fit: BoxFit.cover,
                                 )),
-                          )
-                          : Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 15),
-                            child: Container(
-                                height: 220,
-                                color: Colors.grey.shade100,
-                                child: const Center(
-                                  child: Text('No has seleccionado un logo aún.'),
-                                )),
-                          ))
-                      : Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 15),
-                        child: SizedBox(
-                            height: 220,
-                            width: MediaQuery.sizeOf(context).width,
-                            child: Image.file(
-                              _logo!,
-                              fit: BoxFit.cover,
-                            )),
-                      ),
-                  TextButton.icon(
-                    onPressed: _pickImage,
-                    icon: const Icon(Icons.image),
-                    label: const Text('Elegir logo'),
-                  ),
-                  const SizedBox(height: 36),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 15),
-                    child: ElevatedButton(
-                      onPressed: () {
-                        if (_formKey.currentState!.validate()) {
-                          _formKey.currentState!.save();
-                          viewModel.updateClient(_logo).then((_) {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                content: Text('Cambios guardados correctamente.'),
-                                backgroundColor: Colors.green,
-                              ),
-                            );
-                            Navigator.of(context).pop();
-                          });
-                        }
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Theme.of(context).primaryColor,
-                        foregroundColor: Colors.white,
-                      ),
-                      child: const Text('Guardar Cambios'),
+                          ),
+                    TextButton.icon(
+                      onPressed: _pickImage,
+                      icon: const Icon(Icons.image),
+                      label: const Text('Elegir logo'),
                     ),
-                  ),
-                ],
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(28, 20, 28, 10),
+                      child: ElevatedButton(
+                        onPressed: () {
+                          if (_formKey.currentState!.validate()) {
+                            _formKey.currentState!.save();
+                            viewModel.updateClient(_logo).then((_) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content:
+                                      Text('Cambios guardados correctamente.'),
+                                  backgroundColor: Colors.green,
+                                ),
+                              );
+                              Navigator.of(context).pop();
+                            });
+                          }
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Theme.of(context).primaryColor,
+                          foregroundColor: Colors.white,
+                        ),
+                        child: const Text('Guardar Cambios'),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),

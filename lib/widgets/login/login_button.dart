@@ -68,8 +68,8 @@ class _LoginButtonState extends State<LoginButton> {
               valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
             )
           : const Text(
-              'INICIAR SESION',
-              style: TextStyle(fontWeight: FontWeight.w700),
+              'Iniciar Sesión',
+              style: TextStyle(fontWeight: FontWeight.w700, fontSize: 16),
             ),
     );
   }

@@ -30,7 +30,7 @@ class _SubmitRegistrationButtonState extends State<SubmitRegistrationButton> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(15),
+      padding: const EdgeInsets.fromLTRB(15,20,15,15),
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
           backgroundColor: Theme.of(context).primaryColor,
@@ -103,8 +103,8 @@ class _SubmitRegistrationButtonState extends State<SubmitRegistrationButton> {
                 valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
               )
             : const Text(
-                'REGISTRARSE',
-                style: TextStyle(fontWeight: FontWeight.w700),
+                'Registrarse',
+                style: TextStyle(fontWeight: FontWeight.w500, fontSize: 16),
               ),
       ),
     );

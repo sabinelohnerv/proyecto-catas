@@ -108,7 +108,7 @@ class _JudgeEventDetailsViewState extends State<JudgeEventDetailsView> {
         leading: IconButton(
           icon: CircleAvatar(
             backgroundColor: theme.colorScheme.primary,
-            child: const Icon(Icons.arrow_back, color: Colors.white),
+            child: const Icon(Icons.arrow_back_ios, color: Colors.white),
           ),
           onPressed: () => Navigator.of(context).pop(),
         ),
@@ -252,15 +252,17 @@ class _JudgeEventDetailsViewState extends State<JudgeEventDetailsView> {
               onPressed: acceptInvitation,
               icon: const Icon(Icons.check, color: Colors.white),
               label: const Text(
-                'ACEPTAR',
-                style:
-                    TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                'Aceptar',
+                style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.w500,
+                    fontSize: 16),
               ),
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.green,
                 padding: EdgeInsets.symmetric(
                     horizontal: size.width * 0.05,
-                    vertical: size.height * 0.015),
+                    vertical: size.height * 0.012),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(30),
                 ),
@@ -270,15 +272,17 @@ class _JudgeEventDetailsViewState extends State<JudgeEventDetailsView> {
               onPressed: rejectInvitation,
               icon: const Icon(Icons.close, color: Colors.white),
               label: const Text(
-                'RECHAZAR',
-                style:
-                    TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                'Rechazar',
+                style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.w500,
+                    fontSize: 16),
               ),
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.red,
                 padding: EdgeInsets.symmetric(
                     horizontal: size.width * 0.05,
-                    vertical: size.height * 0.015),
+                    vertical: size.height * 0.012),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(30),
                 ),

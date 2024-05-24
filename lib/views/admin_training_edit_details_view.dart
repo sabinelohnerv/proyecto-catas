@@ -1,3 +1,4 @@
+import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:catas_univalle/models/training.dart';
@@ -29,7 +30,8 @@ class _AdminTrainingEditDetailsViewState
   late DateTime _selectedDate;
   late TimeOfDay _startTime;
   late TimeOfDay _endTime;
-  File? _selectedPdf;
+  File? _selectedPdfUrl;
+  String? _selectedPdfName;
 
   @override
   void initState() {
@@ -90,9 +92,17 @@ class _AdminTrainingEditDetailsViewState
         .pickFiles(type: FileType.custom, allowedExtensions: ['pdf']);
     if (result != null) {
       setState(() {
-        _selectedPdf = File(result.files.single.path!);
+        _selectedPdfUrl = File(result.files.single.path!);
+        _selectedPdfName = result.files.single.name;
       });
     }
+  }
+
+  void _removeSelectedPdf() {
+    setState(() {
+      _selectedPdfUrl = null;
+      _selectedPdfName = null;
+    });
   }
 
   @override
@@ -138,63 +148,43 @@ class _AdminTrainingEditDetailsViewState
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
+                  const Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 15, vertical: 6),
+                    child: Text(
+                      'Datos Generales de la Capacitación',
+                      style:
+                          TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+                    ),
+                  ),
                   CustomTextFormField(
                     labelText: 'Nombre de la Capacitación',
                     prefixIcon: const Icon(Icons.assignment),
                     controller: _nameController,
                   ),
-                  const SizedBox(height: 20),
                   CustomTextFormField(
                     labelText: 'Descripción',
+                    prefixIcon: const Icon(Icons.description),
                     controller: _descriptionController,
                     maxLines: 3,
                   ),
-                  const SizedBox(height: 20),
+                  const Padding(
+                    padding: EdgeInsets.fromLTRB(15, 15, 15, 6),
+                    child: Text(
+                      'Ejecución de la Capacitación',
+                      style:
+                          TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+                    ),
+                  ),
                   CustomTextFormField(
                     labelText: 'Ubicación',
                     prefixIcon: const Icon(Icons.place),
                     controller: _locationController,
                   ),
-                  const SizedBox(height: 20),
                   CustomTextFormField(
                     labelText: 'URL de Ubicación',
                     prefixIcon: const Icon(Icons.link),
                     controller: _locationUrlController,
                   ),
-                  const SizedBox(height: 20),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                    child: Row(
-                      children: [
-                        ElevatedButton.icon(
-                          onPressed: _uploadPdf,
-                          icon: const Icon(Icons.upload_file),
-                          label: const Text("Editar PDF"),
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor:
-                                Theme.of(context).colorScheme.onInverseSurface,
-                            foregroundColor:
-                                Theme.of(context).colorScheme.primary,
-                          ),
-                        ),
-                        if (_selectedPdf != null)
-                          const Expanded(
-                            child: ListTile(
-                              leading: Icon(Icons.picture_as_pdf,
-                                  color: Colors.green, size: 48),
-                            ),
-                          )
-                        else
-                          const Expanded(
-                            child: ListTile(
-                              leading: Icon(Icons.picture_as_pdf,
-                                  color: Colors.grey, size: 48),
-                            ),
-                          ),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(height: 20),
                   ListTile(
                     leading: CircleAvatar(
                       backgroundColor:
@@ -213,7 +203,7 @@ class _AdminTrainingEditDetailsViewState
                       DateFormat('dd MMMM, yyyy').format(_selectedDate),
                       style: TextStyle(color: Colors.grey[600]),
                     ),
-                    trailing: const Icon(Icons.edit, color: Colors.blueAccent),
+                    trailing: const Icon(Icons.edit, color: Colors.grey),
                     onTap: () => _selectDate(context),
                   ),
                   const SizedBox(height: 20),
@@ -235,7 +225,7 @@ class _AdminTrainingEditDetailsViewState
                       _startTime.format(context),
                       style: TextStyle(color: Colors.grey[600]),
                     ),
-                    trailing: const Icon(Icons.edit, color: Colors.blueAccent),
+                    trailing: const Icon(Icons.edit, color: Colors.grey),
                     onTap: () => _selectTime(context, true),
                   ),
                   const SizedBox(height: 20),
@@ -257,36 +247,117 @@ class _AdminTrainingEditDetailsViewState
                       _endTime.format(context),
                       style: TextStyle(color: Colors.grey[600]),
                     ),
-                    trailing: const Icon(Icons.edit, color: Colors.blueAccent),
+                    trailing: const Icon(Icons.edit, color: Colors.grey),
                     onTap: () => _selectTime(context, false),
                   ),
-                  const SizedBox(height: 20),
-                  ElevatedButton(
-                    onPressed: () async {
-                      final viewModel = Provider.of<AdminTrainingEditViewModel>(
-                          context,
-                          listen: false);
-                      if (_selectedPdf != null) {
-                        await viewModel.uploadPDF(_selectedPdf!);
-                      }
-                      widget.training.name = _nameController.text;
-                      widget.training.description = _descriptionController.text;
-                      widget.training.location = _locationController.text;
-                      widget.training.locationUrl = _locationUrlController.text;
-                      widget.training.date =
-                          DateFormat('yyyy-MM-dd').format(_selectedDate);
-                      widget.training.startTime = _startTime.format(context);
-                      widget.training.endTime = _endTime.format(context);
-                      widget.training.pdfUrl = viewModel.pdfUrl;
-                      await viewModel.updateTraining(
-                          widget.eventId, widget.training);
-                      Navigator.pop(context, widget.training);
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Theme.of(context).colorScheme.primary,
-                      foregroundColor: Colors.white,
+                  const Padding(
+                    padding: EdgeInsets.all(15),
+                    child: Text(
+                      'Documentación Complementaria',
+                      style:
+                          TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
                     ),
-                    child: const Text('EDITAR CAPACITACIÓN'),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 15),
+                    child: DottedBorder(
+                      borderType: BorderType.RRect,
+                      radius: const Radius.circular(12),
+                      dashPattern: const [6, 3],
+                      color: Colors.grey,
+                      strokeWidth: 2,
+                      child: InkWell(
+                        onTap: _uploadPdf,
+                        child: Container(
+                          color: Colors.grey.shade100,
+                          child: Padding(
+                            padding: const EdgeInsets.fromLTRB(10, 8, 4, 8),
+                            child: Row(
+                              children: [
+                                Icon(Icons.picture_as_pdf,
+                                    color: _selectedPdfUrl != null
+                                        ? Colors.green
+                                        : Colors.grey.shade600,
+                                    size: 34),
+                                const SizedBox(width: 8),
+                                Expanded(
+                                  child: Text(
+                                    _selectedPdfUrl == null
+                                        ? 'No has seleccionado un PDF'
+                                        : _selectedPdfName ?? '',
+                                    style: const TextStyle(fontSize: 14),
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                ),
+                                if (_selectedPdfUrl != null)
+                                  IconButton(
+                                    icon: Icon(Icons.close,
+                                        color: Colors.grey.shade900),
+                                    onPressed: _removeSelectedPdf,
+                                  ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 15,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 48.0),
+                    child: ElevatedButton.icon(
+                      onPressed: _uploadPdf,
+                      icon: const Icon(Icons.upload_file),
+                      label: const Text("Seleccionar PDF"),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor:
+                            Theme.of(context).colorScheme.onInverseSurface,
+                        foregroundColor: Theme.of(context).colorScheme.primary,
+                      ),
+                    ),
+                  ),
+                  Center(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 15, vertical: 0),
+                      child: Text(
+                        'Solo archivos .pdf permitidos',
+                        style: TextStyle(
+                            fontSize: 13, color: Colors.grey.shade800),
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(15, 25, 15, 5),
+                    child: ElevatedButton(
+                      onPressed: () async {
+                        final viewModel = Provider.of<AdminTrainingEditViewModel>(
+                            context,
+                            listen: false);
+                        if (_selectedPdfUrl != null) {
+                          await viewModel.uploadPDF(_selectedPdfUrl!);
+                        }
+                        widget.training.name = _nameController.text;
+                        widget.training.description = _descriptionController.text;
+                        widget.training.location = _locationController.text;
+                        widget.training.locationUrl = _locationUrlController.text;
+                        widget.training.date =
+                            DateFormat('yyyy-MM-dd').format(_selectedDate);
+                        widget.training.startTime = _startTime.format(context);
+                        widget.training.endTime = _endTime.format(context);
+                        widget.training.pdfUrl = viewModel.pdfUrl;
+                        await viewModel.updateTraining(
+                            widget.eventId, widget.training);
+                        Navigator.pop(context, widget.training);
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Theme.of(context).colorScheme.primary,
+                        foregroundColor: Colors.white,
+                      ),
+                      child: const Text('Guardar Cambios'),
+                    ),
                   ),
                 ],
               ),
