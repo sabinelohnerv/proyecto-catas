@@ -20,11 +20,11 @@ class TrainingJudgeCard extends StatelessWidget {
 
       switch (stateJudge) {
         case 'P':
-          textColor = Colors.green;
+          textColor = const Color.fromARGB(255, 97, 160, 117);
           stateText = 'P';
           break;
         case 'F':
-          textColor = Colors.red;
+          textColor = const Color.fromARGB(255, 197, 91, 88);
           stateText = 'F';
           break;
         default:
@@ -45,7 +45,10 @@ class TrainingJudgeCard extends StatelessWidget {
         border: Border.all(color: Colors.grey.shade100),
       ),
       child: ListTile(
-        leading: Text('${number.toString()}.', style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),),
+        leading: Text(
+          '${number.toString()}.',
+          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+        ),
         title: Text(judge.name, style: const TextStyle(fontSize: 16)),
         trailing: determineState(),
       ),

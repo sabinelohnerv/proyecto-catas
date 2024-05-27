@@ -49,12 +49,15 @@ class PdfSection extends StatelessWidget {
                             ScaffoldMessenger.of(context)
                                 .showSnackBar(const SnackBar(
                               content: Text("Error al abrir el pdf."),
-                              backgroundColor: Colors.red,
+                              backgroundColor: Color.fromARGB(255, 197, 91, 88),
                             ));
                           });
                         }
                       : null,
-                  label: const Text('Visualizar PDF', style: TextStyle(fontSize: 16),)),
+                  label: const Text(
+                    'Visualizar PDF',
+                    style: TextStyle(fontSize: 16),
+                  )),
             ),
           ),
         ],

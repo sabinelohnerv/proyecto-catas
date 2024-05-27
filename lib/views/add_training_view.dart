@@ -231,7 +231,8 @@ class _AddTrainingViewState extends State<AddTrainingView> {
                                 children: [
                                   Icon(Icons.picture_as_pdf,
                                       color: _selectedPdfUrl != null
-                                          ? Colors.green
+                                          ? const Color.fromARGB(
+                                              255, 97, 160, 117)
                                           : Colors.grey.shade600,
                                       size: 34),
                                   const SizedBox(width: 8),
@@ -291,7 +292,7 @@ class _AddTrainingViewState extends State<AddTrainingView> {
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(
                               content: Text('Por favor, selecciona un PDF.'),
-                              backgroundColor: Colors.red,
+                              backgroundColor: Color.fromARGB(255, 197, 91, 88),
                             ),
                           );
                           return;

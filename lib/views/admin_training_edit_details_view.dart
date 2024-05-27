@@ -276,7 +276,7 @@ class _AdminTrainingEditDetailsViewState
                               children: [
                                 Icon(Icons.picture_as_pdf,
                                     color: _selectedPdfUrl != null
-                                        ? Colors.green
+                                        ? const Color.fromARGB(255, 97,160,117)
                                         : Colors.grey.shade600,
                                     size: 34),
                                 const SizedBox(width: 8),

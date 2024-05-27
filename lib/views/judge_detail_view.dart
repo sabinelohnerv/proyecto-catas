@@ -60,11 +60,11 @@ class _JudgeDetailScreenState extends State<JudgeDetailScreen> {
     switch (widget.judge.applicationState) {
       case "aprobado":
         certificationStatus = "Aprobado";
-        statusColor = Colors.green;
+        statusColor = const Color.fromARGB(255, 97, 160, 117);
         break;
       case "rechazado":
         certificationStatus = "Rechazado";
-        statusColor = Colors.red;
+        statusColor = const Color.fromARGB(255, 197, 91, 88);
 
         break;
       default:
@@ -262,7 +262,7 @@ class _JudgeDetailScreenState extends State<JudgeDetailScreen> {
                     style: TextStyle(
                         color: Colors.white, fontWeight: FontWeight.bold)),
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.green,
+                  backgroundColor: const Color.fromARGB(255, 97, 160, 117),
                   padding: EdgeInsets.symmetric(
                       horizontal:
                           widget.judge.applicationState == 'PENDING' ? 30 : 60),
@@ -276,7 +276,7 @@ class _JudgeDetailScreenState extends State<JudgeDetailScreen> {
                     style: TextStyle(
                         color: Colors.white, fontWeight: FontWeight.bold)),
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.red,
+                  backgroundColor: const Color.fromARGB(255, 197, 91, 88),
                   padding: EdgeInsets.symmetric(
                       horizontal:
                           widget.judge.applicationState == 'PENDING' ? 30 : 60),

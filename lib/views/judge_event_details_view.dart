@@ -73,7 +73,7 @@ class _JudgeEventDetailsViewState extends State<JudgeEventDetailsView> {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text('Error al aceptar la invitación: $e'),
-            backgroundColor: Colors.red,
+            backgroundColor: const Color.fromARGB(255, 197, 91, 88),
           ),
         );
       }
@@ -87,14 +87,14 @@ class _JudgeEventDetailsViewState extends State<JudgeEventDetailsView> {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
             content: Text('Invitación rechazada'),
-            backgroundColor: Colors.red,
+            backgroundColor: Color.fromARGB(255, 197, 91, 88),
           ),
         );
       } catch (e) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text('Error al rechazar la invitación: $e'),
-            backgroundColor: Colors.red,
+            backgroundColor: const Color.fromARGB(255, 197, 91, 88),
           ),
         );
       }
@@ -259,7 +259,7 @@ class _JudgeEventDetailsViewState extends State<JudgeEventDetailsView> {
                     fontSize: 16),
               ),
               style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.green,
+                backgroundColor: const Color.fromARGB(255, 97, 160, 117),
                 padding: EdgeInsets.symmetric(
                     horizontal: size.width * 0.05,
                     vertical: size.height * 0.012),
@@ -279,7 +279,7 @@ class _JudgeEventDetailsViewState extends State<JudgeEventDetailsView> {
                     fontSize: 16),
               ),
               style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.red,
+                backgroundColor: const Color.fromARGB(255, 197, 91, 88),
                 padding: EdgeInsets.symmetric(
                     horizontal: size.width * 0.05,
                     vertical: size.height * 0.012),

@@ -24,11 +24,12 @@ class ChangePasswordView extends StatelessWidget {
           borderRadius: BorderRadius.circular(8.0),
         ),
         errorBorder: OutlineInputBorder(
-          borderSide: const BorderSide(color: Colors.redAccent),
+          borderSide: const BorderSide(color: Color.fromARGB(255, 186, 94, 91)),
           borderRadius: BorderRadius.circular(8.0),
         ),
         focusedErrorBorder: OutlineInputBorder(
-          borderSide: const BorderSide(width: 2, color: Colors.red),
+          borderSide: const BorderSide(
+              width: 2, color: Color.fromARGB(255, 197, 91, 88)),
           borderRadius: BorderRadius.circular(8.0),
         ),
         filled: true,
@@ -38,7 +39,8 @@ class ChangePasswordView extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Cambiar Contraseña", style: TextStyle(color: Colors.white, fontWeight: FontWeight.w500)),
+        title: const Text("Cambiar Contraseña",
+            style: TextStyle(color: Colors.white, fontWeight: FontWeight.w500)),
         iconTheme: const IconThemeData(color: Colors.white),
         backgroundColor: colorScheme.primary,
         elevation: 0,
@@ -71,15 +73,17 @@ class ChangePasswordView extends StatelessWidget {
                   Navigator.of(context).pop();
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
-                      content: Text('Contraseña cambiada con éxito', style: TextStyle(color: colorScheme.onPrimary)),
+                      content: Text('Contraseña cambiada con éxito',
+                          style: TextStyle(color: colorScheme.onPrimary)),
                       backgroundColor: colorScheme.primary,
                     ),
                   );
                 } else {
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
-                      content: Text('Error al cambiar la contraseña', style: TextStyle(color: colorScheme.onError)),
-                      backgroundColor: Colors.redAccent,
+                      content: Text('Error al cambiar la contraseña',
+                          style: TextStyle(color: colorScheme.onError)),
+                      backgroundColor: const Color.fromARGB(255, 197, 91, 88),
                     ),
                   );
                 }

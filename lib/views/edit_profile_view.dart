@@ -192,7 +192,7 @@ class _EditProfileViewState extends State<EditProfileView> {
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(
                               content: Text('Perfil actualizado correctamente'),
-                              backgroundColor: Colors.green,
+                              backgroundColor: Color.fromARGB(255, 97,160,117),
                             ),
                           );
                           Navigator.of(context).pop();

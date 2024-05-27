@@ -54,7 +54,7 @@ class _TrainingListViewState extends State<TrainingListView> {
                 Provider.of<TrainingListViewModel>(context, listen: false).deleteTraining(widget.eventId, training.id);
                 Navigator.of(context).pop();
               },
-              style: TextButton.styleFrom(foregroundColor: Colors.red),
+              style: TextButton.styleFrom(foregroundColor: const Color.fromARGB(255, 197, 91, 88)),
               child: const Text("Eliminar"),
             ),
           ],
@@ -104,7 +104,7 @@ class _TrainingListViewState extends State<TrainingListView> {
                   _confirmDeletion(training);
                 },
                 background: Container(
-                  color: Colors.red,
+                  color: const Color.fromARGB(255, 197, 91, 88),
                   padding: const EdgeInsets.symmetric(horizontal: 20),
                   alignment: Alignment.centerRight,
                   child: const Icon(Icons.delete, color: Colors.white),

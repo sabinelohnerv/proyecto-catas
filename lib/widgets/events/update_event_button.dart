@@ -38,7 +38,7 @@ class UpdateEventButton extends StatelessWidget {
               ScaffoldMessenger.of(context).showSnackBar(
                 const SnackBar(
                   content: Text('Evento actualizado correctamente.'),
-                  backgroundColor: Colors.green,
+                  backgroundColor: Color.fromARGB(255, 97, 160, 117),
                 ),
               );
               Navigator.of(context).pop();
@@ -46,7 +46,7 @@ class UpdateEventButton extends StatelessWidget {
               ScaffoldMessenger.of(context).showSnackBar(
                 const SnackBar(
                   content: Text('Error al actualizar el evento.'),
-                  backgroundColor: Colors.red,
+                  backgroundColor: Color.fromARGB(255, 197, 91, 88),
                 ),
               );
               Navigator.of(context).pop(false);
@@ -61,7 +61,10 @@ class UpdateEventButton extends StatelessWidget {
             ? const CircularProgressIndicator(
                 color: Colors.white,
               )
-            : const Text('Actualizar Evento', style: TextStyle(fontSize: 16),),
+            : const Text(
+                'Actualizar Evento',
+                style: TextStyle(fontSize: 16),
+              ),
       ),
     );
   }

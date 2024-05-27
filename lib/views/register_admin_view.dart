@@ -134,7 +134,7 @@ class _RegisterAdminViewState extends State<RegisterAdminView> {
                                 const SnackBar(
                                   content: Text(
                                       'Administrador registrado con éxito'),
-                                  backgroundColor: Colors.green,
+                                  backgroundColor: Color.fromARGB(255, 97,160,117),
                                 ),
                               );
                               Navigator.of(context).pop();
@@ -143,7 +143,7 @@ class _RegisterAdminViewState extends State<RegisterAdminView> {
                                 SnackBar(
                                   content: Text(viewModel.errorMessage ??
                                       "Error en el registro"),
-                                  backgroundColor: Colors.red,
+                                  backgroundColor: const Color.fromARGB(255, 197, 91, 88),
                                 ),
                               );
                             }

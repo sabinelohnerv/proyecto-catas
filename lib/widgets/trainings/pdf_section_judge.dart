@@ -49,7 +49,7 @@ class PdfSection extends StatelessWidget {
                             ScaffoldMessenger.of(context)
                                 .showSnackBar(const SnackBar(
                               content: Text("Error al abrir el pdf."),
-                              backgroundColor: Colors.red,
+                              backgroundColor: Color.fromARGB(255, 197, 91, 88),
                             ));
                           });
                         }

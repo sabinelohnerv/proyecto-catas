@@ -35,7 +35,7 @@ class SubmitNewClient extends StatelessWidget {
               ScaffoldMessenger.of(context).showSnackBar(
                 const SnackBar(
                   content: Text('Cliente añadido correctamente.'),
-                  backgroundColor: Colors.green,
+                  backgroundColor: Color.fromARGB(255, 97, 160, 117),
                 ),
               );
               Future.delayed(const Duration(seconds: 2), () {
@@ -45,7 +45,7 @@ class SubmitNewClient extends StatelessWidget {
               ScaffoldMessenger.of(context).showSnackBar(
                 const SnackBar(
                   content: Text('Error al crear el cliente.'),
-                  backgroundColor: Colors.red,
+                  backgroundColor: Color.fromARGB(255, 197, 91, 88),
                 ),
               );
             }

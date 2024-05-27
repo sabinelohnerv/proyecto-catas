@@ -43,14 +43,15 @@ class VerificationCard extends StatelessWidget {
                 ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(
                     content: Text("Se ha reenviado el correo de verificación."),
-                    backgroundColor: Colors.green,
+                    backgroundColor: Color.fromARGB(255, 97, 160, 117),
                   ),
                 );
               } else {
                 ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(
-                    content: Text("Error al enviar el correo de verificación.."),
-                    backgroundColor: Colors.red,
+                    content:
+                        Text("Error al enviar el correo de verificación.."),
+                    backgroundColor: Color.fromARGB(255, 197, 91, 88),
                   ),
                 );
               }

@@ -36,7 +36,7 @@ class SubmitNewEventButton extends StatelessWidget {
               ScaffoldMessenger.of(context).showSnackBar(
                 const SnackBar(
                   content: Text('Evento registrado correctamente.'),
-                  backgroundColor: Colors.green,
+                  backgroundColor: Color.fromARGB(255, 97, 160, 117),
                 ),
               );
               Future.delayed(const Duration(seconds: 2), () {
@@ -46,7 +46,7 @@ class SubmitNewEventButton extends StatelessWidget {
               ScaffoldMessenger.of(context).showSnackBar(
                 const SnackBar(
                   content: Text('Error al registrar el evento.'),
-                  backgroundColor: Colors.red,
+                  backgroundColor: Color.fromARGB(255, 197, 91, 88),
                 ),
               );
             }
@@ -58,7 +58,10 @@ class SubmitNewEventButton extends StatelessWidget {
         ),
         child: viewModel.isSaving
             ? const CircularProgressIndicator()
-            : const Text('Registrar Evento', style: TextStyle(fontSize: 16),),
+            : const Text(
+                'Registrar Evento',
+                style: TextStyle(fontSize: 16),
+              ),
       ),
     );
   }

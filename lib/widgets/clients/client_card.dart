@@ -43,7 +43,7 @@ class ClientCard extends StatelessWidget {
         onDelete();
       },
       background: Container(
-        color: Colors.red,
+        color: const Color.fromARGB(255, 197, 91, 88),
         alignment: Alignment.centerRight,
         padding: const EdgeInsets.symmetric(horizontal: 20),
         child: const Icon(Icons.delete, color: Colors.white),

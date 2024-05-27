@@ -172,7 +172,7 @@ class _EditClientViewState extends State<EditClientView> {
                                 const SnackBar(
                                   content:
                                       Text('Cambios guardados correctamente.'),
-                                  backgroundColor: Colors.green,
+                                  backgroundColor: Color.fromARGB(255, 97,160,117),
                                 ),
                               );
                               Navigator.of(context).pop();

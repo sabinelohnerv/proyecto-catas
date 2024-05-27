@@ -17,11 +17,11 @@ class StateCard extends StatelessWidget {
     switch (status) {
       case "aprobado":
         imagePath = 'assets/images/accepted-stamp.png';
-        statusColor = Colors.green;
+        statusColor = const Color.fromARGB(255, 97,160,117);
         break;
       case "rechazado":
         imagePath = 'assets/images/rejected-stamp.png';
-        statusColor = Colors.red;
+        statusColor = const Color.fromARGB(255, 197, 91, 88);
         break;
       default:
         imagePath = 'assets/images/pending-stamp.png';
