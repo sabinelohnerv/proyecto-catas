@@ -15,17 +15,17 @@ class JudgeDetailCard extends StatelessWidget {
     Color reliabilityColor;
 
     if (judge.reliability >= 90) {
-      reliabilityColor = Colors.green;
+      reliabilityColor = const Color.fromARGB(255, 97, 160, 117);
     } else if (judge.reliability < 90 && judge.reliability >= 80) {
-      reliabilityColor = Colors.lightGreen;
+      reliabilityColor = const Color.fromARGB(255, 175, 225, 175);
     } else if (judge.reliability < 80 && judge.reliability >= 70) {
-      reliabilityColor = Colors.yellow.shade400;
+      reliabilityColor = const Color.fromARGB(255, 251, 238, 132);
     } else if (judge.reliability < 70 && judge.reliability >= 60) {
-      reliabilityColor = Colors.amber;
+      reliabilityColor = const Color.fromARGB(255, 244,161,95);
     } else if (judge.reliability < 60 && judge.reliability >= 50) {
-      reliabilityColor = Colors.orange;
+      reliabilityColor = const Color.fromARGB(255, 242, 132, 78);
     } else {
-      reliabilityColor = Colors.red;
+      reliabilityColor = const Color.fromARGB(255, 197, 91, 88);
     }
 
     return Card(
@@ -50,7 +50,9 @@ class JudgeDetailCard extends StatelessWidget {
                     fontSize: 18,
                   ),
                 ),
-                const SizedBox(width: 6,),
+                const SizedBox(
+                  width: 6,
+                ),
                 Container(
                   padding:
                       const EdgeInsets.symmetric(horizontal: 4, vertical: 1),

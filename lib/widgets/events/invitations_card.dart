@@ -116,7 +116,8 @@ class InvitationsCard extends StatelessWidget {
                   style: const TextStyle(
                       fontSize: 12,
                       color: Colors.white,
-                      fontWeight: FontWeight.w500, overflow: TextOverflow.ellipsis),
+                      fontWeight: FontWeight.w500,
+                      overflow: TextOverflow.ellipsis),
                 ),
               ),
             ),
@@ -129,11 +130,11 @@ class InvitationsCard extends StatelessWidget {
   Color _getStateColor(String state) {
     switch (state.toLowerCase()) {
       case 'aceptado':
-        return Colors.green;
+        return const Color.fromARGB(255, 97, 160, 117);
       case 'rechazado':
-        return Colors.red;
+        return const Color.fromARGB(255, 197, 91, 88);
       case 'pendiente':
-        return Colors.orange;
+        return const Color.fromARGB(255, 134, 196, 242);
       default:
         return Colors.grey;
     }

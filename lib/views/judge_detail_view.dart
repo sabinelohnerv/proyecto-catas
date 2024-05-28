@@ -69,25 +69,25 @@ class _JudgeDetailScreenState extends State<JudgeDetailScreen> {
         break;
       default:
         certificationStatus = "Pendiente";
-        statusColor = Colors.amber;
+        statusColor = const Color.fromARGB(255, 134,196,242);
     }
 
     if (widget.judge.reliability >= 90) {
-      reliabilityColor = Colors.green;
+      reliabilityColor = const Color.fromARGB(255, 97, 160, 117);
     } else if (widget.judge.reliability < 90 &&
         widget.judge.reliability >= 80) {
-      reliabilityColor = Colors.lightGreen;
+      reliabilityColor = const Color.fromARGB(255, 175, 225, 175);
     } else if (widget.judge.reliability < 80 &&
         widget.judge.reliability >= 70) {
-      reliabilityColor = Colors.amberAccent[100]!;
+      reliabilityColor = const Color.fromARGB(255, 251, 238, 132);
     } else if (widget.judge.reliability < 70 &&
         widget.judge.reliability >= 60) {
-      reliabilityColor = Colors.amber;
+      reliabilityColor = const Color.fromARGB(255, 244, 161, 95);
     } else if (widget.judge.reliability < 60 &&
         widget.judge.reliability >= 50) {
-      reliabilityColor = Colors.orange;
+      reliabilityColor = const Color.fromARGB(255, 242, 132, 78);
     } else {
-      reliabilityColor = Colors.red;
+      reliabilityColor = const Color.fromARGB(255, 197, 91, 88);
     }
 
     return Scaffold(

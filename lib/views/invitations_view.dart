@@ -18,7 +18,7 @@ class InvitationsView extends StatefulWidget {
 
 class _InvitationsViewState extends State<InvitationsView> {
   late Future<List<Event>> _futureEvents;
-  String _filter = 'pending';
+  String _filter = 'all';
 
   @override
   void initState() {
@@ -31,7 +31,7 @@ class _InvitationsViewState extends State<InvitationsView> {
         Provider.of<ProfileViewModel>(context, listen: false);
     setState(() {
       _futureEvents =
-          EventService().fetchEventsForJudge(profileViewModel.currentUser!.uid);
+          EventService().fetchCurrentEventsForJudge(profileViewModel.currentUser!.uid);
     });
   }
 
@@ -72,7 +72,7 @@ class _InvitationsViewState extends State<InvitationsView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Mis Invitaciones',
+        title: const Text('Invitaciones',
             style: TextStyle(color: Colors.white, fontWeight: FontWeight.w500)),
         centerTitle: true,
         backgroundColor: Theme.of(context).colorScheme.primary,
@@ -84,7 +84,7 @@ class _InvitationsViewState extends State<InvitationsView> {
         actions: <Widget>[
           PopupMenuButton<String>(
             onSelected: _changeFilter,
-            icon: const Icon(Icons.tune),
+            icon: const Icon(Icons.filter_list),
             itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
               const PopupMenuItem<String>(value: 'all', child: Text('Todos')),
               const PopupMenuItem<String>(

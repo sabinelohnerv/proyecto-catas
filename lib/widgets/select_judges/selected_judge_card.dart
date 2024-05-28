@@ -18,19 +18,19 @@ class SelectedJudgeCard extends StatelessWidget {
 
       switch (stateJudge) {
         case 'selected':
-          textColor = Colors.blue;
+          textColor = const Color.fromARGB(255, 134, 196, 242);
           stateText = 'Seleccionado';
           break;
         case 'invited':
-          textColor = Colors.orange;
+          textColor = const Color.fromARGB(255, 244, 161, 95);
           stateText = 'Invitado';
           break;
         case 'accepted':
-          textColor = Colors.green;
+          textColor = const Color.fromARGB(255, 97, 160, 117);
           stateText = 'Confirmado';
           break;
         case 'rejected':
-          textColor = Colors.red;
+          textColor = const Color.fromARGB(255, 197, 91, 88);
           stateText = 'Rechazado';
           break;
         default:
@@ -41,7 +41,7 @@ class SelectedJudgeCard extends StatelessWidget {
 
       return Text(
         stateText,
-        style: TextStyle(color: textColor),
+        style: TextStyle(color: textColor, fontSize: 14),
       );
     }
 

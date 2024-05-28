@@ -43,7 +43,17 @@ class ChangePasswordView extends StatelessWidget {
             style: TextStyle(color: Colors.white, fontWeight: FontWeight.w500)),
         iconTheme: const IconThemeData(color: Colors.white),
         backgroundColor: colorScheme.primary,
+        centerTitle: true,
         elevation: 0,
+        leading: IconButton(
+          icon: const Icon(
+            Icons.arrow_back_ios,
+            color: Colors.white,
+          ),
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+        ),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),

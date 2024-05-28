@@ -82,6 +82,7 @@ class EventService {
       },
       'numberOfJudges': event.numberOfJudges,
       'eventJudges': event.eventJudges,
+      'state': 'active'
     });
   }
 
@@ -149,6 +150,29 @@ class EventService {
     List<Event> eventsForJudge = [];
     try {
       var eventsSnapshot = await _db.collection('events').get();
+
+      for (var doc in eventsSnapshot.docs) {
+        var event = Event.fromSnapshot(doc);
+        bool isJudgeSelected =
+            event.eventJudges.any((judge) => judge.id == judgeId);
+        if (isJudgeSelected) {
+          eventsForJudge.add(event);
+        }
+      }
+      return eventsForJudge;
+    } catch (e) {
+      print("Error fetching events for judge: $e");
+      return [];
+    }
+  }
+
+  Future<List<Event>> fetchCurrentEventsForJudge(String judgeId) async {
+    List<Event> eventsForJudge = [];
+    try {
+      var eventsSnapshot = await _db
+          .collection('events')
+          .where('state', isEqualTo: 'active')
+          .get();
 
       for (var doc in eventsSnapshot.docs) {
         var event = Event.fromSnapshot(doc);

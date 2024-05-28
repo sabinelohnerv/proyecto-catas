@@ -18,13 +18,13 @@ class AllTrainingJudgeCard extends StatelessWidget {
       Color textColor = Colors.grey;
 
       if (percentage >= 85) {
-        textColor = Colors.green;
+        textColor = const Color.fromARGB(255, 97,160,117);
       } else if (percentage < 85 && percentage >= 70) {
-        textColor = const Color.fromARGB(255, 243, 224, 56);
+        textColor = const Color.fromRGBO(255, 217, 49, 1);
       } else if (percentage < 70 && percentage >= 55) {
-        textColor = Colors.orange;
+        textColor = const Color.fromARGB(255, 244, 161, 95);
       } else {
-        textColor = Colors.red;
+        textColor = const Color.fromARGB(255, 197, 91, 88);
       }
 
       return textColor;

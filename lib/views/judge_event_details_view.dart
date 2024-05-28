@@ -66,7 +66,7 @@ class _JudgeEventDetailsViewState extends State<JudgeEventDetailsView> {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
             content: Text('Invitación aceptada'),
-            backgroundColor: Colors.green,
+            backgroundColor: Color.fromARGB(255, 97, 160, 117),
           ),
         );
       } catch (e) {

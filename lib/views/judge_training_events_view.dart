@@ -101,7 +101,7 @@ class _JudgeTrainingEventsViewState extends State<JudgeTrainingEventsView> {
                         padding: const EdgeInsets.only(right: 5),
                         child: PopupMenuButton<String>(
                           onSelected: _changeFilter,
-                          icon: const Icon(Icons.tune, size: 20),
+                          icon: const Icon(Icons.filter_list, size: 20),
                           itemBuilder: (BuildContext context) =>
                               <PopupMenuEntry<String>>[
                             const PopupMenuItem<String>(

@@ -125,6 +125,7 @@ class _EditProfileViewState extends State<EditProfileView> {
                   ),
                   CustomTextFormField(
                     controller: viewModel.dislikesController,
+                    prefixIcon: const Icon(Icons.no_food),
                     labelText: 'Alimentos que le disgustan',
                     onSaved: (value) => viewModel.updateDislikes(value ?? ''),
                   ),
@@ -141,6 +142,7 @@ class _EditProfileViewState extends State<EditProfileView> {
                   ),
                   CustomNumberInput(
                     labelText: 'Cigarrillos por día',
+                    prefixIcon: const Icon(Icons.smoking_rooms),
                     controller: viewModel.cigarettesPerDayController,
                     onSaved: (value) {
                       int cigarettes = int.tryParse(value) ?? 0;
@@ -150,12 +152,14 @@ class _EditProfileViewState extends State<EditProfileView> {
                   CustomSelectField<String>(
                     value: viewModel.coffee,
                     items: viewModel.consumptionOptions,
+                    prefixIcon: const Icon(Icons.coffee),
                     labelText: 'Consumo de café',
                     onChanged: (value) => viewModel.coffee = value!,
                     itemLabelBuilder: (value) => value,
                   ),
                   CustomNumberInput(
                     labelText: 'Tazas de café por día',
+                    prefixIcon: const Icon(Icons.local_cafe),
                     controller: viewModel.coffeeCupsPerDayController,
                     onSaved: (value) {
                       int coffeeCups = int.tryParse(value) ?? 0;
@@ -164,6 +168,7 @@ class _EditProfileViewState extends State<EditProfileView> {
                   ),
                   CustomSelectField<String>(
                     value: viewModel.llajua,
+                    prefixIcon: const Icon(Icons.local_fire_department),
                     items: viewModel.consumptionOptions,
                     labelText: 'Consumo de picante o llajua',
                     onChanged: (value) => viewModel.llajua = value!,
@@ -171,6 +176,7 @@ class _EditProfileViewState extends State<EditProfileView> {
                   ),
                   CustomNumberInput(
                     labelText: 'Cucharillas de azúcar en bebidas (200 ml)',
+                    prefixIcon: const Icon(Icons.local_drink),
                     controller: viewModel.sugarInDrinksController,
                     onSaved: (value) {
                       int sugar = int.tryParse(value) ?? 0;
@@ -179,10 +185,12 @@ class _EditProfileViewState extends State<EditProfileView> {
                   ),
                   CustomTextFormField(
                     controller: viewModel.commentController,
+                    prefixIcon: const Icon(Icons.info),
                     labelText: 'Comentarios',
                     maxLines: 3,
                     onSaved: (value) => viewModel.updateComment(value ?? ''),
                   ),
+                  const SizedBox(height: 15),
                   FilledButton(
                     onPressed: () async {
                       if (_formKey.currentState!.validate()) {
@@ -192,7 +200,8 @@ class _EditProfileViewState extends State<EditProfileView> {
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(
                               content: Text('Perfil actualizado correctamente'),
-                              backgroundColor: Color.fromARGB(255, 97,160,117),
+                              backgroundColor:
+                                  Color.fromARGB(255, 97, 160, 117),
                             ),
                           );
                           Navigator.of(context).pop();
@@ -205,8 +214,8 @@ class _EditProfileViewState extends State<EditProfileView> {
                       }
                     },
                     child: const Text(
-                      'GUARDAR CAMBIOS',
-                      style: TextStyle(fontWeight: FontWeight.w700),
+                      'Guardar Cambios',
+                      style: TextStyle(fontSize: 16),
                     ),
                   ),
                 ],
