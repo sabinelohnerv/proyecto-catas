@@ -235,7 +235,6 @@ class _AddEventViewState extends State<AddEventView> {
                     CustomTextFormField(
                       labelText: 'Link de Lugar del Evento',
                       prefixIcon: const Icon(Icons.link),
-                      onSaved: (value) => viewModel.locationUrl = value ?? '',
                       validator: (value) =>
                           value!.isEmpty ? 'Este campo es obligatorio.' : null,
                     ),

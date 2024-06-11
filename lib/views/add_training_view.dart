@@ -22,7 +22,6 @@ class _AddTrainingViewState extends State<AddTrainingView> {
   final _nameController = TextEditingController();
   final _descriptionController = TextEditingController();
   final _locationController = TextEditingController();
-  final _locationUrlController = TextEditingController();
   final _dateController = TextEditingController();
   final _startTimeController = TextEditingController();
   final _endTimeController = TextEditingController();
@@ -171,11 +170,6 @@ class _AddTrainingViewState extends State<AddTrainingView> {
                     controller: _locationController,
                   ),
                   CustomTextFormField(
-                    labelText: 'URL de ubicación',
-                    prefixIcon: const Icon(Icons.link),
-                    controller: _locationUrlController,
-                  ),
-                  CustomTextFormField(
                     labelText: 'Fecha',
                     prefixIcon: const Icon(Icons.calendar_today),
                     controller: _dateController,
@@ -307,7 +301,6 @@ class _AddTrainingViewState extends State<AddTrainingView> {
                           endTime: _endTime?.format(context) ?? '',
                           date: _selectedDate?.toIso8601String() ?? '',
                           location: _locationController.text,
-                          locationUrl: _locationUrlController.text,
                           pdfUrl: _selectedPdfUrl,
                           judges: judges,
                         );

@@ -19,7 +19,6 @@ class AddEventViewModel with ChangeNotifier {
   String? start;
   String? end;
   String? location;
-  String? locationUrl;
   String? about;
   File? logo;
   String? code;
@@ -65,7 +64,6 @@ class AddEventViewModel with ChangeNotifier {
   TimeOfDay? endTime;
 
   TextEditingController locationController = TextEditingController();
-  TextEditingController locationUrlController = TextEditingController();
   TextEditingController dateController = TextEditingController();
   TextEditingController nameController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
@@ -108,7 +106,6 @@ class AddEventViewModel with ChangeNotifier {
         start: start!,
         end: end!,
         location: location!,
-        locationUrl: locationUrl!,
         about: about!,
         imageUrl: imageUrl,
         code: code!,
@@ -141,7 +138,6 @@ class AddEventViewModel with ChangeNotifier {
       start = event.start;
       end = event.end;
       location = event.location;
-      locationUrl = event.locationUrl;
       about = event.about;
       formUrl = event.formUrl;
       allergyRestrictions = event.allergyRestrictions;
@@ -166,7 +162,6 @@ class AddEventViewModel with ChangeNotifier {
       numberOfJudgesController.text = numberOfJudges?.toString() ?? '';
       linkController.text = formUrl ?? '';
       locationController.text = location ?? '';
-      locationUrlController.text = locationUrl ?? '';
 
       updateAllergies(allergyRestrictions!);
       updateSymptoms(symptomRestrictions!);
@@ -402,7 +397,6 @@ class AddEventViewModel with ChangeNotifier {
           start: start!,
           end: end!,
           location: location!,
-          locationUrl: locationUrl!,
           about: about!,
           imageUrl: imageUrl,
           code: code!,
@@ -441,7 +435,6 @@ class AddEventViewModel with ChangeNotifier {
     start = null;
     end = null;
     location = null;
-    locationUrl = null;
     about = null;
     logo = null;
     code = null;

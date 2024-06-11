@@ -148,6 +148,45 @@ class _LoginFormState extends State<LoginView> {
                             viewModel: _viewModel),
                       ),
                     ),
+                    FadeInAnimation(
+                      delay: 700,
+                      child: Center(
+                        child: TextButton(
+                          onPressed: () {
+                            if (_emailController.text.isEmpty) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                      content: Text(
+                                          'Ingresa tu email para restablecer tu contraseña.')));
+                            } else {
+                              _viewModel
+                                  .resetPassword(_emailController.text)
+                                  .then((success) {
+                                if (success) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(
+                                          content: Text(
+                                              'Email de restablecimiento enviado.'), backgroundColor: Color.fromARGB(255, 97, 160, 117),));
+                                } else {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(
+                                          content: Text(
+                                              'Error al enviar el email de restablecimiento. Intenta nuevamente'), backgroundColor: Color.fromARGB(255, 197, 91, 88),));
+                                }
+                              });
+                            }
+                          },
+                          child: Text(
+                            '¿Olvidaste tu contraseña?',
+                            style: TextStyle(
+                              color: Colors.grey.shade600,
+                              fontSize: 16,
+                              decoration: TextDecoration.underline
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
                     const SizedBox(height: 40),
                     FadeInAnimation(
                       delay: 600,

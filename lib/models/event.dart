@@ -10,7 +10,6 @@ class Event {
   String start;
   String end;
   String location;
-  String locationUrl;
   String about;
   String imageUrl;
   String code;
@@ -30,7 +29,6 @@ class Event {
     required this.start,
     required this.end,
     required this.location,
-    required this.locationUrl,
     required this.about,
     required this.imageUrl,
     required this.code,
@@ -55,7 +53,6 @@ class Event {
       start: data['start'],
       end: data['end'],
       location: data['location'],
-      locationUrl: data['locationUrl'],
       about: data['about'],
       imageUrl: data['imageUrl'],
       code: data['code'],
@@ -83,7 +80,6 @@ class Event {
       start: '00:00',
       end: '00:00',
       location: 'Placeholder Location',
-      locationUrl: 'http://example.com',
       about: 'This is a placeholder about text.',
       imageUrl: 'http://placeholder.com/image.jpg',
       code: '0000',

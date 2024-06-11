@@ -25,7 +25,6 @@ class _AdminTrainingEditDetailsViewState
   late TextEditingController _nameController;
   late TextEditingController _descriptionController;
   late TextEditingController _locationController;
-  late TextEditingController _locationUrlController;
 
   late DateTime _selectedDate;
   late TimeOfDay _startTime;
@@ -40,8 +39,6 @@ class _AdminTrainingEditDetailsViewState
     _descriptionController =
         TextEditingController(text: widget.training.description);
     _locationController = TextEditingController(text: widget.training.location);
-    _locationUrlController =
-        TextEditingController(text: widget.training.locationUrl);
     _selectedDate = DateFormat('yyyy-MM-dd').parse(widget.training.date);
     _startTime = TimeOfDay(
         hour: int.parse(widget.training.startTime.split(':')[0]),
@@ -56,7 +53,6 @@ class _AdminTrainingEditDetailsViewState
     _nameController.dispose();
     _descriptionController.dispose();
     _locationController.dispose();
-    _locationUrlController.dispose();
     super.dispose();
   }
 
@@ -179,11 +175,6 @@ class _AdminTrainingEditDetailsViewState
                     labelText: 'Ubicación',
                     prefixIcon: const Icon(Icons.place),
                     controller: _locationController,
-                  ),
-                  CustomTextFormField(
-                    labelText: 'URL de Ubicación',
-                    prefixIcon: const Icon(Icons.link),
-                    controller: _locationUrlController,
                   ),
                   ListTile(
                     leading: CircleAvatar(
@@ -342,7 +333,6 @@ class _AdminTrainingEditDetailsViewState
                         widget.training.name = _nameController.text;
                         widget.training.description = _descriptionController.text;
                         widget.training.location = _locationController.text;
-                        widget.training.locationUrl = _locationUrlController.text;
                         widget.training.date =
                             DateFormat('yyyy-MM-dd').format(_selectedDate);
                         widget.training.startTime = _startTime.format(context);

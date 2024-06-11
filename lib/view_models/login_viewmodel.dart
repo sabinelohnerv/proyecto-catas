@@ -18,5 +18,8 @@ class LoginViewModel {
   Future<bool> isEmailVerified() async {
     return _authService.isEmailVerified();
   }
-}
 
+  Future<bool> resetPassword(String email) async {
+    return await _authService.sendPasswordResetEmail(email);
+  }
+}

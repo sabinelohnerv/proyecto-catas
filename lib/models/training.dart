@@ -8,7 +8,6 @@ class Training {
   String endTime;
   String date;
   String location;
-  String locationUrl;
   String? pdfUrl;
   List<EventJudge> judges;
 
@@ -20,7 +19,6 @@ class Training {
     required this.endTime,
     required this.date,
     required this.location,
-    required this.locationUrl,
     this.pdfUrl,
     required this.judges,
   });
@@ -34,7 +32,6 @@ class Training {
       'endTime': endTime,
       'date': date,
       'location': location,
-      'locationUrl': locationUrl,
       'pdfUrl': pdfUrl,
       'judges': judges.map((judge) => judge.toJson()).toList(),
     };
@@ -49,7 +46,6 @@ class Training {
       endTime: data['endTime'],
       date: data['date'],
       location: data['location'],
-      locationUrl: data['locationUrl'],
       pdfUrl: data['pdfUrl'],
       judges: (data['judges'] as List<dynamic>?)
               ?.map((e) => EventJudge.fromMap(e as Map<String, dynamic>))
@@ -67,7 +63,6 @@ class Training {
       endTime: 'endTime',
       date: 'date',
       location: 'location',
-      locationUrl: 'locationUrl',
       pdfUrl: 'pdfUrl',
       judges: [],
     );

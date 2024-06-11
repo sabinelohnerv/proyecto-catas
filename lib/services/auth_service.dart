@@ -110,4 +110,14 @@ class AuthService {
   Future<void> signOut() async {
     await _firebaseAuth.signOut();
   }
+
+  Future<bool> sendPasswordResetEmail(String email) async {
+    try {
+      await _firebaseAuth.sendPasswordResetEmail(email: email);
+      return true;
+    } catch (e) {
+      print('Error sending password reset email: $e');
+      return false;
+    }
+  }
 }

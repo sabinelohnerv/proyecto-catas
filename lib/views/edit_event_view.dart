@@ -223,14 +223,6 @@ class _EditEventViewState extends State<EditEventView> {
                     validator: (value) =>
                         value!.isEmpty ? 'Este campo es obligatorio.' : null,
                   ),
-                  CustomTextFormField(
-                    controller: viewModel.locationUrlController,
-                    labelText: 'Link de Lugar del Evento',
-                    prefixIcon: const Icon(Icons.link),
-                    onSaved: (value) => viewModel.locationUrl = value ?? '',
-                    validator: (value) =>
-                        value!.isEmpty ? 'Este campo es obligatorio.' : null,
-                  ),
                   const Padding(
                     padding: EdgeInsets.fromLTRB(15, 15, 15, 0),
                     child: Text(
