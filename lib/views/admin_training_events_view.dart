@@ -9,12 +9,14 @@ class AdminTrainingEventsView extends StatefulWidget {
   const AdminTrainingEventsView({super.key});
 
   @override
-  State<AdminTrainingEventsView> createState() => _AdminTrainingEventsViewState();
+  State<AdminTrainingEventsView> createState() =>
+      _AdminTrainingEventsViewState();
 }
 
 class _AdminTrainingEventsViewState extends State<AdminTrainingEventsView> {
   final TextEditingController _searchController = TextEditingController();
   Timer? _debounce;
+  String _filterState = 'active';
   AdminTrainingEventsViewModel? viewModel;
 
   @override
@@ -26,7 +28,8 @@ class _AdminTrainingEventsViewState extends State<AdminTrainingEventsView> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    viewModel = Provider.of<AdminTrainingEventsViewModel>(context, listen: false);
+    viewModel =
+        Provider.of<AdminTrainingEventsViewModel>(context, listen: false);
   }
 
   void _onSearchChanged() {
@@ -50,11 +53,21 @@ class _AdminTrainingEventsViewState extends State<AdminTrainingEventsView> {
     Navigator.of(context).pop();
   }
 
+  void _changeFilter(String choice) {
+    setState(() {
+      _filterState = choice;
+      viewModel?.setFilterState(choice);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Todas las Capacitaciones', style: TextStyle(color: Colors.white, fontWeight: FontWeight.w500),),
+        title: const Text(
+          'Todas las Capacitaciones',
+          style: TextStyle(color: Colors.white, fontWeight: FontWeight.w500),
+        ),
         backgroundColor: Theme.of(context).primaryColor,
         centerTitle: true,
         leading: IconButton(
@@ -67,13 +80,15 @@ class _AdminTrainingEventsViewState extends State<AdminTrainingEventsView> {
           if (viewModel.isLoading) {
             return const Center(child: CircularProgressIndicator());
           }
-          if (viewModel.events.isEmpty) {
-            return const Center(child: Text('No hay capacitaciones disponibles.'));
+          if (viewModel.filteredEvents.isEmpty) {
+            return const Center(
+                child: Text('No hay capacitaciones disponibles.'));
           }
           return Column(
             children: [
               Padding(
-                padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 8),
+                padding:
+                    const EdgeInsets.symmetric(vertical: 10, horizontal: 8),
                 child: TextField(
                   controller: _searchController,
                   decoration: InputDecoration(
@@ -81,6 +96,22 @@ class _AdminTrainingEventsViewState extends State<AdminTrainingEventsView> {
                     prefixIcon: const Padding(
                       padding: EdgeInsets.only(left: 8),
                       child: Icon(Icons.search, size: 22),
+                    ),
+                    suffixIcon: Padding(
+                      padding: const EdgeInsets.only(right: 5),
+                      child: PopupMenuButton<String>(
+                        onSelected: _changeFilter,
+                        icon: const Icon(Icons.filter_list, size: 20),
+                        itemBuilder: (BuildContext context) =>
+                            <PopupMenuEntry<String>>[
+                          const PopupMenuItem<String>(
+                              value: 'active', child: Text('Activos')),
+                          const PopupMenuItem<String>(
+                              value: 'archived', child: Text('Pasados')),
+                          const PopupMenuItem<String>(
+                              value: 'all', child: Text('Todos')),
+                        ],
+                      ),
                     ),
                     isDense: true,
                     contentPadding: const EdgeInsets.symmetric(vertical: 3),
@@ -93,17 +124,19 @@ class _AdminTrainingEventsViewState extends State<AdminTrainingEventsView> {
               ),
               Expanded(
                 child: ListView.builder(
-                  itemCount: viewModel.events.length,
+                  itemCount: viewModel.filteredEvents.length,
                   itemBuilder: (context, index) {
-                    Event event = viewModel.events[index];
-                    int numberOfTrainings = viewModel.trainingCounts[event.id] ?? 0;
+                    Event event = viewModel.filteredEvents[index];
+                    int numberOfTrainings =
+                        viewModel.trainingCounts[event.id] ?? 0;
                     return TrainingEventCard(
                       event: event,
                       numberOfTrainings: numberOfTrainings,
-                      onTap: () => viewModel.goToTrainingsListView(context, event),
+                      onTap: () =>
+                          viewModel.goToTrainingsListView(context, event),
                     );
                   },
-                )
+                ),
               ),
             ],
           );
