@@ -1,13 +1,18 @@
-import 'package:catas_univalle/widgets/verification/verification_card.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:catas_univalle/services/auth_service.dart';
 import 'package:catas_univalle/views/user_home_view.dart';
 import 'package:catas_univalle/views/login_view.dart';
+import 'package:catas_univalle/widgets/verification/verification_card.dart';
 
-class VerificationView extends StatelessWidget {
+class VerificationView extends StatefulWidget {
   const VerificationView({super.key});
 
+  @override
+  State<VerificationView> createState() => _VerificationViewState();
+}
+
+class _VerificationViewState extends State<VerificationView> {
   void _navigateToHome(BuildContext context) {
     Navigator.of(context).pushReplacement(
       MaterialPageRoute(builder: (context) => const UserHomeView()),
@@ -21,6 +26,10 @@ class VerificationView extends StatelessWidget {
     );
   }
 
+  void _refreshView() {
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     AuthService authService = Provider.of<AuthService>(context, listen: false);
@@ -29,7 +38,7 @@ class VerificationView extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
-        leading: null,
+        leading: Container(),
         actions: [
           IconButton(
             icon: const Icon(Icons.exit_to_app),
@@ -62,13 +71,13 @@ class VerificationView extends StatelessWidget {
                   });
                   return const SizedBox();
                 } else {
-                  return const Center(
+                  return Center(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
-                        Spacer(flex: 4),
-                        VerificationCard(),
-                        Spacer(flex: 1),
+                        const Spacer(flex: 4),
+                        VerificationCard(refreshView: _refreshView),
+                        const Spacer(flex: 1),
                       ],
                     ),
                   );

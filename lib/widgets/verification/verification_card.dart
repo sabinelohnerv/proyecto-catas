@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class VerificationCard extends StatelessWidget {
-  const VerificationCard({super.key});
+  final VoidCallback refreshView;
+
+  const VerificationCard({super.key, required this.refreshView});
 
   @override
   Widget build(BuildContext context) {
@@ -36,27 +38,45 @@ class VerificationCard extends StatelessWidget {
           const SizedBox(height: 24),
           const CircularProgressIndicator(),
           const SizedBox(height: 16),
-          TextButton(
-            onPressed: () async {
-              bool success = await model.resendEmailVerification();
-              if (success) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    content: Text("Se ha reenviado el correo de verificación."),
-                    backgroundColor: Color.fromARGB(255, 97, 160, 117),
-                  ),
-                );
-              } else {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    content:
-                        Text("Error al enviar el correo de verificación.."),
-                    backgroundColor: Color.fromARGB(255, 197, 91, 88),
-                  ),
-                );
-              }
-            },
-            child: const Text('Reenviar correo de verificación'),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              TextButton.icon(
+                onPressed: () async {
+                  bool success = await model.resendEmailVerification();
+                  if (success) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content:
+                            Text("Se ha reenviado el correo de verificación."),
+                        backgroundColor: Color.fromARGB(255, 97, 160, 117),
+                      ),
+                    );
+                  } else {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content:
+                            Text("Error al enviar el correo de verificación."),
+                        backgroundColor: Color.fromARGB(255, 197, 91, 88),
+                      ),
+                    );
+                  }
+                },
+                label: const Text('Reenviar Correo de Verificación'),
+                icon: const Icon(Icons.email),
+              ),
+              TextButton.icon(
+                icon: Icon(
+                  Icons.refresh,
+                  color: Colors.grey.shade700,
+                ),
+                onPressed: refreshView,
+                label: Text(
+                  'Actualizar Pantalla',
+                  style: TextStyle(color: Colors.grey.shade700),
+                ),
+              ),
+            ],
           ),
         ],
       ),
