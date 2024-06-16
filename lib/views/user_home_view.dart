@@ -8,6 +8,7 @@ import 'package:catas_univalle/widgets/home/small_card.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../view_models/admin_event_list_viewmodel.dart';
+import '../view_models/judge_events_viewmodel.dart';
 import '../widgets/events/event_carousel.dart';
 import '../widgets/home/drawer.dart';
 
@@ -54,23 +55,28 @@ class UserHomeView extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              ChangeNotifierProvider<AdminEventListViewModel>(
-                create: (_) => AdminEventListViewModel(),
-                child: Consumer<AdminEventListViewModel>(
+              ChangeNotifierProvider<JudgeEventsViewModel>(
+                create: (_) =>
+                    JudgeEventsViewModel(userViewModel.currentUser!.uid),
+                child: Consumer<JudgeEventsViewModel>(
                   builder: (context, viewModel, child) {
                     if (viewModel.isLoading) {
                       return const SizedBox(
                           height: 350,
                           child: Center(child: CircularProgressIndicator()));
                     }
-          
+
                     return HomeEventsCarousel(
-                        events: viewModel.events, isAdmin: false);
+                      events: viewModel.events,
+                      isAdmin: false,
+                      userName: userViewModel.fullName,
+                    );
                   },
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.symmetric(vertical: 25, horizontal: 20),
+                padding:
+                    const EdgeInsets.symmetric(vertical: 25, horizontal: 20),
                 child: Column(
                   children: [
                     Row(
