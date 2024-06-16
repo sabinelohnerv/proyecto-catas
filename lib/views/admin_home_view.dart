@@ -64,10 +64,14 @@ class AdminHomeView extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.only(top: 20.0),
                         child: HomeEventsCarousel(
-                            events: viewModel.events, isAdmin: true),
+                          events: viewModel.events,
+                          isAdmin: true,
+                          userName: userViewModel.fullName,
+                        ),
                       ),
                       const Padding(
-                        padding: EdgeInsets.symmetric(vertical: 25, horizontal: 20),
+                        padding:
+                            EdgeInsets.symmetric(vertical: 25, horizontal: 20),
                         child: Center(
                           child: Wrap(
                             alignment: WrapAlignment.spaceEvenly,

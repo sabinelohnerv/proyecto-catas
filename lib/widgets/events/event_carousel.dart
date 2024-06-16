@@ -8,28 +8,32 @@ import '../../views/admin_event_details_view.dart';
 class HomeEventsCarousel extends StatelessWidget {
   final List<Event> events;
   final bool isAdmin;
+  final String? userName;
   final String defaultImageUrl =
-      'https://firebasestorage.googleapis.com/v0/b/catas-univalle.appspot.com/o/event_images%2Fdefault.png?alt=media&token=3e4647f4-7d61-47f5-8aa8-1a4911b2fe24';
+      'https://firebasestorage.googleapis.com/v0/b/catas-univalle.appspot.com/o/defaults%2FCartoon_With_Type_World_Food_Day_Instagram_Post-jGie-IqzQ-transformed.png?alt=media&token=46947a51-71cf-4c6f-afad-90332b83178f';
 
   const HomeEventsCarousel({
     super.key,
     required this.events,
     this.isAdmin = false,
+    this.userName,
   });
 
   @override
   Widget build(BuildContext context) {
     List<Widget> carouselItems = [];
+    String displayUserName =
+        (userName?.isNotEmpty ?? false) ? userName! : "Usuario";
 
     if (events.isEmpty) {
       carouselItems.add(EventCard(
         imageUrl: defaultImageUrl,
-        title: "No hay eventos disponibles",
+        title: "¡Hola $displayUserName!",
       ));
     } else {
       carouselItems.add(EventCard(
         imageUrl: defaultImageUrl,
-        title: "¡Hola Usuario!",
+        title: "¡Hola $displayUserName!",
       ));
       carouselItems.addAll(events.map((event) {
         return InkWell(
