@@ -232,12 +232,6 @@ class _AddEventViewState extends State<AddEventView> {
                       validator: (value) =>
                           value!.isEmpty ? 'Este campo es obligatorio.' : null,
                     ),
-                    CustomTextFormField(
-                      labelText: 'Link de Lugar del Evento',
-                      prefixIcon: const Icon(Icons.link),
-                      validator: (value) =>
-                          value!.isEmpty ? 'Este campo es obligatorio.' : null,
-                    ),
                     const Padding(
                       padding: EdgeInsets.fromLTRB(15, 15, 15, 0),
                       child: Text(
