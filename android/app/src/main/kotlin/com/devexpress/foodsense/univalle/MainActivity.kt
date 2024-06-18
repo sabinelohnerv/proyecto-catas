@@ -1,4 +1,4 @@
-package com.example.catas_univalle
+package com.devexpress.foodsense.univalle
 
 import io.flutter.embedding.android.FlutterActivity
 
