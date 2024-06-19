@@ -7,15 +7,23 @@ class TrainingViewModel with ChangeNotifier {
 
   List<Training> _trainings = [];
   bool _isLoading = false;
+  bool _isUploading = false; // Add this line
 
   TrainingViewModel({required TrainingService trainingService})
       : _trainingService = trainingService;
 
   List<Training> get trainings => _trainings;
   bool get isLoading => _isLoading;
+  bool get isUploading => _isUploading; // Add this line
 
   void setLoading(bool loading) {
     _isLoading = loading;
+    notifyListeners();
+  }
+
+  void setUploading(bool uploading) {
+    // Add this method
+    _isUploading = uploading;
     notifyListeners();
   }
 
@@ -68,7 +76,7 @@ class TrainingViewModel with ChangeNotifier {
   Future<void> fetchTrainings(String eventId) async {
     if (eventId.isEmpty) {
       print('Error fetching trainings: eventId is empty');
-      return; 
+      return;
     }
 
     setLoading(true);
@@ -76,7 +84,7 @@ class TrainingViewModel with ChangeNotifier {
       _trainings = await _trainingService.getTrainings(eventId).first;
     } catch (e) {
       print('Error fetching trainings: $e');
-      throw e; 
+      throw e;
     } finally {
       setLoading(false);
     }
