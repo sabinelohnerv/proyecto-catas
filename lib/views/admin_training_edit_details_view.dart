@@ -7,6 +7,7 @@ import 'package:file_picker/file_picker.dart';
 import 'dart:io';
 import 'package:intl/intl.dart';
 import 'package:catas_univalle/widgets/register/custom_textfield.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 
 class AdminTrainingEditDetailsView extends StatefulWidget {
   final Training training;
@@ -29,8 +30,9 @@ class _AdminTrainingEditDetailsViewState
   late DateTime _selectedDate;
   late TimeOfDay _startTime;
   late TimeOfDay _endTime;
-  File? _selectedPdfUrl;
+  String? _selectedPdfUrl;
   String? _selectedPdfName;
+  File? _selectedPdfFile;
 
   @override
   void initState() {
@@ -46,6 +48,8 @@ class _AdminTrainingEditDetailsViewState
     _endTime = TimeOfDay(
         hour: int.parse(widget.training.endTime.split(':')[0]),
         minute: int.parse(widget.training.endTime.split(':')[1]));
+    _selectedPdfUrl = widget.training.pdfUrl;
+    _selectedPdfName = widget.training.pdfUrl?.split('/').last;
   }
 
   @override
@@ -84,13 +88,42 @@ class _AdminTrainingEditDetailsViewState
   }
 
   void _uploadPdf() async {
+    final viewModel =
+        Provider.of<AdminTrainingEditViewModel>(context, listen: false);
     FilePickerResult? result = await FilePicker.platform
         .pickFiles(type: FileType.custom, allowedExtensions: ['pdf']);
     if (result != null) {
+      File selectedFile = File(result.files.single.path!);
+      String fileName = result.files.single.name;
+
       setState(() {
-        _selectedPdfUrl = File(result.files.single.path!);
-        _selectedPdfName = result.files.single.name;
+        _selectedPdfFile = selectedFile;
+        _selectedPdfName = fileName;
       });
+
+      viewModel.setUploading(true); // Show progress indicator
+
+      try {
+        FirebaseStorage storage = FirebaseStorage.instance;
+        Reference ref = storage.ref().child('pdfs/$fileName');
+        UploadTask uploadTask = ref.putFile(selectedFile);
+
+        TaskSnapshot taskSnapshot = await uploadTask;
+        String downloadUrl = await taskSnapshot.ref.getDownloadURL();
+
+        setState(() {
+          _selectedPdfUrl = downloadUrl;
+        });
+      } catch (e) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Error uploading PDF: $e'),
+            backgroundColor: Colors.red,
+          ),
+        );
+      } finally {
+        viewModel.setUploading(false); // Hide progress indicator
+      }
     }
   }
 
@@ -98,11 +131,14 @@ class _AdminTrainingEditDetailsViewState
     setState(() {
       _selectedPdfUrl = null;
       _selectedPdfName = null;
+      _selectedPdfFile = null;
     });
   }
 
   @override
   Widget build(BuildContext context) {
+    final viewModel = Provider.of<AdminTrainingEditViewModel>(context);
+
     return Scaffold(
       body: NestedScrollView(
         headerSliverBuilder: (context, innerBoxIsScrolled) => [
@@ -267,7 +303,8 @@ class _AdminTrainingEditDetailsViewState
                               children: [
                                 Icon(Icons.picture_as_pdf,
                                     color: _selectedPdfUrl != null
-                                        ? const Color.fromARGB(255, 97,160,117)
+                                        ? const Color.fromARGB(
+                                            255, 97, 160, 117)
                                         : Colors.grey.shade600,
                                     size: 34),
                                 const SizedBox(width: 8),
@@ -296,6 +333,11 @@ class _AdminTrainingEditDetailsViewState
                   const SizedBox(
                     height: 15,
                   ),
+                  if (viewModel.isUploading)
+                    Center(
+                      child:
+                          CircularProgressIndicator(), // Show progress indicator
+                    ),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 48.0),
                     child: ElevatedButton.icon(
@@ -324,20 +366,21 @@ class _AdminTrainingEditDetailsViewState
                     padding: const EdgeInsets.fromLTRB(15, 25, 15, 5),
                     child: ElevatedButton(
                       onPressed: () async {
-                        final viewModel = Provider.of<AdminTrainingEditViewModel>(
-                            context,
-                            listen: false);
-                        if (_selectedPdfUrl != null) {
-                          await viewModel.uploadPDF(_selectedPdfUrl!);
+                        final viewModel =
+                            Provider.of<AdminTrainingEditViewModel>(context,
+                                listen: false);
+                        if (_selectedPdfFile != null) {
+                          await viewModel.uploadPDF(_selectedPdfFile!);
+                          widget.training.pdfUrl = viewModel.pdfUrl;
                         }
                         widget.training.name = _nameController.text;
-                        widget.training.description = _descriptionController.text;
+                        widget.training.description =
+                            _descriptionController.text;
                         widget.training.location = _locationController.text;
                         widget.training.date =
                             DateFormat('yyyy-MM-dd').format(_selectedDate);
                         widget.training.startTime = _startTime.format(context);
                         widget.training.endTime = _endTime.format(context);
-                        widget.training.pdfUrl = viewModel.pdfUrl;
                         await viewModel.updateTraining(
                             widget.eventId, widget.training);
                         Navigator.pop(context, widget.training);

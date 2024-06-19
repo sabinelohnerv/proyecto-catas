@@ -7,6 +7,8 @@ import 'package:provider/provider.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:dotted_border/dotted_border.dart';
 import '/functions/util.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'dart:io';
 
 class AddTrainingView extends StatefulWidget {
   final String eventId;
@@ -71,16 +73,40 @@ class _AddTrainingViewState extends State<AddTrainingView> {
   }
 
   Future<void> _pickFile() async {
+    final viewModel = Provider.of<TrainingViewModel>(context, listen: false);
     FilePickerResult? result = await FilePicker.platform.pickFiles(
       type: FileType.custom,
       allowedExtensions: ['pdf'],
     );
 
     if (result != null) {
-      setState(() {
-        _selectedPdfUrl = result.files.single.path;
-        _selectedPdfName = result.files.single.name;
-      });
+      viewModel.setUploading(true); // Show progress indicator
+      String filePath = result.files.single.path!;
+      String fileName = result.files.single.name;
+
+      // Upload file to Firebase Storage
+      try {
+        FirebaseStorage storage = FirebaseStorage.instance;
+        Reference ref = storage.ref().child('pdfs/$fileName');
+        UploadTask uploadTask = ref.putFile(File(filePath));
+
+        TaskSnapshot taskSnapshot = await uploadTask;
+        String downloadUrl = await taskSnapshot.ref.getDownloadURL();
+
+        setState(() {
+          _selectedPdfUrl = downloadUrl;
+          _selectedPdfName = fileName;
+        });
+      } catch (e) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Error uploading PDF: $e'),
+            backgroundColor: Colors.red,
+          ),
+        );
+      } finally {
+        viewModel.setUploading(false); // Hide progress indicator
+      }
     }
   }
 
@@ -93,6 +119,8 @@ class _AddTrainingViewState extends State<AddTrainingView> {
 
   @override
   Widget build(BuildContext context) {
+    final viewModel = Provider.of<TrainingViewModel>(context);
+
     return Scaffold(
       body: NestedScrollView(
         headerSliverBuilder: (context, innerBoxIsScrolled) => [
@@ -254,6 +282,11 @@ class _AddTrainingViewState extends State<AddTrainingView> {
                   const SizedBox(
                     height: 15,
                   ),
+                  if (viewModel.isUploading)
+                    Center(
+                      child:
+                          CircularProgressIndicator(), // Show progress indicator
+                    ),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 48.0),
                     child: ElevatedButton.icon(
