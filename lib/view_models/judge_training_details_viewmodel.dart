@@ -48,7 +48,7 @@ class JudgeTrainingDetailsViewModel extends ChangeNotifier {
     if (userId != null && training.judges.any((judge) => judge.id == userId)) {
       var judge = training.judges.firstWhere((judge) => judge.id == userId);
       _attendanceStatus = judge.state == 'P' ? 'PRESENTE' : 'AUSENTE';
-    } else if (DateTime.now().isBefore(trainingDate)) {
+    } else if (DateTime.now().isBefore(trainingDate) || training.judges.isEmpty) {
       _attendanceStatus = 'PENDIENTE';
     } else {
       _attendanceStatus = 'AUSENTE';

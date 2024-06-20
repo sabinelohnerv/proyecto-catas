@@ -44,7 +44,7 @@ class AttendanceStamp extends StatelessWidget {
       case 'PENDIENTE':
         return 'e-stamp';
       default:
-        return 'p-stamp';
+        return 'e-stamp';
     }
   }
 }
