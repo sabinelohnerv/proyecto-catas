@@ -75,7 +75,7 @@ class SelectedJudgesView extends StatelessWidget {
                     .resendInvitations(event);
               },
               icon: const Icon(Icons.refresh, color: Colors.white),
-              label: const Text('ENVIAR RECORDATORIO',
+              label: const Text('Enviar Recordatorio',
                   style: TextStyle(
                       color: Colors.white, fontWeight: FontWeight.bold)),
               style: ElevatedButton.styleFrom(

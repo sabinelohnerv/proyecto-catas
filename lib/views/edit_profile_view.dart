@@ -43,7 +43,7 @@ class _EditProfileViewState extends State<EditProfileView> {
             ),
             backgroundColor: Theme.of(context).colorScheme.primary,
             title: const Text(
-              "EDITAR PERFIL",
+              "Editar Perfil",
               style:
                   TextStyle(fontWeight: FontWeight.w500, color: Colors.white),
             ),
