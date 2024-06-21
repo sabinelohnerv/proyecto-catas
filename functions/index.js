@@ -38,8 +38,17 @@ exports.notifyJudgesOnTrainingUpdate = functions.firestore
 
       // Notify all judges about the training update
       const notificationPromises = event.eventJudges.map(async (judge) => {
-        if (!judge.email || !judge.fcmToken) {
-          console.error("Missing email or FCM token for judge:", judge);
+        if (!judge.email || !judge.id) {
+          console.error("Missing email or ID for judge:", judge);
+          return;
+        }
+
+        const judgeDoc = await admin.firestore().collection("users").doc(judge.id).get();
+        const judgeData = judgeDoc.data();
+        const fcmToken = judgeData ? judgeData.fcmToken : null;
+
+        if (!fcmToken) {
+          console.error("Missing FCM token for judge:", judge.email);
           return;
         }
 
@@ -48,10 +57,10 @@ exports.notifyJudgesOnTrainingUpdate = functions.firestore
           to: judge.email,
           subject: `Actualización de la Capacitación: ${after.name}`,
           html: `<h1>Hola, ${judge.name}!</h1>
-               <p>Se han realizado cambios en la capacitación: <strong>${after.name}</strong>.</p>
-               <p>Nombre del evento: <strong>${event.name}</strong>.</p>
-               <p>Fecha de la capacitación: <strong>${after.date}</strong>.</p>
-               <p>Por favor, revisa los detalles actualizados en la aplicación.</p>`,
+                       <p>Se han realizado cambios en la capacitación: <strong>${after.name}</strong>.</p>
+                       <p>Nombre del evento: <strong>${event.name}</strong>.</p>
+                       <p>Fecha de la capacitación: <strong>${after.date}</strong>.</p>
+                       <p>Por favor, revisa los detalles actualizados en la aplicación.</p>`,
         };
 
         const pushNotification = {
@@ -59,7 +68,7 @@ exports.notifyJudgesOnTrainingUpdate = functions.firestore
             title: `Actualización de la Capacitación: ${after.name}`,
             body: `Se han realizado cambios en la capacitación: ${after.name}. Revisa los detalles en la aplicación.`,
           },
-          token: judge.fcmToken,
+          token: fcmToken,
           data: {
             click_action: "FLUTTER_NOTIFICATION_CLICK",
             status: "training_updated",
@@ -91,6 +100,7 @@ exports.notifyJudgesOnTrainingUpdate = functions.firestore
       }
     });
 
+
 exports.notifyJudgesOnNewTraining = functions.firestore
     .document("events/{eventId}/trainings/{trainingId}")
     .onCreate(async (snap, context) => {
@@ -108,8 +118,17 @@ exports.notifyJudgesOnNewTraining = functions.firestore
 
       // Notify all judges about the new training
       const notificationPromises = event.eventJudges.map(async (judge) => {
-        if (!judge.email || !judge.fcmToken) {
-          console.error("Missing email or FCM token for judge:", judge);
+        if (!judge.email || !judge.id) {
+          console.error("Missing email or ID for judge:", judge);
+          return;
+        }
+
+        const judgeDoc = await admin.firestore().collection("users").doc(judge.id).get();
+        const judgeData = judgeDoc.data();
+        const fcmToken = judgeData ? judgeData.fcmToken : null;
+
+        if (!fcmToken) {
+          console.error("Missing FCM token for judge:", judge.email);
           return;
         }
 
@@ -118,10 +137,10 @@ exports.notifyJudgesOnNewTraining = functions.firestore
           to: judge.email,
           subject: `Nueva Capacitación: ${training.name}`,
           html: `<h1>Hola, ${judge.name}!</h1>
-               <p>Hay una nueva capacitación para el evento: <strong>${event.name}</strong>.</p>
-               <p>Nombre de la capacitación: <strong>${training.name}</strong>.</p>
-               <p>Fecha de la capacitación: <strong>${training.date}</strong>.</p>
-               <p>Por favor, revisa los detalles en la aplicación.</p>`,
+                       <p>Hay una nueva capacitación para el evento: <strong>${event.name}</strong>.</p>
+                       <p>Nombre de la capacitación: <strong>${training.name}</strong>.</p>
+                       <p>Fecha de la capacitación: <strong>${training.date}</strong>.</p>
+                       <p>Por favor, revisa los detalles en la aplicación.</p>`,
         };
 
         const pushNotification = {
@@ -129,7 +148,7 @@ exports.notifyJudgesOnNewTraining = functions.firestore
             title: `Nueva Capacitación: ${training.name}`,
             body: `Hay una nueva capacitación para el evento: ${event.name}. Revisa los detalles en la aplicación.`,
           },
-          token: judge.fcmToken,
+          token: fcmToken,
           data: {
             click_action: "FLUTTER_NOTIFICATION_CLICK",
             status: "new_training",
@@ -161,6 +180,7 @@ exports.notifyJudgesOnNewTraining = functions.firestore
       }
     });
 
+
 exports.notifyJudgesOnEventChange = functions.firestore
     .document("events/{eventId}")
     .onUpdate(async (change, context) => {
@@ -179,8 +199,17 @@ exports.notifyJudgesOnEventChange = functions.firestore
       }
 
       const notificationPromises = eventJudges.map(async (judge) => {
-        if (!judge.email || !judge.fcmToken) {
-          console.error("Missing email or FCM token for judge:", judge);
+        if (!judge.email || !judge.id) {
+          console.error("Missing email or ID for judge:", judge);
+          return;
+        }
+
+        const judgeDoc = await admin.firestore().collection("users").doc(judge.id).get();
+        const judgeData = judgeDoc.data();
+        const fcmToken = judgeData ? judgeData.fcmToken : null;
+
+        if (!fcmToken) {
+          console.error("Missing FCM token for judge:", judge.email);
           return;
         }
 
@@ -189,9 +218,9 @@ exports.notifyJudgesOnEventChange = functions.firestore
           to: judge.email,
           subject: `Actualización del Evento: ${after.name}`,
           html: `<h1>Hola, ${judge.name}!</h1>
-               <p>Se han realizado cambios en el evento: <strong>${after.name}</strong>.</p>
-               <p>Fecha del evento: <strong>${after.date}</strong>.</p>
-               <p>Por favor, revisa los detalles actualizados en la aplicación.</p>`,
+                       <p>Se han realizado cambios en el evento: <strong>${after.name}</strong>.</p>
+                       <p>Fecha del evento: <strong>${after.date}</strong>.</p>
+                       <p>Por favor, revisa los detalles actualizados en la aplicación.</p>`,
         };
 
         const pushNotification = {
@@ -199,7 +228,7 @@ exports.notifyJudgesOnEventChange = functions.firestore
             title: `Actualización del Evento: ${after.name}`,
             body: `Se han realizado cambios en el evento: ${after.name}. Por favor, revisa los detalles en la aplicación.`,
           },
-          token: judge.fcmToken,
+          token: fcmToken,
           data: {
             click_action: "FLUTTER_NOTIFICATION_CLICK",
             status: "updated",
