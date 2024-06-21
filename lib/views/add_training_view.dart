@@ -3,6 +3,7 @@ import 'package:catas_univalle/models/training.dart';
 import 'package:catas_univalle/view_models/training_viewmodel.dart';
 import 'package:catas_univalle/widgets/register/custom_textfield.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:dotted_border/dotted_border.dart';
@@ -48,8 +49,7 @@ class _AddTrainingViewState extends State<AddTrainingView> {
     if (picked != null && picked != _selectedDate) {
       setState(() {
         _selectedDate = picked;
-        _dateController.text =
-            formatDateToWrittenDate(picked.toIso8601String());
+        _dateController.text = DateFormat('dd-MM-yyyy').format(picked);
       });
     }
   }

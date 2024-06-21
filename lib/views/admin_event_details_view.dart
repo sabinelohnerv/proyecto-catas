@@ -30,6 +30,7 @@ class _AdminEventDetailsViewState extends State<AdminEventDetailsView> {
   final PageController _pageController = PageController();
   int _currentPage = 0;
   late Stream<Event> _eventStream;
+  bool _isCodeRevealed = false;
 
   @override
   void initState() {
@@ -53,6 +54,12 @@ class _AdminEventDetailsViewState extends State<AdminEventDetailsView> {
         _currentPage = _pageController.page!.round();
       });
     }
+  }
+
+  void _toggleCodeVisibility() {
+    setState(() {
+      _isCodeRevealed = !_isCodeRevealed;
+    });
   }
 
   void _showCodeDialog(BuildContext context) {
@@ -169,6 +176,9 @@ class _AdminEventDetailsViewState extends State<AdminEventDetailsView> {
               event: event,
               isAdmin: widget.isAdmin,
               pageController: _pageController,
+              isCodeRevealed: _isCodeRevealed, // Pass the state to the content
+              onToggleCodeVisibility:
+                  _toggleCodeVisibility, // Pass the toggle function
             );
           },
         ),
@@ -181,12 +191,16 @@ class EventDetailsContent extends StatelessWidget {
   final Event event;
   final bool isAdmin;
   final PageController pageController;
+  final bool isCodeRevealed;
+  final VoidCallback onToggleCodeVisibility;
 
   const EventDetailsContent({
     super.key,
     required this.event,
     required this.isAdmin,
     required this.pageController,
+    required this.isCodeRevealed,
+    required this.onToggleCodeVisibility,
   });
 
   @override
@@ -243,8 +257,28 @@ class EventDetailsContent extends StatelessWidget {
                   ],
                 ),
                 EventDetail(icon: Icons.location_on, text: event.location),
-                EventDetail(
-                    imageUrl: event.client.logoImgUrl, text: event.client.name),
+                Row(
+                  children: [
+                    Expanded(
+                      child: EventDetail(
+                        imageUrl: event.client.logoImgUrl,
+                        text: event.client.name,
+                      ),
+                    ),
+                    Expanded(
+                      child: ElevatedButton(
+                        onPressed: onToggleCodeVisibility,
+                        child: Text(
+                          isCodeRevealed ? event.code : 'Mostrar codigo',
+                          style: const TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
                 const Divider(),
                 SizedBox(
                   height: 180,

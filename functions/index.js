@@ -14,9 +14,226 @@ const mailTransport = nodemailer.createTransport({
   },
 });
 
+exports.notifyJudgesOnTrainingUpdate = functions.firestore
+    .document("events/{eventId}/trainings/{trainingId}")
+    .onUpdate(async (change, context) => {
+      const before = change.before.data();
+      const after = change.after.data();
+      const eventId = context.params.eventId;
+
+      // Check if the training data has actually changed
+      if (JSON.stringify(before) === JSON.stringify(after)) {
+        console.log("No changes detected in the training data.");
+        return null;
+      }
+
+      // Fetch the event to get the judges
+      const eventSnapshot = await admin.firestore().collection("events").doc(eventId).get();
+      const event = eventSnapshot.data();
+
+      if (!event || !event.eventJudges || event.eventJudges.length === 0) {
+        console.log("No judges associated with this event.");
+        return null;
+      }
+
+      // Notify all judges about the training update
+      const notificationPromises = event.eventJudges.map(async (judge) => {
+        if (!judge.email || !judge.fcmToken) {
+          console.error("Missing email or FCM token for judge:", judge);
+          return;
+        }
+
+        const emailOptions = {
+          from: `FoodSense <${functions.config().email.user}>`,
+          to: judge.email,
+          subject: `Actualización de la Capacitación: ${after.name}`,
+          html: `<h1>Hola, ${judge.name}!</h1>
+               <p>Se han realizado cambios en la capacitación: <strong>${after.name}</strong>.</p>
+               <p>Nombre del evento: <strong>${event.name}</strong>.</p>
+               <p>Fecha de la capacitación: <strong>${after.date}</strong>.</p>
+               <p>Por favor, revisa los detalles actualizados en la aplicación.</p>`,
+        };
+
+        const pushNotification = {
+          notification: {
+            title: `Actualización de la Capacitación: ${after.name}`,
+            body: `Se han realizado cambios en la capacitación: ${after.name}. Revisa los detalles en la aplicación.`,
+          },
+          token: judge.fcmToken,
+          data: {
+            click_action: "FLUTTER_NOTIFICATION_CLICK",
+            status: "training_updated",
+          },
+        };
+
+        try {
+          await mailTransport.sendMail(emailOptions);
+          console.log("Email sent to:", judge.email);
+        } catch (error) {
+          console.error("Failed to send email:", error);
+        }
+
+        try {
+          await admin.messaging().send(pushNotification);
+          console.log("Push notification sent to:", judge.email);
+        } catch (error) {
+          console.error("Failed to send push notification:", error);
+        }
+      });
+
+      try {
+        await Promise.all(notificationPromises);
+        console.log("Notifications sent to all judges successfully.");
+        return {result: "Notifications sent to all judges."};
+      } catch (error) {
+        console.error("Failed to send notifications:", error);
+        throw new functions.https.HttpsError("internal", "Failed to send notifications.");
+      }
+    });
+
+exports.notifyJudgesOnNewTraining = functions.firestore
+    .document("events/{eventId}/trainings/{trainingId}")
+    .onCreate(async (snap, context) => {
+      const training = snap.data();
+      const eventId = context.params.eventId;
+
+      // Fetch the event to get the judges
+      const eventSnapshot = await admin.firestore().collection("events").doc(eventId).get();
+      const event = eventSnapshot.data();
+
+      if (!event || !event.eventJudges || event.eventJudges.length === 0) {
+        console.log("No judges associated with this event.");
+        return null;
+      }
+
+      // Notify all judges about the new training
+      const notificationPromises = event.eventJudges.map(async (judge) => {
+        if (!judge.email || !judge.fcmToken) {
+          console.error("Missing email or FCM token for judge:", judge);
+          return;
+        }
+
+        const emailOptions = {
+          from: `FoodSense <${functions.config().email.user}>`,
+          to: judge.email,
+          subject: `Nueva Capacitación: ${training.name}`,
+          html: `<h1>Hola, ${judge.name}!</h1>
+               <p>Hay una nueva capacitación para el evento: <strong>${event.name}</strong>.</p>
+               <p>Nombre de la capacitación: <strong>${training.name}</strong>.</p>
+               <p>Fecha de la capacitación: <strong>${training.date}</strong>.</p>
+               <p>Por favor, revisa los detalles en la aplicación.</p>`,
+        };
+
+        const pushNotification = {
+          notification: {
+            title: `Nueva Capacitación: ${training.name}`,
+            body: `Hay una nueva capacitación para el evento: ${event.name}. Revisa los detalles en la aplicación.`,
+          },
+          token: judge.fcmToken,
+          data: {
+            click_action: "FLUTTER_NOTIFICATION_CLICK",
+            status: "new_training",
+          },
+        };
+
+        try {
+          await mailTransport.sendMail(emailOptions);
+          console.log("Email sent to:", judge.email);
+        } catch (error) {
+          console.error("Failed to send email:", error);
+        }
+
+        try {
+          await admin.messaging().send(pushNotification);
+          console.log("Push notification sent to:", judge.email);
+        } catch (error) {
+          console.error("Failed to send push notification:", error);
+        }
+      });
+
+      try {
+        await Promise.all(notificationPromises);
+        console.log("Notifications sent to all judges successfully.");
+        return {result: "Notifications sent to all judges."};
+      } catch (error) {
+        console.error("Failed to send notifications:", error);
+        throw new functions.https.HttpsError("internal", "Failed to send notifications.");
+      }
+    });
+
+exports.notifyJudgesOnEventChange = functions.firestore
+    .document("events/{eventId}")
+    .onUpdate(async (change, context) => {
+      const before = change.before.data();
+      const after = change.after.data();
+
+      if (JSON.stringify(before) === JSON.stringify(after)) {
+        console.log("No changes detected in the event data.");
+        return null;
+      }
+
+      const eventJudges = after.eventJudges;
+      if (!eventJudges || eventJudges.length === 0) {
+        console.log("No judges associated with this event.");
+        return null;
+      }
+
+      const notificationPromises = eventJudges.map(async (judge) => {
+        if (!judge.email || !judge.fcmToken) {
+          console.error("Missing email or FCM token for judge:", judge);
+          return;
+        }
+
+        const emailOptions = {
+          from: `FoodSense <${functions.config().email.user}>`,
+          to: judge.email,
+          subject: `Actualización del Evento: ${after.name}`,
+          html: `<h1>Hola, ${judge.name}!</h1>
+               <p>Se han realizado cambios en el evento: <strong>${after.name}</strong>.</p>
+               <p>Fecha del evento: <strong>${after.date}</strong>.</p>
+               <p>Por favor, revisa los detalles actualizados en la aplicación.</p>`,
+        };
+
+        const pushNotification = {
+          notification: {
+            title: `Actualización del Evento: ${after.name}`,
+            body: `Se han realizado cambios en el evento: ${after.name}. Por favor, revisa los detalles en la aplicación.`,
+          },
+          token: judge.fcmToken,
+          data: {
+            click_action: "FLUTTER_NOTIFICATION_CLICK",
+            status: "updated",
+          },
+        };
+
+        try {
+          await mailTransport.sendMail(emailOptions);
+          console.log("Email sent to:", judge.email);
+        } catch (error) {
+          console.error("Failed to send email:", error);
+        }
+
+        try {
+          await admin.messaging().send(pushNotification);
+          console.log("Push notification sent to:", judge.email);
+        } catch (error) {
+          console.error("Failed to send push notification:", error);
+        }
+      });
+
+      try {
+        await Promise.all(notificationPromises);
+        console.log("Notifications sent to all judges successfully.");
+        return {result: "Notifications sent to all judges."};
+      } catch (error) {
+        console.error("Failed to send notifications:", error);
+        throw new functions.https.HttpsError("internal", "Failed to send notifications.");
+      }
+    });
+
 
 exports.updateEventState = functions.pubsub.schedule("0 0 * * *").onRun(async (context) => {
-  const today = new Date(); 
+  const today = new Date();
   const eventsSnapshot = await admin.firestore().collection("events").get();
 
   const batch = admin.firestore().batch();
