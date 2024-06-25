@@ -42,11 +42,17 @@ class SmallCard extends StatelessWidget {
                   fit: BoxFit.cover,
                 ),
                 const SizedBox(height: 12),
-                Text(
-                  title.toUpperCase(),
-                  style: TextStyle(
-                    fontSize: fontSize,
-                    fontWeight: FontWeight.bold,
+                Expanded(
+                  child: FittedBox(
+                    fit: BoxFit.scaleDown,
+                    child: Text(
+                      title.toUpperCase(),
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: fontSize,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                   ),
                 ),
               ],
