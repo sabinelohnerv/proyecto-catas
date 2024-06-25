@@ -42,14 +42,19 @@ class _AdminTrainingEditDetailsViewState
         TextEditingController(text: widget.training.description);
     _locationController = TextEditingController(text: widget.training.location);
     _selectedDate = DateFormat('yyyy-MM-dd').parse(widget.training.date);
-    _startTime = TimeOfDay(
-        hour: int.parse(widget.training.startTime.split(':')[0]),
-        minute: int.parse(widget.training.startTime.split(':')[1]));
-    _endTime = TimeOfDay(
-        hour: int.parse(widget.training.endTime.split(':')[0]),
-        minute: int.parse(widget.training.endTime.split(':')[1]));
+
+    // Parse the start and end times with HH:mm format
+    _startTime = _parseTime(widget.training.startTime);
+    _endTime = _parseTime(widget.training.endTime);
+
     _selectedPdfUrl = widget.training.pdfUrl;
     _selectedPdfName = widget.training.pdfUrl?.split('/').last;
+  }
+
+  TimeOfDay _parseTime(String time) {
+    final format = DateFormat.Hm(); // 24-hour format
+    final dateTime = format.parse(time);
+    return TimeOfDay(hour: dateTime.hour, minute: dateTime.minute);
   }
 
   @override
