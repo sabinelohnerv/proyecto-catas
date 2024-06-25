@@ -69,41 +69,43 @@ class AdminHomeView extends StatelessWidget {
                           userName: userViewModel.fullName,
                         ),
                       ),
-                      const Padding(
-                        padding:
-                            EdgeInsets.symmetric(vertical: 25, horizontal: 20),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 25, horizontal: 20),
                         child: Center(
-                          child: Wrap(
-                            alignment: WrapAlignment.spaceEvenly,
-                            spacing: 15,
-                            runSpacing: 15,
-                            children: [
-                              SmallCard(
-                                img: 'comer',
-                                title: 'Eventos',
-                                width: 165,
-                                destinationScreen:
-                                    AdminEventListView(isAdmin: true),
-                              ),
-                              SmallCard(
-                                img: 'mujer',
-                                title: 'Jueces',
-                                width: 165,
-                                destinationScreen: JudgeListView(),
-                              ),
-                              SmallCard(
-                                img: 'anfitrion',
-                                title: 'Anfitriones',
-                                width: 165,
-                                destinationScreen: ClientListView(),
-                              ),
-                              SmallCard(
-                                img: 'cuaderno',
-                                title: 'Capacitacion',
-                                width: 165,
-                                destinationScreen: AdminTrainingEventsView(),
-                              ),
-                            ],
+                          child: SizedBox(
+                            height: 400,
+                            child: GridView.count(
+                              crossAxisCount: 2,
+                              crossAxisSpacing: 15,
+                              mainAxisSpacing: 15,
+                              children: [
+                                SmallCard(
+                                  img: 'comer',
+                                  title: 'Eventos',
+                                  width: 165,
+                                  destinationScreen:
+                                      AdminEventListView(isAdmin: true),
+                                ),
+                                SmallCard(
+                                  img: 'mujer',
+                                  title: 'Jueces',
+                                  width: 165,
+                                  destinationScreen: JudgeListView(),
+                                ),
+                                SmallCard(
+                                  img: 'anfitrion',
+                                  title: 'Anfitriones',
+                                  width: 165,
+                                  destinationScreen: ClientListView(),
+                                ),
+                                SmallCard(
+                                  img: 'cuaderno',
+                                  title: 'Capacitacion',
+                                  width: 165,
+                                  destinationScreen: AdminTrainingEventsView(),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ),
